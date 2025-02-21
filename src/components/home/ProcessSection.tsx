@@ -1,4 +1,7 @@
 import { Check } from "lucide-react";
+import image from "../../assets/Image_3.jpg"
+
+
 export function ProcessSection() {
     return (
         <section className="py-20 px-4">
@@ -22,7 +25,7 @@ export function ProcessSection() {
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div>
                         <img
-                            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf"
+                            src={image}
                             alt="Visa Process"
                             className="rounded-lg shadow-lg"
                         />

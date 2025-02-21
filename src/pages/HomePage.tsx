@@ -66,8 +66,8 @@ const HomePage = () => {
             <ConsultantFinder />
             <Statistics />
             <ProcessSection />
+            {/* <ImmigrationConsult /> */}
             {/* 
-            <ImmigrationConsult />
             <OverseasEducation />
             <PartnerUniversities />
             <TestimonialsSection />
