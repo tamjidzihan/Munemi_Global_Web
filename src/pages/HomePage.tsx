@@ -66,12 +66,13 @@ const HomePage = () => {
             <ConsultantFinder />
             <Statistics />
             <ProcessSection />
+            {/* 
             <ImmigrationConsult />
             <OverseasEducation />
             <PartnerUniversities />
             <TestimonialsSection />
             <NewsSection />
-            <ConsultationForm />
+            <ConsultationForm /> */}
 
         </main>
     )

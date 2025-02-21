@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 export function TopHeader() {
     return (
-        <div className=" hidden lg:block bg-gray-50 text-sm py-3 ">
+        <div className=" hidden lg:block bg-gray-50 text-sm py-3 border border-gray-200">
             <div className="max-w-7xl text-gray-600 mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center">

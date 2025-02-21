@@ -10,12 +10,14 @@ export function ServiceCard({
     icon: Icon,
 }: ServiceCardProps) {
     return (
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-            <div className="mb-4">
-                <Icon size={40} className="text-red-500" />
+        <div className="px-6 py-10 flex border border-gray-200 rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="mb-4 pr-6 place-self-center">
+                <Icon size={50} className="text-red-500" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">{title}</h3>
-            <p className="text-gray-600">{description}</p>
+            <div>
+                <h3 className="text-xl text-midnight font-semibold mb-2">{title}</h3>
+                <p className="text-gray-600">{description}</p>
+            </div>
         </div>
     );
 }

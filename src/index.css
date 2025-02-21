@@ -2,6 +2,10 @@
 @import "tailwindcss";
 
 
+@theme{
+  --color-midnight: #294674
+}
+
 body {
     margin: 0;
     font-family: "Mulish", serif !important;
