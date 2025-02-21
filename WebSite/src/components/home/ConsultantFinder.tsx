@@ -1,47 +1,72 @@
-import { ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import consultant from "../../assets/consultent.png";
+
 export function ConsultantFinder() {
     return (
-        <section className="py-20 px-4">
+        <section className="py-16 px-4 bg-white w-full">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-4">
+                {/* Title Animation */}
+                <motion.h2
+                    className="text-[40px] font-medium text-center mb-4 text-midnight"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
                     Find a consultant by:
-                </h2>
-                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                </motion.h2>
+
+                {/* Description Animation */}
+                <motion.p
+                    className="text-gray-500 text-center mb-16 max-w-2xl mx-auto text-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                >
                     Cursus porta, feugiat primis in ultrice ligula risus auctor tempus
                     dolor feugiat, felis lacinia risus interdum auctor id viverra dolor
                     iaculis luctus placerat and massa
-                </p>
-                <div className="grid md:grid-cols-2 gap-12">
-                    <div>
-                        <h3 className="font-bold mb-4">Country:</h3>
-                        <ul className="space-y-2">
-                            {[
-                                "Canada",
-                                "Australia",
-                                "United Kingdom",
-                                "USA",
-                                "New Zealand",
-                                "South Korea",
-                            ].map((country) => (
-                                <li
+                </motion.p>
+
+                <div className="grid md:grid-cols-5 gap-0 mb-16">
+                    {/* Country List Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }}
+                    >
+                        <h3 className="text-midnight text-2xl font-bold mb-6">Country:</h3>
+                        <ul className="space-y-3">
+                            {["Canada", "Australia", "United Kingdom", "USA", "New Zealand", "South Korea"].map((country) => (
+                                <motion.li
                                     key={country}
-                                    className="flex items-center text-gray-600 hover:text-gray-900"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.4, delay: 0.2 }}
+                                    viewport={{ once: true }}
                                 >
-                                    <ChevronRight size={16} className="mr-2" />
-                                    <a href="#">{country}</a>
-                                </li>
+                                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                                        {country}
+                                    </a>
+                                </motion.li>
                             ))}
                         </ul>
-                        <a
-                            href="#"
-                            className="text-blue-600 hover:text-blue-700 mt-4 inline-block"
-                        >
-                            View All »
+                        <a href="#" className="text-midnight hover:text-blue-800 mt-6 inline-block font-medium">
+                            View All
                         </a>
-                    </div>
-                    <div>
-                        <h3 className="font-bold mb-4">Practice Area:</h3>
-                        <ul className="space-y-2">
+                    </motion.div>
+
+                    {/* Practice Area List Animation */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: true }}
+                    >
+                        <h3 className="text-midnight text-2xl font-bold mb-6">Practice Area:</h3>
+                        <ul className="space-y-3">
                             {[
                                 "Student Visa",
                                 "Skilled Work Visa",
@@ -50,29 +75,38 @@ export function ConsultantFinder() {
                                 "Tourist & Visitor Visa",
                                 "Immigration Consult",
                             ].map((area) => (
-                                <li
+                                <motion.li
                                     key={area}
-                                    className="flex items-center text-gray-600 hover:text-gray-900"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.4, delay: 0.2 }}
+                                    viewport={{ once: true }}
                                 >
-                                    <ChevronRight size={16} className="mr-2" />
-                                    <a href="#">{area}</a>
-                                </li>
+                                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                                        {area}
+                                    </a>
+                                </motion.li>
                             ))}
                         </ul>
-                        <a
-                            href="#"
-                            className="text-blue-600 hover:text-blue-700 mt-4 inline-block"
-                        >
-                            View All »
+                        <a href="#" className="text-midnight hover:text-blue-800 mt-6 inline-block font-medium">
+                            View All
                         </a>
-                    </div>
-                </div>
-                <div className="mt-12">
-                    <img
-                        src="https://raw.githubusercontent.com/lipis/flag-icons/master/world.svg"
-                        alt="World Map"
-                        className="w-full h-auto"
-                    />
+                    </motion.div>
+
+                    {/* Image Animation */}
+                    <motion.div
+                        className="col-span-3 place-self-center"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        viewport={{ once: true }}
+                    >
+                        <img
+                            src={consultant}
+                            alt="World Map showing consultant locations"
+                            className="max-w-full h-auto"
+                        />
+                    </motion.div>
                 </div>
             </div>
         </section>

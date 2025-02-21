@@ -4,22 +4,26 @@ import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
 import image1 from "../../assets/Image_1.png";
 import image2 from "../../assets/Image_2.jpg";
 import image3 from "../../assets/Image_3.jpg";
+import { Link } from "react-router-dom";
 
 const slides = [
     {
         image: image1,
         title: "IMMIGRATION & VISA CONSULTATION",
         description: "Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor",
+        button: "BOOK CONSULTATION NOW"
     },
     {
         image: image2,
         title: "WORK ABROAD WITH EASE",
         description: "Helping individuals and families achieve their dream careers overseas with professional visa guidance.",
+        button: "BOOK CONSULTATION NOW"
     },
     {
         image: image3,
         title: "EXPLORE NEW OPPORTUNITIES",
         description: "Our expert consultants provide top-notch immigration and visa assistance tailored to your needs.",
+        button: "BOOK CONSULTATION NOW"
     },
 ];
 
@@ -42,7 +46,7 @@ const HeroCarousel = () => {
     };
 
     return (
-        <section className="relative h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
+        <section className="relative h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
             <AnimatePresence>
                 <motion.div
                     key={currentIndex}
@@ -69,9 +73,11 @@ const HeroCarousel = () => {
                         <p className="text-2xl mb-4">We have 20+ years experience in</p>
                         <h1 className="text-7xl font-bold mb-6">{slides[currentIndex].title}</h1>
                         <p className="text-lg mb-8">{slides[currentIndex].description}</p>
-                        <button className="bg-red-500 text-white px-8 py-3 rounded hover:bg-red-600">
-                            BOOK CONSULTATION NOW
-                        </button>
+                        <Link to={'/'}>
+                            <button className="px-4 py-2  text-white hover:border hover:border-white bg-red-500 hover:bg-transparent transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-lg text-center">
+                                {slides[currentIndex].button}
+                            </button>
+                        </Link>
                     </motion.div>
                 </AnimatePresence>
             </div>
