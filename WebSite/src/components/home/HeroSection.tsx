@@ -11,28 +11,30 @@ const slides = [
     {
         image: slide1,
         title: "IMMIGRATION & VISA CONSULTATION",
-        description: "Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor",
-        button: "BOOK CONSULTATION NOW"
+        description: "Navigate the complexities of immigration and visa applications with expert guidance. Our professional consultants provide step-by-step support to ensure a smooth and successful process.",
+        button: "Get Expert Guidance"
     },
     {
         image: slide2,
         title: "WORK ABROAD WITH EASE",
-        description: "Helping individuals and families achieve their dream careers overseas with professional visa guidance.",
-        button: "BOOK CONSULTATION NOW"
+        description: "Turn your dream of working overseas into reality with our comprehensive visa consultation services. We help individuals and families secure work permits and visas hassle-free.",
+        button: "Start Your Journey"
     },
     {
         image: slide3,
         title: "EXPLORE NEW OPPORTUNITIES",
-        description: "Our expert consultants provide top-notch immigration and visa assistance tailored to your needs.",
-        button: "BOOK CONSULTATION NOW"
+        description: "Unlock a world of possibilities with personalized immigration assistance. Whether you're seeking better job prospects or a fresh start abroad, we’re here to guide you every step of the way.",
+        button: "Discover Opportunities"
     },
     {
         image: slide4,
-        title: "WORK ABROAD WITH EASE",
-        description: "Our expert consultants provide top-notch immigration and visa assistance tailored to your needs.",
-        button: "BOOK CONSULTATION NOW"
+        title: "SECURE YOUR FUTURE ABROAD",
+        description: "Plan your future with confidence by working with our trusted immigration specialists. From visa applications to relocation advice, we provide all the support you need for a seamless transition.",
+        button: "Plan Your Future"
     },
 ];
+
+
 
 const HeroCarousel = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,7 +42,7 @@ const HeroCarousel = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             nextSlide();
-        }, 7000);
+        }, 8000);
         return () => clearInterval(interval);
     }, [currentIndex]);
 
