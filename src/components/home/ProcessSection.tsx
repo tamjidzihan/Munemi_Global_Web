@@ -42,9 +42,6 @@ const sections = [
 
 export function ProcessSection() {
     const [activeSection, setActiveSection] = useState(sections[0])
-
-
-
     return (
         <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
@@ -55,7 +52,9 @@ export function ProcessSection() {
                             className="text-center cursor-pointer"
                             onClick={() => setActiveSection(section)}
                         >
-                            <div className={`t-2   transition-all duration-300 focus:outline-none  ${activeSection.id === section.id ? "text-xl font-bold text-midnight" : "text-lg text-indigo-900"}`}>{section.sectionName}</div>
+                            <div className={`t-2 text-lg  transition-all duration-300 focus:outline-none  
+                                ${activeSection.id === section.id ? " font-bold text-midnight" : "text-indigo-900"}`
+                            }>{section.sectionName}</div>
                             <div className={`w-50 h-1 mt-2 transition-all duration-300 ${activeSection.id === section.id ? "bg-red-500" : "bg-gray-200"}`}></div>
                         </button>
 
