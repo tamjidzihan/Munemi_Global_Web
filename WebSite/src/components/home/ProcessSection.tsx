@@ -41,53 +41,64 @@ const sections = [
 ];
 
 export function ProcessSection() {
-    const [activeSection, setActiveSection] = useState(sections[0])
+    const [activeSection, setActiveSection] = useState(sections[0]);
+
     return (
-        <section className="py-20 px-4">
+        <section className="py-16 px-4">
             <div className="max-w-7xl mx-auto">
-                <div className="flex justify-center space-x-8 mb-16">
+                {/* Navigation Tabs (Scrollable on Mobile) */}
+                <div className="flex justify-center space-x-8 mb-10 overflow-x-auto scrollbar-hide">
                     {sections.map((section) => (
                         <button
                             key={section.id}
-                            className="text-center cursor-pointer"
+                            className="text-center cursor-pointer flex-shrink-0"
                             onClick={() => setActiveSection(section)}
                         >
-                            <div className={`t-2 text-lg  transition-all duration-300 focus:outline-none  
-                                ${activeSection.id === section.id ? " font-bold text-midnight" : "text-indigo-900"}`
-                            }>{section.sectionName}</div>
-                            <div className={`w-50 h-1 mt-2 transition-all duration-300 ${activeSection.id === section.id ? "bg-red-500" : "bg-gray-200"}`}></div>
+                            <div className={`text-sm lg:text-lg transition-all duration-300 focus:outline-none  
+                                ${activeSection.id === section.id ? "font-bold text-midnight" : "text-indigo-900"}`
+                            }>
+                                {section.sectionName}
+                            </div>
+                            <div className={`w-full h-1 mt-2 transition-all duration-300 
+                                ${activeSection.id === section.id ? "bg-red-500" : "bg-gray-200"}`}>
+                            </div>
                         </button>
-
                     ))}
-
                 </div>
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div>
+
+                {/* Section Content */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    {/* Image Section */}
+                    <div className="flex justify-center">
                         <img
                             src={activeSection.image}
                             alt={activeSection.title}
-                            className="rounded-lg shadow-lg"
+                            className="rounded-lg shadow-lg w-full max-w-md md:max-w-lg"
                         />
                     </div>
+
+                    {/* Text Content */}
                     <div>
                         <div className="text-sm text-gray-600 mb-2">{activeSection.title}</div>
-                        <h2 className="text-3xl text-midnight font-bold mb-8">
+                        <h2 className="text-2xl sm:text-3xl text-midnight font-bold mb-6">
                             {activeSection.headLine}
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-gray-600 mb-6 text-sm sm:text-base">
                             {activeSection.description}
                         </p>
-                        <h3 className="font-semibold text-midnight mb-4">{activeSection.subTitle}</h3>
+                        <h3 className="font-semibold text-midnight mb-4 text-lg">
+                            {activeSection.subTitle}
+                        </h3>
                         <ul className="space-y-4">
-                            <li className="flex items-start gap-4">
-                                <Check className="text-red-500 mt-1" size={20} />
-                                <p className="text-gray-600">
+                            <li className="flex items-start gap-3">
+                                <Check className="text-red-500 mt-1" size={18} />
+                                <p className="text-gray-600 text-sm sm:text-base">
                                     {activeSection.point1}
                                 </p>
                             </li>
-                            <li className="flex items-start gap-4">
-                                <Check className="text-red-500 mt-1" size={20} />
-                                <p className="text-gray-600">
+                            <li className="flex items-start gap-3">
+                                <Check className="text-red-500 mt-1" size={18} />
+                                <p className="text-gray-600 text-sm sm:text-base">
                                     {activeSection.point2}
                                 </p>
                             </li>
@@ -95,6 +106,6 @@ export function ProcessSection() {
                     </div>
                 </div>
             </div>
-        </section >
+        </section>
     );
 }
