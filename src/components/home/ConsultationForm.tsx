@@ -1,6 +1,8 @@
+import image9 from "../../assets/image_9.jpg"
+
 export function ConsultationForm() {
     return (
-        <section className="relative py-20 bg-[url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d')] bg-cover bg-center">
+        <section className={`relative py-20 bg-cover bg-center`} style={{ backgroundImage: `url('${image9}')` }}>
             <div className="absolute inset-0 bg-black/70"></div>
             <div className="relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
                 <div className="text-white">

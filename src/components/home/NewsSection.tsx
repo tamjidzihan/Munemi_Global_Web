@@ -1,3 +1,6 @@
+import image1 from "../../assets/Image_1.png";
+import image2 from "../../assets/Image_2.jpg";
+import image3 from "../../assets/Image_3.jpg";
 
 const articles = [
     {
@@ -6,7 +9,7 @@ const articles = [
         title: "What visa do you need to work legally in Singapore?",
         description:
             "Aliqum mullam blandit tempor sapien gravida donec ipsum, at porta justo. Velna vitae auctor congue magna tempor sodales sapien. Quaerat neque purus ipsum neque dolor primis",
-        image: "https://images.unsplash.com/photo-1565967511849-76a60a516170",
+        image: image1,
         author: "Jhon doe",
         date: "February 26, 2020",
     },
@@ -16,7 +19,7 @@ const articles = [
         title: "Top reasons for Australian working visa rejection",
         description:
             "Aliqum mullam blandit tempor sapien gravida donec ipsum, at porta justo. Velna vitae auctor congue magna tempor sodales sapien libero tempus impedit tempor blandit sapien gravida",
-        image: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be",
+        image: image2,
         author: "Jhon doe",
         date: "February 26, 2020",
     },
@@ -26,7 +29,7 @@ const articles = [
         title: "Canada Federal Skilled Worker Program",
         description:
             "Aliqum mullam blandit tempor sapien gravida donec ipsum, at porta justo. Velna vitae auctor congue magna tempor sodales sapien donec ipsum, at porta justo purus ipsum neque",
-        image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf",
+        image: image3,
         author: "Jhon doe",
         date: "February 26, 2020",
     },
@@ -35,7 +38,7 @@ export function NewsSection() {
     return (
         <section className="py-20">
             <div className="max-w-7xl mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-4">
+                <h2 className="text-3xl text-midnight font-bold text-center mb-4">
                     Our Stories & Latest News
                 </h2>
                 <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">

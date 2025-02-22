@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import logo from "../assets/logo_munemi_global.png"
+
 export function Footer() {
     return (
         <footer className="bg-white pt-20 pb-6">
@@ -8,9 +10,9 @@ export function Footer() {
                 <div className="grid md:grid-cols-4 gap-8 mb-12">
                     <div>
                         <img
-                            src="https://placehold.co/200x80?text=ImmiEx"
+                            src={logo}
                             alt="ImmiEx"
-                            className="h-12 mb-4"
+                            className="h-30 mb-4"
                         />
                         <p className="text-gray-600 mb-4">
                             Aliquam orci a nullam tempor undo sapien donec gravida an enim
@@ -19,33 +21,27 @@ export function Footer() {
                         </p>
                     </div>
                     <div>
-                        <h3 className="font-bold mb-4">Contact Details</h3>
+                        <h3 className="font-bold text-midnight mb-4">Contact Details</h3>
                         <div className="space-y-2 text-gray-600">
                             <p>
-                                121 King Street, Melbourne,
+                                House- 5, Kolotan School Road,
                                 <br />
-                                Victoria 3000 Australia
+                                Notun Bazar, Badda , Dhaka
                             </p>
-                            <p>Phone: +12 9 8765 4321</p>
-                            <p>Email: hello@demo.com</p>
-                            <p>
-                                Mon-Fri: 9:00AM – 6:30PM
-                                <br />
-                                Saturday: 8:30AM – 3:30PM
-                                <br />
-                                Sunday: Closed
-                            </p>
+                            <p>Phone: +88 01978100105</p>
+                            <p>Email: info@munemiglobal.com</p>
+
                         </div>
                     </div>
                     <div>
-                        <h3 className="font-bold mb-4">Useful Links</h3>
+                        <h3 className="font-bold text-midnight mb-4">Useful Links</h3>
                         <ul className="space-y-2">
                             {[
-                                "About ImmiEx",
+                                "About Munemi Global",
                                 "Visa Information",
                                 "Immigration FAQ",
                                 "Immigration Assistance",
-                                "ImmiEx Testimonials",
+                                "Munemi Global Testimonials",
                                 "Contact Us",
                                 "Terms and Conditions",
                             ].map((link) => (
@@ -58,7 +54,7 @@ export function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h3 className="font-bold mb-4">Visas</h3>
+                        <h3 className="font-bold text-midnight mb-4">Visas</h3>
                         <ul className="space-y-2">
                             {[
                                 "Visitor Visas",
@@ -78,9 +74,9 @@ export function Footer() {
                         </ul>
                     </div>
                 </div>
-                <div className="border-t pt-6 flex flex-wrap justify-between items-center">
+                <div className="border-t py-8 flex flex-wrap justify-between items-center">
                     <p className="text-gray-600">
-                        © Copyright ImmiEx 2025. All Rights Reserved
+                        © Copyright Munemi Global 2025. All Rights Reserved
                     </p>
                     <div className="flex space-x-4">
                         <a href="#" className="text-gray-400 hover:text-red-500">

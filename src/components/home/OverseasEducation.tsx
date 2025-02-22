@@ -1,17 +1,20 @@
+import image8 from "../../assets/image_8.png"
+import overseas from "../../assets/overseas.jpg"
+
 export function OverseasEducation() {
     return (
-        <section className="py-20 bg-[#1e3a8a] text-white">
-            <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+        <section className="pt-15 text-white bg-center bg-cover bg-fixed" style={{ backgroundImage: `url('${overseas}')` }}>
+            <div className=" relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <img
-                        src="https://images.unsplash.com/photo-1523240795612-9a054b0db644"
+                        src={image8}
                         alt="Students"
-                        className="rounded-lg"
+                        className="rounded-lg "
                     />
                 </div>
                 <div>
                     <div className="text-sm mb-2">OVERSEAS EDUCATION</div>
-                    <h2 className="text-3xl font-bold mb-6">
+                    <h2 className="text-6xl font-bold mb-6">
                         Looking for Quality Abroad Education?
                     </h2>
                     <p className="mb-8">
