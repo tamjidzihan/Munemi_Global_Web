@@ -1,27 +1,34 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiArrowLongLeft, HiArrowLongRight } from "react-icons/hi2";
-import image1 from "../../assets/Image_1.png";
-import image2 from "../../assets/Image_2.jpg";
-import image3 from "../../assets/Image_3.jpg";
+import slide1 from "../../assets/slide-1.jpg"
+import slide2 from "../../assets/slide-2.jpg"
+import slide3 from "../../assets/slide-3.jpg"
+import slide4 from "../../assets/slide-4.jpg"
 import { Link } from "react-router-dom";
 
 const slides = [
     {
-        image: image1,
+        image: slide1,
         title: "IMMIGRATION & VISA CONSULTATION",
         description: "Feugiat primis ligula risus auctor egestas augue mauri viverra tortor in iaculis placerat eugiat mauris ipsum in viverra tortor and gravida purus lorem in tortor",
         button: "BOOK CONSULTATION NOW"
     },
     {
-        image: image2,
+        image: slide2,
         title: "WORK ABROAD WITH EASE",
         description: "Helping individuals and families achieve their dream careers overseas with professional visa guidance.",
         button: "BOOK CONSULTATION NOW"
     },
     {
-        image: image3,
+        image: slide3,
         title: "EXPLORE NEW OPPORTUNITIES",
+        description: "Our expert consultants provide top-notch immigration and visa assistance tailored to your needs.",
+        button: "BOOK CONSULTATION NOW"
+    },
+    {
+        image: slide4,
+        title: "WORK ABROAD WITH EASE",
         description: "Our expert consultants provide top-notch immigration and visa assistance tailored to your needs.",
         button: "BOOK CONSULTATION NOW"
     },
