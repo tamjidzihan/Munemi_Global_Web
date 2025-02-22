@@ -1,9 +1,8 @@
-
 import { ConsultationSection } from "../components/home/ConsultationSection";
 import { ConsultantFinder } from "../components/home/ConsultantFinder";
 import { Statistics } from "../components/home/Statistics";
 import { ProcessSection } from "../components/home/ProcessSection";
-import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
+// import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
 import { OverseasEducation } from "../components/home/OverseasEducation";
 import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
@@ -66,13 +65,15 @@ const HomePage = () => {
             <ConsultantFinder />
             <Statistics />
             <ProcessSection />
-            {/* <ImmigrationConsult /> */}
-            {/* 
             <OverseasEducation />
             <PartnerUniversities />
             <TestimonialsSection />
             <NewsSection />
-            <ConsultationForm /> */}
+            <ConsultationForm />
+
+            {/* <ImmigrationConsult /> */}
+            {/* 
+           */}
 
         </main>
     )
