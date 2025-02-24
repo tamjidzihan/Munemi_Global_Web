@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
-import image1 from "../../assets/Image_1.png";
-import image2 from "../../assets/Image_2.jpg";
-import image3 from "../../assets/Image_3.jpg";
+import Approved from "../../assets/process_01.jpg";
+import Hidden from "../../assets/process_02.jpg";
+import Secure from "../../assets/process_03.jpg";
 import { useState } from "react";
 
 const sections = [
@@ -9,7 +9,7 @@ const sections = [
         id: 1,
         sectionName: "Goverment Approved",
         title: "GETTING A VISA",
-        image: image1,
+        image: Approved,
         headLine: "We make the visa process faster",
         description: "Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrice ligula purus ipsum primis in cubilia augue vitae laoreet augue in cubilia augue egestas an ipsum turpis",
         subTitle: "Cubilia augue vitae laoreet",
@@ -20,7 +20,7 @@ const sections = [
         id: 2,
         sectionName: "No Hidden Costs",
         title: "We love our clients",
-        image: image2,
+        image: Hidden,
         headLine: "Transparent pricing with no additional fees",
         description: "Our service ensures that what you see is what you pay. No extra fees, no surprises, just clear and upfront pricing for your visa process.",
         subTitle: "Clear and Honest Pricing",
@@ -31,7 +31,7 @@ const sections = [
         id: 3,
         sectionName: "Fast, Easy & Secure",
         title: "Professional Advisors",
-        image: image3,
+        image: Secure,
         headLine: "Effortless visa application process",
         description: "We streamline the visa application process, making it quicker, easier, and more secure for you.",
         subTitle: "A Stress-Free Experience",
@@ -47,7 +47,7 @@ export function ProcessSection() {
         <section className="py-16 px-4">
             <div className="max-w-7xl mx-auto">
                 {/* Navigation Tabs (Scrollable on Mobile) */}
-                <div className="flex justify-center space-x-8 mb-10 overflow-x-auto scrollbar-hide">
+                <div className="flex justify-center space-x-8 mb-20 overflow-x-auto scrollbar-hide">
                     {sections.map((section) => (
                         <button
                             key={section.id}
@@ -73,7 +73,7 @@ export function ProcessSection() {
                         <img
                             src={activeSection.image}
                             alt={activeSection.title}
-                            className="rounded-lg shadow-lg w-full max-w-md md:max-w-lg"
+                            className="rounded-lg shadow-lg w-3/4 max-w-md md:max-w-lg"
                         />
                     </div>
 
