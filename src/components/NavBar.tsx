@@ -44,7 +44,7 @@ export function Navbar() {
 
                 {/* Navigation Links */}
                 <div className="hidden md:flex items-center space-x-6">
-                    <Link to="/" className="text-gray-500 hover:text-gray-800 transition duration-300 font-bold">
+                    <Link to="/" className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>
                     <div
@@ -52,7 +52,7 @@ export function Navbar() {
                         onMouseEnter={() => setShowServicesMenu(true)}
                         onMouseLeave={() => setShowServicesMenu(false)}
                     >
-                        <button className={`text-gray-500 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
+                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
                             SERVICES
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
@@ -63,16 +63,16 @@ export function Navbar() {
                         onMouseEnter={() => setShowMegaMenu(true)}
                         onMouseLeave={() => setShowMegaMenu(false)}
                     >
-                        <button className={`text-gray-500 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
+                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
                             STUDY DESTINATION
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
                         {showMegaMenu && <MegaMenu />}
                     </div>
-                    <Link to="/" className="text-gray-500 hover:text-gray-800 font-bold transition duration-300">
+                    <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         BLOG
                     </Link>
-                    <Link to="/" className="text-gray-500 hover:text-gray-800 font-bold transition duration-300">
+                    <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         ABOUT US
                     </Link>
                     <Link to="/">
