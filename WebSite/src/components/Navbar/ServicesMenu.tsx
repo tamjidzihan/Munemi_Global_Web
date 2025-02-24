@@ -11,8 +11,8 @@ export function ServicesMenu() {
             className="absolute top-full left-1/2 transform -translate-x-1/2 w-[85vw] max-w-6xl bg-white shadow-lg z-50 rounded-lg border border-gray-200"
         >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
-                {/* What We Offer Section */}
                 <div>
+                    {/* Academic Services Section */}
                     <div className=" mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-2">Academic Services:</h3>
                         <ul className="space-y-2">
@@ -35,7 +35,8 @@ export function ServicesMenu() {
                             ))}
                         </ul>
                     </div>
-                    <hr className="border-t-2 border-red-300 w-4/4  mx-auto my-6" />
+                    <hr className="border-t-2 border-red-300 mx-auto my-6" />
+                    {/* Post-Academic Services Section */}
                     <div >
                         <h3 className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</h3>
                         <ul className="space-y-2">
@@ -55,9 +56,8 @@ export function ServicesMenu() {
                         </ul>
                     </div>
                 </div>
-
-                {/* Featured News Section */}
                 <div>
+                    {/* Support Services Section */}
                     <div className="mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-4">Support Services:</h3>
                         <ul className="space-y-2">
@@ -79,9 +79,10 @@ export function ServicesMenu() {
                             ))}
                         </ul>
                     </div>
-                    <hr className="border-t-2 border-red-300 w-3/4  mx-auto my-6" />
+                    <hr className="border-t-2 border-red-300 mx-auto my-6" />
+                    {/* Pre-Departure Services Section */}
                     <div>
-                        <h3 className="font-bold text-midnight text-lg mb-4">Pre-Departure Services</h3>
+                        <h3 className="font-bold text-midnight text-lg mb-4">Pre-Departure Services:</h3>
                         <ul className="space-y-2">
                             {[
                                 { label: "Pre-Departure Briefing", link: "/" },
@@ -99,30 +100,32 @@ export function ServicesMenu() {
                         </ul>
                     </div>
                 </div>
-
-                {/* Latest News Section */}
                 <div>
-                    <h3 className="font-bold text-lg mb-4">LATEST NEWS:</h3>
-                    <ul className="space-y-3">
-                        {[
-                            { label: "Student Visa Assessment", link: "/student-visa" },
-                            { label: "Working Visa Assessment", link: "/working-visa" },
-                            { label: "Business Visa Assessment", link: "/business-visa" },
-                            { label: "PR Visa Assessment", link: "/pr-visa" },
-                            { label: "Visa Eligibility Assessment", link: "/eligibility" },
-                            { label: "Family Visa Assessment", link: "/family-visa" },
-                            { label: "Immigration Consultation", link: "/consultation" },
-                        ].map((item, index) => (
-                            <li key={index}>
-                                <Link
-                                    to={item.link}
-                                    className="text-gray-600 hover:text-gray-900 transition duration-300"
-                                >
-                                    {item.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {/* Visa Services Section */}
+                    <div className="mb-3">
+                        <h3 className="font-bold text-midnight text-lg mb-4">Visa Services:</h3>
+                        <ul className="space-y-2">
+                            {[
+                                { label: "Student Visa", link: "/" },
+                                { label: "Partner Visa", link: "/" },
+                                { label: "Visitor Visa", link: "/" },
+                                { label: "Migration Services", link: "/" },
+                                { label: "Other Type Visa", link: "/" },
+                                { label: "Skilled/Work Visa", link: "/" },
+                                { label: "Family/Parent Visa", link: "/" },
+                                { label: "Permanent Residency", link: "/" },
+                            ].map((item, index) => (
+                                <li key={index}>
+                                    <Link
+                                        to={item.link}
+                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </motion.div>

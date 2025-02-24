@@ -14,7 +14,7 @@ export function Statistics() {
                     students: Math.min(prev.students + 5, 820),
                     partners: Math.min(prev.partners + 1, 148),
                     countries: Math.min(prev.countries + 1, 80),
-                    immigrations: Math.min(prev.immigrations + 10, 2487),
+                    immigrations: Math.min(prev.immigrations + 20, 2487),
                 }));
             }, 20);
 
@@ -44,7 +44,7 @@ export function Statistics() {
                             <motion.div
                                 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-yellow-500 mb-2"
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: isInView ? 1 : 0 }}
+                                animate={{ opacity: 1 }}
                                 transition={{ duration: 0.8, delay }}
                             >
                                 {count} {label === "Happy Students" || label === "Countries" ? "+" : ""}
