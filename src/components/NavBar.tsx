@@ -63,8 +63,9 @@ export function Navbar() {
                         onMouseEnter={() => setShowMegaMenu(true)}
                         onMouseLeave={() => setShowMegaMenu(false)}
                     >
-                        <button className={`text-gray-500 hover:text-gray-800 font-bold transition duration-300 cursor-pointer ${isScrolled ? "py-3" : "py-6"}`}>
-                            MEGA MENU
+                        <button className={`text-gray-500 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
+                            STUDY DESTINATION
+                            <ChevronDown size={20} className=" place-self-center" />
                         </button>
                         {showMegaMenu && <MegaMenu />}
                     </div>
@@ -72,7 +73,7 @@ export function Navbar() {
                         BLOG
                     </Link>
                     <Link to="/" className="text-gray-500 hover:text-gray-800 font-bold transition duration-300">
-                        FAQS
+                        ABOUT US
                     </Link>
                     <Link to="/">
                         <button className="px-4 py-2 hover:text-red-600 text-white border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center">

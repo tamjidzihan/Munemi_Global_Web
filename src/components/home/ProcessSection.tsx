@@ -80,7 +80,7 @@ export function ProcessSection() {
                     {/* Text Content */}
                     <div>
                         <div className="text-sm text-gray-600 mb-2">{activeSection.title}</div>
-                        <h2 className="text-2xl sm:text-3xl text-midnight font-bold mb-6">
+                        <h2 className="text-2xl sm:text-5xl text-midnight mb-6">
                             {activeSection.headLine}
                         </h2>
                         <p className="text-gray-600 mb-6 text-sm sm:text-base">
