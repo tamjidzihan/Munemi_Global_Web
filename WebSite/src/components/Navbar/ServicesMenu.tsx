@@ -8,7 +8,7 @@ export function ServicesMenu() {
             animate={{ opacity: 1, y: 0 }} // Move to normal position with opacity 1
             exit={{ opacity: 0, y: 20 }} // Fade out when closing
             transition={{ duration: 0.3, ease: "easeOut" }} // Smooth transition
-            className="absolute top-full left-1/2 transform -translate-x-1/2 w-[85vw] max-w-6xl bg-white shadow-lg z-50 rounded-lg border border-gray-200"
+            className="absolute top-full left-32 lg:left-1/2 transform -translate-x-1/2 w-[85vw] max-w-6xl bg-white shadow-lg z-50 rounded-lg border border-gray-200"
         >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
                 <div>
