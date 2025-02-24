@@ -35,7 +35,7 @@ export function ServicesMenu() {
                             ))}
                         </ul>
                     </div>
-                    <hr className="border-t-2 border-red-300 w-2/4  mx-auto my-6" />
+                    <hr className="border-t-2 border-red-300 w-4/4  mx-auto my-6" />
                     <div >
                         <h3 className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</h3>
                         <ul className="space-y-2">
