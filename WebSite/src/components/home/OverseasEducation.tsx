@@ -54,7 +54,7 @@ export function OverseasEducation() {
                             />
                         </div>
                     </div>
-                    <button className="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600">
+                    <button className="bg-red-500 mb-10 text-white px-6 py-3 rounded hover:bg-red-600">
                         LEARN MORE
                     </button>
                 </div>

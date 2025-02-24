@@ -10,8 +10,8 @@ export function ServiceCard({
     icon: Icon,
 }: ServiceCardProps) {
     return (
-        <div className="px-6 py-10 flex border border-gray-200 rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="mb-4 pr-6 place-self-center">
+        <div className="px-6 py-4 text-center border border-gray-200 rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
+            <div className="pb-3 place-self-center">
                 <Icon size={50} className="text-red-500" />
             </div>
             <div>

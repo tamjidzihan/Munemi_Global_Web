@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
-import { MegaMenu } from "./MegaMenu";
+import { MegaMenu } from "./Navbar/MegaMenu";
 import logo from "../assets/logo_munemi_global.png"
+import { ServicesMenu } from "./Navbar/ServicesMenu";
 
 export function Navbar() {
     const [showMegaMenu, setShowMegaMenu] = useState(false);
+    const [showServicesMenu, setShowServicesMenu] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -45,9 +47,16 @@ export function Navbar() {
                     <Link to="/" className="text-gray-500 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>
-                    <Link to="/" className="text-gray-500 hover:text-gray-800 font-bold transition duration-300">
-                        PAGES
-                    </Link>
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setShowServicesMenu(true)}
+                        onMouseLeave={() => setShowServicesMenu(false)}
+                    >
+                        <button className={`text-gray-500 *:hover:text-gray-800 font-bold transition duration-300 cursor-pointer ${isScrolled ? "py-3" : "py-6"}`}>
+                            SERVICES
+                        </button>
+                        {showServicesMenu && <ServicesMenu />}
+                    </div>
                     <div
                         className="relative"
                         onMouseEnter={() => setShowMegaMenu(true)}
