@@ -7,7 +7,7 @@ export function ConsultantFinder() {
             <div className="max-w-7xl mx-auto">
                 {/* Title Animation */}
                 <motion.h2
-                    className="text-[40px] font-medium text-center mb-4 text-midnight"
+                    className="text-3xl sm:text-4xl font-medium text-center mb-4 text-midnight"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -18,7 +18,7 @@ export function ConsultantFinder() {
 
                 {/* Description Animation */}
                 <motion.p
-                    className="text-gray-500 text-center mb-16 max-w-2xl mx-auto text-lg"
+                    className="text-gray-500 text-center mb-10 sm:mb-16 max-w-2xl mx-auto text-base sm:text-lg"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
@@ -29,15 +29,16 @@ export function ConsultantFinder() {
                     iaculis luctus placerat and massa
                 </motion.p>
 
-                <div className="grid md:grid-cols-5 gap-0 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-0 items-center">
                     {/* Country List Animation */}
                     <motion.div
+                        className="text-center md:text-left"
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
                     >
-                        <h3 className="text-midnight text-2xl font-bold mb-6">Country:</h3>
+                        <h3 className="text-midnight text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Country:</h3>
                         <ul className="space-y-3">
                             {["Canada", "Australia", "United Kingdom", "USA", "New Zealand", "South Korea"].map((country) => (
                                 <motion.li
@@ -47,25 +48,26 @@ export function ConsultantFinder() {
                                     transition={{ duration: 0.4, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
                                         {country}
                                     </a>
                                 </motion.li>
                             ))}
                         </ul>
-                        <a href="#" className="text-midnight hover:text-blue-800 mt-6 inline-block font-medium">
+                        <a href="#" className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
                             View All
                         </a>
                     </motion.div>
 
                     {/* Practice Area List Animation */}
                     <motion.div
+                        className="text-center md:text-left"
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                         viewport={{ once: true }}
                     >
-                        <h3 className="text-midnight text-2xl font-bold mb-6">Practice Area:</h3>
+                        <h3 className="text-midnight text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Practice Area:</h3>
                         <ul className="space-y-3">
                             {[
                                 "Student Visa",
@@ -82,20 +84,20 @@ export function ConsultantFinder() {
                                     transition={{ duration: 0.4, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
                                         {area}
                                     </a>
                                 </motion.li>
                             ))}
                         </ul>
-                        <a href="#" className="text-midnight hover:text-blue-800 mt-6 inline-block font-medium">
+                        <a href="#" className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
                             View All
                         </a>
                     </motion.div>
 
                     {/* Image Animation */}
                     <motion.div
-                        className="col-span-3 place-self-center"
+                        className="lg:col-span-3 place-self-center flex justify-center md:justify-end"
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
@@ -104,7 +106,7 @@ export function ConsultantFinder() {
                         <img
                             src={consultant}
                             alt="World Map showing consultant locations"
-                            className="max-w-full h-auto"
+                            className="max-w-[80%] sm:max-w-full h-auto"
                         />
                     </motion.div>
                 </div>

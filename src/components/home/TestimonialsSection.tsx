@@ -29,7 +29,7 @@ const testimonials = [
     },
 ];
 export function TestimonialsSection() {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(1);
     const handlePrevious = () => {
         setCurrentIndex((prev) =>
             prev === 0 ? testimonials.length - 1 : prev - 1,
