@@ -18,11 +18,11 @@ export function ServicesMenu() {
                         <ul className="space-y-2">
                             {[
                                 { label: "Enrollment", link: "/services/enrollment" },
-                                { label: "OSHC", link: "/" },
-                                { label: "OVHC", link: "/" },
-                                { label: "Scholarship", link: "/" },
-                                { label: "IELTS/PTE Preparation", link: "/" },
-                                { label: "Free Career Counceling", link: "/" }
+                                { label: "OSHC", link: "/services/overseas-student-health-cover" },
+                                { label: "OVHC", link: "/services/general-health-insurance" },
+                                { label: "Scholarship", link: "/services/scholarship" },
+                                { label: "IELTS/PTE Preparation", link: "/services/ielts-pte" },
+                                { label: "Free Career Counceling", link: "/services/" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link

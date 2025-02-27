@@ -5,7 +5,7 @@ import logo from "../assets/logo_munemi_global.png"
 
 export function Footer() {
     return (
-        <footer className="bg-white pt-20 pb-6">
+        <footer className="bg-white border-t-2 border-gray-400 mt-20 pt-10 pb-6">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8 mb-12">
                     <div>
