@@ -4,10 +4,12 @@ import { ChevronDown, Menu } from "lucide-react";
 import { MegaMenu } from "./Navbar/MegaMenu";
 import logo from "../assets/logo_munemi_global.png"
 import { ServicesMenu } from "./Navbar/ServicesMenu";
+import CareerMenu from "./Navbar/CareerMenu";
 
 export function Navbar() {
     const [showMegaMenu, setShowMegaMenu] = useState(false);
     const [showServicesMenu, setShowServicesMenu] = useState(false);
+    const [showCareerMenu, setShowCareerMenu] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -43,7 +45,7 @@ export function Navbar() {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex items-center space-x-6">
+                <div className="hidden md:flex items-center space-x-3 lg:space-x-10 ">
                     <Link to="/" className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>
@@ -75,11 +77,17 @@ export function Navbar() {
                     <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         ABOUT US
                     </Link>
-                    <Link to="/">
-                        <button className="px-4 py-2 hover:text-red-600 text-white border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center">
-                            GET STARTED
+
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setShowCareerMenu(true)}
+                        onMouseLeave={() => setShowCareerMenu(false)}
+                    >
+                        <button className={`px-4 py-2 hover:text-red-600 text-white border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center ${isScrolled ? "py-1" : "py-2"}`}>
+                            BECOME PART OF US
                         </button>
-                    </Link>
+                        {showCareerMenu && <CareerMenu />}
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}

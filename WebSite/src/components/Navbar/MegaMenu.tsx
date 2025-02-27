@@ -38,7 +38,7 @@ export function MegaMenu() {
                             <li key={index}>
                                 <Link
                                     to={item.link}
-                                    className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                    className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>
@@ -54,7 +54,7 @@ export function MegaMenu() {
                             <li key={index}>
                                 <Link
                                     to={item.link}
-                                    className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                    className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>

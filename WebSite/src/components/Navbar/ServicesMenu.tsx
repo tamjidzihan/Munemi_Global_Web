@@ -17,7 +17,7 @@ export function ServicesMenu() {
                         <h3 className="font-bold text-midnight text-lg mb-2">Academic Services:</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Enrollment", link: "/" },
+                                { label: "Enrollment", link: "/services/enrollment" },
                                 { label: "OSHC", link: "/" },
                                 { label: "OVHC", link: "/" },
                                 { label: "Scholarship", link: "/" },
@@ -27,7 +27,7 @@ export function ServicesMenu() {
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -47,7 +47,7 @@ export function ServicesMenu() {
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -71,7 +71,7 @@ export function ServicesMenu() {
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -91,7 +91,7 @@ export function ServicesMenu() {
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -118,7 +118,7 @@ export function ServicesMenu() {
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-gray-900 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
