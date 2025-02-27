@@ -22,7 +22,7 @@ export function ServicesMenu() {
                                 { label: "OVHC", link: "/services/general-health-insurance" },
                                 { label: "Scholarship", link: "/services/scholarship" },
                                 { label: "IELTS/PTE Preparation", link: "/services/ielts-pte" },
-                                { label: "Free Career Counceling", link: "/services/" }
+                                { label: "Free Career Counceling", link: "/services/free-career-counseling" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link
@@ -41,8 +41,8 @@ export function ServicesMenu() {
                         <h3 className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Professional Year", link: "/" },
-                                { label: "NAATI/CCL", link: "/" }
+                                { label: "Professional Year", link: "/services/professional-year" },
+                                { label: "NAATI/CCL", link: "/services/naati-pte" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link
@@ -62,11 +62,11 @@ export function ServicesMenu() {
                         <h3 className="font-bold text-midnight text-lg mb-4">Support Services:</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Tax Return", link: "/" },
-                                { label: "Airport Pikup", link: "/" },
-                                { label: "Accomodation", link: "/" },
-                                { label: "Bank Account Oppening", link: "/" },
-                                { label: "General Helth Opening", link: "/" }
+                                { label: "Tax Return", link: "/services/tax-return" },
+                                { label: "Airport Pikup", link: "/services/airport-pickup" },
+                                { label: "Accomodation", link: "/services/accommodation" },
+                                { label: "Bank Account Oppening", link: "/services/banking-support" },
+                                { label: "General Health Insurance", link: "/services/general-health-insurance" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link

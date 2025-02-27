@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu } from "lucide-react";
-import { MegaMenu } from "./Navbar/MegaMenu";
+import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/logo_munemi_global.png"
 import { ServicesMenu } from "./Navbar/ServicesMenu";
 import CareerMenu from "./Navbar/CareerMenu";
+import { StudyDestination } from "./Navbar/StudyDestination";
 
 export function Navbar() {
-    const [showMegaMenu, setShowMegaMenu] = useState(false);
+    const [showStudyDestination, setShowStudyDestination] = useState(false);
     const [showServicesMenu, setShowServicesMenu] = useState(false);
     const [showCareerMenu, setShowCareerMenu] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -62,14 +63,14 @@ export function Navbar() {
                     </div>
                     <div
                         className="relative"
-                        onMouseEnter={() => setShowMegaMenu(true)}
-                        onMouseLeave={() => setShowMegaMenu(false)}
+                        onMouseEnter={() => setShowStudyDestination(true)}
+                        onMouseLeave={() => setShowStudyDestination(false)}
                     >
                         <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
                             STUDY DESTINATION
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
-                        {showMegaMenu && <MegaMenu />}
+                        {showStudyDestination && <StudyDestination />}
                     </div>
                     <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         BLOG
@@ -92,11 +93,36 @@ export function Navbar() {
 
                 {/* Mobile Menu */}
                 <div className="md:hidden">
-                    <button className="text-gray-500 font-bold transition duration-300 hover:text-gray-800">
-                        <Menu size={24} />
+                    <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-gray-500 hover:text-gray-800">
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden" onClick={() => setMobileMenuOpen(false)}>
+                    <div className="absolute top-0 left-0 w-64 h-full bg-white shadow-lg p-5">
+                        <button className="absolute top-4 right-4 text-gray-500" onClick={() => setMobileMenuOpen(false)}>
+                            <X size={24} />
+                        </button>
+                        <nav className="flex flex-col space-y-4 mt-10">
+                            <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold" onClick={() => setMobileMenuOpen(false)}>HOME</Link>
+                            <button onClick={() => setShowServicesMenu(!showServicesMenu)} className="text-gray-600 hover:text-gray-800 font-bold flex items-center">
+                                SERVICES <ChevronDown size={20} className="ml-1" />
+                            </button>
+                            {showServicesMenu && <ServicesMenu />}
+                            <button onClick={() => setShowStudyDestination(!showStudyDestination)} className="text-gray-600 hover:text-gray-800 font-bold flex items-center">
+                                STUDY DESTINATION <ChevronDown size={20} className="ml-1" />
+                            </button>
+                            {showStudyDestination && <StudyDestination />}
+                            <Link to="/blog" className="text-gray-600 hover:text-gray-800 font-bold" onClick={() => setMobileMenuOpen(false)}>BLOG</Link>
+                            <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold" onClick={() => setMobileMenuOpen(false)}>ABOUT US</Link>
+                            <button className="px-4 py-2 text-white border border-red-500 bg-red-500 hover:bg-white hover:text-red-600 rounded-lg font-medium">
+                                BECOME PART OF US
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            )}
         </nav >
     );
 }
