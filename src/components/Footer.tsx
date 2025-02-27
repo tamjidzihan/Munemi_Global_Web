@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import logo from "../assets/logo_munemi_global.png"
+import oscillate from "../assets/oooscillate.svg"
 
 export function Footer() {
     return (
-        <footer className="bg-white border-t-2 border-gray-400 mt-20 pt-10 pb-6">
+        <footer className=" border-t-2 border-gray-400 mt-20 pt-10 pb-6" style={{ backgroundImage: `url(${oscillate})` }}>
             <div className="max-w-7xl mx-auto px-4">
                 <div className="grid md:grid-cols-4 gap-8 mb-12">
                     <div>

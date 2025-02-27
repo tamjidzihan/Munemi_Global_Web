@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
+import { useEffect } from "react"
 
 
 interface HeroProps {
@@ -7,6 +8,11 @@ interface HeroProps {
 }
 
 const Hero = ({ bgImage, heroName }: HeroProps) => {
+
+    useEffect(() => {
+        document.title = `${heroName} | Munemi Global `
+    })
+
     return (
         <section className=" min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[350px] flex items-center justify-center text-center text-white overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${bgImage})` }}>
             <div className="z-10 max-w-4xl mx-auto px-6 md:px-12">

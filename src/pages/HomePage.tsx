@@ -21,7 +21,7 @@ const HomePage = () => {
         // Simulate loading delay (e.g., fetching data)
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000); // Change time as needed
+        }, 1300); // Change time as needed
 
         return () => clearTimeout(timer);
     }, []);
