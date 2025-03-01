@@ -55,7 +55,7 @@ export function Navbar() {
                         onMouseEnter={() => setShowServicesMenu(true)}
                         onMouseLeave={() => setShowServicesMenu(false)}
                     >
-                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
+                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-2" : "py-3"}`}>
                             SERVICES
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
@@ -66,7 +66,7 @@ export function Navbar() {
                         onMouseEnter={() => setShowStudyDestination(true)}
                         onMouseLeave={() => setShowStudyDestination(false)}
                     >
-                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-3" : "py-6"}`}>
+                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-2" : "py-3"}`}>
                             STUDY DESTINATION
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
