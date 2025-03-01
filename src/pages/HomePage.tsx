@@ -22,7 +22,7 @@ const HomePage = () => {
         const timer = setTimeout(() => {
             setLoading(false);
         }, 1300); // Change time as needed
-
+        document.title = 'Munemi Global'
         return () => clearTimeout(timer);
     }, []);
 
@@ -79,9 +79,6 @@ const HomePage = () => {
             <ConsultationForm />
 
             {/* <ImmigrationConsult /> */}
-            {/* 
-           */}
-
         </main>
     )
 }
