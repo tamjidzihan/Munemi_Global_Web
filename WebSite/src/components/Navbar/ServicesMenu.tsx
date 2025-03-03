@@ -85,8 +85,8 @@ export function ServicesMenu() {
                         <h3 className="font-bold text-midnight text-lg mb-4">Pre-Departure Services:</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Pre-Departure Briefing", link: "/" },
-                                { label: "Air-Ticketing", link: "/" }
+                                { label: "Pre-Departure Briefing", link: "/services/pre-departure" },
+                                { label: "Air-Ticketing", link: "/services/air-ticketing" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link
@@ -106,14 +106,14 @@ export function ServicesMenu() {
                         <h3 className="font-bold text-midnight text-lg mb-4">Visa Services:</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Student Visa", link: "/" },
-                                { label: "Partner Visa", link: "/" },
-                                { label: "Visitor Visa", link: "/" },
-                                { label: "Migration Services", link: "/" },
-                                { label: "Other Type Visa", link: "/" },
-                                { label: "Skilled/Work Visa", link: "/" },
-                                { label: "Family/Parent Visa", link: "/" },
-                                { label: "Permanent Residency", link: "/" },
+                                { label: "Student Visa", link: "/services/student-visa" },
+                                { label: "Partner Visa", link: "/services/partner-visa" },
+                                { label: "Visitor Visa", link: "/services/visitor-visa" },
+                                { label: "Migration Services", link: "/services/migration-services" },
+                                { label: "Other Type Visa", link: "/services/" },
+                                { label: "Skilled/Work Visa", link: "/services/" },
+                                { label: "Family/Parent Visa", link: "/services/" },
+                                { label: "Permanent Residency", link: "/services/" },
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link
