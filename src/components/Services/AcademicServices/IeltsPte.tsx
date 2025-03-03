@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Loader from "../common/Loader";
-import HeroImg from "../../assets/slide-2.jpg";
-import Hero from "../common/Hero/Hero";
+import HeroImg from "../../../assets/slide-2.jpg";
+import Loader from "../../common/Loader";
+import Hero from "../../common/Hero/Hero";
 
 const IELTS_PTE = () => {
     const [loading, setLoading] = useState(true);
