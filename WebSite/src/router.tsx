@@ -25,6 +25,18 @@ import SkilledMigrantVisa from "./components/Services/VisaServices/SkilledMigran
 import FamilyParentVisa from "./components/Services/VisaServices/FamilyParentVisa";
 import PermanentResidency from "./components/Services/VisaServices/PermanentResidency";
 import StudyDestination from "./pages/StudyDestination";
+import Australia from "./components/StudyDestination/Destinations/Australia";
+import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
+import Canada from "./components/StudyDestination/Destinations/Canada";
+import UnitedKingdom from "./components/StudyDestination/Destinations/UnitedKingdom";
+import NewZealand from "./components/StudyDestination/Destinations/NewZealand";
+import UAE from "./components/StudyDestination/Destinations/UAE";
+import Malaysia from "./components/StudyDestination/Destinations/Malaysia";
+import Malta from "./components/StudyDestination/Destinations/Malta";
+import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
+import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/GlobalCareerPathway";
+import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
+import NetworkingAndSocialization from "./components/StudyDestination/StudyAbroad/NetworkingAndSocialization";
 
 
 
@@ -64,7 +76,21 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'study-destination',
-                element: <StudyDestination />
+                element: <StudyDestination />,
+                children: [
+                    { path: 'australia', element: <Australia /> },
+                    { path: 'unitedstates', element: <UnitedStates /> },
+                    { path: 'canada', element: <Canada /> },
+                    { path: 'unitedkingdom', element: <UnitedKingdom /> },
+                    { path: 'newzealand', element: <NewZealand /> },
+                    { path: 'uae', element: <UAE /> },
+                    { path: 'malaysia', element: <Malaysia /> },
+                    { path: 'malta', element: <Malta /> },
+                    { path: 'studyguides', element: <StudyGuides /> },
+                    { path: 'global-career-pathway', element: <GlobalCareerPathway /> },
+                    { path: 'study-abroad-faq', element: <StudyAbroadFAQ /> },
+                    { path: 'networking-&-socialization', element: <NetworkingAndSocialization /> },
+                ]
             }
         ]
     }
