@@ -24,7 +24,7 @@ import OtherTypeVisa from "./components/Services/VisaServices/OtherTypeVisa";
 import SkilledMigrantVisa from "./components/Services/VisaServices/SkilledMigrantVisa";
 import FamilyParentVisa from "./components/Services/VisaServices/FamilyParentVisa";
 import PermanentResidency from "./components/Services/VisaServices/PermanentResidency";
-import StudyDestination from "./pages/StudyDestination";
+import StudyDestination from "./pages/StudyDestinationPage";
 import Australia from "./components/StudyDestination/Destinations/Australia";
 import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
 import Canada from "./components/StudyDestination/Destinations/Canada";
@@ -37,6 +37,7 @@ import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
 import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/GlobalCareerPathway";
 import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
 import NetworkingAndSocialization from "./components/StudyDestination/StudyAbroad/NetworkingAndSocialization";
+import AboutPage from "./pages/AboutPage";
 
 
 
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
             { index: true, element: <HomePage /> },
+            { path: '/about', element: <AboutPage /> },
             {
                 path: 'services',
                 element: <ServicesPage />,

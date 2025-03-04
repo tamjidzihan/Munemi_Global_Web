@@ -38,7 +38,7 @@ export function StudyDestinationMenu() {
                             <li key={index}>
                                 <Link
                                     to={item.link}
-                                    className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                    className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>
@@ -54,7 +54,7 @@ export function StudyDestinationMenu() {
                             <li key={index}>
                                 <Link
                                     to={item.link}
-                                    className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                    className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>

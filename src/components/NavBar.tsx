@@ -75,7 +75,7 @@ export function Navbar() {
                     <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         BLOG
                     </Link>
-                    <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
+                    <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         ABOUT US
                     </Link>
 

@@ -1,6 +1,45 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+const academicServices = [
+    { label: "Enrollment", link: "/services/enrollment" },
+    { label: "OSHC", link: "/services/overseas-student-health-cover" },
+    { label: "OVHC", link: "/services/general-health-insurance" },
+    { label: "Scholarship", link: "/services/scholarship" },
+    { label: "IELTS/PTE Preparation", link: "/services/ielts-pte" },
+    { label: "Free Career Counceling", link: "/services/free-career-counseling" }
+]
+
+const postAcademicServices = [
+    { label: "Professional Year", link: "/services/professional-year" },
+    { label: "NAATI/CCL", link: "/services/naati-pte" }
+]
+
+const supportServices = [
+    { label: "Tax Return", link: "/services/tax-return" },
+    { label: "Airport Pikup", link: "/services/airport-pickup" },
+    { label: "Accomodation", link: "/services/accommodation" },
+    { label: "Bank Account Oppening", link: "/services/banking-support" },
+    { label: "General Health Insurance", link: "/services/general-health-insurance" }
+]
+
+const preDepartureServices = [
+    { label: "Pre-Departure Briefing", link: "/services/pre-departure" },
+    { label: "Air-Ticketing", link: "/services/air-ticketing" }
+]
+
+const visaServices = [
+    { label: "Student Visa", link: "/services/student-visa" },
+    { label: "Partner Visa", link: "/services/partner-visa" },
+    { label: "Visitor Visa", link: "/services/visitor-visa" },
+    { label: "Migration Services", link: "/services/migration-services" },
+    { label: "Other Type Visa", link: "/services/other-type-visa" },
+    { label: "Skilled/Work Visa", link: "/services/skilled-migrant-visa" },
+    { label: "Family/Parent Visa", link: "/services/family-parent-visa" },
+    { label: "Permanent Residency", link: "/services/permanent-residency" },
+]
+
+
 export function ServicesMenu() {
     return (
         <motion.div
@@ -16,18 +55,11 @@ export function ServicesMenu() {
                     <div className=" mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-2">Academic Services:</h3>
                         <ul className="space-y-2">
-                            {[
-                                { label: "Enrollment", link: "/services/enrollment" },
-                                { label: "OSHC", link: "/services/overseas-student-health-cover" },
-                                { label: "OVHC", link: "/services/general-health-insurance" },
-                                { label: "Scholarship", link: "/services/scholarship" },
-                                { label: "IELTS/PTE Preparation", link: "/services/ielts-pte" },
-                                { label: "Free Career Counceling", link: "/services/free-career-counseling" }
-                            ].map((item, index) => (
+                            {academicServices.map((item, index) => (
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -40,14 +72,11 @@ export function ServicesMenu() {
                     <div >
                         <h3 className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</h3>
                         <ul className="space-y-2">
-                            {[
-                                { label: "Professional Year", link: "/services/professional-year" },
-                                { label: "NAATI/CCL", link: "/services/naati-pte" }
-                            ].map((item, index) => (
+                            {postAcademicServices.map((item, index) => (
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -61,17 +90,11 @@ export function ServicesMenu() {
                     <div className="mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-4">Support Services:</h3>
                         <ul className="space-y-2">
-                            {[
-                                { label: "Tax Return", link: "/services/tax-return" },
-                                { label: "Airport Pikup", link: "/services/airport-pickup" },
-                                { label: "Accomodation", link: "/services/accommodation" },
-                                { label: "Bank Account Oppening", link: "/services/banking-support" },
-                                { label: "General Health Insurance", link: "/services/general-health-insurance" }
-                            ].map((item, index) => (
+                            {supportServices.map((item, index) => (
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -84,14 +107,11 @@ export function ServicesMenu() {
                     <div>
                         <h3 className="font-bold text-midnight text-lg mb-4">Pre-Departure Services:</h3>
                         <ul className="space-y-2">
-                            {[
-                                { label: "Pre-Departure Briefing", link: "/services/pre-departure" },
-                                { label: "Air-Ticketing", link: "/services/air-ticketing" }
-                            ].map((item, index) => (
+                            {preDepartureServices.map((item, index) => (
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
@@ -105,20 +125,11 @@ export function ServicesMenu() {
                     <div className="mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-4">Visa Services:</h3>
                         <ul className="space-y-2">
-                            {[
-                                { label: "Student Visa", link: "/services/student-visa" },
-                                { label: "Partner Visa", link: "/services/partner-visa" },
-                                { label: "Visitor Visa", link: "/services/visitor-visa" },
-                                { label: "Migration Services", link: "/services/migration-services" },
-                                { label: "Other Type Visa", link: "/services/other-type-visa" },
-                                { label: "Skilled/Work Visa", link: "/services/skilled-migrant-visa" },
-                                { label: "Family/Parent Visa", link: "/services/family-parent-visa" },
-                                { label: "Permanent Residency", link: "/services/permanent-residency" },
-                            ].map((item, index) => (
+                            {visaServices.map((item, index) => (
                                 <li key={index}>
                                     <Link
                                         to={item.link}
-                                        className="text-gray-700 hover:text-red-600 transition duration-300 text-base"
+                                        className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
