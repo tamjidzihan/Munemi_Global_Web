@@ -20,7 +20,7 @@ const studyAbroad = [
     { label: "Networking & Socialization", link: "/" }
 ]
 
-export function StudyDestination() {
+export function StudyDestinationMenu() {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }} // Start slightly below with opacity 0

@@ -4,7 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "../assets/logo_munemi_global.png"
 import { ServicesMenu } from "./Navbar/ServicesMenu";
 import CareerMenu from "./Navbar/CareerMenu";
-import { StudyDestination } from "./Navbar/StudyDestination";
+import { StudyDestinationMenu } from "./Navbar/StudyDestinationMenu";
 
 export function Navbar() {
     const [showStudyDestination, setShowStudyDestination] = useState(false);
@@ -70,7 +70,7 @@ export function Navbar() {
                             STUDY DESTINATION
                             <ChevronDown size={20} className=" place-self-center" />
                         </button>
-                        {showStudyDestination && <StudyDestination />}
+                        {showStudyDestination && <StudyDestinationMenu />}
                     </div>
                     <Link to="/" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         BLOG
@@ -113,7 +113,7 @@ export function Navbar() {
                             <button onClick={() => setShowStudyDestination(!showStudyDestination)} className="text-gray-600 hover:text-gray-800 font-bold flex items-center">
                                 STUDY DESTINATION <ChevronDown size={20} className="ml-1" />
                             </button>
-                            {showStudyDestination && <StudyDestination />}
+                            {showStudyDestination && <StudyDestinationMenu />}
                             <Link to="/blog" className="text-gray-600 hover:text-gray-800 font-bold" onClick={() => setMobileMenuOpen(false)}>BLOG</Link>
                             <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold" onClick={() => setMobileMenuOpen(false)}>ABOUT US</Link>
                             <button className="px-4 py-2 text-white border border-red-500 bg-red-500 hover:bg-white hover:text-red-600 rounded-lg font-medium">
