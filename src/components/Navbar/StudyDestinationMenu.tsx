@@ -3,21 +3,21 @@ import { motion } from "framer-motion";
 
 
 const studyDestination = [
-    { label: "Australia", link: "/" },
-    { label: "United States", link: "/" },
-    { label: "Canada", link: "/" },
-    { label: "United Kindom", link: "/" },
-    { label: "New Zealand", link: "/" },
-    { label: "United Arab Emirates", link: "/" },
-    { label: "Malaysia", link: "/" },
-    { label: "Malta", link: "/" }
+    { label: "Australia", link: "/study-destination/australia" },
+    { label: "United States", link: "/study-destination/unitedstates" },
+    { label: "Canada", link: "/study-destination/canada" },
+    { label: "United Kindom", link: "/study-destination/unitedkingdom" },
+    { label: "New Zealand", link: "/study-destination/newzealand" },
+    { label: "United Arab Emirates", link: "/study-destination/uae" },
+    { label: "Malaysia", link: "/study-destination/malaysia" },
+    { label: "Malta", link: "/study-destination/malta" }
 ]
 
 const studyAbroad = [
-    { label: "Study Guides", link: "/" },
-    { label: "Global Career Pathway", link: "/" },
-    { label: "Study Abroad FAQ", link: "/" },
-    { label: "Networking & Socialization", link: "/" }
+    { label: "Study Guides", link: "/study-destination/studyguides" },
+    { label: "Global Career Pathway", link: "/study-destination/global-career-pathway" },
+    { label: "Study Abroad FAQ", link: "/study-destination/study-abroad-faq" },
+    { label: "Networking & Socialization", link: "/study-destination/networking-&-socialization" }
 ]
 
 export function StudyDestinationMenu() {
