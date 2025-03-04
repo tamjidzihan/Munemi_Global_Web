@@ -110,10 +110,10 @@ export function ServicesMenu() {
                                 { label: "Partner Visa", link: "/services/partner-visa" },
                                 { label: "Visitor Visa", link: "/services/visitor-visa" },
                                 { label: "Migration Services", link: "/services/migration-services" },
-                                { label: "Other Type Visa", link: "/services/" },
-                                { label: "Skilled/Work Visa", link: "/services/" },
-                                { label: "Family/Parent Visa", link: "/services/" },
-                                { label: "Permanent Residency", link: "/services/" },
+                                { label: "Other Type Visa", link: "/services/other-type-visa" },
+                                { label: "Skilled/Work Visa", link: "/services/skilled-migrant-visa" },
+                                { label: "Family/Parent Visa", link: "/services/family-parent-visa" },
+                                { label: "Permanent Residency", link: "/services/permanent-residency" },
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link

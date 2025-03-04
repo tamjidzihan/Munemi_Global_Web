@@ -20,6 +20,11 @@ import StudentVisa from "./components/Services/VisaServices/StudentVisa";
 import PartnerVisa from "./components/Services/VisaServices/PartnerVisa";
 import VisitorVisa from "./components/Services/VisaServices/VisitorVisa";
 import MigrationServices from "./components/Services/VisaServices/MigrationServices";
+import OtherTypeVisa from "./components/Services/VisaServices/OtherTypeVisa";
+import SkilledMigrantVisa from "./components/Services/VisaServices/SkilledMigrantVisa";
+import FamilyParentVisa from "./components/Services/VisaServices/FamilyParentVisa";
+import PermanentResidency from "./components/Services/VisaServices/PermanentResidency";
+import StudyDestination from "./pages/StudyDestination";
 
 
 
@@ -51,8 +56,16 @@ export const router = createBrowserRouter([
                     { path: 'partner-visa', element: <PartnerVisa /> },
                     { path: 'visitor-visa', element: <VisitorVisa /> },
                     { path: 'migration-services', element: <MigrationServices /> },
+                    { path: 'other-type-visa', element: <OtherTypeVisa /> },
+                    { path: 'skilled-migrant-visa', element: <SkilledMigrantVisa /> },
+                    { path: 'family-parent-visa', element: <FamilyParentVisa /> },
+                    { path: 'permanent-residency', element: <PermanentResidency /> }
                 ]
             },
+            {
+                path: 'study-destination',
+                element: <StudyDestination />
+            }
         ]
     }
 ])
