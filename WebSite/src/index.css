@@ -8,13 +8,13 @@
 @import "tailwindcss";
 
 
-@theme{
+@theme {
   --color-midnight: #294674
 }
 
 body {
     margin: 0;
-    font-family: Roboto, serif !important;
+    font-family: Roboto, serif ;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
