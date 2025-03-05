@@ -1,5 +1,30 @@
 import { motion } from "framer-motion";
 import consultant from "../../assets/consultent.png";
+import { Link } from "react-router-dom";
+
+
+const countries = [
+    { label: "Australia", link: "/study-destination/australia" },
+    { label: "United States", link: "/study-destination/unitedstates" },
+    { label: "Canada", link: "/study-destination/canada" },
+    { label: "United Kindom", link: "/study-destination/unitedkingdom" },
+    { label: "New Zealand", link: "/study-destination/newzealand" },
+    { label: "United Arab Emirates", link: "/study-destination/uae" },
+    { label: "Malaysia", link: "/study-destination/malaysia" },
+    { label: "Malta", link: "/study-destination/malta" }
+]
+
+
+const visaServices = [
+    { label: "Student Visa", link: "/services/student-visa" },
+    { label: "Partner Visa", link: "/services/partner-visa" },
+    { label: "Visitor Visa", link: "/services/visitor-visa" },
+    { label: "Migration Services", link: "/services/migration-services" },
+    { label: "Other Type Visa", link: "/services/other-type-visa" },
+    { label: "Skilled/Work Visa", link: "/services/skilled-migrant-visa" },
+    { label: "Family/Parent Visa", link: "/services/family-parent-visa" },
+    { label: "Permanent Residency", link: "/services/permanent-residency" },
+]
 
 export function ConsultantFinder() {
     return (
@@ -40,17 +65,17 @@ export function ConsultantFinder() {
                     >
                         <h3 className="text-midnight text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Country:</h3>
                         <ul className="space-y-3">
-                            {["Canada", "Australia", "United Kingdom", "USA", "New Zealand", "South Korea"].map((country) => (
+                            {countries.map((country) => (
                                 <motion.li
-                                    key={country}
+                                    key={country.label}
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.4, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
-                                        {country}
-                                    </a>
+                                    <Link to={country.link} className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
+                                        {country.label}
+                                    </Link>
                                 </motion.li>
                             ))}
                         </ul>
@@ -69,30 +94,23 @@ export function ConsultantFinder() {
                     >
                         <h3 className="text-midnight text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Practice Area:</h3>
                         <ul className="space-y-3">
-                            {[
-                                "Student Visa",
-                                "Skilled Work Visa",
-                                "Business visa",
-                                "Spouse/Family Visa",
-                                "Tourist & Visitor Visa",
-                                "Immigration Consult",
-                            ].map((area) => (
+                            {visaServices.map((area) => (
                                 <motion.li
-                                    key={area}
+                                    key={area.label}
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.4, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
-                                        {area}
-                                    </a>
+                                    <Link to={area.link} className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
+                                        {area.label}
+                                    </Link>
                                 </motion.li>
                             ))}
                         </ul>
-                        <a href="#" className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
+                        <Link to={'/services'} className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
                             View All
-                        </a>
+                        </Link>
                     </motion.div>
 
                     {/* Image Animation */}
