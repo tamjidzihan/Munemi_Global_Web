@@ -1,7 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
-import ServicesPage from "./pages/ServicesPage";
 import Enrollment from "./components/Services/AcademicServices/Enrollment";
 import FreeCareerCounseling from "./components/Services/AcademicServices/FreeCareerCounseling";
 import GeneralHealthInsurance from "./components/Services/AcademicServices/GeneralHealthInsurance";
@@ -10,34 +7,38 @@ import OSHC from "./components/Services/AcademicServices/OSHC";
 import Scholarship from "./components/Services/AcademicServices/Scholarship";
 import NAATIPTE from "./components/Services/PostAcademicServices/NaatiPete";
 import ProfessionalYear from "./components/Services/PostAcademicServices/ProfessionalYear";
+import AirTicketing from "./components/Services/PreDepartureServices/AirTicketing";
+import PreDeparture from "./components/Services/PreDepartureServices/PreDeparture";
+import Services from "./components/Services/Services";
 import Accommodation from "./components/Services/SupportServices/Accommodation";
 import AirportPickup from "./components/Services/SupportServices/AirportPickup";
 import BankingSupport from "./components/Services/SupportServices/BankingSupport";
 import TaxReturn from "./components/Services/SupportServices/TaxReturn";
-import PreDeparture from "./components/Services/PreDepartureServices/PreDeparture";
-import AirTicketing from "./components/Services/PreDepartureServices/AirTicketing";
-import StudentVisa from "./components/Services/VisaServices/StudentVisa";
-import PartnerVisa from "./components/Services/VisaServices/PartnerVisa";
-import VisitorVisa from "./components/Services/VisaServices/VisitorVisa";
+import FamilyParentVisa from "./components/Services/VisaServices/FamilyParentVisa";
 import MigrationServices from "./components/Services/VisaServices/MigrationServices";
 import OtherTypeVisa from "./components/Services/VisaServices/OtherTypeVisa";
-import SkilledMigrantVisa from "./components/Services/VisaServices/SkilledMigrantVisa";
-import FamilyParentVisa from "./components/Services/VisaServices/FamilyParentVisa";
+import PartnerVisa from "./components/Services/VisaServices/PartnerVisa";
 import PermanentResidency from "./components/Services/VisaServices/PermanentResidency";
-import StudyDestination from "./pages/StudyDestinationPage";
+import SkilledMigrantVisa from "./components/Services/VisaServices/SkilledMigrantVisa";
+import StudentVisa from "./components/Services/VisaServices/StudentVisa";
+import VisitorVisa from "./components/Services/VisaServices/VisitorVisa";
 import Australia from "./components/StudyDestination/Destinations/Australia";
-import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
 import Canada from "./components/StudyDestination/Destinations/Canada";
-import UnitedKingdom from "./components/StudyDestination/Destinations/UnitedKingdom";
-import NewZealand from "./components/StudyDestination/Destinations/NewZealand";
-import UAE from "./components/StudyDestination/Destinations/UAE";
 import Malaysia from "./components/StudyDestination/Destinations/Malaysia";
 import Malta from "./components/StudyDestination/Destinations/Malta";
-import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
+import NewZealand from "./components/StudyDestination/Destinations/NewZealand";
+import UAE from "./components/StudyDestination/Destinations/UAE";
+import UnitedKingdom from "./components/StudyDestination/Destinations/UnitedKingdom";
+import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
 import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/GlobalCareerPathway";
-import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
 import NetworkingAndSocialization from "./components/StudyDestination/StudyAbroad/NetworkingAndSocialization";
+import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
+import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
 import AboutPage from "./pages/AboutPage";
+import HomePage from "./pages/HomePage";
+import Layout from "./pages/Layout";
+import ServicesPage from "./pages/ServicesPage";
+import StudyDestination from "./pages/StudyDestinationPage";
 
 
 
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
                 path: 'services',
                 element: <ServicesPage />,
                 children: [
+                    { index: true, element: <Services /> },
                     { path: 'enrollment', element: <Enrollment /> },
                     { path: 'overseas-student-health-cover', element: <OSHC /> },
                     { path: 'general-health-insurance', element: <GeneralHealthInsurance /> },

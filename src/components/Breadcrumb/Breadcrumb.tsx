@@ -5,11 +5,11 @@ const Breadcrumb = () => {
     const pathnames = location.pathname.split("/").filter((x) => x);
 
     return (
-        <div className="container max-w-[1180px] place-self-center px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <nav>
-                <ol className="flex items-center gap-2">
+        <div className="container max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2 sm:gap-3">
+            <nav className="w-full">
+                <ol className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
                     <li>
-                        <Link className="font-medium text-white text-sm md:text-lg" to="/">
+                        <Link className="font-medium text-white transition-colors hover:text-red-300" to="/">
                             HOME /
                         </Link>
                     </li>
@@ -19,13 +19,11 @@ const Breadcrumb = () => {
                         return (
                             <li key={routeTo} className="flex items-center">
                                 {!isLast ? (
-                                    <Link className="font-medium text-white text-sm md:text-lg" to={routeTo}>
+                                    <Link className="font-medium text-white transition-colors hover:text-red-200" to={routeTo}>
                                         {name.toUpperCase()} /
                                     </Link>
                                 ) : (
-                                    <span className="font-medium text-white text-sm md:text-lg">
-                                        {name.toUpperCase()}
-                                    </span>
+                                    <span className="font-medium text-gray-300">{name.toUpperCase()}</span>
                                 )}
                             </li>
                         );
