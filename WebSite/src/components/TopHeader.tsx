@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 export function TopHeader() {
@@ -13,18 +13,15 @@ export function TopHeader() {
                 </div>
                 <div className="flex items-center space-x-4">
                     <Link
-                        to='https://wa.me/+8801978100105'
+                        to='https://wa.me/+8801600300877'
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center hover:text-red-600"
                     >
                         <FaWhatsapp size={19} className="mr-1" />
-                        <span>+88 01978100105</span>
-                    </Link >
-                    <Link to="tel:+8801600300877" target="_blank" className="flex items-center  hover:text-red-600" >
-                        <Phone size={14} className="mr-1" />
                         <span>+88 01600300877</span>
-                    </Link>
+
+                    </Link >
                     <div className="h-5 w-px bg-gray-300"></div>
                     <Link to="mailto:info@munemiglobal.com" target="_blank" className="flex items-center  hover:text-red-600">
                         <Mail size={14} className="mr-1" />
