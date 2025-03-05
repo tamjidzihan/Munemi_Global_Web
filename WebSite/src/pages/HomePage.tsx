@@ -1,10 +1,10 @@
-import { ConsultationSection } from "../components/home/ConsultationSection";
+// import { ConsultationSection } from "../components/home/ConsultationSection";
 import { ConsultantFinder } from "../components/home/ConsultantFinder";
 import { Statistics } from "../components/home/Statistics";
 import { ProcessSection } from "../components/home/ProcessSection";
-// import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
+import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-import { PartnerUniversities } from "../components/home/PartnerUniversities";
+// import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
 import { ConsultationForm } from "../components/home/ConsultationForm";
@@ -68,17 +68,17 @@ const HomePage = () => {
                     ))}
                 </div>
             </section>
-            <ConsultationSection />
+            <ImmigrationConsult />
+            {/* <ConsultationSection /> */}
             <ConsultantFinder />
             <Statistics />
             <ProcessSection />
             <OverseasEducation />
-            <PartnerUniversities />
             <TestimonialsSection />
             <NewsSection />
             <ConsultationForm />
+            {/* <PartnerUniversities /> */}
 
-            {/* <ImmigrationConsult /> */}
         </main>
     )
 }
