@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import HeroImg from "../../../assets/slide-2.jpg";
+import HeroImg from "../../../assets/flags/australia_flag.jpg";
 import Loader from "../../common/Loader";
 import Hero from "../../common/Hero/Hero";
 

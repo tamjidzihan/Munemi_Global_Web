@@ -15,7 +15,7 @@ const countries = [
         tag: "Student Visa & Visit Visa"
     },
     {
-        name: "USA",
+        name: "UNITED STATES",
         flag: usaflag,
         tag: "Student Visa & Visit Visa"
     },
@@ -69,7 +69,7 @@ export function ImmigrationConsult() {
                     {countries.map((country) => (
                         <Link
                             key={country.name}
-                            to={`/immigration/${country.name.toLowerCase()}`}
+                            to={`/study-destination/${country.name.split(' ').join('').toLowerCase()}`}
                             className="group relative block h-96 overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
                         >
                             <img
@@ -81,7 +81,7 @@ export function ImmigrationConsult() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
                             <div className="relative p-6 h-full flex flex-col justify-end">
-                                <p className="text-sm font-medium uppercase tracking-widest text-midnight">
+                                <p className="text-sm font-medium uppercase tracking-widest text-white">
                                     Destination
                                 </p>
                                 <p className="text-4xl font-bold text-white mt-2">
@@ -89,7 +89,7 @@ export function ImmigrationConsult() {
                                 </p>
 
                                 <div className="mt-24 transform translate-y-8 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                                    <div className="border-t border-white/20 pt-4">
+                                    <div className="border-t border-red-600 pt-4">
                                         <p className="text-sm text-white/90">
                                             {country.tag} {" services for "}{country.name.split(' ')[0]}
                                         </p>
