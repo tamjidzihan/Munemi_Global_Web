@@ -23,7 +23,7 @@ const Hero = ({ bgImage, heroName }: HeroProps) => {
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">{heroName.toLocaleUpperCase()}</h1>
+                        <h1 className="[text-shadow:_0_8px_8px_rgb(99_102_241_/_0.8)] text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">{heroName.toLocaleUpperCase()}</h1>
                     </motion.div>
                 </AnimatePresence>
             </div>

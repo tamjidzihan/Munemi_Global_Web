@@ -6,11 +6,11 @@ const studyDestination = [
     { label: "Australia", link: "/study-destination/australia" },
     { label: "United States", link: "/study-destination/unitedstates" },
     { label: "Canada", link: "/study-destination/canada" },
-    { label: "United Kindom", link: "/study-destination/unitedkingdom" },
-    { label: "New Zealand", link: "/study-destination/newzealand" },
-    { label: "United Arab Emirates", link: "/study-destination/uae" },
-    { label: "Malaysia", link: "/study-destination/malaysia" },
-    { label: "Malta", link: "/study-destination/malta" }
+    { label: "United Kingdom", link: "/study-destination/unitedkingdom" },
+    { label: "Hungary", link: "/study-destination/newzealand" },
+    { label: "France", link: "/study-destination/uae" },
+    { label: "Saudi Arabia", link: "/study-destination/malaysia" },
+    { label: "Spain", link: "/study-destination/malta" }
 ]
 
 const studyAbroad = [
@@ -37,7 +37,7 @@ export function StudyDestinationMenu() {
                         {studyDestination.map((item, index) => (
                             <li key={index}>
                                 <Link
-                                    to={item.link}
+                                    to={`/study-destination/${item.label.split(' ').join('').toLocaleLowerCase()}`}
                                     className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                 >
                                     {item.label}
