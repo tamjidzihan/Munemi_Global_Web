@@ -28,6 +28,9 @@ export function Navbar() {
         };
     }, []);
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
     return (
         <nav
             className={`w-full bg-white shadow sticky top-0 z-50 transition-all duration-300 flex justify-center ${isScrolled ? "h-14" : "h-20"
@@ -36,7 +39,7 @@ export function Navbar() {
             <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex-shrink-0">
-                    <Link to="/" className="flex items-center">
+                    <Link onClick={scrollToTop} to="/" className="flex items-center">
                         <img
                             src={logo}
                             alt="Munemi Global Logo"
@@ -47,7 +50,7 @@ export function Navbar() {
 
                 {/* Navigation Links */}
                 <div className="hidden md:flex items-center space-x-3 lg:space-x-10 ">
-                    <Link to="/" className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
+                    <Link to="/" onClick={scrollToTop} className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>
                     <div
