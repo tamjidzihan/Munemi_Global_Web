@@ -11,24 +11,9 @@ import { ConsultationForm } from "../components/home/ConsultationForm";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
-import Loader from "../components/common/Loader";
-import { useEffect, useState } from "react";
 
 const HomePage = () => {
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Simulate loading delay (e.g., fetching data)
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1300); // Change time as needed
-        document.title = 'Munemi Global'
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (loading) {
-        return <Loader />;
-    }
 
     const services = [
         {

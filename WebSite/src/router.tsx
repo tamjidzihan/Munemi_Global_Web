@@ -24,10 +24,6 @@ import StudentVisa from "./components/Services/VisaServices/StudentVisa";
 import VisitorVisa from "./components/Services/VisaServices/VisitorVisa";
 import Australia from "./components/StudyDestination/Destinations/Australia";
 import Canada from "./components/StudyDestination/Destinations/Canada";
-import Malaysia from "./components/StudyDestination/Destinations/Malaysia";
-import Malta from "./components/StudyDestination/Destinations/Malta";
-import NewZealand from "./components/StudyDestination/Destinations/NewZealand";
-import UAE from "./components/StudyDestination/Destinations/UAE";
 import UnitedKingdom from "./components/StudyDestination/Destinations/UnitedKingdom";
 import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
 import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/GlobalCareerPathway";
@@ -40,6 +36,10 @@ import Layout from "./pages/Layout";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestination from "./pages/StudyDestinationPage";
 import ErrorPage from "./pages/ErrorPage";
+import Hungary from "./components/StudyDestination/Destinations/Hungary";
+import France from "./components/StudyDestination/Destinations/France";
+import SaudiArabia from "./components/StudyDestination/Destinations/SaudiArabia";
+import Spain from "./components/StudyDestination/Destinations/Spain";
 
 
 
@@ -88,10 +88,10 @@ export const router = createBrowserRouter([
                     { path: 'unitedstates', element: <UnitedStates /> },
                     { path: 'canada', element: <Canada /> },
                     { path: 'unitedkingdom', element: <UnitedKingdom /> },
-                    { path: 'newzealand', element: <NewZealand /> },
-                    { path: 'uae', element: <UAE /> },
-                    { path: 'malaysia', element: <Malaysia /> },
-                    { path: 'malta', element: <Malta /> },
+                    { path: 'hungary', element: <Hungary /> },
+                    { path: 'france', element: <France /> },
+                    { path: 'saudiarabia', element: <SaudiArabia /> },
+                    { path: 'spain', element: <Spain /> },
                     { path: 'studyguides', element: <StudyGuides /> },
                     { path: 'global-career-pathway', element: <GlobalCareerPathway /> },
                     { path: 'study-abroad-faq', element: <StudyAbroadFAQ /> },
