@@ -9,12 +9,147 @@
 
 
 @theme {
-  --color-midnight: #294674
+  --color-midnight: #294674;
+  --color-black: #1C2434;
+  --color-white: #FFFFFF;
+  --color-body: #64748B;
+  --color-bodydark: #AEB7C0;
+  --color-bodydark1: #DEE4EE;
+  --color-bodydark2: #8A99AF;
+  --color-primary: #3C50E0;
+  --color-secondary: #80CAEE;
+  --color-stroke: #E2E8F0;
+  --color-graydark: #333A48;
+  --color-whiten: #F1F5F9;
+  --color-whiter: #F5F7FD;
+  --color-boxdark: #24303F;
+  --color-boxdark-2: #1A222C;
+  --color-strokedark: #2E3A47;
+  --color-success: #219653;
+  --color-danger: #D34053;
+  --color-warning: #FFA70B;
+
+  --color-form-strokedark: #3d4d60;
+  --color-form-input: #1d2a39;
+
+
+  --color-gray: #EFF4FB;
+  --color-gray-2: #F7F9FC;
+  --color-gray-3: #FAFAFA;
+
+  --color-meta-1: #DC3545;
+  --color-meta-2: #EFF2F7;
+  --color-meta-3: #10B981;
+  --color-meta-4: #313D4A;
+  --color-meta-5: #259AE6;
+  --color-meta-6: #FF6766;
+  --color-meta-7: #FFA70B;
+  --color-meta-8: #F0950C;
+  --color-meta-9: #E5E7EB;
+  --color-meta-10: #0FADCF;
+
+  --text-title-xxl: 3.4375rem; /* 55px */
+  --text-title-xl: 2.8125rem;  /* 45px */
+  --text-title-xl2: 2.8125rem; /* 45px */
+  --text-title-lg: 2.1875rem;  /* 35px */
+  --text-title-md: 1.875rem;   /* 30px */
+  --text-title-md2: 1.875rem;  /* 30px */
+  --text-title-sm: 1.625rem;   /* 26px */
+  --text-title-xsm: 1.5rem;    /* 24px */
+
+  --spacing-4.5: 1.125rem;
+  --spacing-5.5: 1.375rem;
+  --spacing-6.5: 1.625rem;
+  --spacing-7.5: 1.875rem;
+  --spacing-8.5: 2.125rem;
+  --spacing-9.5: 2.375rem;
+  --spacing-10.5: 2.625rem;
+  --spacing-11: 2.75rem;
+  --spacing-11.5: 2.875rem;
+  --spacing-12.5: 3.125rem;
+  --spacing-13: 3.25rem;
+  --spacing-13.5: 3.375rem;
+  --spacing-14: 3.5rem;
+  --spacing-14.5: 3.625rem;
+  --spacing-15: 3.75rem;
+  --spacing-15.5: 3.875rem;
+  --spacing-16: 4rem;
+  --spacing-16.5: 4.125rem;
+  --spacing-17: 4.25rem;
+  --spacing-17.5: 4.375rem;
+  --spacing-18: 4.5rem;
+  --spacing-18.5: 4.625rem;
+  --spacing-19: 4.75rem;
+  --spacing-19.5: 4.875rem;
+  --spacing-21: 5.25rem;
+  --spacing-21.5: 5.375rem;
+  --spacing-22: 5.5rem;
+  --spacing-22.5: 5.625rem;
+  --spacing-24.5: 6.125rem;
+  --spacing-25: 6.25rem;
+  --spacing-25.5: 6.375rem;
+  --spacing-26: 6.5rem;
+  --spacing-27: 6.75rem;
+  --spacing-27.5: 6.875rem;
+  --spacing-29: 7.25rem;
+  --spacing-29.5: 7.375rem;
+  --spacing-30: 7.5rem;
+  --spacing-31: 7.75rem;
+  --spacing-32.5: 8.125rem;
+  --spacing-34: 8.5rem;
+  --spacing-34.5: 8.625rem;
+  --spacing-35: 8.75rem;
+  --spacing-36.5: 9.125rem;
+  --spacing-37.5: 9.375rem;
+  --spacing-39: 9.75rem;
+  --spacing-39.5: 9.875rem;
+  --spacing-40: 10rem;
+  --spacing-42.5: 10.625rem;
+  --spacing-44: 11rem;
+  --spacing-45: 11.25rem;
+  --spacing-46: 11.5rem;
+  --spacing-47.5: 11.875rem;
+  --spacing-49: 12.25rem;
+  --spacing-50: 12.5rem;
+  --spacing-52: 13rem;
+  --spacing-52.5: 13.125rem;
+  --spacing-54: 13.5rem;
+  --spacing-54.5: 13.625rem;
+  --spacing-55: 13.75rem;
+  --spacing-55.5: 13.875rem;
+  --spacing-59: 14.75rem;
+  --spacing-60: 15rem;
+  --spacing-62.5: 15.625rem;
+  --spacing-65: 16.25rem;
+  --spacing-67: 16.75rem;
+  --spacing-67.5: 16.875rem;
+  --spacing-70: 17.5rem;
+  --spacing-72.5: 18.125rem;
+  --spacing-73: 18.25rem;
+  --spacing-75: 18.75rem;
+  --spacing-90: 22.5rem;
+  --spacing-94: 23.5rem;
+  --spacing-95: 23.75rem;
+  --spacing-100: 25rem;
+  --spacing-115: 28.75rem;
+  --spacing-125: 31.25rem;
+  --spacing-132.5: 33.125rem;
+  --spacing-150: 37.5rem;
+  --spacing-171.5: 42.875rem;
+  --spacing-180: 45rem;
+  --spacing-187.5: 46.875rem;
+  --spacing-203: 50.75rem;
+  --spacing-230: 57.5rem;
+  --spacing-242.5: 60.625rem;
+ 
+  --drop-shadow-1:'0px 1px 0px #E2E8F0';
+  --drop-shadow-2:'0px 1px 4px rgba(0, 0, 0, 0.12)';
+  
 }
 
 body {
     margin: 0;
-    font-family: Roboto, serif ;
+    font-family: Roboto, sans-serif ;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
