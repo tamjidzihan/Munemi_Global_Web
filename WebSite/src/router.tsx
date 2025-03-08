@@ -40,6 +40,11 @@ import Hungary from "./components/StudyDestination/Destinations/Hungary";
 import France from "./components/StudyDestination/Destinations/France";
 import SaudiArabia from "./components/StudyDestination/Destinations/SaudiArabia";
 import Spain from "./components/StudyDestination/Destinations/Spain";
+import PrivateRoute from "./admin/PrivateRoute";
+import AdminLayout from "./admin/pages/AdminLayout";
+import SignIn from "./admin/pages/Authentication/SignIn";
+import SignUp from "./admin/pages/Authentication/SignUp";
+import { childRoutes } from "./admin/childRoutes";
 
 
 
@@ -99,5 +104,18 @@ export const router = createBrowserRouter([
                 ]
             }
         ]
-    }
+    },
+    { path: '/signin', element: <SignIn /> },
+    { path: '/signup', element: <SignUp /> },
+    {
+        path: "/adminpanel",
+        element: <PrivateRoute />,
+        children: [
+            {
+                path: "",
+                element: <AdminLayout />,
+                children: childRoutes,
+            },
+        ],
+    },
 ])
