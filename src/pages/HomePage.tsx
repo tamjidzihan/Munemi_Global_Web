@@ -1,4 +1,3 @@
-// import { ConsultationSection } from "../components/home/ConsultationSection";
 import { ConsultantFinder } from "../components/home/ConsultantFinder";
 import { Statistics } from "../components/home/Statistics";
 import { ProcessSection } from "../components/home/ProcessSection";
@@ -13,7 +12,6 @@ import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
 
 const HomePage = () => {
-
 
     const services = [
         {
@@ -42,7 +40,6 @@ const HomePage = () => {
         },
     ];
 
-
     return (
         <main className="w-full">
             <HeroSection />
@@ -54,7 +51,6 @@ const HomePage = () => {
                 </div>
             </section>
             <ImmigrationConsult />
-            {/* <ConsultationSection /> */}
             <ConsultantFinder />
             <Statistics />
             <ProcessSection />
@@ -63,7 +59,6 @@ const HomePage = () => {
             <NewsSection />
             <ConsultationForm />
             {/* <PartnerUniversities /> */}
-
         </main>
     )
 }

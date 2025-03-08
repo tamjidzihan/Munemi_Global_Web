@@ -2,12 +2,12 @@ import Hero from "../common/Hero/Hero";
 import HeroImage from "../../assets/slide-1.jpg";
 import { GraduationCap, Briefcase, Globe, Users } from "lucide-react";
 import { useState } from "react";
-import { ServiceMenuCard } from "./ServiceMenuCard";
 import bgImage1 from "../../assets/slide-2.jpg";
 import bgImage2 from "../../assets/slide-3.jpg";
 import bgImage3 from "../../assets/statistic.jpg";
 import bgImage4 from "../../assets/slide-1.jpg";
 import { Link } from "react-router-dom";
+import { MenuCard } from "../common/MenuCard/ServiceMenuCard";
 
 const academicServices = [
     { label: "Enrollment", link: "/services/enrollment" },
@@ -93,7 +93,7 @@ const Services = () => {
 
                     {services.map((service, index) => (
                         <div key={index} className="space-y-2">
-                            <ServiceMenuCard
+                            <MenuCard
                                 {...service}
                                 isActive={activeIndex === index}
                                 onClick={() => setActiveIndex(activeIndex === index ? null : index)}

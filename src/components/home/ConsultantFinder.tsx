@@ -7,11 +7,11 @@ const countries = [
     { label: "Australia", link: "/study-destination/australia" },
     { label: "United States", link: "/study-destination/unitedstates" },
     { label: "Canada", link: "/study-destination/canada" },
-    { label: "United Kindom", link: "/study-destination/unitedkingdom" },
-    { label: "New Zealand", link: "/study-destination/newzealand" },
-    { label: "United Arab Emirates", link: "/study-destination/uae" },
-    { label: "Malaysia", link: "/study-destination/malaysia" },
-    { label: "Malta", link: "/study-destination/malta" }
+    { label: "United Kingdom", link: "/study-destination/unitedkingdom" },
+    { label: "Hungary", link: "/study-destination/newzealand" },
+    { label: "France", link: "/study-destination/uae" },
+    { label: "Saudi Arabia", link: "/study-destination/malaysia" },
+    { label: "Spain", link: "/study-destination/malta" }
 ]
 
 
@@ -49,9 +49,7 @@ export function ConsultantFinder() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     viewport={{ once: true }}
                 >
-                    Cursus porta, feugiat primis in ultrice ligula risus auctor tempus
-                    dolor feugiat, felis lacinia risus interdum auctor id viverra dolor
-                    iaculis luctus placerat and massa
+                    Our consultants provide expert guidance, ensuring a smooth and stress-free immigration process with personalized support tailored to your needs.
                 </motion.p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-0 items-center">
@@ -73,15 +71,15 @@ export function ConsultantFinder() {
                                     transition={{ duration: 0.4, delay: 0.2 }}
                                     viewport={{ once: true }}
                                 >
-                                    <Link to={country.link} className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
+                                    <Link to={`/study-destination/${country.label.split(' ').join('').toLocaleLowerCase()}`} className="text-gray-600 hover:text-gray-900 text-sm sm:text-base">
                                         {country.label}
                                     </Link>
                                 </motion.li>
                             ))}
                         </ul>
-                        <a href="#" className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
+                        <Link to={'/study-destination'} className="text-midnight font-bold hover:text-blue-800 mt-4 sm:mt-6 inline-block ">
                             View All
-                        </a>
+                        </Link>
                     </motion.div>
 
                     {/* Practice Area List Animation */}

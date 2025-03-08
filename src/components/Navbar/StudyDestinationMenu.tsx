@@ -3,14 +3,14 @@ import { motion } from "framer-motion";
 
 
 const studyDestination = [
-    { label: "Australia", link: "/study-destination/australia" },
-    { label: "United States", link: "/study-destination/unitedstates" },
-    { label: "Canada", link: "/study-destination/canada" },
-    { label: "United Kingdom", link: "/study-destination/unitedkingdom" },
-    { label: "Hungary", link: "/study-destination/newzealand" },
-    { label: "France", link: "/study-destination/uae" },
-    { label: "Saudi Arabia", link: "/study-destination/malaysia" },
-    { label: "Spain", link: "/study-destination/malta" }
+    { label: "Australia" },
+    { label: "United States" },
+    { label: "Canada" },
+    { label: "United Kingdom" },
+    { label: "Hungary" },
+    { label: "France" },
+    { label: "Saudi Arabia" },
+    { label: "Spain" }
 ]
 
 const studyAbroad = [
