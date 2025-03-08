@@ -1,7 +1,11 @@
 import express from "express"
-import { getAllAppointmentBookings, createNewAppointmentBooking } from "../controllers/AppointmentBookingController"
+import { createNewAppointmentBooking, deleteAppointmentBookingData, getAllAppointmentBookings, getAppointmentBookingById, updateAppointmentBookingData } from "../controllers/appointmentBookingController"
+
 
 export default (router: express.Router) => {
-    router.get('/appointmentbooking', getAllAppointmentBookings)
-    router.post('/appointmentbooking', createNewAppointmentBooking)
+    router.get("/appointments", getAllAppointmentBookings);
+    router.post("/appointments", createNewAppointmentBooking);
+    router.get("/appointments/:id", getAppointmentBookingById);
+    router.patch("/appointments/:id", updateAppointmentBookingData);
+    router.delete("/appointments/:id", deleteAppointmentBookingData);
 }

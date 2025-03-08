@@ -3,14 +3,23 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
+import dotenv from "dotenv";
+dotenv.config();
+
+const ORIGIN = process.env.ORIGIN || "http://localhost:5173";
 
 const app: Application = express();
 
+
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type, Authorization",
+}));
+
 // Middleware
 app.use(morgan("tiny")); // log rquest enpoints
-app.use(cors({
-    origin: '*'
-}));
 app.use(cookieParser());//cookie parser
 app.use(compression());
 app.use(express.json());// body parser
