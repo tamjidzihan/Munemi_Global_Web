@@ -1,4 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+import PrivateRoute from "./admin/PrivateRoute";
+import { childRoutes } from "./admin/childRoutes";
+import AdminLayout from "./admin/pages/AdminLayout";
+import SignIn from "./admin/pages/Authentication/SignIn";
+import SignUp from "./admin/pages/Authentication/SignUp";
 import Enrollment from "./components/Services/AcademicServices/Enrollment";
 import FreeCareerCounseling from "./components/Services/AcademicServices/FreeCareerCounseling";
 import GeneralHealthInsurance from "./components/Services/AcademicServices/GeneralHealthInsurance";
@@ -24,6 +29,10 @@ import StudentVisa from "./components/Services/VisaServices/StudentVisa";
 import VisitorVisa from "./components/Services/VisaServices/VisitorVisa";
 import Australia from "./components/StudyDestination/Destinations/Australia";
 import Canada from "./components/StudyDestination/Destinations/Canada";
+import France from "./components/StudyDestination/Destinations/France";
+import Hungary from "./components/StudyDestination/Destinations/Hungary";
+import SaudiArabia from "./components/StudyDestination/Destinations/SaudiArabia";
+import Spain from "./components/StudyDestination/Destinations/Spain";
 import UnitedKingdom from "./components/StudyDestination/Destinations/UnitedKingdom";
 import UnitedStates from "./components/StudyDestination/Destinations/UnitedStates";
 import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/GlobalCareerPathway";
@@ -31,20 +40,13 @@ import NetworkingAndSocialization from "./components/StudyDestination/StudyAbroa
 import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
 import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
 import AboutPage from "./pages/AboutPage";
+import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./pages/Layout";
 import ServicesPage from "./pages/ServicesPage";
-import StudyDestination from "./pages/StudyDestinationPage";
-import ErrorPage from "./pages/ErrorPage";
-import Hungary from "./components/StudyDestination/Destinations/Hungary";
-import France from "./components/StudyDestination/Destinations/France";
-import SaudiArabia from "./components/StudyDestination/Destinations/SaudiArabia";
-import Spain from "./components/StudyDestination/Destinations/Spain";
-import PrivateRoute from "./admin/PrivateRoute";
-import AdminLayout from "./admin/pages/AdminLayout";
-import SignIn from "./admin/pages/Authentication/SignIn";
-import SignUp from "./admin/pages/Authentication/SignUp";
-import { childRoutes } from "./admin/childRoutes";
+import StudyDestinationPage from "./pages/StudyDestinationPage";
+import StudyDestination from "./components/StudyDestination/StudyDestination";
+
 
 
 
@@ -87,8 +89,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'study-destination',
-                element: <StudyDestination />,
+                element: <StudyDestinationPage />,
                 children: [
+                    { index: true, element: <StudyDestination /> },
                     { path: 'australia', element: <Australia /> },
                     { path: 'unitedstates', element: <UnitedStates /> },
                     { path: 'canada', element: <Canada /> },

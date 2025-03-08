@@ -12,25 +12,29 @@ const slides = [
         image: slide1,
         title: "IMMIGRATION & VISA CONSULTATION",
         description: "Navigate the complexities of immigration and visa applications with expert guidance.",
-        button: "Get Expert Guidance"
+        button: "Get Expert Guidance",
+        link: '/services'
     },
     {
         image: slide2,
         title: "WORK ABROAD WITH EASE",
         description: "Turn your dream of working overseas into reality with our comprehensive visa consultation services.",
-        button: "Start Your Journey"
+        button: "Start Your Journey",
+        link: '/services'
     },
     {
         image: slide3,
         title: "EXPLORE NEW OPPORTUNITIES",
         description: "Unlock a world of possibilities with personalized immigration assistance.",
-        button: "Discover Opportunities"
+        button: "Discover Opportunities",
+        link: '/services'
     },
     {
         image: slide4,
         title: "SECURE YOUR FUTURE ABROAD",
         description: "Plan your future with confidence by working with our trusted immigration specialists.",
-        button: "Plan Your Future"
+        button: "Plan Your Future",
+        link: '/services'
     },
 ];
 
@@ -80,7 +84,7 @@ const HeroCarousel = () => {
                         <p className="text-sm sm:text-lg mb-2 sm:mb-4">We have 20+ years experience in</p>
                         <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">{slides[currentIndex].title}</h1>
                         <p className="text-xs sm:text-2xl mb-4 sm:mb-8">{slides[currentIndex].description}</p>
-                        <Link to={'/'}>
+                        <Link to={slides[currentIndex].link}>
                             <button className="w-full sm:w-auto px-4 py-2 text-white hover:border hover:border-white bg-red-500 hover:bg-transparent transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm sm:text-lg text-center">
                                 {slides[currentIndex].button}
                             </button>

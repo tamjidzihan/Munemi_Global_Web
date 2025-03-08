@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import image8 from "../../assets/image_8.png"
 import overseas from "../../assets/overseas.jpg"
 
@@ -18,9 +19,7 @@ export function OverseasEducation() {
                         Looking for Quality Abroad Education?
                     </h2>
                     <p className="mb-8">
-                        Fringilla risus luctus mauris auctor purus euismod pretium purus at
-                        pretium ligula rutrum viverra tortor sapien sodales quaerat sodales
-                        sapien blandit dolores and aliquam
+                        Unlock endless opportunities with world-class education. We connect you with top universities, guiding you through every step of your study abroad journey for a seamless and enriching experience.
                     </p>
                     <div className="mb-8">
                         <h3 className="font-semibold mb-4">
@@ -54,9 +53,9 @@ export function OverseasEducation() {
                             />
                         </div>
                     </div>
-                    <button className="bg-red-500 mb-10 text-white px-6 py-3 rounded hover:bg-red-600">
+                    <Link to={'/study-destination'} className="px-4 py-2 hover:text-red-600 text-white border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center ">
                         LEARN MORE
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

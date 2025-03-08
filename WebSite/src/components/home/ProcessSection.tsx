@@ -11,10 +11,11 @@ const sections = [
         title: "GETTING A VISA",
         image: Approved,
         headLine: "We make the visa process faster",
-        description: "Semper lacus cursus porta, feugiat primis ligula risus auctor and rhoncus in ultrice ligula purus ipsum primis in cubilia augue vitae laoreet augue in cubilia augue egestas an ipsum turpis",
-        subTitle: "Cubilia augue vitae laoreet",
-        point1: "Fringilla risus nec, luctus mauris orci auctor purus euismod at pretium purus pretium ligula rutrum viverra tortor apien sodales congue magna undo pretium purus pretium an magnis nulla",
-        point2: "Quaerat sodales sapien undo euismod risus auctor egestas augue mauri undo viverra tortor sapien sodales sapien and vitae donec dolor sapien augue erat iaculis euismod"
+        description: "We provide expert guidance to simplify your visa application process, ensuring a smooth and stress-free experience. Our government-approved services guarantee accuracy, reliability, and compliance with all legal requirements.",
+        subTitle: "Reliable and Hassle-Free Visa Assistance",
+        point1: "Our team ensures every step of your application meets legal standards, reducing delays and increasing approval chances.",
+        point2: "With our professional support, you can confidently navigate complex procedures and secure your visa without unnecessary stress."
+
     },
     {
         id: 2,

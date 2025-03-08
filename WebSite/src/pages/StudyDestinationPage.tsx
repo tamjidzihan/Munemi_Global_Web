@@ -1,7 +1,7 @@
 import Breadcrumb from '../components/Breadcrumb/Breadcrumb'
 import { Outlet } from 'react-router-dom'
 
-const StudyDestination = () => {
+const StudyDestinationPage = () => {
     return (
         <>
             <div className=" bg-red-500 ">
@@ -12,4 +12,4 @@ const StudyDestination = () => {
     )
 }
 
-export default StudyDestination
+export default StudyDestinationPage

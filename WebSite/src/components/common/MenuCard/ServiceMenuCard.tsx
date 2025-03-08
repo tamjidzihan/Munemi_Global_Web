@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-interface ServiceCardProps {
+interface MenuCardProps {
     title: string;
     description: string;
     icon: any;
@@ -8,20 +8,21 @@ interface ServiceCardProps {
     onClick?: () => void;
 }
 
-export function ServiceMenuCard({
+export function MenuCard({
     title,
     description,
     icon: Icon,
     isActive = false,
     onClick,
     bgImage
-}: ServiceCardProps) {
+}: MenuCardProps) {
     return (
         <div
             className={`p-6 cursor-pointer border-2 rounded-lg transition-all duration-300 ${isActive
-                ? 'border-red-500 bg-red-50 shadow-lg'
+                ? 'border-red-500 bg-red-50 shadow-lg mb-5'
                 : 'border-gray-200 hover:border-red-200'
                 }`}
+            id={title.split(' ').join('').toLocaleLowerCase()}
             style={{ backgroundImage: `url(${bgImage})` }}
             onClick={onClick}
             role="button"

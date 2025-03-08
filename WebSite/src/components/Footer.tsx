@@ -15,9 +15,7 @@ export function Footer() {
                             className="h-30 mb-4"
                         />
                         <p className="text-gray-600 mb-4">
-                            Aliquam orci a nullam tempor undo sapien donec gravida an enim
-                            ipsum porta justo velna auctor and congue magna laoreet an augue
-                            sapien
+                            Munemi Global offers expert visa and immigration services, ensuring a smooth, hassle-free process with professional guidance and reliable support at every step.
                         </p>
                     </div>
                     <div>
@@ -37,17 +35,17 @@ export function Footer() {
                         <h3 className="font-bold text-midnight mb-4">Useful Links</h3>
                         <ul className="space-y-2">
                             {[
-                                "About Munemi Global",
-                                "Visa Information",
-                                "Immigration FAQ",
-                                "Immigration Assistance",
-                                "Munemi Global Testimonials",
-                                "Contact Us",
-                                "Terms and Conditions",
+                                { tag: "About Munemi Global", links: '/about' },
+                                { tag: "Visa Information", links: '/services' },
+                                { tag: "Immigration FAQ", links: '/services' },
+                                { tag: "Immigration Assistance", links: '/' },
+                                { tag: "Munemi Global Testimonials", links: '/' },
+                                { tag: "Contact Us", links: '/' },
+                                { tag: "Terms and Conditions", links: '/' }
                             ].map((link) => (
-                                <li key={link}>
-                                    <Link to="#" className="text-gray-600 hover:text-red-500">
-                                        {link}
+                                <li key={link.tag}>
+                                    <Link to={link.links} className="text-gray-600 hover:text-red-500">
+                                        {link.tag}
                                     </Link>
                                 </li>
                             ))}
