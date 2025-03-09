@@ -6,13 +6,11 @@ import Alert from '../../../components/Alert';
 const SignIn: React.FC = () => {
 
   const navigate = useNavigate();
-  const { login, user } = useAuth();
+  const { login, user, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [error, setError] = useState('')
-
-
 
   const handleSignIn = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,8 +23,6 @@ const SignIn: React.FC = () => {
       setShowAlert(true);
       return;
     }
-
-    // If login is successful, navigate to the admin panel
     navigate('/adminpanel');
   };
 
@@ -34,7 +30,7 @@ const SignIn: React.FC = () => {
     if (showAlert) {
       const timer = setTimeout(() => {
         setShowAlert(false);
-      }, 3000); // Hide alert after 3 seconds
+      }, 2000); // Hide alert after 2 seconds
 
       return () => clearTimeout(timer); // Cleanup function
     }
@@ -259,11 +255,36 @@ const SignIn: React.FC = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
                     type="submit"
-                    value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex justify-center items-center"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 11-8 8z"
+                        ></path>
+                      </svg>
+                    ) : (
+                      "Sign In"
+                    )}
+                  </button>
                 </div>
 
                 <div className="mt-6 text-center">

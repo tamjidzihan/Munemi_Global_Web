@@ -10,6 +10,7 @@ export interface Appointment {
     city: string;
     appointmentOffice: string;
     message?: string;
+    updatedAt: string;
     _id: string;
 }
 
@@ -40,11 +41,13 @@ const useAppointments = () => {
         setLoading(true);
         try {
             const response = await apiClint.post('/appointments', appointment);
-            setAppointments([...appointments, response.data]);
+            setAppointments((prev) => [response.data, ...prev]);
             setLoading(false);
+            return response.data;
         } catch (err) {
             setError('Failed to create appointment');
             setLoading(false);
+            throw err;
         }
     };
 

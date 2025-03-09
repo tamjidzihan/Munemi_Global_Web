@@ -12,12 +12,11 @@ const Appointments = () => {
   return (
     <>
       <Breadcrumb pageName="Appointments" />
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-10 ">
         <AppointmentsList
           allAppointments={appointments}
           deleteAppointment={deleteAppointment}
           createNewAppointment={createAppointment}
-
         />
       </div>
     </>
