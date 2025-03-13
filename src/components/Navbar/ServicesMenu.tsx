@@ -1,7 +1,8 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const academicServices = [
+export const academicServices = [
     { label: "Enrollment", link: "/services/enrollment" },
     { label: "OSHC", link: "/services/overseas-student-health-cover" },
     { label: "OVHC", link: "/services/general-health-insurance" },
@@ -10,12 +11,12 @@ const academicServices = [
     { label: "Free Career Counceling", link: "/services/free-career-counseling" }
 ]
 
-const postAcademicServices = [
+export const postAcademicServices = [
     { label: "Professional Year", link: "/services/professional-year" },
     { label: "NAATI/CCL", link: "/services/naati-pte" }
 ]
 
-const supportServices = [
+export const supportServices = [
     { label: "Tax Return", link: "/services/tax-return" },
     { label: "Airport Pikup", link: "/services/airport-pickup" },
     { label: "Accomodation", link: "/services/accommodation" },
@@ -23,12 +24,12 @@ const supportServices = [
     { label: "General Health Insurance", link: "/services/general-health-insurance" }
 ]
 
-const preDepartureServices = [
+export const preDepartureServices = [
     { label: "Pre-Departure Briefing", link: "/services/pre-departure" },
     { label: "Air-Ticketing", link: "/services/air-ticketing" }
 ]
 
-const visaServices = [
+export const visaServices = [
     { label: "Student Visa", link: "/services/student-visa" },
     { label: "Partner Visa", link: "/services/partner-visa" },
     { label: "Visitor Visa", link: "/services/visitor-visa" },
@@ -40,7 +41,7 @@ const visaServices = [
 ]
 
 
-export function ServicesMenu() {
+export default function ServicesMenu() {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }} // Start slightly below with opacity 0

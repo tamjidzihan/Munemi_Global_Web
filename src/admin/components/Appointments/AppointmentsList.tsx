@@ -4,7 +4,6 @@ import CreateAppointmentsModal from './CreateAppointmentsModal';
 
 type AppointmentsListProps = {
   allAppointments: Appointment[];
-  createNewAppointment: (appointment: Appointment) => Promise<void>;
   deleteAppointment: (id: string) => void;
 };
 
@@ -24,7 +23,7 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
     <div className="  rounded-sm border border-stroke bg-white shadow-default ">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
         <h4 className="text-xl place-self-center font-semibold text-midnight ">
-          Appointments List
+          List of Appointments Booking
         </h4>
         <button
           onClick={openModal}
@@ -56,7 +55,7 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
       {/* Create Event Modal */}
 
 
-      <div className="grid text-midnight grid-cols-6 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
+      <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
         <div className="col-span-1 flex items-center">
           <p className="font-medium">First Name</p>
         </div>
@@ -104,7 +103,7 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
               <div className="col-span-1 flex  items-center mr-3">
                 <p className=' overflow-hidden'>{appointment.appointmentOffice}</p>
               </div>
-              <div className="col-span-2 flex  place-self-center items-center mr-3">
+              <div className="col-span-2 flex items-center mr-3">
                 <p className=' overflow-hidden'>{appointment.message}</p>
               </div>
 

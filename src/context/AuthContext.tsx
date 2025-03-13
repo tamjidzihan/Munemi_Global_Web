@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import apiClint from '../services/api-clint';
+import apiClint from '../services/apiClient';
 
 interface User {
     firstName: string;

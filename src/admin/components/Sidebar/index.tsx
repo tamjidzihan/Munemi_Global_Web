@@ -143,7 +143,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/adminpanel/appointments"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('events') &&
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('appointments') &&
                     'bg-graydark dark:bg-meta-4'
                     }`}
                 >
@@ -165,11 +165,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item Appointments --> */}
 
-              {/* <!-- Menu Item Alumni --> */}
+              {/* <!-- Menu Item StudentEnquiry --> */}
               <li>
                 <NavLink
-                  to="/adminpanel/alumni"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('Alumni') && 'bg-graydark dark:bg-meta-4'
+                  to="/adminpanel/student-enquiry"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('student-enquiry') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
                   <svg
@@ -189,15 +189,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Alumni List
+                  Student Enquiry
                 </NavLink>
               </li>
-              {/* <!-- Menu Item Alumni --> */}
-
-
+              {/* <!-- Menu Item StudentEnquiry --> */}
 
               {/* <!-- Menu Item Gallery --> */}
-              <li>
+              {/* <li>
                 <NavLink
                   to="/adminpanel/gallery"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('gallery') && 'bg-graydark dark:bg-meta-4'
@@ -211,7 +209,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                   Gallery
                 </NavLink>
-              </li>
+              </li> */}
               {/* <!-- Menu Item Gallery --> */}
 
 
@@ -286,7 +284,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         </svg>
                       </NavLink>
                       {/* <!-- Dropdown Menu Start --> */}
-                      <div
+                      {/* <div
                         className={`translate transform overflow-hidden ${!open && 'hidden'
                           }`}
                       >
@@ -314,7 +312,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             </NavLink>
                           </li>
                         </ul>
-                      </div>
+                      </div> */}
                       {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
                   );
