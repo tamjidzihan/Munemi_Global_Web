@@ -1,5 +1,5 @@
 import express from "express"
-import { createAppointmentBooking, deleteAppointmentBookingById, findAppointmentBookingById, getAppointmentBookings, updateAppointmentBooking } from "../services/AppointmentBookingService"
+import { createAppointmentBooking, deleteAppointmentBookingById, findAppointmentBookingById, getAppointmentBookings } from "../services/AppointmentBookingService"
 
 
 export const getAllAppointmentBookings = async (req: Express.Request, res: express.Response) => {
@@ -113,3 +113,5 @@ export const getAppointmentBookingById = async (req: express.Request, res: expre
         res.sendStatus(400);
     }
 };
+
+

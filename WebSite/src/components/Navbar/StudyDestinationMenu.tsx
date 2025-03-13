@@ -1,19 +1,20 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 
-const studyDestination = [
-    { label: "Australia" },
-    { label: "United States" },
-    { label: "Canada" },
-    { label: "United Kingdom" },
-    { label: "Hungary" },
-    { label: "France" },
-    { label: "Saudi Arabia" },
-    { label: "Spain" }
+export const studyDestination = [
+    { label: "Australia", link: "/study-destination/australia" },
+    { label: "United States", link: "/study-destination/unitedstates" },
+    { label: "Canada", link: "/study-destination/canada" },
+    { label: "United Kingdom", link: "/study-destination/unitedkingdom" },
+    { label: "Hungary", link: "/study-destination/hungary" },
+    { label: "France", link: "/study-destination/france" },
+    { label: "Saudi Arabia", link: "/study-destination/saudiarabia" },
+    { label: "Spain", link: "/study-destination/spain" }
 ]
 
-const studyAbroad = [
+export const studyAbroad = [
     { label: "Study Guides", link: "/study-destination/studyguides" },
     { label: "Global Career Pathway", link: "/study-destination/global-career-pathway" },
     { label: "Study Abroad FAQ", link: "/study-destination/study-abroad-faq" },

@@ -1,6 +1,7 @@
 import PageTitle from "./components/PageTitle";
 import Appointments from "./pages/Appointment/Appointments";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
+import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 // import AlumniList from "./pages/AlumniList/AlumniList";
 // import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 // import Events from "./pages/Events/Events";
@@ -29,15 +30,15 @@ export const childRoutes = [
             </>
         ),
     },
-    // {
-    //     path: "alumni",
-    //     element: (
-    //         <>
-    //             <PageTitle title="Alumni List | Modarate Alumni List" />
-    //             <AlumniList />
-    //         </>
-    //     ),
-    // },
+    {
+        path: "student-enquiry",
+        element: (
+            <>
+                <PageTitle title="Student Enquiry List | Modarate Student Enquiry List" />
+                <StudentEnquiry />
+            </>
+        ),
+    },
     // {
     //     path: "gallery",
     //     element: (

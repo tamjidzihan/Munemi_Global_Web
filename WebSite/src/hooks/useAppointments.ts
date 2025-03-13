@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
-import apiClint from '../services/api-clint';
+import apiClint from '../services/apiClient';
 
 export interface Appointment {
     firstName: string;
@@ -18,7 +18,7 @@ const useAppointments = () => {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
+    const totalAppointments = appointments.length;
     // Fetch all appointments
     useEffect(() => {
         setLoading(true);
@@ -81,6 +81,7 @@ const useAppointments = () => {
     };
 
     return {
+        totalAppointments,
         appointments,
         loading,
         error,

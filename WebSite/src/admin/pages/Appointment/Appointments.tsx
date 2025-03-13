@@ -5,18 +5,17 @@ import AppointmentsList from "../../components/Appointments/AppointmentsList";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 
 const Appointments = () => {
-  const { appointments, createAppointment, deleteAppointment, loading } = useAppointments()
+  const { appointments, deleteAppointment, loading } = useAppointments()
 
   if (loading) return <Loader />
 
   return (
     <>
-      <Breadcrumb pageName="Appointments" />
+      <Breadcrumb pageName="Appointments Booking" />
       <div className="flex flex-col gap-10 ">
         <AppointmentsList
           allAppointments={appointments}
           deleteAppointment={deleteAppointment}
-          createNewAppointment={createAppointment}
         />
       </div>
     </>
