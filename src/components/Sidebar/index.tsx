@@ -91,7 +91,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item Home --> */}
 
-              {/* <!-- Menu Item Site Settings --> */}
+              {/* <!-- Menu Item services --> */}
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/services' || pathname.includes('services')
@@ -146,12 +146,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Menu Item Site Settings --> */}
+              {/* <!-- Menu Item services --> */}
 
-              {/* <!-- Menu Item Site Settings --> */}
+              {/* <!-- Menu Item Study Destination --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/services' || pathname.includes('services')
+                  pathname === '/study-destination' || pathname.includes('study-destination')
                 }
               >
                 {(handleClick, open) => {
@@ -200,7 +200,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Menu Item Site Settings --> */}
+              {/* <!-- Menu Item Study Destination --> */}
 
               {/* <!-- Menu Item ABOUT US --> */}
               <li>
