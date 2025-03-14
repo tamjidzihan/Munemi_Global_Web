@@ -63,17 +63,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-background duration-300 ease-linear bg-midnight lg:hidden lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-background duration-300 ease-linear bg-white lg:hidden lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
 
 
-      <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+      <div className="no-scrollbar mt-5 flex flex-col overflow-y-auto duration-300 ease-linear">
         {/* <!-- Sidebar Menu --> */}
         <nav className=" py-4 px-4 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-midnight">
               MENU
             </h3>
 
@@ -83,7 +83,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 $`}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-midnight duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 $`}
                 >
                   Home
                 </NavLink>
@@ -101,7 +102,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out`}
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
@@ -133,11 +134,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           }`}
                       >
                         <ul className=" flex flex-col gap-2.5 pl-6">
-                          <SideMenuListItem name='Academic Services' listItem={academicServices} />
-                          <SideMenuListItem name='Post-Academic Services' listItem={postAcademicServices} />
-                          <SideMenuListItem name='Support Services' listItem={supportServices} />
-                          <SideMenuListItem name='Pre Departure Services' listItem={preDepartureServices} />
-                          <SideMenuListItem name='Visa Services' listItem={visaServices} />
+                          <SideMenuListItem name='Academic Services' listItem={academicServices} setSidebarOpen={setSidebarOpen} />
+                          <SideMenuListItem name='Post-Academic Services' listItem={postAcademicServices} setSidebarOpen={setSidebarOpen} />
+                          <SideMenuListItem name='Support Services' listItem={supportServices} setSidebarOpen={setSidebarOpen} />
+                          <SideMenuListItem name='Pre Departure Services' listItem={preDepartureServices} setSidebarOpen={setSidebarOpen} />
+                          <SideMenuListItem name='Visa Services' listItem={visaServices} setSidebarOpen={setSidebarOpen} />
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -158,7 +159,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out`}
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
                         onClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded
@@ -166,7 +167,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             : setSidebarExpanded(true);
                         }}
                       >
-                        STUDY DESTINATION
+                        Study Destination
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                             }`}
@@ -190,8 +191,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           }`}
                       >
                         <ul className=" flex flex-col gap-2.5 pl-6">
-                          <SideMenuListItem name='Study Destination' listItem={studyDestination} />
-                          <SideMenuListItem name=' Study Abroad' listItem={studyAbroad} />
+                          <SideMenuListItem name='Study Destination' listItem={studyDestination} setSidebarOpen={setSidebarOpen} />
+                          <SideMenuListItem name=' Study Abroad' listItem={studyAbroad} setSidebarOpen={setSidebarOpen} />
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -205,9 +206,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/about"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out`}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
                 >
-                  ABOUT US
+                  About Us
                 </NavLink>
               </li>
               {/* <!-- Menu Item ABOUT US --> */}
@@ -216,7 +218,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out`}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
                 >
                   Blogs
                 </NavLink>
@@ -229,7 +231,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
           {/* <!-- Others Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-midnight">
               OTHERS
             </h3>
 
