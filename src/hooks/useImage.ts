@@ -2,28 +2,23 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-interface UploadImageResponse {
+export interface UploadImageResponse {
     secure_url: string;
     public_id: string;
 }
-
 interface UseImageUploadDelete {
-    imageUrl: string | null;
-    publicId: string | null;
     loading: boolean;
     error: string | null;
     uploadImage: (file: File) => void;
     deleteImage: (publicId: string) => void;
 }
 
-const CLOUDINARY_UPLOAD_URL = import.meta.env.CLOUDINARY_UPLOAD_URL
-const CLOUDINARY_DESTROY_URL = import.meta.env.CLOUDINARY_DESTROY_URL
-const CLOUDINARY_API_KEY = import.meta.env.CLOUDINARY_API_KEY
-const CLOUDINARY_UPLOAD_PRESET = import.meta.env.CLOUDINARY_UPLOAD_PRESET
+const CLOUDINARY_UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL
+const CLOUDINARY_DESTROY_URL = import.meta.env.VITE_DESTROY_URL
+const CLOUDINARY_API_KEY = import.meta.env.VITE_CLOUDINARYAPIKEY
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET
 
 export const useImageUploadDelete = (): UseImageUploadDelete => {
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
-    const [publicId, setPublicId] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -43,8 +38,7 @@ export const useImageUploadDelete = (): UseImageUploadDelete => {
                 },
             });
             const data = response.data as UploadImageResponse;
-            setImageUrl(data.secure_url);
-            setPublicId(data.public_id);
+            return data
         } catch (err) {
             setError('Error uploading image');
         } finally {
@@ -57,6 +51,7 @@ export const useImageUploadDelete = (): UseImageUploadDelete => {
         setLoading(true);
         setError(null);
 
+
         try {
             await axios.post(
                 CLOUDINARY_DESTROY_URL,
@@ -65,7 +60,7 @@ export const useImageUploadDelete = (): UseImageUploadDelete => {
                     api_key: CLOUDINARY_API_KEY,
                 }
             );
-            setImageUrl(null);
+
         } catch (err) {
             setError('Error deleting image');
         } finally {
@@ -74,8 +69,6 @@ export const useImageUploadDelete = (): UseImageUploadDelete => {
     };
 
     return {
-        imageUrl,
-        publicId,
         loading,
         error,
         uploadImage,

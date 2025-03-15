@@ -54,6 +54,17 @@ const useOffer = () => {
         }
     }
 
+    const deleteoffers = async (id: string) => {
+        setLoading(true)
+        try {
+            await apiClient.delete(`/offers/${id}`);
+            setOffers((prev) => prev.filter((offer) => offer._id !== id))
+            setLoading(false)
+        } catch (err) {
+            setError('Failed to delete Offers')
+            setLoading(false)
+        }
+    }
 
     return {
         totalOffers,
@@ -61,8 +72,8 @@ const useOffer = () => {
         loading,
         error,
         setOffers,
-        createOffers
-
+        createOffers,
+        deleteoffers
     }
 
 
