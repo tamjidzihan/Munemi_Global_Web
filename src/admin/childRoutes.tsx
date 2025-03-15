@@ -1,6 +1,7 @@
 import PageTitle from "./components/PageTitle";
 import Appointments from "./pages/Appointment/Appointments";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
+import Offers from "./pages/Offers/Offers";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 // import AlumniList from "./pages/AlumniList/AlumniList";
 // import DashboardIndex from "./pages/Dashboard/DashboardIndex";
@@ -39,15 +40,15 @@ export const childRoutes = [
             </>
         ),
     },
-    // {
-    //     path: "gallery",
-    //     element: (
-    //         <>
-    //             <PageTitle title="Gallery | Photo Gallery" />
-    //             <Gallery />
-    //         </>
-    //     ),
-    // },
+    {
+        path: "offers",
+        element: (
+            <>
+                <PageTitle title="Offers | Manage your Offers Here" />
+                < Offers />
+            </>
+        ),
+    },
     // {
     //     path: "sitesettings/content",
     //     element: (
