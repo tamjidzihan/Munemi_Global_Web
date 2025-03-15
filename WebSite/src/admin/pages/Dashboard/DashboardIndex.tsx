@@ -4,12 +4,14 @@ import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import useAppointments from '../../../hooks/useAppointments';
 import useStudentEnquiries from '../../../hooks/useStudentEnquiry';
+import useOffer from '../../../hooks/useOffers';
 
 
 const DashboardIndex: React.FC = () => {
   const { user } = useAuth()
   const { totalAppointments } = useAppointments()
   const { totalEnquiries } = useStudentEnquiries()
+  const { totalOffers } = useOffer()
 
   return (
     <>
@@ -57,30 +59,16 @@ const DashboardIndex: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Posted jobs (Demo)" total="0" rate="2.59%" levelUp>
-          <svg
-            className="fill-primary "
-            width="22"
-            height="22"
-            viewBox="0 0 512 512"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g>
-              <g>
-                <path
-                  d="M495.304,101.652H351.196v-41.43c0-9.22-7.475-16.696-16.696-16.696H177.499c-9.22,0-16.696,7.475-16.696,16.696v41.43
-        H16.696C7.475,101.652,0,109.127,0,118.347v155.268c0,9.22,7.475,16.696,16.696,16.696h0.321v161.467
-        c0,9.22,7.475,16.696,16.696,16.696h444.576c9.22,0,16.696-7.475,16.696-16.696V290.311h0.321c9.22,0,16.696-7.475,16.696-16.696
-        V118.347C512,109.127,504.525,101.652,495.304,101.652z M194.195,76.917h123.611v24.734H194.195V76.917z M461.592,435.084H50.408
-        V290.311h147.351v7.111c0,32.115,26.128,58.241,58.241,58.241s58.241-26.128,58.241-58.241v-7.111h147.351V435.084z
-        M231.15,297.423c0-16.568,0-29.418,0-45.678h49.7c0,16.281,0,29.111,0,45.678c0,13.703-11.148,24.85-24.85,24.85
-        C242.298,322.272,231.15,311.124,231.15,297.423z M478.609,256.92h-0.321H314.241v-21.871c0-9.22-7.475-16.696-16.696-16.696
-        h-83.091c-9.22,0-16.696,7.475-16.696,16.696v21.871H33.712h-0.321V135.043h445.217V256.92z"
-                />
-              </g>
-            </g>
-          </svg>
-        </CardDataStats>
+
+        <Link to={'/adminpanel/offers'}>
+          <CardDataStats title="Offers" total={totalOffers.toString()} rate="2.59%" levelUp>
+            <svg className="w-[30px] h-[30px] text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.193-.538 1.193H5.538c-.538 0-.538-.6-.538-1.193 0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365Zm-8.134 5.368a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M8.54 17.901a3.48 3.48 0 0 0 6.92 0H8.54Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+
         <CardDataStats title="Total Amount (Demo)" total="45,2K" rate="4.35%" levelUp>
           <svg
             className="fill-primary "

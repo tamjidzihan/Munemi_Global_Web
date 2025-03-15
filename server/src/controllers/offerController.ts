@@ -14,6 +14,7 @@ export const getAllOffers = async (req: express.Request, res: express.Response) 
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
+        return
     }
 };
 
@@ -31,10 +32,7 @@ export const createNewOffer = async (req: express.Request, res: express.Response
             startDate,
             endDate,
             termsAndConditions,
-            image: {
-                publicId: image.publicId,
-                imageUrl: image.imageUrl
-            },
+            image: image ? { publicId: image.publicId, imageUrl: image.imageUrl } : null,
             isActive: isActive ?? true, // Default to true
         });
 
@@ -42,8 +40,12 @@ export const createNewOffer = async (req: express.Request, res: express.Response
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
+        return
+
     }
 };
+
+
 
 export const updateOfferData = async (req: express.Request, res: express.Response) => {
     try {
@@ -56,10 +58,7 @@ export const updateOfferData = async (req: express.Request, res: express.Respons
             startDate,
             endDate,
             termsAndConditions,
-            image: {
-                publicId: image.publicId,
-                imageUrl: image.imageUrl
-            },
+            image: image ? { publicId: image.publicId, imageUrl: image.imageUrl } : null,
             isActive,
         });
 
@@ -72,6 +71,8 @@ export const updateOfferData = async (req: express.Request, res: express.Respons
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
+        return
+
     }
 };
 
@@ -88,6 +89,8 @@ export const deleteOfferData = async (req: express.Request, res: express.Respons
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
+        return
+
     }
 };
 
@@ -104,5 +107,7 @@ export const getOfferById = async (req: express.Request, res: express.Response) 
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
+        return
+
     }
 };
