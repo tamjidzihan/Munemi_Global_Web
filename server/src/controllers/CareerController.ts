@@ -1,5 +1,6 @@
 import express from "express";
 import { createCareer, deleteCareerById, findCareerById, getCareers } from "../services/CareerService";
+import { deleteImageFromCloudinary } from "../helpers";
 
 export const getAllCareers = async (req: express.Request, res: express.Response) => {
     try {
@@ -40,7 +41,17 @@ export const createNewCareer = async (req: express.Request, res: express.Respons
             res.status(400).json({ message: "Invalid job type." });
             return;
         }
-        const newCareer = await createCareer({ firstName, lastName, phone, email, country, currentAddress, idCard, resume, jobType });
+        const newCareer = await createCareer({
+            firstName,
+            lastName,
+            phone,
+            email,
+            country,
+            currentAddress,
+            idCard: idCard ? { publicId: idCard.publicId, imageUrl: idCard.imageUrl } : null,
+            resume,
+            jobType
+        });
         res.status(200).json(newCareer);
     } catch (error) {
         console.log(error);
@@ -74,8 +85,8 @@ export const updateCareerById = async (req: express.Request, res: express.Respon
         career.email = email;
         career.country = country;
         career.currentAddress = currentAddress;
-        career.idCard = idCard;
-        career.resume = resume;
+        career.idCard = idCard ? { publicId: idCard.publicId, imageUrl: idCard.imageUrl } : null,
+            career.resume = resume;
         career.jobType = jobType;
 
         await career.save();
@@ -89,6 +100,21 @@ export const updateCareerById = async (req: express.Request, res: express.Respon
 export const deleteCareer = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
+
+        const career = await findCareerById(id)
+        if (!career) {
+            res.status(404).json({ message: 'Career not found' });
+            return
+        }
+        const publicId = career.idCard.publicId
+
+        // Delete the image from Cloudinary
+        const imageDeleted = await deleteImageFromCloudinary(publicId);
+        if (!imageDeleted) {
+            res.status(500).json({ message: 'Failed to delete image from Cloudinary' });
+            return
+        }
+
         const deletedCareer = await deleteCareerById(id);
         if (!deletedCareer) {
             res.status(404).json({ message: "Career not found" });

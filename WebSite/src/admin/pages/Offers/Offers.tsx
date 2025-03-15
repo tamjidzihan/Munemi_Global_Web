@@ -5,7 +5,7 @@ import OffersList from "../../components/Offers/OffersList"
 
 
 const Offers = () => {
-    const { offers, loading } = useOffers()
+    const { offers, deleteoffers, loading } = useOffers()
 
     if (loading) return <Loader />
 
@@ -15,6 +15,7 @@ const Offers = () => {
             <div className="flex flex-col gap-10 ">
                 <OffersList
                     allOffers={offers}
+                    deleteOffer={deleteoffers}
                 />
             </div>
         </>

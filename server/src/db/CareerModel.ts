@@ -7,7 +7,10 @@ const CareerSchema = new mongoose.Schema({
     email: { type: String, required: true },
     country: { type: String, required: true },
     currentAddress: { type: String, required: true },
-    idCard: { type: String },
+    idCard: {
+        publicId: { type: String },
+        imageUrl: { type: String }
+    },
     resume: { type: String, required: true },
     jobType: { type: String, required: true, enum: ["Full Time", "Part Time ", "Casual", "Intership"] },
 }, { timestamps: true })
