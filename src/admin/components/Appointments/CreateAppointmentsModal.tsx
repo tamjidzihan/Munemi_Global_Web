@@ -59,8 +59,8 @@ const CreateAppointmentsModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        <div className=" py-4 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
                 <h3 className="text-xl font-semibold mb-4">Create New Appointment</h3>
                 <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">

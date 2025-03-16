@@ -1,34 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { OfferProps } from "../../../hooks/useOffers";
+import { CareerProps } from "../../../hooks/useCareer";
 import { useImageUploadDelete } from "../../../hooks/useImage";
 
-
-type CreateOfferModalProps = {
+type CreateCareerModelProps = {
     isOpen: boolean;
     closeModal: () => void;
-    addNewOffer: (newOffer: OfferProps) => void;
-    createOffer: (offer: OfferProps) => Promise<void>
+    addNewCareer: (newCareer: CareerProps) => void;
+    createCareer: (career: CareerProps) => Promise<void>
 }
 
-const CreateOffersModal = ({
+const CreateCareerModel = ({
     isOpen,
     closeModal,
-    addNewOffer,
-    createOffer,
-}: CreateOfferModalProps) => {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [termsAndConditions, setTermsAndConditions] = useState('')
-    const [isActive, setIsActive] = useState<boolean>(true)
+    addNewCareer,
+    createCareer,
+}: CreateCareerModelProps) => {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const [country, setCountry] = useState('')
+    const [currentAddress, setcurrentAddress] = useState('')
+    const [resume, setResume] = useState('Whats App')
+    const [jobType, setJobType] = useState("Full Time");
     const [loading, setLoading] = useState(false);
-
 
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-
     const { uploadImage, loading: imageLoading } = useImageUploadDelete();
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,106 +42,137 @@ const CreateOffersModal = ({
         e.preventDefault();
         setLoading(true); // Start loading
 
-        if (!title || !description || !startDate || !endDate) {
+        if (!firstName || !lastName || !phone || !email || !country || !currentAddress || !jobType || !resume) {
             alert("All fields are required.");
+            setLoading(false);
             return;
         }
 
-        if (selectedImage) {
-            const imageFile: any = await uploadImage(selectedImage);
-            const newOffer: OfferProps = {
-                title,
-                description,
-                startDate,
-                endDate,
-                termsAndConditions,
-                image: {
-                    publicId: imageFile.public_id,
-                    imageUrl: imageFile.secure_url
-                },
-                isActive,
-                updatedAt: "",
-                _id: "",
-            };
-
-            try {
-                await createOffer(newOffer);
-                addNewOffer(newOffer);
-                closeModal();
-            } catch (error) {
-                console.log(error)
-                alert("Failed to create appointment.");
-            } finally {
-                setLoading(false); // Stop loading
-                setTitle('')
-                setDescription('')
-                setStartDate('')
-                setEndDate('')
-                setTermsAndConditions('')
-                setIsActive(true)
-                setSelectedImage(null)
-            }
+        if (!selectedImage) {
+            alert("Image is required.");
+            setLoading(false);
+            return;
         }
 
+        const imageFile: any = await uploadImage(selectedImage);
+        const newCareer: CareerProps = {
+            firstName,
+            lastName,
+            phone,
+            email,
+            country,
+            currentAddress,
+            idCard: {
+                publicId: imageFile.public_id,
+                imageUrl: imageFile.secure_url
+            },
+            resume,
+            jobType,
+            updatedAt: "",
+            _id: "",
+        };
+        try {
+            await createCareer(newCareer);
+            addNewCareer(newCareer);
+            closeModal();
+        } catch (error) {
+            console.log(error)
+            alert("Failed to create career.");
+        } finally {
+            setLoading(false); // Stop loading
+            setFirstName('')
+            setLastName('')
+            setPhone('')
+            setEmail('')
+            setCountry('')
+            setcurrentAddress('')
+            setResume('Whats App')
+            setSelectedImage(null)
+        }
     };
-
-
-
-
     if (!isOpen) return null;
+
     return (
-        <div className="inset-0 py-10 flex items-center justify-center bg-gray-200  shadow-2xl">
+        <div className=" inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
                 <h3 className="text-xl font-semibold mb-4">Create New Offer</h3>
                 <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Title</label>
+                        <label className="block text-sm font-medium mb-2">First Name</label>
                         <input
                             type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Your First Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Description</label>
+                        <label className="block text-sm font-medium mb-2">Last Name</label>
+                        <input
+                            type="text"
+                            placeholder="Your Last Name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                            disabled={loading}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Phone</label>
+                        <input
+                            type="tel"
+                            placeholder="Your Phone number"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                            disabled={loading}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Email</label>
+                        <input
+                            type="email"
+                            placeholder="Your Email Address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                            disabled={loading}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Country</label>
+                        <input
+                            type="text"
+                            placeholder="Country Name"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                            disabled={loading}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Your Current Address</label>
                         <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                            value={currentAddress}
+                            onChange={(e) => setcurrentAddress(e.target.value)}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             rows={3}
                             disabled={loading}
                         />
                     </div>
-                    <div className=" grid grid-cols-2 space-x-5">
-                        <div className=" col-span-1 mb-4">
-                            <label className="block text-sm font-medium mb-2">Start Date</label>
-                            <input
-                                type="date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                                className="w-full p-2 border  border-gray-300 rounded-md focus:outline-blue-500"
-                                disabled={loading}
-                                required
-                            />
-                        </div>
-                        <div className=" col-span-1 mb-4">
-                            <label className="block text-sm font-medium mb-2">End Date</label>
-                            <input
-                                type="date"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                disabled={loading}
-                                required
-                            />
-                        </div>
+                    <div className="grid grid-cols-2 space-x-5">
                         <div className="col-span-2 mb-4">
-                            <div className="rounded-sm border border-stroke bg-white shadow-default ">
-                                <div className="border-b border-stroke py-4 px-7 ">
-                                    <h3 className="font-medium text-black ">
+                            <div className="rounded-sm border border-stroke bg-white shadow-default">
+                                <div className="border-b border-stroke py-4 px-7">
+                                    <h3 className="font-medium text-black">
                                         Upload Cover Photo
                                     </h3>
                                 </div>
@@ -162,12 +192,13 @@ const CreateOffersModal = ({
                                             )}
                                         </div>
                                     )}
-                                    <div className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4  sm:py-7.5">
+                                    <div className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4 sm:py-7.5">
                                         <input
+                                            required
                                             type="file"
                                             accept="image/*"
                                             onChange={handleImageChange}
-                                            className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0  focus:outline-blue-500"
+                                            className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 focus:outline-blue-500"
                                         />
                                         <div className="flex flex-col items-center justify-center space-y-3">
                                             <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white ">
@@ -182,7 +213,7 @@ const CreateOffersModal = ({
                                                         <path
                                                             fillRule="evenodd"
                                                             clipRule="evenodd"
-                                                            d="M1.99967 9.33337C2.36786 9.33337 2.66634 9.63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
+                                                            d="M1.99967 9.33337C2.36786 9.33337 2.66634 9 .63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
                                                             fill="#3C50E0"
                                                         />
                                                         <path
@@ -226,27 +257,22 @@ const CreateOffersModal = ({
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Terms And Conditions</label>
-                        <input
-                            type="text"
-                            value={termsAndConditions}
-                            onChange={(e) => setTermsAndConditions(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                            disabled={loading}
-                            required
-                        />
+                        <label className="block text-sm font-medium mb-2">Resume</label>
+                        <select value={resume} onChange={(e) => setResume(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md">
+                            < option value="Whats App">Whats App</option>
+                            <option value="Email">Email</option>
+                        </select>
                     </div>
-                    <div className="flex items-center mb-4">
-                        <input
-                            id="default-checkbox"
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 "
-                            type="checkbox"
-                            checked={isActive}
-                            onChange={(e) => setIsActive(e.target.checked)}
-                            disabled={loading}
-
-                        />
-                        <label className="ms-2 text-sm font-medium ">Offer Status</label>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Job Type</label>
+                        <select value={jobType} onChange={(e) => setJobType(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md">
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Internship">Internship</option>
+                        </select>
                     </div>
                     <div className="flex justify-between">
                         <button
@@ -268,14 +294,14 @@ const CreateOffersModal = ({
                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                 </svg>
                             ) : (
-                                "Create Appointment"
+                                "Create Career"
                             )}
                         </button>
                     </div>
                 </form>
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
 
-export default CreateOffersModal
+export default CreateCareerModel

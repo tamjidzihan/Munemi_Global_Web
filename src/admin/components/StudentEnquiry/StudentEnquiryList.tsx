@@ -104,14 +104,14 @@ const StudentEnquiryList = ({ allStudentEnquiry, deleteStudentEnquiry }: Student
                                     <p className=' overflow-hidden'>{studentEnquiry.address}</p>
                                 </div>
                                 <div className="col-span-2 flex items-center text-sm mr-3">
-                                    <p className=' overflow-hidden'>
+                                    <div className=' overflow-hidden'>
                                         <ul className=" list-decimal">
                                             <li>{studentEnquiry.que1}</li>
                                             <li>{studentEnquiry.que2}</li>
                                             <li>{studentEnquiry.que3}</li>
 
                                         </ul>
-                                    </p>
+                                    </div>
                                 </div>
 
 
