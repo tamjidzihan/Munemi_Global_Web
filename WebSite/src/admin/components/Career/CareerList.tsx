@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { formatDate, truncateText } from "../../../helpers/helpers";
-import useOffer, { OfferProps } from "../../../hooks/useOffers";
-import CreateOffersModal from "./CreateOffersModel";
+import useCareer, { CareerProps } from "../../../hooks/useCareer"
 import { Minus } from "lucide-react";
+import CreateCareerModel from "./CreateCareerModel";
 
-type OffersListProps = {
-    allOffers: OfferProps[];
-    deleteOffer: (id: string) => void;
+type CareerListProps = {
+    allCareer: CareerProps[];
+    deleteCareer: (id: string) => void;
 }
 
-const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
-    const { createOffers } = useOffer()
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [offersList, setOffersList] = useState<OfferProps[]>(allOffers)
 
-    const addNewOffer = (newOffers: OfferProps) => {
-        setOffersList(prevOffers => [newOffers, ...prevOffers])
+const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
+    const { createCareer } = useCareer()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [careerList, setCareerList] = useState<CareerProps[]>(allCareer)
+
+    const addNewCareer = (newCareers: CareerProps) => {
+        setCareerList(prevCareers => [newCareers, ...prevCareers])
     }
     const closeModal = () => setIsModalOpen(false);
 
@@ -48,36 +48,40 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                 </button>
             </div>
 
-            {/* Create Event Modal */}
-
-            <CreateOffersModal
-                addNewOffer={addNewOffer}
+            {/* Create Career Modal */}
+            <CreateCareerModel
+                addNewCareer={addNewCareer}
                 isOpen={isModalOpen}
                 closeModal={closeModal}
-                createOffer={createOffers}
+                createCareer={createCareer}
             />
+            {/* Create Career Modal */}
 
-            {/* Create Event Modal */}
 
-
-            <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
+            <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Title</p>
-                </div>
-                <div className="col-span-3 flex items-center">
-                    <p className="font-medium">Description</p>
+                    <p className="font-medium">firstName</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Start-Date</p>
+                    <p className="font-medium">lastName</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">End-Date</p>
+                    <p className="font-medium">phone</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Status</p>
+                    <p className="font-medium">email</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">Image</p>
+                    <p className="font-medium">country and currentAddress</p>
+                </div>
+                <div className="col-span-1 flex items-center">
+                    <p className="font-medium">jobType</p>
+                </div>
+                <div className="col-span-1 flex items-center">
+                    <p className="font-medium">resume</p>
+                </div>
+                <div className="col-span-2 flex items-center">
+                    <p className="font-medium">idCard</p>
                 </div>
                 <div className="col-span-1 flex items-center">
                     <p className="font-medium">Action</p>
@@ -85,34 +89,40 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
             </div>
 
             {/* List of Events */}
-            {offersList.length > 0 ? (
-                offersList
+            {careerList.length > 0 ? (
+                careerList
                     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-                    .map((offer: OfferProps) => (
+                    .map((career: CareerProps) => (
                         <div
-                            key={offer._id}
-                            className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5"
+                            key={career._id}
+                            className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5"
                         >
                             <div className="col-span-1 flex  items-center mr-3">
-                                <p className=' overflow-hidden'>{offer.title || "N/A"}</p>
-                            </div>
-                            <div className="col-span-3 text-sm flex items-center mr-3">
-                                <p className="line-clamp-3 overflow-hidden pr-5">{truncateText(offer.description) || "N/A"}</p>
+                                <p className=' overflow-hidden'>{career.firstName || "N/A"}</p>
                             </div>
                             <div className="col-span-1 flex  items-center mr-3">
-                                <p className='overflow-hidden'>{formatDate(offer.startDate)}</p>
+                                <p className=' overflow-hidden'>{career.lastName || "N/A"}</p>
                             </div>
                             <div className="col-span-1 flex  items-center mr-3">
-                                <p className='overflow-hidden'>{formatDate(offer.endDate)}</p>
+                                <p className=' overflow-hidden'>{career.phone || "N/A"}</p>
                             </div>
-                            <div className={`col-span-1 flex items-center mr-3 font-bold ${offer.isActive ? `text-green-700` : ` text-red-600`}`}>
-                                <p className="overflow-hidden">{offer.isActive ? "Active" : "Inactive"}</p>
+                            <div className="col-span-1 flex  items-center mr-3">
+                                <p className=' overflow-hidden'>{career.email || "N/A"}</p>
+                            </div>
+                            <div className="col-span-2 flex  items-center mr-3">
+                                <p className=' overflow-hidden'>{career.country || "N/A"}<br /> {career.currentAddress || "N/A"}</p>
+                            </div>
+                            <div className="col-span-1 flex  items-center mr-3">
+                                <p className=' overflow-hidden'>{career.jobType || "N/A"}</p>
+                            </div>
+                            <div className="col-span-1 flex items-center mr-3">
+                                <p className="font-medium">{career.resume || "N/A"}</p>
                             </div>
                             <div className="col-span-2 flex items-center mr-3">
-                                {offer.image
+                                {career.idCard
                                     ?
                                     <img
-                                        src={offer.image?.imageUrl || undefined}
+                                        src={career.idCard.imageUrl || undefined}
                                         alt="Offer"
                                         className="w-full h-25 object-cover rounded-lg"
                                     />
@@ -120,6 +130,8 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                     <p className="line-clamp-3 overflow-hidden">No Image</p>
                                 }
                             </div>
+
+                            {/* Actions */}
                             <div className="col-span-1 flex items-center">
                                 <div className="flex items-center space-x-3.5">
                                     {/* View AppointMent */}
@@ -155,7 +167,7 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                     {/* Delete AppointMent */}
                                     <button
                                         className="hover:text-danger cursor-pointer"
-                                        onClick={() => deleteOffer(offer._id)}
+                                        onClick={() => deleteCareer(career._id)}
                                     >
                                         <svg
                                             className="fill-current"
@@ -186,6 +198,8 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                     {/* Delete AppointMent */}
                                 </div>
                             </div>
+                            {/* Actions */}
+
                         </div>
                     ))
             ) : (
@@ -197,4 +211,4 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
     )
 }
 
-export default OffersList
+export default CareerList

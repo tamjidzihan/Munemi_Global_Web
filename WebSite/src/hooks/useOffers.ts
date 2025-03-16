@@ -75,11 +75,6 @@ const useOffer = () => {
         createOffers,
         deleteoffers
     }
-
-
-
-
-
 }
 
 export default useOffer;

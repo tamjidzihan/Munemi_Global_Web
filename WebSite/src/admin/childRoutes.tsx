@@ -1,5 +1,6 @@
 import PageTitle from "./components/PageTitle";
 import Appointments from "./pages/Appointment/Appointments";
+import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 import Offers from "./pages/Offers/Offers";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
@@ -49,15 +50,15 @@ export const childRoutes = [
             </>
         ),
     },
-    // {
-    //     path: "sitesettings/content",
-    //     element: (
-    //         <>
-    //             <PageTitle title="Site Content | Modarate Site content" />
-    //             <SiteContent />
-    //         </>
-    //     ),
-    // },
+    {
+        path: "career",
+        element: (
+            <>
+                <PageTitle title="Career | Modarate Job Application Here" />
+                <Career />
+            </>
+        ),
+    },
     // {
     //     path: "sitesettings/contact",
     //     element: (

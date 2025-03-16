@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useAppointments, { Appointment } from '../../../hooks/useAppointments';
 import CreateAppointmentsModal from './CreateAppointmentsModal';
+import { Minus } from 'lucide-react';
 
 type AppointmentsListProps = {
   allAppointments: Appointment[];
@@ -16,7 +17,6 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
     setappointmentslist(prevAppointments => [newAppointment, ...prevAppointments])
   }
 
-  const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
@@ -26,23 +26,26 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
           List of Appointments Booking
         </h4>
         <button
-          onClick={openModal}
-          className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-8 cursor-pointer hover:text-gray-50"
-        >
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-          </span>
-          Create New Appointments
+          onClick={() => isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true)}
+          className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? `bg-red-500 hover:bg-red-600` : `bg-primary`} py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-8 cursor-pointer hover:text-gray-50`
+          }>
+          {isModalOpen ?
+            <Minus />
+            : <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </span>}
+          {isModalOpen ? `Cancel` : ` Create New Appointments`}
         </button>
+
       </div>
 
       {/* Create Event Modal */}

@@ -34,7 +34,7 @@ export const createNewCareer = async (req: express.Request, res: express.Respons
         const { firstName, lastName, phone, email, country, currentAddress, idCard, resume, jobType } = req.body;
 
         if (!firstName || !lastName || !phone || !email || !country || !currentAddress || !resume || !jobType) {
-            res.status(400).json({ message: "Please fill out all the required fields." });
+            res.status(400).json({ message: "Please fill out all the required career fields." });
             return;
         }
         if (!["Full Time", "Part Time", "Casual", "Internship"].includes(jobType)) {

@@ -60,7 +60,7 @@ const SideMenuListItem: React.FC<SideMenuListItemProps> = ({ name, listItem, set
                                         to={academic.link}
                                         onClick={() => setSidebarOpen && setSidebarOpen(false)}
                                         className={({ isActive }) =>
-                                            `group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black duration-300 ease-in-out hover:text-white ${isActive ? "!text-black" : ""}`
+                                            `group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-black duration-300 ease-in-out hover:text-red-600 ${isActive ? "!text-black" : ""}`
                                         }
                                     >
                                         {academic.label}

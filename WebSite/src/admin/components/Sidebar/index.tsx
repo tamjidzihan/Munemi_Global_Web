@@ -209,6 +209,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item offers --> */}
 
+              {/* <!-- Menu Item Career --> */}
+              <li>
+                <NavLink
+                  to="/adminpanel/career"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('career') && 'bg-graydark dark:bg-meta-4'
+                    }`}
+                >
+                  <svg className="w-6 h-6 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="M8 7H5a2 2 0 0 0-2 2v4m5-6h8M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m0 0h3a2 2 0 0 1 2 2v4m0 0v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6m18 0s-4 2-9 2-9-2-9-2m9-2h.01" />
+                  </svg>
+                  Career / Job
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Career --> */}
+
 
               {/* <!-- Menu Item Site Settings --> */}
               <SidebarLinkGroup
