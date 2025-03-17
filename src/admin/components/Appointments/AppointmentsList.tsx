@@ -1,23 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAppointments, { Appointment } from '../../../hooks/useAppointments';
 import CreateAppointmentsModal from './CreateAppointmentsModal';
 import { Minus } from 'lucide-react';
+import EditAppointmentModal from './EditAppointmentModal';
 
 type AppointmentsListProps = {
   allAppointments: Appointment[];
   deleteAppointment: (id: string) => void;
+  updateAppointment: (id: string, updatedAppointment: Appointment) => Promise<void>;
 };
 
-const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsListProps) => {
+const AppointmentsList = ({ allAppointments, updateAppointment, deleteAppointment }: AppointmentsListProps) => {
   const { createAppointment } = useAppointments()
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null);
   const [appointmentslist, setappointmentslist] = useState<Appointment[]>(allAppointments)
+
+  useEffect(() => {
+    setappointmentslist(allAppointments);
+  }, [allAppointments]);
+
+  const handleUpdateClick = (appointment: Appointment) => {
+    setEditingAppointment(appointment);
+    setIsModalOpen(true);
+  };
 
   const addNewAppointment = (newAppointment: Appointment) => {
     setappointmentslist(prevAppointments => [newAppointment, ...prevAppointments])
   }
 
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setEditingAppointment(null);
+  };
 
   return (
     <div className="  rounded-sm border border-stroke bg-white shadow-default ">
@@ -49,36 +64,47 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
       </div>
 
       {/* Create Event Modal */}
-      <CreateAppointmentsModal
-        addNewAppointment={addNewAppointment}
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-        createAppointment={createAppointment}
-      />
+      {isModalOpen && !editingAppointment && (
+        <CreateAppointmentsModal
+          addNewAppointment={addNewAppointment}
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          createAppointment={createAppointment}
+        />)}
       {/* Create Event Modal */}
 
+      {/* Update Event Modal */}
+      {isModalOpen && editingAppointment && (
+        <EditAppointmentModal
+          appointment={editingAppointment}
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          updateAppointment={updateAppointment}
+        />
+      )}
+      {/* Update Event Modal */}
 
-      <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
+      <div className="grid bg-cyan-50 text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">First Name</p>
+          <p className="font-bold">First Name</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Last Name</p>
+          <p className="font-bold">Last Name</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Phone Number</p>
+          <p className="font-bold">Phone Number</p>
         </div>
         <div className="col-span-2 flex items-center">
-          <p className="font-medium">Email</p>
+          <p className="font-bold">Email</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Appointment Office</p>
+          <p className="font-bold">Appointment Office</p>
         </div>
         <div className="col-span-2 flex items-center">
-          <p className="font-medium">Message</p>
+          <p className="font-bold">Message</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium">Action</p>
+          <p className="font-bold">Action</p>
         </div>
       </div>
 
@@ -113,7 +139,7 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
               <div className="col-span-1 flex items-center">
                 <div className="flex items-center space-x-3.5">
                   {/* View AppointMent */}
-                  <button className="hover:text-success">
+                  {/* <button className="hover:text-success">
                     <svg
                       className="fill-current"
                       width="18"
@@ -131,11 +157,14 @@ const AppointmentsList = ({ allAppointments, deleteAppointment }: AppointmentsLi
                         fill=""
                       />
                     </svg>
-                  </button>
+                  </button> */}
                   {/* View AppointMent */}
 
                   {/* Update AppointMent */}
-                  <button className="hover:text-primary">
+                  <button
+                    className="hover:text-primary cursor-pointer"
+                    onClick={() => handleUpdateClick(appointment)}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
