@@ -1,5 +1,5 @@
-import crypto from "crypto";
-import dotenv from "dotenv";
+import * as crypto from "crypto";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 

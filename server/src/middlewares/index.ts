@@ -1,6 +1,6 @@
 import express from "express";
 import { merge, get } from "lodash"
-import dotenv from "dotenv"
+import * as dotenv from "dotenv";
 import { getUserBySessionToken } from "../services/userService";
 
 

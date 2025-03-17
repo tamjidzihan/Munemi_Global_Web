@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import app from "./utils/app";
 import { connectDB } from "./utils/connectDB";
 import router from "./router";
