@@ -1,8 +1,7 @@
 import express from "express";
 import { authentication, random } from "../helpers";
-import dotenv from "dotenv"
+import * as dotenv from "dotenv";
 import { createUser, getUserByEmail } from "../services/userService";
-import { deleteAppointmentBookingById, findAppointmentBookingById, updateAppointmentBooking } from "../services/AppointmentBookingService";
 
 dotenv.config()
 

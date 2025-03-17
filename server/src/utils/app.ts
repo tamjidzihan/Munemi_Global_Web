@@ -3,7 +3,8 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
+
 
 dotenv.config();
 
