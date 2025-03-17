@@ -6,12 +6,15 @@ const articles = [
     {
         category: "Immigration Visa",
         readTime: "2 min read",
-        title: "What visa do you need to work legally in Singapore?",
+        title: "ᴊᴀᴘᴀɴ ᴠɪꜱᴀ ʀᴇQᴜɪʀᴇᴍᴇɴᴛꜱ",
         description:
-            "Aliqum mullam blandit tempor sapien gravida donec ipsum, at porta justo. Velna vitae auctor congue magna tempor sodales sapien. Quaerat neque purus ipsum neque dolor primis",
+            `For Sight-seeing
+            1. Application form
+            2. Valid Passport and Photocopy
+            3. Old Passport (if any) and Photocopy`,
         image: image1,
         author: "Jhon doe",
-        date: "February 26, 2020",
+        date: "February 26, 2025",
     },
     {
         category: "Working Visa",
