@@ -1,24 +1,19 @@
 const boardMembers = [
     {
-        name: 'Michael Anderson',
-        designation: 'Chief Executive Officer',
-        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a',
+        name: 'Md. Nazrul Islam',
+        designation: 'Chairman',
+        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311af',
     },
     {
-        name: 'Sarah Mitchell',
-        designation: 'Immigration Director',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e',
+        name: 'Advocate Salek KHAN',
+        designation: 'Director',
+        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3ef',
     },
     {
-        name: 'David Thompson',
-        designation: 'Legal Consultant',
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e',
-    },
-    {
-        name: 'Emily Parker',
-        designation: 'Operations Manager',
-        image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956',
-    },
+        name: 'Advocate Forkanuzzaman',
+        designation: 'Director',
+        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4ef',
+    }
 ]
 export function BoardMembers() {
     return (
@@ -31,7 +26,7 @@ export function BoardMembers() {
                     Meet our experienced team of immigration specialists and consultants
                     who are dedicated to helping you achieve your immigration goals
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {boardMembers.map((member, index) => (
                         <div key={index} className="group">
                             <div className="bg-white rounded-lg overflow-hidden shadow-md transition-transform duration-300 group-hover:-translate-y-2">
