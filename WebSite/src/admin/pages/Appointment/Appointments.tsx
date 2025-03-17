@@ -5,7 +5,7 @@ import AppointmentsList from "../../components/Appointments/AppointmentsList";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 
 const Appointments = () => {
-  const { appointments, deleteAppointment, loading } = useAppointments()
+  const { appointments, updateAppointment, deleteAppointment, loading } = useAppointments()
 
   if (loading) return <Loader />
 
@@ -16,6 +16,7 @@ const Appointments = () => {
         <AppointmentsList
           allAppointments={appointments}
           deleteAppointment={deleteAppointment}
+          updateAppointment={updateAppointment}
         />
       </div>
     </>

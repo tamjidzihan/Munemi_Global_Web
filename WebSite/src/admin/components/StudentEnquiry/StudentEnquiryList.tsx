@@ -1,25 +1,41 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useStudentEnquiries, { StudentEnquiry } from "../../../hooks/useStudentEnquiry"
 import CreateStudentEnquiryModal from "./CreateStudentEnquiryModel"
 import { Minus } from "lucide-react"
+import EditStudentEnquiryModel from "./EditStudentEnquiryModel"
 
 
 interface StudentEnquiryListProps {
     allStudentEnquiry: StudentEnquiry[]
     deleteStudentEnquiry: (id: string) => void
+    updateStudentEnquiry: (id: string, updateStudentEnquiry: StudentEnquiry) => Promise<void>
 }
 
 
-const StudentEnquiryList = ({ allStudentEnquiry, deleteStudentEnquiry }: StudentEnquiryListProps) => {
+const StudentEnquiryList = ({ allStudentEnquiry, updateStudentEnquiry, deleteStudentEnquiry }: StudentEnquiryListProps) => {
     const { createEnquiry } = useStudentEnquiries()
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editStudentEnquiry, setEditStudentEnquiry] = useState<StudentEnquiry | null>(null)
     const [studentEnquiryList, setStudentEnquiryList] = useState<StudentEnquiry[]>(allStudentEnquiry)
+
+    useEffect(() => {
+        setStudentEnquiryList(allStudentEnquiry);
+    }, [allStudentEnquiry])
+
+    const handleUpdateClick = (studentEnquiry: StudentEnquiry) => {
+        setEditStudentEnquiry(studentEnquiry);
+        setIsModalOpen(true);
+    };
 
     const addNewStudentEnquiry = (newStudentEnquiry: StudentEnquiry) => {
         setStudentEnquiryList(prevStudentEnquiry => [newStudentEnquiry, ...prevStudentEnquiry])
     }
-    // const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        setEditStudentEnquiry(null)
+    };
+
     return (
         <div className=" relative rounded-sm border border-stroke bg-white shadow-default ">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
@@ -49,13 +65,26 @@ const StudentEnquiryList = ({ allStudentEnquiry, deleteStudentEnquiry }: Student
             </div>
 
             {/* Create Event Modal */}
-            <CreateStudentEnquiryModal
-                addNewEnquiry={addNewStudentEnquiry}
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-                createEnquiry={createEnquiry}
-            />
+            {isModalOpen && !editStudentEnquiry && (
+                <CreateStudentEnquiryModal
+                    addNewEnquiry={addNewStudentEnquiry}
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                    createEnquiry={createEnquiry}
+                />
+            )}
             {/* Create Event Modal */}
+
+            {/* Update Student EnquiryModal Modal */}
+            {isModalOpen && editStudentEnquiry && (
+                <EditStudentEnquiryModel
+                    studentEnquiry={editStudentEnquiry}
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                    updateStudentEnquiry={updateStudentEnquiry}
+                />
+            )}
+            {/* Update Student EnquiryModal Modal */}
 
 
             <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
@@ -118,7 +147,7 @@ const StudentEnquiryList = ({ allStudentEnquiry, deleteStudentEnquiry }: Student
                                 <div className="col-span-1 flex items-center">
                                     <div className="flex items-center space-x-3.5">
                                         {/* View StudentEnquiryList */}
-                                        <button className="hover:text-success">
+                                        {/* <button className="hover:text-success">
                                             <svg
                                                 className="fill-current"
                                                 width="18"
@@ -136,11 +165,14 @@ const StudentEnquiryList = ({ allStudentEnquiry, deleteStudentEnquiry }: Student
                                                     fill=""
                                                 />
                                             </svg>
-                                        </button>
+                                        </button> */}
                                         {/* View StudentEnquiryList */}
 
                                         {/* Update StudentEnquiryList */}
-                                        <button className="hover:text-primary">
+                                        <button
+                                            className="hover:text-primary"
+                                            onClick={() => handleUpdateClick(studentEnquiry)}
+                                        >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                                             </svg>

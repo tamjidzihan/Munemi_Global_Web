@@ -1,38 +1,32 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Appointment } from "../../../hooks/useAppointments";
 
-type CreateAppointmentModalProps = {
+type EditAppointmentModalPrpps = {
     isOpen: boolean;
     closeModal: () => void;
-    addNewAppointment: (newAppointment: Appointment) => void;
-    createAppointment: (appointment: Appointment) => Promise<void>;
-};
+    appointment: Appointment;
+    updateAppointment: (id: string, updatedAppointment: Appointment) => Promise<void>;
+}
 
-const CreateAppointmentsModal = ({
+
+const EditAppointmentModal = ({
+    appointment,
     isOpen,
     closeModal,
-    addNewAppointment,
-    createAppointment,
-}: CreateAppointmentModalProps) => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [city, setCity] = useState("");
-    const [appointmentOffice, setAppointmentOffice] = useState("");
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false); // Track loading state
+    updateAppointment
+}: EditAppointmentModalPrpps) => {
+    const [firstName, setFirstName] = useState(appointment.firstName);
+    const [lastName, setLastName] = useState(appointment.lastName);
+    const [phone, setPhone] = useState(appointment.phone);
+    const [email, setEmail] = useState(appointment.email);
+    const [city, setCity] = useState(appointment.city);
+    const [appointmentOffice, setAppointmentOffice] = useState(appointment.appointmentOffice);
+    const [message, setMessage] = useState(appointment.message);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!firstName || !lastName || !phone || !email || !city || !appointmentOffice) {
-            alert("All fields are required.");
-            return;
-        }
-
-        setLoading(true); // Start loading
-
-        const newAppointment: Appointment = {
+        const updatedAppointment = {
             firstName,
             lastName,
             phone,
@@ -40,19 +34,18 @@ const CreateAppointmentsModal = ({
             city,
             appointmentOffice,
             message,
-            updatedAt: "",
-            _id: "",
+            updatedAt: new Date().toISOString(),
+            _id: appointment._id,
         };
 
+        setLoading(true);
         try {
-            await createAppointment(newAppointment);
-            addNewAppointment(newAppointment);
+            await updateAppointment(appointment._id, updatedAppointment);
             closeModal();
         } catch (error) {
-            console.log(error)
-            alert("Failed to create appointment.");
+            console.error("Failed to update appointment", error);
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
     };
 
@@ -62,7 +55,7 @@ const CreateAppointmentsModal = ({
         <div className=" py-4 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
                 <h3 className="text-xl font-semibold mb-4">Create New Appointment</h3>
-                <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
+                <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none " : ""}`}>
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">First Name</label>
                         <input
@@ -130,7 +123,6 @@ const CreateAppointmentsModal = ({
                             <option value="Bangladesh">Bangladesh</option>
                         </select>
                     </div>
-
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">Message</label>
                         <textarea
@@ -161,14 +153,14 @@ const CreateAppointmentsModal = ({
                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                 </svg>
                             ) : (
-                                "Create Appointment"
+                                "Update Appointment"
                             )}
                         </button>
                     </div>
                 </form>
             </div >
         </div >
-    );
-};
+    )
+}
 
-export default CreateAppointmentsModal;
+export default EditAppointmentModal

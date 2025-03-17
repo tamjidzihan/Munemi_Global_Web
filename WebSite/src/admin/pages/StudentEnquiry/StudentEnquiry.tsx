@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb"
 import StudentEnquiryList from "../../components/StudentEnquiry/StudentEnquiryList"
 
 const StudentEnquiry = () => {
-    const { enquiries, deleteEnquiry, loading } = useStudentEnquiries()
+    const { enquiries, updateEnquiry, deleteEnquiry, loading } = useStudentEnquiries()
     if (loading) return <Loader />
     return (
         <>
@@ -13,6 +13,7 @@ const StudentEnquiry = () => {
                 <StudentEnquiryList
                     allStudentEnquiry={enquiries}
                     deleteStudentEnquiry={deleteEnquiry}
+                    updateStudentEnquiry={updateEnquiry}
                 />
             </div>
         </>

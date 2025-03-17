@@ -32,7 +32,7 @@ export interface StudentEnquiry {
     email: string;
     phone: string;
     address: string;
-    englishProficiencyTest: 'IELTS' | 'PTE' | 'TOEFL' | 'Duolingo';
+    englishProficiencyTest: string;
     testResult: TestResult;
     academicQualification: AcademicQualification[];
     que1: string;
