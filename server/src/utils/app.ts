@@ -4,15 +4,15 @@ import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
+
 dotenv.config();
 
-const ORIGIN = process.env.ORIGIN || "http://localhost:5173";
+const ORIGINS = process.env.ORIGIN || "http://localhost:5173";
 
 const app: Application = express();
 
-
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: [ORIGINS],
     credentials: true,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Authorization",

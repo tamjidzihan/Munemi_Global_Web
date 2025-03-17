@@ -6,6 +6,7 @@ import { ProcessSection } from "../components/home/ProcessSection";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { ConsultationForm } from "../components/home/ConsultationForm";
 import { NewsSection } from "../components/home/NewsSection";
+import { BoardMembers } from "../components/About/BoardMembers";
 
 const AboutPage = () => {
     return (
@@ -29,6 +30,7 @@ const AboutPage = () => {
                         </p>
                     </section>
                 </div>
+                <BoardMembers />
                 <ProcessSection />
                 <Statistics />
                 <TestimonialsSection />
