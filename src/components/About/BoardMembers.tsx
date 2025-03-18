@@ -1,18 +1,21 @@
+import Salek_KHAN_IMG from '../../assets/team/Advocate_Salek_Khan.jpg'
+import Forkanuzzaman_IMG from '../../assets/team/Advocate_Forkanuzzaman.jpg'
+
 const boardMembers = [
     {
         name: 'Md. Nazrul Islam',
         designation: 'Chairman',
-        image: 'https://images.unsplash.com/photo-1560250097-0b93528c311af',
+        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4ef',
     },
     {
         name: 'Advocate Salek KHAN',
         designation: 'Director',
-        image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3ef',
+        image: Salek_KHAN_IMG,
     },
     {
         name: 'Advocate Forkanuzzaman',
         designation: 'Director',
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4ef',
+        image: Forkanuzzaman_IMG,
     }
 ]
 export function BoardMembers() {

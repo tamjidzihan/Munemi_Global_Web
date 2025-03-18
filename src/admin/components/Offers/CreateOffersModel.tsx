@@ -165,6 +165,7 @@ const CreateOffersModal = ({
                                     <div className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4  sm:py-7.5">
                                         <input
                                             type="file"
+                                            required
                                             accept="image/*"
                                             onChange={handleImageChange}
                                             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0  focus:outline-blue-500"
