@@ -77,7 +77,7 @@ export function Footer() {
                         © Copyright Munemi Global 2025. All Rights Reserved
                     </p>
                     <div className="flex space-x-4">
-                        <a href="#" className="text-gray-400 hover:text-red-500">
+                        <a href="https://www.facebook.com/munemiglobalbd" className="text-gray-400 hover:text-red-500">
                             <FaFacebookF size={20} />
                         </a>
                         <a href="#" className="text-gray-400 hover:text-red-500">
