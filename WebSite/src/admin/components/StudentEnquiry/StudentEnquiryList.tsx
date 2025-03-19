@@ -87,26 +87,26 @@ const StudentEnquiryList = ({ allStudentEnquiry, updateStudentEnquiry, deleteStu
             {/* Update Student EnquiryModal Modal */}
 
 
-            <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Student Name</p>
+                    <p className="font-bold">Student Name</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">Email</p>
+                    <p className="font-bold">Email</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Phone Number</p>
+                    <p className="font-bold">Phone Number</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">Address</p>
+                    <p className="font-bold">Address</p>
                 </div>
 
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">Answers</p>
+                    <p className="font-bold">Answers</p>
                 </div>
 
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Action</p>
+                    <p className="font-bold">Action</p>
                 </div>
             </div>
 

@@ -60,27 +60,27 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
             {/* Create Event Modal */}
 
 
-            <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Title</p>
+                    <p className="font-bold">Title</p>
                 </div>
                 <div className="col-span-3 flex items-center">
-                    <p className="font-medium">Description</p>
+                    <p className="font-bold">Description</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Start-Date</p>
+                    <p className="font-bold">Start-Date</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">End-Date</p>
+                    <p className="font-bold">End-Date</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Status</p>
+                    <p className="font-bold">Status</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">Image</p>
+                    <p className="font-bold">Image</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Action</p>
+                    <p className="font-bold">Action</p>
                 </div>
             </div>
 
