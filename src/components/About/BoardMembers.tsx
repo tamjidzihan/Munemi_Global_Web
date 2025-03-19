@@ -24,7 +24,12 @@ const boardMembers = [
         name: 'Advocate Forkanuzzaman',
         designation: 'Adviser',
         image: Forkanuzzaman_IMG,
-    }
+    },
+    {
+        name: 'Abdul Saleque Khan',
+        designation: 'Adviser',
+        image: '',
+    },
 
 ]
 export function BoardMembers() {

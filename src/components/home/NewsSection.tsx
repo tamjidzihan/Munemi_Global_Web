@@ -45,9 +45,7 @@ export function NewsSection() {
                     Our Stories & Latest News
                 </h2>
                 <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                    Cursus porta, feugiat primis in ultrice ligula risus auctor tempus
-                    dolor feugiat, felis lacinia risus interdum auctor id viverra dolor
-                    iaculis luctus placerat and massa
+                    At Munemi Global, we are committed to sharing impactful stories, industry insights, and the latest updates.
                 </p>
                 <div className="grid md:grid-cols-3 gap-8">
                     {articles.map((article, index) => (

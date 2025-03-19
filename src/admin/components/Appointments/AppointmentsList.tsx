@@ -84,7 +84,7 @@ const AppointmentsList = ({ allAppointments, updateAppointment, deleteAppointmen
       )}
       {/* Update Event Modal */}
 
-      <div className="grid bg-cyan-50 text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
+      <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
         <div className="col-span-1 flex items-center">
           <p className="font-bold">First Name</p>
         </div>

@@ -24,7 +24,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
         <div className="  rounded-sm border border-stroke bg-white shadow-default ">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
                 <h4 className="text-xl place-self-center font-semibold text-midnight ">
-                    List of Offers
+                    List of Career / Job Application
                 </h4>
                 <button
                     onClick={() => isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true)}
@@ -44,7 +44,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </span>}
-                    {isModalOpen ? `Cancel` : ` Create New Offer`}
+                    {isModalOpen ? `Cancel` : ` Create New Career / Job Application`}
                 </button>
             </div>
 
@@ -58,33 +58,33 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
             {/* Create Career Modal */}
 
 
-            <div className="grid text-midnight grid-cols-7 border-t border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke  py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">firstName</p>
+                    <p className="font-bold">First Name</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">lastName</p>
+                    <p className="font-bold">Last Name</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">phone</p>
+                    <p className="font-bold">Phone</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">email</p>
+                    <p className="font-bold">Email</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">country and currentAddress</p>
+                    <p className="font-bold">Country And CurrentAddress</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">jobType</p>
+                    <p className="font-bold">Job Type</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">resume</p>
+                    <p className="font-bold">Resume</p>
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-medium">idCard</p>
+                    <p className="font-bold">ID Card</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-medium">Action</p>
+                    <p className="font-bold">Action</p>
                 </div>
             </div>
 
