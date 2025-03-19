@@ -46,6 +46,9 @@ import Layout from "./pages/Layout";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
 import StudyDestination from "./components/StudyDestination/StudyDestination";
+import BlogPage from "./pages/BlogPage";
+import { BlogPost } from "./components/Blog/BlogPost";
+import BlogList from "./components/Blog/BlogList";
 
 
 
@@ -58,6 +61,15 @@ export const router = createBrowserRouter([
         children: [
             { index: true, element: <HomePage /> },
             { path: '/about', element: <AboutPage /> },
+            {
+                path: 'blog',
+                element: <BlogPage />,
+                children: [
+                    { index: true, element: <BlogList /> },
+                    { path: 'blog-post', element: <BlogPost /> },
+                ]
+
+            },
             {
                 path: 'services',
                 element: <ServicesPage />,
