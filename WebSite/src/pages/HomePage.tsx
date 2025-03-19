@@ -1,4 +1,3 @@
-import { ConsultantFinder } from "../components/home/ConsultantFinder";
 import { Statistics } from "../components/home/Statistics";
 import { ProcessSection } from "../components/home/ProcessSection";
 import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
@@ -10,6 +9,7 @@ import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
 import { ConsultationForm } from "../components/home/ConsultationForm";
+import { HelpProcess } from "../components/home/HelpProcess";
 
 const HomePage = () => {
 
@@ -51,7 +51,7 @@ const HomePage = () => {
                 </div>
             </section>
             <ImmigrationConsult />
-            <ConsultantFinder />
+            <HelpProcess />
             <Statistics />
             <ProcessSection />
             <OverseasEducation />
