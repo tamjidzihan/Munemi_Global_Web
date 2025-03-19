@@ -6,10 +6,10 @@ import { OverseasEducation } from "../components/home/OverseasEducation";
 // import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
-import { ConsultationForm } from "../components/home/ConsultationForm";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
+import { ConsultationForm } from "../components/home/ConsultationForm";
 
 const HomePage = () => {
 

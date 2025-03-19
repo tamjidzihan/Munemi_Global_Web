@@ -7,12 +7,12 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const ORIGINS = process.env.ORIGIN || "http://localhost:5174";
+const ORIGINS = process.env.ORIGINS || "https://munemiglobal.com/";
 
 const app = express();
 
 app.use(cors({
-    origin: [ORIGINS],
+    origin: ORIGINS,
     credentials: true,
     methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Authorization",
