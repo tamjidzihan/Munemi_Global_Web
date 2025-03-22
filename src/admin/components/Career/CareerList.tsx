@@ -1,5 +1,5 @@
-import { useState } from "react";
-import useCareer, { CareerProps } from "../../../hooks/useCareer"
+import { useEffect, useState } from "react";
+import { CareerProps } from "../../../hooks/useCareer"
 import { Minus } from "lucide-react";
 import CreateCareerModel from "./CreateCareerModel";
 
@@ -10,9 +10,13 @@ type CareerListProps = {
 
 
 const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
-    const { createCareer } = useCareer()
+    // const { createCareer } = useCareer()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [careerList, setCareerList] = useState<CareerProps[]>(allCareer)
+
+    useEffect(() => {
+        setCareerList([...allCareer].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
+    }, [allCareer]);
 
     const addNewCareer = (newCareers: CareerProps) => {
         setCareerList(prevCareers => [newCareers, ...prevCareers])
@@ -53,7 +57,6 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                 addNewCareer={addNewCareer}
                 isOpen={isModalOpen}
                 closeModal={closeModal}
-                createCareer={createCareer}
             />
             {/* Create Career Modal */}
 
@@ -115,21 +118,21 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                             <div className="col-span-1 flex  items-center mr-3">
                                 <p className=' overflow-hidden'>{career.jobType || "N/A"}</p>
                             </div>
-                            <div className="col-span-1 flex items-center mr-3">
+                            {/* <div className="col-span-1 flex items-center mr-3">
                                 <p className="font-medium">{career.resume || "N/A"}</p>
-                            </div>
-                            <div className="col-span-2 flex items-center mr-3">
+                            </div> */}
+                            {/* <div className="col-span-2 flex items-center mr-3">
                                 {career.idCard
                                     ?
                                     <img
-                                        src={career.idCard.imageUrl || undefined}
+                                        src={career.idCard || undefined}
                                         alt="Offer"
                                         className="w-full h-25 object-cover rounded-lg"
                                     />
                                     :
                                     <p className="line-clamp-3 overflow-hidden">No Image</p>
                                 }
-                            </div>
+                            </div> */}
 
                             {/* Actions */}
                             <div className="col-span-1 flex items-center">

@@ -3,20 +3,17 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 
 export interface CareerProps {
+    id: string;
     firstName: string;
     lastName: string;
     phone: string;
     email: string;
     country: string;
     currentAddress: string;
-    idCard?: {
-        publicId?: string;
-        imageUrl?: string;
-    };
-    resume: string;
+    idCard?: string;
+    resume?: string;
     jobType: string;
     updatedAt: string;
-    id: string;
 }
 
 const useCareer = () => {
@@ -40,10 +37,14 @@ const useCareer = () => {
         getCareers();
     }, []);
 
-    const createCareer = async (career: CareerProps) => {
+    const createCareer = async (career: FormData): Promise<CareerProps> => {
         setLoading(true);
         try {
-            const response = await apiClient.post("/careers", career);
+            const response = await apiClient.post("/careers", career, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             setCareers((prev) => [response.data, ...prev]);
             setLoading(false);
             return response.data;
