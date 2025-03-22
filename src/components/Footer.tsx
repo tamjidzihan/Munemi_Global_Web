@@ -22,9 +22,11 @@ export function Footer() {
                         <h3 className="font-bold text-midnight mb-4">Contact Details</h3>
                         <div className="space-y-2 text-gray-600">
                             <p>
-                                House- 5, Kolotan School Road,
+                                House-5, Kolotan School Road,
                                 <br />
-                                Notun Bazar, Badda , Dhaka
+                                Notun Bazar, Gulshan, Dhaka-1212,
+                                <br />
+                                Bangladesh
                             </p>
                             <p>Phone: +88 01978100105</p>
                             <p>Email: info@munemiglobal.com</p>

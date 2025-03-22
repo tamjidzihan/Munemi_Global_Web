@@ -49,7 +49,7 @@ const EditStudentEnquiryModel = ({
         setLoading(true);
 
         const updateEnquiry: StudentEnquiry = {
-            _id: studentEnquiry._id,
+            id: studentEnquiry.id,
             studentName,
             email,
             phone,
@@ -66,7 +66,7 @@ const EditStudentEnquiryModel = ({
         };
 
         try {
-            await updateStudentEnquiry(studentEnquiry._id, updateEnquiry)
+            await updateStudentEnquiry(studentEnquiry.id, updateEnquiry)
             closeModal();
         } catch (error) {
             console.error(error);
