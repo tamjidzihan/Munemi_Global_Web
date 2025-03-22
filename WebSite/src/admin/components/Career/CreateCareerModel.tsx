@@ -1,109 +1,104 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { CareerProps } from "../../../hooks/useCareer";
-import { useImageUploadDelete } from "../../../hooks/useImage";
+import useCareer, { CareerProps } from "../../../hooks/useCareer";
 
 type CreateCareerModelProps = {
     isOpen: boolean;
     closeModal: () => void;
     addNewCareer: (newCareer: CareerProps) => void;
-    createCareer: (career: CareerProps) => Promise<void>
 }
 
 const CreateCareerModel = ({
     isOpen,
     closeModal,
     addNewCareer,
-    createCareer,
 }: CreateCareerModelProps) => {
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [email, setEmail] = useState('')
-    const [country, setCountry] = useState('')
-    const [currentAddress, setcurrentAddress] = useState('')
-    const [resume, setResume] = useState('Whats App')
-    const [jobType, setJobType] = useState("Full Time");
-    const [loading, setLoading] = useState(false);
+    const { createCareer, loading } = useCareer();
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        country: '',
+        currentAddress: '',
+        jobType: 'Full Time' as 'Full Time' | 'Part Time' | 'Casual' | 'Internship',
+    });
 
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [selectedIdCard, setSelectedIdCard] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const { uploadImage, loading: imageLoading } = useImageUploadDelete();
+    const [selectedResume, setSelectedResume] = useState<File | null>(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
-        setSelectedImage(file);
+        setSelectedIdCard(file);
         if (file) {
             setPreviewImage(URL.createObjectURL(file));
         }
     };
 
+    const handleResumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        setSelectedResume(file);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true); // Start loading
 
-        if (!firstName || !lastName || !phone || !email || !country || !currentAddress || !jobType || !resume) {
+        // Validate form fields
+        const { firstName, lastName, phone, email, country, currentAddress, jobType } = formData;
+        if (!firstName || !lastName || !phone || !email || !country || !currentAddress || !jobType || !selectedIdCard || !selectedResume) {
             alert("All fields are required.");
-            setLoading(false);
             return;
         }
 
-        if (!selectedImage) {
-            alert("Image is required.");
-            setLoading(false);
-            return;
-        }
+        const formDataToSend = new FormData();
+        formDataToSend.append("firstName", firstName);
+        formDataToSend.append("lastName", lastName);
+        formDataToSend.append("phone", phone);
+        formDataToSend.append("email", email);
+        formDataToSend.append("country", country);
+        formDataToSend.append("currentAddress", currentAddress);
+        formDataToSend.append("jobType", jobType);
+        formDataToSend.append("idCard", selectedIdCard);  // Image File
+        formDataToSend.append("resume", selectedResume); // PDF File
 
-        const imageFile: any = await uploadImage(selectedImage);
-        const newCareer: CareerProps = {
-            firstName,
-            lastName,
-            phone,
-            email,
-            country,
-            currentAddress,
-            idCard: {
-                publicId: imageFile.public_id,
-                imageUrl: imageFile.secure_url
-            },
-            resume,
-            jobType,
-            updatedAt: "",
-            id: "",
-        };
         try {
-            await createCareer(newCareer);
-            addNewCareer(newCareer);
+            await createCareer(formDataToSend);
+            addNewCareer(formDataToSend);
             closeModal();
         } catch (error) {
-            console.log(error)
+            console.error(error);
             alert("Failed to create career.");
         } finally {
-            setLoading(false); // Stop loading
-            setFirstName('')
-            setLastName('')
-            setPhone('')
-            setEmail('')
-            setCountry('')
-            setcurrentAddress('')
-            setResume('Whats App')
-            setSelectedImage(null)
+            // Reset form fields
+            setFormData({
+                firstName: '',
+                lastName: '',
+                phone: '',
+                email: '',
+                country: '',
+                currentAddress: '',
+                jobType: 'Full Time',
+            });
+            setSelectedIdCard(null);
+            setSelectedResume(null);
+            setPreviewImage(null);
         }
     };
+
     if (!isOpen) return null;
 
     return (
-        <div className=" inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
+        <div className="inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
                 <h3 className="text-xl font-semibold mb-4">Create New Offer</h3>
-                <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
+                <form onSubmit={handleSubmit} encType="multipart/form-data" className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">First Name</label>
                         <input
                             type="text"
                             placeholder="Your First Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            value={formData.firstName}
+                            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -114,8 +109,8 @@ const CreateCareerModel = ({
                         <input
                             type="text"
                             placeholder="Your Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            value={formData.lastName}
+                            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -126,8 +121,8 @@ const CreateCareerModel = ({
                         <input
                             type="tel"
                             placeholder="Your Phone number"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -138,8 +133,8 @@ const CreateCareerModel = ({
                         <input
                             type="email"
                             placeholder="Your Email Address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -150,8 +145,8 @@ const CreateCareerModel = ({
                         <input
                             type="text"
                             placeholder="Country Name"
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
+                            value={formData.country}
+                            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -161,8 +156,8 @@ const CreateCareerModel = ({
                         <label className="block text-sm font-medium mb-2">Your Current Address</label>
                         <textarea
                             required
-                            value={currentAddress}
-                            onChange={(e) => setcurrentAddress(e.target.value)}
+                            value={formData.currentAddress}
+                            onChange={(e) => setFormData({ ...formData, currentAddress: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             rows={3}
                             disabled={loading}
@@ -172,9 +167,7 @@ const CreateCareerModel = ({
                         <div className="col-span-2 mb-4">
                             <div className="rounded-sm border border-stroke bg-white shadow-default">
                                 <div className="border-b border-stroke py-4 px-7">
-                                    <h3 className="font-medium text-black">
-                                        Upload Cover Photo
-                                    </h3>
+                                    <h3 className="font-medium text-black">Upload ID card</h3>
                                 </div>
                                 <div className="p-7">
                                     {previewImage && (
@@ -182,21 +175,15 @@ const CreateCareerModel = ({
                                             <img
                                                 src={previewImage}
                                                 alt="Preview"
-                                                className={`rounded w-full max-h-[300px] object-contain ${imageLoading ? "opacity-50 blur-sm" : ""
-                                                    }`}
+                                                className={`rounded w-full max-h-[300px] object-contain`}
                                             />
-                                            {imageLoading && (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 rounded">
-                                                    <div className="loader border-4 border-t-primary rounded-full w-12 h-12 animate-spin"></div>
-                                                </div>
-                                            )}
                                         </div>
                                     )}
                                     <div className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4 sm:py-7.5">
                                         <input
                                             required
                                             type="file"
-                                            accept="image/*"
+                                            accept="image/jpeg"
                                             onChange={handleImageChange}
                                             className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 focus:outline-blue-500"
                                         />
@@ -213,7 +200,7 @@ const CreateCareerModel = ({
                                                         <path
                                                             fillRule="evenodd"
                                                             clipRule="evenodd"
-                                                            d="M1.99967 9.33337C2.36786 9.33337 2.66634 9 .63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
+                                                            d="M1.99967 9.33337C2.36786 9.33337 2.66634 9.63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
                                                             fill="#3C50E0"
                                                         />
                                                         <path
@@ -234,39 +221,41 @@ const CreateCareerModel = ({
                                             <p>
                                                 <span className="text-primary">Click to upload</span> or drag and drop
                                             </p>
-                                            <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
+                                            <p className="mt-1.5">PNG, JPG</p>
                                             <p>(max, 800 X 800px)</p>
                                         </div>
                                     </div>
-
                                     <div className="flex justify-end gap-4.5">
                                         <button
                                             className="flex justify-center rounded border hover:bg-gray-50 border-stroke py-2 px-6 font-medium text-black hover:shadow-1 cursor-pointer"
                                             type="button"
                                             onClick={() => {
-                                                setSelectedImage(null);
+                                                setSelectedIdCard(null);
                                                 setPreviewImage(null);
                                             }}
                                         >
                                             Cancel
                                         </button>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Resume</label>
-                        <select value={resume} onChange={(e) => setResume(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md">
-                            < option value="Whats App">Whats App</option>
-                            <option value="Email">Email</option>
-                        </select>
+                        <label className="block text-sm font-medium mb-2">Resume (PDF)</label>
+                        <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={handleResumeChange}
+                            className="w-full p-2 border border-gray-300 rounded-md"
+                        />
+                        {selectedResume && (
+                            <p className="text-sm mt-2 text-gray-600">Selected file: {selectedResume.name}</p>
+                        )}
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">Job Type</label>
-                        <select value={jobType} onChange={(e) => setJobType(e.target.value)}
+                        <select value={formData.jobType} onChange={(e) => setFormData({ ...formData, jobType: e.target.value as 'Full Time' | 'Part Time' | 'Casual' | 'Internship' })}
                             className="w-full p-2 border border-gray-300 rounded-md">
                             <option value="Full Time">Full Time</option>
                             <option value="Part Time">Part Time</option>
@@ -291,7 +280,7 @@ const CreateCareerModel = ({
                             {loading ? (
                                 <svg aria-hidden="true" className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
-                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717  44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                 </svg>
                             ) : (
                                 "Create Career"
@@ -301,7 +290,7 @@ const CreateCareerModel = ({
                 </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default CreateCareerModel
+export default CreateCareerModel;
