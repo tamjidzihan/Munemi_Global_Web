@@ -48,7 +48,7 @@ const CreateStudentEnquiryModal = ({
         setLoading(true);
 
         const newEnquiry: StudentEnquiry = {
-            _id: "",
+            id: "",
             studentName,
             email,
             phone,
