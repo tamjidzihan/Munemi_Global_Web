@@ -94,7 +94,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                     .map((career: CareerProps) => (
                         <div
-                            key={career._id}
+                            key={career.id}
                             className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5"
                         >
                             <div className="col-span-1 flex  items-center mr-3">
@@ -167,7 +167,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                                     {/* Delete AppointMent */}
                                     <button
                                         className="hover:text-danger cursor-pointer"
-                                        onClick={() => deleteCareer(career._id)}
+                                        onClick={() => deleteCareer(career.id)}
                                     >
                                         <svg
                                             className="fill-current"

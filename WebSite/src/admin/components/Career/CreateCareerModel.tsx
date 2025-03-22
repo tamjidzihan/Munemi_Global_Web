@@ -69,7 +69,7 @@ const CreateCareerModel = ({
             resume,
             jobType,
             updatedAt: "",
-            _id: "",
+            id: "",
         };
         try {
             await createCareer(newCareer);
