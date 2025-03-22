@@ -16,7 +16,7 @@ export interface CareerProps {
     resume: string;
     jobType: string;
     updatedAt: string;
-    _id: string;
+    id: string;
 }
 
 const useCareer = () => {
@@ -58,7 +58,7 @@ const useCareer = () => {
         setLoading(true);
         try {
             await apiClient.delete(`/careers/${id}`);
-            setCareers((prev) => prev.filter((career) => career._id !== id));
+            setCareers((prev) => prev.filter((career) => career.id !== id));
             setLoading(false);
         } catch (err) {
             setError("Failed to delete career");

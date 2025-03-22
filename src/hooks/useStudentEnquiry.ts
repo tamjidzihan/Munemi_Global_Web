@@ -27,7 +27,7 @@ export interface VisaHistory {
 }
 
 export interface StudentEnquiry {
-    _id: string;
+    id: string;
     studentName: string;
     email: string;
     phone: string;
@@ -68,7 +68,7 @@ const useStudentEnquiries = () => {
 
 
     // Create a new student enquiry
-    const createEnquiry = async (enquiry: Omit<StudentEnquiry, '_id' | 'createdAt' | 'updatedAt'>) => {
+    const createEnquiry = async (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => {
         setLoading(true);
         try {
             const response = await apiClient.post('/student-enquiries', enquiry);
@@ -87,7 +87,7 @@ const useStudentEnquiries = () => {
         setLoading(true);
         try {
             const response = await apiClient.patch(`/student-enquiries/${id}`, updatedEnquiry);
-            setEnquiries((prev) => prev.map((enquiry) => (enquiry._id === id ? response.data : enquiry)));
+            setEnquiries((prev) => prev.map((enquiry) => (enquiry.id === id ? response.data : enquiry)));
             setLoading(false);
         } catch (err) {
             setError('Failed to update student enquiry');
@@ -100,7 +100,7 @@ const useStudentEnquiries = () => {
         setLoading(true);
         try {
             await apiClient.delete(`/student-enquiries/${id}`);
-            setEnquiries((prev) => prev.filter((enquiry) => enquiry._id !== id));
+            setEnquiries((prev) => prev.filter((enquiry) => enquiry.id !== id));
             setLoading(false);
         } catch (err) {
             setError('Failed to delete student enquiry');

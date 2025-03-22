@@ -117,7 +117,7 @@ const StudentEnquiryList = ({ allStudentEnquiry, updateStudentEnquiry, deleteStu
                         .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                         .map((studentEnquiry: StudentEnquiry) => (
                             <div
-                                key={studentEnquiry._id}
+                                key={studentEnquiry.id}
                                 className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5"
                             >
                                 <div className="col-span-1 flex  items-center mr-3">
@@ -182,7 +182,7 @@ const StudentEnquiryList = ({ allStudentEnquiry, updateStudentEnquiry, deleteStu
                                         {/* Delete StudentEnquiryList */}
                                         <button
                                             className="hover:text-danger cursor-pointer"
-                                            onClick={() => deleteStudentEnquiry(studentEnquiry._id)}
+                                            onClick={() => deleteStudentEnquiry(studentEnquiry.id)}
                                         >
                                             <svg
                                                 className="fill-current"
