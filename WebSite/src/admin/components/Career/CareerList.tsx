@@ -71,7 +71,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Phone</p>
                 </div>
-                <div className="col-span-1 flex items-center">
+                <div className="col-span-2 flex items-center">
                     <p className="font-bold">Email</p>
                 </div>
                 <div className="col-span-2 flex items-center">
@@ -83,7 +83,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Resume</p>
                 </div>
-                <div className="col-span-2 flex items-center">
+                <div className="col-span-1 flex items-center">
                     <p className="font-bold">ID Card</p>
                 </div>
                 <div className="col-span-1 flex items-center">
@@ -109,7 +109,7 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                             <div className="col-span-1 flex  items-center mr-3">
                                 <p className=' overflow-hidden'>{career.phone || "N/A"}</p>
                             </div>
-                            <div className="col-span-1 flex  items-center mr-3">
+                            <div className="col-span-2 flex  items-center mr-3">
                                 <p className=' overflow-hidden'>{career.email || "N/A"}</p>
                             </div>
                             <div className="col-span-2 flex  items-center mr-3">
@@ -118,21 +118,37 @@ const CareerList = ({ allCareer, deleteCareer }: CareerListProps) => {
                             <div className="col-span-1 flex  items-center mr-3">
                                 <p className=' overflow-hidden'>{career.jobType || "N/A"}</p>
                             </div>
-                            {/* <div className="col-span-1 flex items-center mr-3">
-                                <p className="font-medium">{career.resume || "N/A"}</p>
-                            </div> */}
-                            {/* <div className="col-span-2 flex items-center mr-3">
+                            <div className="col-span-1 flex items-center mr-3">
+                                {career.resume ? (
+                                    <a
+                                        href={`${import.meta.env.VITE_APICLIENT}/uploads/${career.resume}`}
+                                        download
+                                        className="p-2"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label="Download resume"
+                                    >
+                                        <svg className="w-12 h-12 hover:text-success text-midnight" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4" />
+                                        </svg>
+
+                                    </a>
+                                ) : (
+                                    <p className="text-gray-500 font-medium">N/A</p>
+                                )}
+                            </div>
+                            <div className="col-span-1 flex items-center mr-3">
                                 {career.idCard
                                     ?
                                     <img
-                                        src={career.idCard || undefined}
+                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${career.idCard}`}
                                         alt="Offer"
-                                        className="w-full h-25 object-cover rounded-lg"
+                                        className="w-full h-18 object-cover rounded-lg"
                                     />
                                     :
                                     <p className="line-clamp-3 overflow-hidden">No Image</p>
                                 }
-                            </div> */}
+                            </div>
 
                             {/* Actions */}
                             <div className="col-span-1 flex items-center">

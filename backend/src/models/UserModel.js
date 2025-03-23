@@ -20,8 +20,8 @@ const User = sequelize.define('User ', {
         allowNull: false,
         unique: true
     },
-    authentication: {
-        type: DataTypes.JSON,
+    password: {
+        type: DataTypes.STRING,
         allowNull: true
     },
     role: {

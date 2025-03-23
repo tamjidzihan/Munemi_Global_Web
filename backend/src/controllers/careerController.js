@@ -1,4 +1,9 @@
 const careerService = require('../services/careerService');
+const fs = require('fs').promises;
+const path = require('path');
+
+// Configure upload directory path
+const uploadDir = path.join(__dirname, '../uploads/');
 
 const getAllCareers = async (req, res) => {
     try {
@@ -43,21 +48,89 @@ const createNewCareer = async (req, res) => {
     }
 };
 
-
 const updateCareerById = async (req, res) => {
     try {
-        const [updated] = await careerService.updateCareer(req.params.id, req.body);
-        if (!updated) return res.status(404).json({ message: 'Career not found' });
+        const careerId = req.params.id;
+        const existingCareer = await careerService.findCareerById(careerId);
+
+        if (!existingCareer) {
+            return res.status(404).json({ message: 'Career not found' });
+        }
+
+        const updateData = { ...req.body };
+        const filesToDelete = [];
+
+        // Handle ID Card update
+        if (req.files?.['idCard']) {
+            updateData.idCard = req.files['idCard'][0].filename;
+            if (existingCareer.idCard) {
+                filesToDelete.push(existingCareer.idCard);
+            }
+        }
+
+        // Handle Resume update
+        if (req.files?.['resume']) {
+            updateData.resume = req.files['resume'][0].filename;
+            if (existingCareer.resume) {
+                filesToDelete.push(existingCareer.resume);
+            }
+        }
+
+        // Update database record
+        const [updated] = await careerService.updateCareer(careerId, updateData);
+        if (!updated) {
+            return res.status(404).json({ message: 'Career not found' });
+        }
+
+        // Delete old files
+        await Promise.all(
+            filesToDelete.map(async (filename) => {
+                try {
+                    await fs.unlink(path.join(uploadDir, filename));
+                } catch (err) {
+                    console.error(`Error deleting file ${filename}:`, err);
+                }
+            })
+        );
+
         res.status(200).json({ message: 'Career updated successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error updating career', error });
     }
 };
 
+
 const deleteCareer = async (req, res) => {
     try {
-        const deleted = await careerService.deleteCareerById(req.params.id);
-        if (!deleted) return res.status(404).json({ message: 'Career not found' });
+        const careerId = req.params.id;
+        const career = await careerService.findCareerById(careerId);
+
+        if (!career) {
+            return res.status(404).json({ message: 'Career not found' });
+        }
+
+        // Get files to delete
+        const filesToDelete = [];
+        if (career.idCard) filesToDelete.push(career.idCard);
+        if (career.resume) filesToDelete.push(career.resume);
+
+        // Delete database record
+        const deleted = await careerService.deleteCareerById(careerId);
+        if (!deleted) {
+            return res.status(404).json({ message: 'Career not found' });
+        }
+
+        // Delete associated files
+        await Promise.all(
+            filesToDelete.map(async (filename) => {
+                try {
+                    await fs.unlink(path.join(uploadDir, filename));
+                } catch (err) {
+                    console.error(`Error deleting file ${filename}:`, err);
+                }
+            })
+        );
+
         res.status(200).json({ message: 'Career deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting career', error });
