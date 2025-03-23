@@ -62,8 +62,8 @@ const CreateCareerModel = ({
         formDataToSend.append("resume", selectedResume); // PDF File
 
         try {
-            await createCareer(formDataToSend);
-            addNewCareer(formDataToSend);
+            const newCareer = await createCareer(formDataToSend);
+            addNewCareer(newCareer);
             closeModal();
         } catch (error) {
             console.error(error);
