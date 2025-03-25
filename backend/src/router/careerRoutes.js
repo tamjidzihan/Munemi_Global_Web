@@ -1,12 +1,13 @@
 const careerController = require('../controllers/careerController');
 const upload = require("../middlewares/multerConfig")
+const { isAuthenticated } = require("../middlewares")
 
 
 module.exports = (router) => {
-    router.get('/careers', careerController.getAllCareers);
+    router.get('/careers', isAuthenticated, careerController.getAllCareers);
     router.get('/careers/:id', careerController.getCareerById);
     router.post(
-        '/careers',
+        '/careers', isAuthenticated,
         upload.fields([
             { name: 'idCard', maxCount: 1 },
             { name: 'resume', maxCount: 1 }
@@ -14,12 +15,12 @@ module.exports = (router) => {
         careerController.createNewCareer
     );
     router.put(
-        '/careers/:id',
+        '/careers/:id', isAuthenticated,
         upload.fields([
             { name: 'idCard', maxCount: 1 },
             { name: 'resume', maxCount: 1 }
         ]),
         careerController.updateCareerById
     );
-    router.delete('/careers/:id', careerController.deleteCareer);
+    router.delete('/careers/:id', isAuthenticated, careerController.deleteCareer);
 };
