@@ -1,10 +1,9 @@
 const multer = require('multer');
-const path = require('path');
 
 // Define storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'src/uploads/'); // Save files in the 'uploads' folder
+        cb(null, 'src/uploads/');
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.fieldname}-${file.originalname}`);
