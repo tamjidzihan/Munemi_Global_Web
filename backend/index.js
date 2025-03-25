@@ -5,7 +5,7 @@ const { connectDB } = require("./src/utils/database");
 const router = require("./src/router");
 
 dotenv.config();
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // Routes
 app.get("/", (req, res) => {

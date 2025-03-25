@@ -1,4 +1,3 @@
-const express = require("express");
 const { authentication, random } = require("../helpers");
 const dotenv = require("dotenv");
 const { createUser, getUserByEmail } = require("../services/userService");

@@ -7,12 +7,12 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const ORIGINS = "*";
+const ORIGINS = process.env.ORIGINS;
 
 const app = express();
 
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: [ORIGINS],
     credentials: true,
     methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Authorization",

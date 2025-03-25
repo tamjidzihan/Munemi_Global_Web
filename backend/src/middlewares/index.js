@@ -1,4 +1,3 @@
-const express = require("express");
 const { merge, get } = require("lodash");
 const { getUserBySessionToken } = require("../services/userService");
 const dotenv = require("dotenv");

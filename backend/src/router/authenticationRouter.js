@@ -1,4 +1,6 @@
+const authenticationController = require('../controllers/authenticationController')
+
 module.exports = (router) => {
-    router.post('/auth/register', register);
-    router.post('/auth/login', login);
+    router.post('/auth/register', authenticationController.register);
+    router.post('/auth/login', authenticationController.login);
 }
