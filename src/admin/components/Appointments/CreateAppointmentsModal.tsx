@@ -41,7 +41,7 @@ const CreateAppointmentsModal = ({
             appointmentOffice,
             message,
             updatedAt: "",
-            _id: "",
+            id: "",
         };
 
         try {

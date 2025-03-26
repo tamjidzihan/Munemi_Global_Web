@@ -35,12 +35,12 @@ const EditAppointmentModal = ({
             appointmentOffice,
             message,
             updatedAt: new Date().toISOString(),
-            _id: appointment._id,
+            id: appointment.id,
         };
 
         setLoading(true);
         try {
-            await updateAppointment(appointment._id, updatedAppointment);
+            await updateAppointment(appointment.id, updatedAppointment);
             closeModal();
         } catch (error) {
             console.error("Failed to update appointment", error);

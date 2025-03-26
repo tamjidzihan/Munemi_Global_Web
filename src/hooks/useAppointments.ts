@@ -11,7 +11,7 @@ export interface Appointment {
     appointmentOffice: string;
     message?: string;
     updatedAt: string;
-    _id: string;
+    id: string;
 }
 
 const useAppointments = () => {
@@ -57,7 +57,7 @@ const useAppointments = () => {
         try {
             const response = await apiClint.patch(`/appointments/${id}`, updatedAppointment);
             const updatedAppointments = appointments.map((appointment) =>
-                appointment._id === id ? response.data : appointment
+                appointment.id === id ? response.data : appointment
             );
             setAppointments(updatedAppointments);
             setLoading(false);
@@ -72,7 +72,7 @@ const useAppointments = () => {
         setLoading(true);
         try {
             await apiClint.delete(`/appointments/${id}`);
-            setAppointments(appointments.filter((appointment) => appointment._id !== id));
+            setAppointments(appointments.filter((appointment) => appointment.id !== id));
             setLoading(false);
         } catch (err) {
             setError('Failed to delete appointment');
