@@ -1,13 +1,14 @@
 import { useState } from "react";
 const countries = [
     "All Countries",
-    "Canada",
     "Australia",
-    "USA",
+    "United States",
+    "Canada",
     "United Kingdom",
-    "New Zealand",
-    "China",
-    "South Korea",
+    "Hungary",
+    "France",
+    "Saudi Arabia",
+    "Spain",
 ];
 const universities = Array(20)
     .fill(null)
