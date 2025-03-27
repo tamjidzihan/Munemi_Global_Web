@@ -1,8 +1,34 @@
 const { authentication, random } = require("../helpers");
 const dotenv = require("dotenv");
-const { createUser, getUserByEmail, getUserByEmailWithAuth } = require("../services/userService");
+const { createUser, getUserByEmail, getUserByEmailWithAuth, getUserBySessionToken } = require("../services/userService");
 
 dotenv.config();
+
+
+
+const getUser = async (req, res) => {
+    try {
+        const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME;
+        const token = req.cookies[SESSION_COOKIE_NAME]
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const user = await getUserBySessionToken(token)
+        if (!user) {
+            return res.status(401).json({ message: "Invalid session" });
+        }
+
+        return res.status(200).json({ user });
+
+    } catch (error) {
+        console.error("Auth Check Error:", error);
+        return res.status(500).json({ message: "Internal Server Error." });
+    }
+}
+
+
+
+
 
 const login = async (req, res) => {
     try {
@@ -79,6 +105,7 @@ const register = async (req, res) => {
 };
 
 module.exports = {
+    getUser,
     login,
     register
 };

@@ -10,6 +10,7 @@ import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
 import { ConsultationForm } from "../components/home/ConsultationForm";
 import { HelpProcess } from "../components/home/HelpProcess";
+import { PartnerUniversities } from "../components/home/PartnerUniversities";
 
 const HomePage = () => {
 
@@ -43,22 +44,31 @@ const HomePage = () => {
     return (
         <main className="w-full">
             <HeroSection />
+            <ImmigrationConsult />
             <section className="py-20 px-4">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
+                        Our Services
+                    </h2>
+                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                        We offer a range of services to support students and professionals at every stage of their journey, from education to career growth.
+                    </p>
+                </div>
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 ">
+
                     {services.map((service, index) => (
                         <ServiceCard key={index} {...service} />
                     ))}
                 </div>
             </section>
-            <ImmigrationConsult />
             <HelpProcess />
-            <Statistics />
             <ProcessSection />
             <OverseasEducation />
             <TestimonialsSection />
-            <NewsSection />
             <ConsultationForm />
-            {/* <PartnerUniversities /> */}
+            <NewsSection />
+            <PartnerUniversities />
+            <Statistics />
         </main>
     )
 }
