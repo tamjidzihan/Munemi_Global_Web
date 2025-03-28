@@ -3,13 +3,21 @@ const University = require('../models/UniversityModel');
 const getUniversity = () => University.findAll();
 const findUniversityById = (id) => University.findByPk(id);
 const createUniversity = (valuse) => University.create(valuse);
-const updateUniversity = (id, valuse) => University.update(valuse, { where: { id }, returning: true });
-const deleteUniversity = (id) => University.destroy({ where: { id } })
+const updateUniversityById = async (id, values) => {
+    const [updatedCount] = await University.update(values, {
+        where: { id },
+    });
+
+    if (updatedCount === 0) return null; // If nothing was updated
+
+    return University.findByPk(id); // Fetch the updated university
+};
+const deleteUniversityById = (id) => University.destroy({ where: { id } })
 
 module.exports = {
     getUniversity,
     findUniversityById,
     createUniversity,
-    updateUniversity,
-    deleteUniversity
+    updateUniversityById,
+    deleteUniversityById
 }
