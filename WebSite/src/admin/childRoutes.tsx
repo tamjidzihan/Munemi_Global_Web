@@ -4,6 +4,7 @@ import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 import Offers from "./pages/Offers/Offers";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
+import Universities from "./pages/University/Universities";
 // import AlumniList from "./pages/AlumniList/AlumniList";
 // import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 // import Events from "./pages/Events/Events";
@@ -56,6 +57,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="Career | Modarate Job Application Here" />
                 <Career />
+            </>
+        ),
+    },
+    {
+        path: "university",
+        element: (
+            <>
+                <PageTitle title="University | Modarate University Here" />
+                <Universities />
             </>
         ),
     },
