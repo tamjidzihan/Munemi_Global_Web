@@ -1,15 +1,10 @@
 import Loader from "../../../components/common/Loader";
 import useUniversity from "../../../hooks/useUniversity";
-
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import UniversitiesList from "../../components/University/UniversitiesList";
 
 const Universities = () => {
-    const {
-        universities,
-        deleteUniversity,
-        loading
-    } = useUniversity();
+    const { universities, deleteUniversity, loading } = useUniversity();
 
     if (loading) return <Loader />;
 

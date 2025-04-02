@@ -2,7 +2,6 @@ import { Statistics } from "../components/home/Statistics";
 import { ProcessSection } from "../components/home/ProcessSection";
 import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-// import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
@@ -64,10 +63,10 @@ const HomePage = () => {
             <HelpProcess />
             <ProcessSection />
             <OverseasEducation />
-            <TestimonialsSection />
+            <PartnerUniversities />
             <ConsultationForm />
             <NewsSection />
-            <PartnerUniversities />
+            <TestimonialsSection />
             <Statistics />
         </main>
     )

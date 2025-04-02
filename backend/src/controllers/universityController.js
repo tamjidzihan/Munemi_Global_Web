@@ -107,8 +107,8 @@ const updateUniversity = async (req, res) => {
 const deleteUniversity = async (req, res) => {
     try {
         const { id } = req.params;
-
         const deletedUniversity = await universityService.findUniversityById(id)
+
         if (!deletedUniversity) {
             return res.status(404).json({ message: 'University not found' });
         }

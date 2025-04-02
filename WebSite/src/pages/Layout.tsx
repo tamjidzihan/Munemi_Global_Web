@@ -4,6 +4,7 @@ import { Navbar } from "../components/NavBar"
 import { Footer } from "../components/Footer"
 import ScrollToTop from "../components/common/ScrollToTop/ScrollToTop"
 import ScrollToTopButton from "../components/common/ScrollToTop/ScrollToTopButton"
+import WhatsAppButton from "../components/common/WhatsAppButton/WhatsAppButton"
 
 const Layout = () => {
 
@@ -15,6 +16,7 @@ const Layout = () => {
             <Outlet />
             <Footer />
             <ScrollToTopButton />
+            <WhatsAppButton />
         </div>
     )
 }
