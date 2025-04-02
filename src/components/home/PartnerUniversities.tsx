@@ -1,4 +1,6 @@
 import { useState } from "react";
+import useUniversity from "../../hooks/useUniversity";
+import Loader from "../common/Loader";
 const countries = [
     "All Countries",
     "Australia",
@@ -10,20 +12,24 @@ const countries = [
     "Saudi Arabia",
     "Spain",
 ];
-const universities = Array(20)
-    .fill(null)
-    .map((_, index) => ({
-        id: index + 1,
-        name: `Enter University Name Here`,
-        logo: "https://placehold.co/200x100?text=University+Logo",
-        country: countries[Math.floor(Math.random() * (countries.length - 1)) + 1],
-    }));
+// const universities = Array(20)
+//     .fill(null)
+//     .map((_, index) => ({
+//         id: index + 1,
+//         name: `Enter University Name Here`,
+//         logo: "https://placehold.co/200x100?text=University+Logo",
+//         country: countries[Math.floor(Math.random() * (countries.length - 1)) + 1],
+//     }));
 export function PartnerUniversities() {
+    const { universities, loading } = useUniversity()
     const [selectedCountry, setSelectedCountry] = useState("All Countries");
     const filteredUniversities = universities.filter(
         (uni) =>
             selectedCountry === "All Countries" || uni.country === selectedCountry,
     );
+
+
+    if (loading) return <Loader />;
     return (
         <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
@@ -31,9 +37,7 @@ export function PartnerUniversities() {
                     Partner Institutes & Universities
                 </h2>
                 <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                    Cursus porta, feugiat primis in ultrice ligula risus auctor tempus
-                    dolor feugiat, felis lacinia risus interdum auctor id viverra dolor
-                    iaculis luctus placerat and massa
+                    Our partner institutes and universities are committed to transforming lives through quality education.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {countries.map((country) => (
@@ -53,7 +57,7 @@ export function PartnerUniversities() {
                             className="p-4 border rounded-lg hover:shadow-lg transition-shadow"
                         >
                             <img
-                                src={university.logo}
+                                src={`${import.meta.env.VITE_APICLIENT}/uploads/${university.logo}`}
                                 alt={university.name}
                                 className="w-full h-auto"
                             />

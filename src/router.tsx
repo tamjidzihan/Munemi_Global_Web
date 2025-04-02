@@ -4,6 +4,8 @@ import { childRoutes } from "./admin/childRoutes";
 import AdminLayout from "./admin/pages/AdminLayout";
 import SignIn from "./admin/pages/Authentication/SignIn";
 import SignUp from "./admin/pages/Authentication/SignUp";
+import BlogList from "./components/Blog/BlogList";
+import { BlogPost } from "./components/Blog/BlogPost";
 import Enrollment from "./components/Services/AcademicServices/Enrollment";
 import FreeCareerCounseling from "./components/Services/AcademicServices/FreeCareerCounseling";
 import GeneralHealthInsurance from "./components/Services/AcademicServices/GeneralHealthInsurance";
@@ -39,16 +41,14 @@ import GlobalCareerPathway from "./components/StudyDestination/StudyAbroad/Globa
 import NetworkingAndSocialization from "./components/StudyDestination/StudyAbroad/NetworkingAndSocialization";
 import StudyAbroadFAQ from "./components/StudyDestination/StudyAbroad/StudyAbroadFAQ";
 import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
+import StudyDestination from "./components/StudyDestination/StudyDestination";
 import AboutPage from "./pages/AboutPage";
+import BlogPage from "./pages/BlogPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./pages/Layout";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
-import StudyDestination from "./components/StudyDestination/StudyDestination";
-import BlogPage from "./pages/BlogPage";
-import { BlogPost } from "./components/Blog/BlogPost";
-import BlogList from "./components/Blog/BlogList";
 
 
 
@@ -68,7 +68,6 @@ export const router = createBrowserRouter([
                     { index: true, element: <BlogList /> },
                     { path: 'blog-post', element: <BlogPost /> },
                 ]
-
             },
             {
                 path: 'services',
@@ -120,8 +119,10 @@ export const router = createBrowserRouter([
             }
         ]
     },
+
     { path: '/signin', element: <SignIn /> },
     { path: '/signup', element: <SignUp /> },
+
     {
         path: "/adminpanel",
         element: <PrivateRoute />,
