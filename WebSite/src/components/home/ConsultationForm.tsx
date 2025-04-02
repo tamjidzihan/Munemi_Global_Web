@@ -30,7 +30,7 @@ export function ConsultationForm() {
             appointmentOffice,
             message,
             updatedAt: "",
-            _id: "",
+            id: "",
         };
 
         try {
