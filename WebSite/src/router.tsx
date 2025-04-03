@@ -49,6 +49,8 @@ import HomePage from "./pages/HomePage";
 import Layout from "./pages/Layout";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
+import AboutUs from "./components/About/AboutUs";
+import AppointmentBookingForm from "./components/About/AppointmentBookingForm/AppointmentBookingForm";
 
 
 
@@ -60,7 +62,14 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             { index: true, element: <HomePage /> },
-            { path: '/about', element: <AboutPage /> },
+            {
+                path: 'about',
+                element: <AboutPage />,
+                children: [
+                    { index: true, element: <AboutUs /> },
+                    { path: 'appointment-booking', element: <AppointmentBookingForm /> }
+                ]
+            },
             {
                 path: 'blog',
                 element: <BlogPage />,
