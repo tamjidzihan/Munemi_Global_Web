@@ -7,7 +7,7 @@ import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
-import { ConsultationForm } from "../components/home/ConsultationForm";
+import { AppointmentBoking } from "../components/home/AppointmentBoking";
 import { HelpProcess } from "../components/home/HelpProcess";
 import { PartnerUniversities } from "../components/home/PartnerUniversities";
 
@@ -64,7 +64,7 @@ const HomePage = () => {
             <ProcessSection />
             <OverseasEducation />
             <PartnerUniversities />
-            <ConsultationForm />
+            <AppointmentBoking />
             <NewsSection />
             <TestimonialsSection />
             <Statistics />
