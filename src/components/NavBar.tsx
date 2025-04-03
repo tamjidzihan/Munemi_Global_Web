@@ -50,7 +50,7 @@ export function Navbar() {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="hidden md:flex items-center space-x-3 lg:space-x-10 ">
+                <div className="hidden lg:flex items-center space-x-3 lg:space-x-10 ">
                     <Link to="/" onClick={scrollToTop} className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>

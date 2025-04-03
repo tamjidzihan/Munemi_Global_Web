@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const logout = async () => {
         try {
-            await apiClient.post("/auth/logout", {}, { withCredentials: true });
+            await apiClient.post("/auth/logout", { withCredentials: true });
         } catch (error) {
             console.error("Logout failed", error);
         } finally {
