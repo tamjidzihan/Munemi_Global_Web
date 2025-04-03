@@ -4,8 +4,6 @@ const { createUser, getUserByEmail, getUserByEmailWithAuth, getUserBySessionToke
 
 dotenv.config();
 
-
-
 const getUser = async (req, res) => {
     try {
         const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME;
@@ -25,10 +23,6 @@ const getUser = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error." });
     }
 }
-
-
-
-
 
 const login = async (req, res) => {
     try {
@@ -104,8 +98,30 @@ const register = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    try {
+        const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME;
+        const sessionToken = req.cookies[SESSION_COOKIE_NAME]; // Get the session token from the cookie
+
+        if (sessionToken) {
+            const user = await getUserBySessionToken(sessionToken); // Find the user by session token
+            if (user) {
+                user.sessionToken = null; // Invalidate the session token
+                await user.save(); // Save the user document
+            }
+        }
+
+        res.clearCookie(SESSION_COOKIE_NAME, { path: '/' }); // Clear the cookie
+        res.status(200).json({ message: "Logout successful" });
+    } catch (error) {
+        console.error("Logout Error:", error);
+        res.status(500).json({ message: "Internal Server Error." });
+    }
+};
+
 module.exports = {
     getUser,
     login,
-    register
+    register,
+    logout
 };

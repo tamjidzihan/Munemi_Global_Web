@@ -46,12 +46,12 @@ const SignUp: React.FC = () => {
       <div className="rounded-lg mt-5 place-self-center border border-stroke bg-white shadow-default ">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
-            <div className="py-17.5 px-26 text-center">
+            <div className="py-17.5 px-40 text-center">
               <NavLink to="/">
                 <div className=' pl-5 text-3xl  font-bold text-midnight'>Munemi Global</div>
               </NavLink>
               <p className="2xl:px-10">
-                Log in to your Account
+                Create A New Account
               </p>
 
               <span className="mt-15 inline-block">
@@ -179,10 +179,10 @@ const SignUp: React.FC = () => {
             </div>
           </div>
 
-          <div className="w-full border-stroke xl:w-1/2 xl:border-l-2">
+          <div className="w-full border-stroke xl:w-1/2 xl:border-l-4">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               {showAlert && <Alert message={error} type="error" onClose={() => setShowAlert(false)} />}
-              <h2 className="mb-9 text-2xl font-bold text-black  sm:text-title-xl2">
+              <h2 className="mb-9 text-2xl font-bold text-black  sm:text-3xl">
                 Sign Up to Dashboard
               </h2>
 
@@ -196,7 +196,7 @@ const SignUp: React.FC = () => {
                       type="text"
                       placeholder="Enter your first name"
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input  dark:focus:border-primary"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none "
                     />
 
                     <span className="absolute right-4 top-4">
@@ -231,7 +231,7 @@ const SignUp: React.FC = () => {
                       type="text"
                       placeholder="Enter your last name"
                       onChange={(e) => setLastName(e.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input  dark:focus:border-primary"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none "
                     />
 
                     <span className="absolute right-4 top-4">
@@ -267,7 +267,7 @@ const SignUp: React.FC = () => {
                       type="email"
                       placeholder="Enter your email"
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input  "
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none"
                     />
 
                     <span className="absolute right-4 top-4">
@@ -299,7 +299,7 @@ const SignUp: React.FC = () => {
                       type="password"
                       placeholder="Enter your password"
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input  dark:focus:border-primary"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none "
                     />
 
                     <span className="absolute right-4 top-4">
@@ -335,7 +335,7 @@ const SignUp: React.FC = () => {
                       type="password"
                       placeholder="Re-enter your password"
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input  dark:focus:border-primary"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none "
                     />
 
                     <span className="absolute right-4 top-4">
