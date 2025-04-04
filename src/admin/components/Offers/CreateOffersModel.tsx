@@ -1,35 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { OfferProps } from "../../../hooks/useOffers";
-import { useImageUploadDelete } from "../../../hooks/useImage";
+import useOffer, { OfferProps } from "../../../hooks/useOffers";
 
 
 type CreateOfferModalProps = {
     isOpen: boolean;
     closeModal: () => void;
     addNewOffer: (newOffer: OfferProps) => void;
-    createOffer: (offer: OfferProps) => Promise<void>
 }
 
 const CreateOffersModal = ({
     isOpen,
     closeModal,
     addNewOffer,
-    createOffer,
 }: CreateOfferModalProps) => {
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
-    const [termsAndConditions, setTermsAndConditions] = useState('')
-    const [isActive, setIsActive] = useState<boolean>(true)
-    const [loading, setLoading] = useState(false);
+    const { createOffers, loading } = useOffer()
 
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        termsAndConditions: '',
+        isActive: true,
+    });
 
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-
-    const { uploadImage, loading: imageLoading } = useImageUploadDelete();
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0] || null;
@@ -41,55 +37,46 @@ const CreateOffersModal = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true); // Start loading
-
+        const { title, description, startDate, endDate, termsAndConditions, isActive } = formData;
         if (!title || !description || !startDate || !endDate) {
             alert("All fields are required.");
             return;
         }
-
+        const formDataToSend = new FormData()
         if (selectedImage) {
-            const imageFile: any = await uploadImage(selectedImage);
-            const newOffer: OfferProps = {
-                title,
-                description,
-                startDate,
-                endDate,
-                termsAndConditions,
-                image: {
-                    publicId: imageFile.public_id,
-                    imageUrl: imageFile.secure_url
-                },
-                isActive,
-                updatedAt: "",
-                _id: "",
-            };
-
-            try {
-                await createOffer(newOffer);
-                addNewOffer(newOffer);
-                closeModal();
-            } catch (error) {
-                console.log(error)
-                alert("Failed to create appointment.");
-            } finally {
-                setLoading(false); // Stop loading
-                setTitle('')
-                setDescription('')
-                setStartDate('')
-                setEndDate('')
-                setTermsAndConditions('')
-                setIsActive(true)
-                setSelectedImage(null)
-            }
+            formDataToSend.append("title", title);
+            formDataToSend.append("description", description);
+            formDataToSend.append("startDate", startDate);
+            formDataToSend.append("endDate", endDate);
+            formDataToSend.append("termsAndConditions", termsAndConditions);
+            formDataToSend.append("isActive", isActive.toString());
+            formDataToSend.append("image", selectedImage);
         }
+        try {
+            const newOffer = await createOffers(formDataToSend)
+            addNewOffer(newOffer);
+            closeModal();
+        } catch (error) {
+            console.log(error)
+            alert("Failed to create offer.");
+        } finally {
+            setFormData({
+                title: '',
+                description: '',
+                startDate: '',
+                endDate: '',
+                termsAndConditions: '',
+                isActive: true,
+            })
+            setSelectedImage(null)
+            setPreviewImage(null)
+        }
+
 
     };
 
-
-
-
     if (!isOpen) return null;
+
     return (
         <div className="inset-0 py-10 flex items-center justify-center bg-gray-200  shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
@@ -99,8 +86,8 @@ const CreateOffersModal = ({
                         <label className="block text-sm font-medium mb-2">Title</label>
                         <input
                             type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={formData.title}
+                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -109,8 +96,8 @@ const CreateOffersModal = ({
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">Description</label>
                         <textarea
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            value={formData.description}
+                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             rows={3}
                             disabled={loading}
@@ -121,8 +108,8 @@ const CreateOffersModal = ({
                             <label className="block text-sm font-medium mb-2">Start Date</label>
                             <input
                                 type="date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
+                                value={formData.startDate}
+                                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
                                 className="w-full p-2 border  border-gray-300 rounded-md focus:outline-blue-500"
                                 disabled={loading}
                                 required
@@ -132,8 +119,8 @@ const CreateOffersModal = ({
                             <label className="block text-sm font-medium mb-2">End Date</label>
                             <input
                                 type="date"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
+                                value={formData.endDate}
+                                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
                                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 disabled={loading}
                                 required
@@ -152,10 +139,10 @@ const CreateOffersModal = ({
                                             <img
                                                 src={previewImage}
                                                 alt="Preview"
-                                                className={`rounded w-full max-h-[300px] object-contain ${imageLoading ? "opacity-50 blur-sm" : ""
+                                                className={`rounded w-full max-h-[300px] object-contain ${loading ? "opacity-50 blur-sm" : ""
                                                     }`}
                                             />
-                                            {imageLoading && (
+                                            {loading && (
                                                 <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 rounded">
                                                     <div className="loader border-4 border-t-primary rounded-full w-12 h-12 animate-spin"></div>
                                                 </div>
@@ -230,8 +217,8 @@ const CreateOffersModal = ({
                         <label className="block text-sm font-medium mb-2">Terms And Conditions</label>
                         <input
                             type="text"
-                            value={termsAndConditions}
-                            onChange={(e) => setTermsAndConditions(e.target.value)}
+                            value={formData.termsAndConditions}
+                            onChange={(e) => setFormData({ ...formData, termsAndConditions: e.target.value })}
                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             disabled={loading}
                             required
@@ -242,8 +229,8 @@ const CreateOffersModal = ({
                             id="default-checkbox"
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 "
                             type="checkbox"
-                            checked={isActive}
-                            onChange={(e) => setIsActive(e.target.checked)}
+                            checked={formData.isActive}
+                            onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                             disabled={loading}
 
                         />
@@ -269,7 +256,7 @@ const CreateOffersModal = ({
                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                 </svg>
                             ) : (
-                                "Create Appointment"
+                                "Create Offer"
                             )}
                         </button>
                     </div>

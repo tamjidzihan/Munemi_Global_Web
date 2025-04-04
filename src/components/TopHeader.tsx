@@ -3,7 +3,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 export function TopHeader() {
     return (
-        <div className="hidden lg:block bg-gray-50 text-sm py-3 border border-gray-200">
+        <div className="hidden lg:block bg-gray-50 text-sm py-1.5 border border-gray-200">
             <div className="max-w-7xl text-gray-600 mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center">
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center">
@@ -28,7 +28,7 @@ export function TopHeader() {
                         <span>info@munemiglobal.com</span>
                     </Link>
                     <Link to={'about/appointment-booking'}>
-                        <button className="inline-block w-full text-center cursor-pointer py-2 px-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
+                        <button className="inline-block w-full text-center cursor-pointer py-2 px-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.08] shadow-lg hover:shadow-xl">
                             Book An Appointment
                         </button>
                     </Link >
