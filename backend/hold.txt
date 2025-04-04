@@ -1,0 +1,1 @@
+domains/server.munemiglobal.com/public_html
