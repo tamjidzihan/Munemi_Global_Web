@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { formatDate, truncateText } from "../../../helpers/helpers";
-import useOffer, { OfferProps } from "../../../hooks/useOffers";
+import { OfferProps } from "../../../hooks/useOffers";
 import CreateOffersModal from "./CreateOffersModel";
 import { Minus } from "lucide-react";
 
@@ -10,7 +10,6 @@ type OffersListProps = {
 }
 
 const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
-    const { createOffers } = useOffer()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [offersList, setOffersList] = useState<OfferProps[]>(allOffers)
 
@@ -54,7 +53,6 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                 addNewOffer={addNewOffer}
                 isOpen={isModalOpen}
                 closeModal={closeModal}
-                createOffer={createOffers}
             />
 
             {/* Create Event Modal */}
@@ -90,7 +88,7 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                     .map((offer: OfferProps) => (
                         <div
-                            key={offer._id}
+                            key={offer.id}
                             className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5"
                         >
                             <div className="col-span-1 flex  items-center mr-3">
@@ -112,7 +110,7 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                 {offer.image
                                     ?
                                     <img
-                                        src={offer.image?.imageUrl || undefined}
+                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${offer.image}`}
                                         alt="Offer"
                                         className="w-full h-25 object-cover rounded-lg"
                                     />
@@ -155,7 +153,7 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                     {/* Delete AppointMent */}
                                     <button
                                         className="hover:text-danger cursor-pointer"
-                                        onClick={() => deleteOffer(offer._id)}
+                                        onClick={() => deleteOffer(offer.id)}
                                     >
                                         <svg
                                             className="fill-current"

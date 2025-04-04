@@ -27,7 +27,7 @@ const Offer = sequelize.define('Offer', {
         type: DataTypes.STRING
     },
     image: {
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: true
     },
     isActive: {

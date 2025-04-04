@@ -14,7 +14,7 @@ export interface OfferProps {
     };
     isActive?: boolean;
     updatedAt: string;
-    _id: string;
+    id: string;
 }
 
 
@@ -40,31 +40,59 @@ const useOffer = () => {
     }, [])
 
 
-    const createOffers = async (offers: OfferProps) => {
-        setLoading(true)
+    const createOffers = async (formData: FormData): Promise<OfferProps> => {
+        setLoading(true);
         try {
-            const response = await apiClient.post('/offers', offers)
-            setOffers((prev) => [response.data, ...prev])
-            setLoading(false)
-            return response.data
+            const response = await apiClient.post("/offers", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setOffers(prev => [response.data, ...prev]);
+            return response.data;
         } catch (err) {
-            setError('Failed to create offers');
-            setLoading(false)
-            throw err
+            setError("Failed to create offer");
+            throw err;
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
-    const deleteoffers = async (id: string) => {
-        setLoading(true)
+    // Update offer
+    const updateOffers = async (id: string, formData: FormData): Promise<OfferProps> => {
+        setLoading(true);
+        try {
+            const response = await apiClient.put(`/offers/${id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            setOffers(prev =>
+                prev.map(offer => offer.id === id ? response.data : offer)
+            );
+            return response.data;
+        } catch (err) {
+            setError("Failed to update offer");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    // Delete offer
+    const deleteOffers = async (id: string): Promise<void> => {
+        setLoading(true);
         try {
             await apiClient.delete(`/offers/${id}`);
-            setOffers((prev) => prev.filter((offer) => offer._id !== id))
-            setLoading(false)
+            setOffers(prev => prev.filter(offer => offer.id !== id));
         } catch (err) {
-            setError('Failed to delete Offers')
-            setLoading(false)
+            setError("Failed to delete offer");
+            throw err;
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return {
         totalOffers,
@@ -73,7 +101,8 @@ const useOffer = () => {
         error,
         setOffers,
         createOffers,
-        deleteoffers
+        updateOffers,
+        deleteOffers
     }
 }
 
