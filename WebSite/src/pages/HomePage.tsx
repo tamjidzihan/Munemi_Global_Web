@@ -1,5 +1,5 @@
 import { Statistics } from "../components/home/Statistics";
-import { ProcessSection } from "../components/home/ProcessSection";
+// import { ProcessSection } from "../components/home/ProcessSection";
 import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
 import { OverseasEducation } from "../components/home/OverseasEducation";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
@@ -61,7 +61,7 @@ const HomePage = () => {
                 </div>
             </section>
             <HelpProcess />
-            <ProcessSection />
+            {/* <ProcessSection /> */}
             <OverseasEducation />
             <PartnerUniversities />
             <AppointmentBoking />

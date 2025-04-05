@@ -54,7 +54,10 @@ const login = async (req, res) => {
 
         res.cookie(SESSION_COOKIE_NAME, user.sessionToken, {
             domain: DOMAIN_NAME,
-            path: '/'
+            path: '/',
+            httpOnly: true,               // optional but good for security
+            secure: true,                 // required since you’re using HTTPS
+            sameSite: 'None'
         });
 
         res.status(200).json({ message: "Login successful", user });
