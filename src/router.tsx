@@ -51,6 +51,9 @@ import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
 import AboutUs from "./components/About/AboutUs";
 import AppointmentBookingForm from "./components/About/AppointmentBookingForm/AppointmentBookingForm";
+import CareerPage from "./pages/CareerPage";
+import Career from "./components/Career/Career";
+import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplicationForm";
 
 
 
@@ -70,14 +73,7 @@ export const router = createBrowserRouter([
                     { path: 'appointment-booking', element: <AppointmentBookingForm /> }
                 ]
             },
-            {
-                path: 'blog',
-                element: <BlogPage />,
-                children: [
-                    { index: true, element: <BlogList /> },
-                    { path: 'blog-post', element: <BlogPost /> },
-                ]
-            },
+
             {
                 path: 'services',
                 element: <ServicesPage />,
@@ -124,6 +120,22 @@ export const router = createBrowserRouter([
                     { path: 'global-career-pathway', element: <GlobalCareerPathway /> },
                     { path: 'study-abroad-faq', element: <StudyAbroadFAQ /> },
                     { path: 'networking-&-socialization', element: <NetworkingAndSocialization /> },
+                ]
+            },
+            {
+                path: 'blog',
+                element: <BlogPage />,
+                children: [
+                    { index: true, element: <BlogList /> },
+                    { path: 'blog-post', element: <BlogPost /> },
+                ]
+            },
+            {
+                path: 'career',
+                element: <CareerPage />,
+                children: [
+                    { index: true, element: <Career /> },
+                    { path: 'job-application', element: <JobApplicationForm /> }
                 ]
             }
         ]

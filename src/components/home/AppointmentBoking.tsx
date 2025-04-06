@@ -31,7 +31,7 @@ export function AppointmentBoking() {
 
                 <div className="bg-white/95 backdrop-blur-sm  rounded-2xl shadow-2xl space-y-8 transition-all duration-300 hover:shadow-3xl">
                     <Link
-                        to={'about/appointment-booking'}
+                        to={'/about/appointment-booking'}
                         className="inline-block w-full text-center cursor-pointer py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-3xl font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                     >
                         Book Appointment Now

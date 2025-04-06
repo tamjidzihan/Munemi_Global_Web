@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react'
 import Breadcrumb from '../components/Breadcrumb/Breadcrumb'
 import { Outlet } from 'react-router-dom'
+import PageTitle from '../admin/components/PageTitle'
 
 const blogPosts = [
     {
@@ -58,6 +59,7 @@ const countries = [
 const BlogPage = () => {
     return (
         <>
+            <PageTitle title='Blog | Munemi Global' />
             <section className=" bg-red-500 ">
                 <Breadcrumb />
             </section>

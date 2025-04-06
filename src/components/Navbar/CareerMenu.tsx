@@ -19,7 +19,7 @@ const CareerMenu = () => {
                         <h3 className="font-bold text-midnight text-lg mb-2">Join Us :</h3>
                         <ul className="space-y-2">
                             {[
-                                { label: "Career with us", link: "/" },
+                                { label: "Career with us", link: "/career" },
                                 { label: "Become an Agent (B2B)", link: "/" },
                                 { label: "Become an Institute Partner", link: "/" },
                                 { label: "Become a Health Insurance Partner", link: "/" },

@@ -88,7 +88,7 @@ export function Navbar() {
                         onMouseEnter={() => setShowCareerMenu(true)}
                         onMouseLeave={() => setShowCareerMenu(false)}
                     >
-                        <button className={`px-4 py-2 hover:text-red-600 text-white border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm text-center ${isScrolled ? "py-1" : "py-2"}`}>
+                        <button className={`px-4 py-2 hover:text-red-600 hover:font-medium text-white font-semibold border border-red-500 bg-red-500 hover:bg-white transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg text-sm text-center ${isScrolled ? "py-1" : "py-2"}`}>
                             BECOME PART OF US
                         </button>
                         {showCareerMenu && <CareerMenu />}

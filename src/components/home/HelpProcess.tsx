@@ -26,7 +26,7 @@ export function HelpProcess() {
             number: 4,
             title: 'Submission',
             description:
-                'Upon collecting and verifying all documentation, Embark Global will lodge the applications on your behalf.',
+                'Upon collecting and verifying all documentation, Munemi Global will lodge the applications on your behalf.',
         },
         {
             number: 5,

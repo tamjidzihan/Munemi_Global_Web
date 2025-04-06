@@ -5,7 +5,7 @@ const Breadcrumb = () => {
     const pathnames = location.pathname.split("/").filter((x) => x);
 
     return (
-        <div className="container max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="container max-w-7xl mx-auto px-4 py-1 flex flex-wrap items-center gap-2 sm:gap-3">
             <nav className="w-full">
                 <ol className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
                     <li>
