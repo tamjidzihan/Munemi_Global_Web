@@ -10,6 +10,7 @@ import { ServiceCard } from "../components/home/ServiceCard";
 import { AppointmentBoking } from "../components/home/AppointmentBoking";
 import { HelpProcess } from "../components/home/HelpProcess";
 import { PartnerUniversities } from "../components/home/PartnerUniversities";
+import PageTitle from "../admin/components/PageTitle";
 
 const HomePage = () => {
 
@@ -42,6 +43,7 @@ const HomePage = () => {
 
     return (
         <main className="w-full">
+            <PageTitle title="Home | Munemi Global" />
             <HeroSection />
             <ImmigrationConsult />
             <section className="py-20 px-4">
