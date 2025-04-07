@@ -33,7 +33,13 @@ const Benefits = () => {
                 </p>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {benefits.map((benefit, index) => (
-                        <div key={index} className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                        <div
+                            key={index}
+                            className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm 
+                                      hover:-translate-y-2 hover:shadow-lg transition-all 
+                                      duration-300 ease-out animate-fade-in-up"
+                            style={{ animationDelay: `${index * 100}ms` }}
+                        >
                             <h3 className="font-bold text-midnight text-xl mb-3">{benefit.title}</h3>
                             <p className="text-gray-600">{benefit.description}</p>
                         </div>

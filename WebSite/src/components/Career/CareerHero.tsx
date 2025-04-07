@@ -10,9 +10,11 @@ const CareerHero = () => {
                     Be part of a dynamic team helping people achieve their immigration
                     dreams
                 </p>
-                <button className="bg-red-500 text-white px-8 py-3 rounded hover:bg-red-600">
-                    View Open Positions
-                </button>
+                <a href='#positions'>
+                    <button className="bg-red-500 text-white cursor-pointer px-8 py-3 rounded-xl hover:bg-red-600  hover:scale-105 transition-transform">
+                        View Open Positions
+                    </button>
+                </a>
             </div>
         </section>
     )

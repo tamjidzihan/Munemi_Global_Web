@@ -45,8 +45,8 @@ const HeroCarousel = () => {
         const interval = setInterval(() => {
             nextSlide();
         }, 8000);
-        return () => clearInterval(interval);
-    }, [currentIndex]);
+        return () => clearInterval(interval); // Clear interval on unmount
+    }, []); // Only run once on mount
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -57,7 +57,7 @@ const HeroCarousel = () => {
     };
 
     return (
-        <section className="relative min-h-[500px] sm:min-h-[600px] md:min-h-[650px] lg:min-h-[700px] flex items-center justify-center text-center text-white overflow-hidden">
+        <section className="relative min-h-[400px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[500px] flex items-center justify-center text-center text-white overflow-hidden">
             <AnimatePresence>
                 <motion.div
                     key={currentIndex}
@@ -82,10 +82,13 @@ const HeroCarousel = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <p className="text-sm sm:text-lg mb-2 sm:mb-4">We have 20+ years experience in</p>
-                        <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6">{slides[currentIndex].title}</h1>
-                        <p className="text-xs sm:text-2xl mb-4 sm:mb-8">{slides[currentIndex].description}</p>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">{slides[currentIndex].title}</h1>
+                        <p className="text-xs sm:text-xl mb-4 sm:mb-8">{slides[currentIndex].description}</p>
                         <Link to={slides[currentIndex].link}>
-                            <button className="w-full sm:w-auto px-4 py-2 text-white hover:border hover:border-white bg-red-500 hover:bg-transparent transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm sm:text-lg text-center">
+                            <button
+                                aria-label={slides[currentIndex].button}
+                                className="w-full sm:w-auto px-4 py-2 text-white hover:border hover:border-white bg-red-500 hover:bg-transparent transition duration-300 cursor-pointer focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm sm:text-lg text-center"
+                            >
                                 {slides[currentIndex].button}
                             </button>
                         </Link>
@@ -95,10 +98,10 @@ const HeroCarousel = () => {
 
             {/* Navigation Arrows */}
             <div className="absolute bottom-2 sm:bottom-5 left-1/2 transform -translate-x-1/2 flex gap-4">
-                <button onClick={prevSlide}>
+                <button onClick={prevSlide} aria-label="Previous Slide">
                     <HiArrowLongLeft className="text-4xl sm:text-6xl text-red-500 hover:text-red-200 transition duration-200 cursor-pointer" />
                 </button>
-                <button onClick={nextSlide}>
+                <button onClick={nextSlide} aria-label="Next Slide">
                     <HiArrowLongRight className="text-4xl sm:text-6xl text-red-500 hover:text-red-200 transition duration-200 cursor-pointer" />
                 </button>
             </div>

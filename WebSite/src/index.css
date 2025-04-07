@@ -1,11 +1,18 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap'); */
+html {
+  scroll-behavior: smooth;
+}
+
+@supports not (scroll-behavior: smooth) {
+  /* JavaScript will handle it */
+}
+
 @font-face {
   font-family: Roboto;
   src: url("../src/assets/fonts/Roboto-Regular.ttf");
 }
 
-
 @import "tailwindcss";
+
 
 
 @theme {
@@ -154,6 +161,23 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes fade-in-up {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+
 
 @keyframes fade-in-top {
     0% {
@@ -169,3 +193,5 @@ body {
   .animate-fade-in-top {
     animation: fade-in-top 1s ease-out;
   }
+
+  
