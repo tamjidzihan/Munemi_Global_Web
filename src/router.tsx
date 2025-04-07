@@ -66,15 +66,6 @@ export const router = createBrowserRouter([
         children: [
             { index: true, element: <HomePage /> },
             {
-                path: 'about',
-                element: <AboutPage />,
-                children: [
-                    { index: true, element: <AboutUs /> },
-                    { path: 'appointment-booking', element: <AppointmentBookingForm /> }
-                ]
-            },
-
-            {
                 path: 'services',
                 element: <ServicesPage />,
                 children: [
@@ -136,6 +127,14 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, element: <Career /> },
                     { path: 'job-application', element: <JobApplicationForm /> }
+                ]
+            },
+            {
+                path: 'about',
+                element: <AboutPage />,
+                children: [
+                    { index: true, element: <AboutUs /> },
+                    { path: 'appointment-booking', element: <AppointmentBookingForm /> }
                 ]
             }
         ]

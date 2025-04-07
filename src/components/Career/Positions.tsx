@@ -6,6 +6,7 @@ import {
     Briefcase,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion';
 
 const openings = [
     {
@@ -42,21 +43,57 @@ const openings = [
     },
 ]
 
+
 const Positions = () => {
+    const cardVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+    };
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                when: "beforeChildren"
+            }
+        }
+    };
+
     return (
-        <section className="py-20 px-4">
+        <section className="py-20 px-4" id='positions'>
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl font-bold text-midnight text-center mb-4">
+                <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="text-3xl font-bold text-midnight text-center mb-4"
+                >
                     Open Positions
-                </h2>
-                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                </motion.h2>
+                <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="text-gray-600 text-center mb-12 max-w-2xl mx-auto"
+                >
                     Explore current opportunities and find your perfect role
-                </p>
-                <div className="space-y-6">
+                </motion.p>
+                <motion.div
+                    className="space-y-6"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                >
                     {openings.map((job, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+                            variants={cardVariants}
+                            whileHover={{ scale: 1.001 }}
+                            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-shadow"
+                            style={{ animation: 'fadeInUp 0.6s ease-out forwards', animationDelay: `${index * 100}ms` }}
                         >
                             <div className="flex flex-wrap items-center justify-between gap-4">
                                 <div>
@@ -87,11 +124,11 @@ const Positions = () => {
                                     </button>
                                 </Link>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </section >
     )
 }
 
