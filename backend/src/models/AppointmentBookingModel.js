@@ -38,6 +38,7 @@ const AppointmentBooking = sequelize.define('AppointmentBooking', {
         type: DataTypes.STRING
     }
 }, {
+    tableName: 'appointmentbookings',
     timestamps: true
 });
 

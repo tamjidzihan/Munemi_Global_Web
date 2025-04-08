@@ -5,6 +5,8 @@ const authenticationRouter = require("./authenticationRouter")
 const appointmentBookingRouter = require("./appointmentBookingRouter")
 const universityRouter = require('./universityRouter')
 const offerRouter = require('./offerRouter')
+const agentRouter = require('./agentRouter')
+const institutionPartnerRouter = require('./institutionPartnerRouter')
 
 
 const router = express.Router();
@@ -16,5 +18,7 @@ module.exports = () => {
     appointmentBookingRouter(router)
     universityRouter(router)
     offerRouter(router)
+    agentRouter(router)
+    institutionPartnerRouter(router)
     return router;
 };

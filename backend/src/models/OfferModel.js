@@ -35,6 +35,7 @@ const Offer = sequelize.define('Offer', {
         defaultValue: true
     }
 }, {
+    tableName: 'offers',
     timestamps: true
 });
 

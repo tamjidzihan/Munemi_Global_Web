@@ -15,6 +15,9 @@ const Career = sequelize.define('Career', {
         type: DataTypes.ENUM('Full Time', 'Part Time', 'Casual', 'Internship'),
         allowNull: false
     }
-}, { timestamps: true });
+}, {
+    tableName: 'careers',
+    timestamps: true
+});
 
 module.exports = Career;

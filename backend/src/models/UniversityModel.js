@@ -20,6 +20,9 @@ const University = sequelize.define('University', {
         type: DataTypes.ENUM('Australia', 'United States', 'Canada', 'United Kingdom', 'Hungary', 'France', 'Saudi Arabia', 'Spain'),
         allowNull: false
     }
-}, { timestamps: true });
+}, {
+    tableName: 'universities',
+    timestamps: true
+});
 
 module.exports = University;
