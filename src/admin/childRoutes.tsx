@@ -2,15 +2,11 @@ import PageTitle from "./components/PageTitle";
 import Appointments from "./pages/Appointment/Appointments";
 import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
+import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
 import Offers from "./pages/Offers/Offers";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
-// import AlumniList from "./pages/AlumniList/AlumniList";
-// import DashboardIndex from "./pages/Dashboard/DashboardIndex";
-// import Events from "./pages/Events/Events";
-// import Gallery from "./pages/Gallery/Gallery";
-// import Contact from "./pages/SiteSettings/Contact";
-// import SiteContent from "./pages/SiteSettings/Content";
+
 
 
 export const childRoutes = [
@@ -57,6 +53,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="Career | Modarate Job Application Here" />
                 <Career />
+            </>
+        ),
+    },
+    {
+        path: "health-insurance-partners",
+        element: (
+            <>
+                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <HealthInsurancePartner />
             </>
         ),
     },
