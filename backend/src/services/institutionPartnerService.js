@@ -1,4 +1,3 @@
-// services/institutionPartnerService.js
 const InstitutionPartner = require('../models/InstitutionPartnerModel');
 
 const getInstitutionPartners = () => InstitutionPartner.findAll();

@@ -1,0 +1,125 @@
+{
+    "info": {
+        "_postman_id": "c3d4e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+        "name": "Health Insurance Partner API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Health Insurance Partner",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"tradingName\": \"Test Insurance Co\",\n  \"businessRegistrationNumber\": \"BRN-123456\",\n  \"officePhoneNumber\": \"+6123456789\",\n  \"countryLocated\": \"Australia\",\n  \"primaryOfficeLocation\": \"Sydney\",\n  \"website\": \"http://testinsurance.com\",\n  \"applyingAs\": \"Overseas Student\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"position\": \"Manager\",\n  \"contactEmail\": \"john.doe@testinsurance.com\",\n  \"contactCountryCode\": \"+61\",\n  \"contactPhoneNumber\": \"412345678\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{base_url}}/health-insurance-partners",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health-insurance-partners"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Partners",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health-insurance-partners",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health-insurance-partners"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get Partner by ID",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health-insurance-partners/{{partner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health-insurance-partners",
+                        "{{partner_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Partner",
+            "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"tradingName\": \"Updated Insurance Co\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{base_url}}/health-insurance-partners/{{partner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health-insurance-partners",
+                        "{{partner_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Partner",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health-insurance-partners/{{partner_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health-insurance-partners",
+                        "{{partner_id}}"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5000"
+        },
+        {
+            "key": "partner_id",
+            "value": "REPLACE_WITH_ID"
+        }
+    ]
+}
