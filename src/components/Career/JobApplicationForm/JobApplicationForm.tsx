@@ -4,7 +4,7 @@ import useCareer from "../../../hooks/useCareer";
 import Hero from "../../common/Hero/Hero";
 import careerImage from '../../../assets/career.jpg'
 import { FiHelpCircle } from "react-icons/fi";
-import { OctagonX } from "lucide-react";
+import Alert from "../../common/Alert/Alert";
 
 
 const JobApplicationForm = () => {
@@ -22,7 +22,8 @@ const JobApplicationForm = () => {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [selectedResume, setSelectedResume] = useState<File | null>(null);
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
     // Enhanced validation function
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
@@ -60,13 +61,13 @@ const JobApplicationForm = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrors({});
-        setSuccessMessage(null);
+        setAlert(null);
         if (!validateForm()) return;
 
         // Validate form fields
         const { firstName, lastName, phone, email, country, currentAddress, jobType } = formData;
         if (!firstName || !lastName || !phone || !email || !country || !currentAddress || !jobType || !selectedIdCard || !selectedResume) {
-            alert("All fields are required.");
+            setAlert({ message: "All fields are required.", type: 'error' });
             return;
         }
 
@@ -82,10 +83,11 @@ const JobApplicationForm = () => {
         formDataToSend.append("resume", selectedResume); // PDF File
         try {
             await createCareer(formDataToSend);
-            setSuccessMessage("Application submitted successfully!");
+            setAlert({ message: "Application submitted successfully!", type: 'success' });
         } catch (error) {
             console.error(error);
             setErrors({ form: "Failed to submit application. Please try again." });
+            setAlert({ message: "Failed to submit application. Please try again.", type: 'error' });
         } finally {
             // Reset form fields
             setFormData({
@@ -119,34 +121,17 @@ const JobApplicationForm = () => {
         <main className="w-full">
             <Hero bgImage={careerImage} heroName="Job Application" />
             {/* Success/Error Messages */}
-            {successMessage && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mx-auto max-w-4xl mt-4">
-                    <span className="block sm:inline pr-8">{successMessage}</span>
-                    <button
-                        onClick={() => setSuccessMessage(null)}
-                        className="absolute cursor-pointer top-0 right-0 px-3 py-2 hover:text-green-900"
-                        aria-label="Close success message"
-                    >
-                        <OctagonX />
-                    </button>
-                </div>
-            )}
-            {errors.form && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-auto max-w-4xl mt-4">
-                    <span className="block sm:inline pr-8">{errors.form}</span>
-                    <button
-                        onClick={() => setErrors(prev => ({ ...prev, form: '' }))}
-                        className="absolute top-0 right-0 px-3 py-2 hover:text-red-900  cursor-pointer"
-                        aria-label="Close error message"
-                    >
-                        <OctagonX />
-                    </button>
-                </div>
+            {alert && (
+                <Alert
+                    message={alert.message}
+                    type={alert.type}
+                    onClose={() => setAlert(null)}
+                />
             )}
             <div className="inset-0  py-10 flex items-center justify-center">
                 <div className="bg-white max-w-4xl p-4 md:p-6 w-full shadow-lg rounded-lg">
                     <h3 className="text-2xl text-midnight font-bold mb-6 border-b pb-2">
-                        Application Form
+                        Job  Application Form
                         <span className="text-sm text-gray-500 ml-2 font-normal">
                             (All fields are required)
                         </span>

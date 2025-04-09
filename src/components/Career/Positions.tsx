@@ -11,15 +11,15 @@ import { motion } from 'framer-motion';
 const openings = [
     {
         title: 'Senior Immigration Consultant',
-        type: 'Full Time',
-        location: 'Melbourne, Australia',
+        type: ['Full Time', 'Part Time', 'Casual', 'Internship'],
+        location: 'Dhaka, Bangladesh',
         department: 'Immigration Services',
-        experience: '5-8 years',
+        experience: '1-5 years',
         links: '/career/job-application'
     },
     {
         title: 'Become an Agent',
-        type: 'Full Time',
+        type: ['Full Time'],
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
@@ -27,7 +27,7 @@ const openings = [
     },
     {
         title: 'Become an Institute Partner',
-        type: 'Full Time',
+        type: ['Full Time'],
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
@@ -35,7 +35,7 @@ const openings = [
     },
     {
         title: "Become a Health Insurance Partner",
-        type: 'Full Time',
+        type: ['Full Time'],
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
@@ -103,10 +103,13 @@ const Positions = () => {
                                             <Building2 size={16} />
                                             {job.department}
                                         </span>
-                                        <span className="flex items-center gap-1">
-                                            <Clock size={16} />
-                                            {job.type}
-                                        </span>
+                                        {job.type.map((jobs, index) =>
+                                            <span key={index} className="flex items-center gap-1">
+                                                <Clock size={16} />
+                                                {jobs}
+                                            </span>
+                                        )}
+
                                         <span className="flex items-center gap-1">
                                             <MapPin size={16} />
                                             {job.location}
