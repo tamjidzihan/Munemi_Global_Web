@@ -1,4 +1,5 @@
 import PageTitle from "./components/PageTitle";
+import Agent from "./pages/Agent/Agent";
 import Appointments from "./pages/Appointment/Appointments";
 import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
@@ -53,6 +54,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="Career | Modarate Job Application Here" />
                 <Career />
+            </>
+        ),
+    },
+    {
+        path: "agent",
+        element: (
+            <>
+                <PageTitle title="Agent Application | Modarate Agent  Partners Here" />
+                <Agent />
             </>
         ),
     },

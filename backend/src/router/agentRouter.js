@@ -1,10 +1,9 @@
 const agentController = require('../controllers/agentController');
 
-
 module.exports = (router) => {
-    router.get('/agent_applications', agentController.getAllAgentApplications);
-    router.get('/agent_applications/:id', agentController.getAgentApplicationById);
-    router.post('/agent_applications', agentController.createNewAgentApplication);
-    router.put('/agent_applications/:id', agentController.updateAgentApplication);
-    router.delete('/agent_applications/:id', agentController.deleteAgentApplication)
+    router.get('/agent-applications', agentController.getAllAgentApplications);
+    router.get('/agent-applications/:id', agentController.getAgentApplicationById);
+    router.post('/agent-applications', agentController.createNewAgentApplication);
+    router.put('/agent-applications/:id', agentController.updateAgentApplication);
+    router.delete('/agent-applications/:id', agentController.deleteAgentApplication)
 }

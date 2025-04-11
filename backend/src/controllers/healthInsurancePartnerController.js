@@ -26,7 +26,7 @@ const createNewHealthInsurancePartner = async (req, res) => {
             'tradingName', 'businessRegistrationNumber', 'officePhoneNumber',
             'countryLocated', 'primaryOfficeLocation', 'applyingAs',
             'firstName', 'lastName', 'position', 'contactEmail',
-            'contactCountryCode', 'contactPhoneNumber'
+            'contactPhoneNumber'
         ];
 
         const missingFields = requiredFields.filter(field => !req.body[field]);

@@ -16,7 +16,6 @@ export interface HealthInsurancePartner {
     lastName: string;
     position: string;
     contactEmail: string;
-    contactCountryCode: string;
     contactPhoneNumber: string;
     createdAt: string;
     updatedAt: string;

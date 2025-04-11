@@ -57,10 +57,6 @@ const HealthInsurancePartner = sequelize.define('HealthInsurancePartner', {
         allowNull: false,
         validate: { isEmail: true }
     },
-    contactCountryCode: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     contactPhoneNumber: {
         type: DataTypes.STRING,
         allowNull: false
