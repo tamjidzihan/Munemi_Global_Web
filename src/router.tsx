@@ -54,6 +54,8 @@ import AppointmentBookingForm from "./components/About/AppointmentBookingForm/Ap
 import CareerPage from "./pages/CareerPage";
 import Career from "./components/Career/Career";
 import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplicationForm";
+import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartner/HealthInsurancePartnerForm";
+import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
 
 
 
@@ -126,7 +128,9 @@ export const router = createBrowserRouter([
                 element: <CareerPage />,
                 children: [
                     { index: true, element: <Career /> },
-                    { path: 'job-application', element: <JobApplicationForm /> }
+                    { path: 'job-application', element: <JobApplicationForm /> },
+                    { path: 'agents-application', element: <AgentApplicationForm /> },
+                    { path: 'health-insurance-partner-application', element: <HealthInsurancePartnerForm /> },
                 ]
             },
             {

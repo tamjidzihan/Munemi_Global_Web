@@ -23,7 +23,7 @@ const openings = [
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
-        links: '#'
+        links: '/career/agents-application'
     },
     {
         title: 'Become an Institute Partner',
@@ -39,7 +39,7 @@ const openings = [
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
-        links: '#'
+        links: '/career/health-insurance-partner-application'
     },
 ]
 
@@ -91,8 +91,8 @@ const Positions = () => {
                         <motion.div
                             key={index}
                             variants={cardVariants}
-                            whileHover={{ scale: 1.001 }}
-                            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-shadow"
+                            whileHover={{ scale: 1.003 }}
+                            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
                             style={{ animation: 'fadeInUp 0.6s ease-out forwards', animationDelay: `${index * 100}ms` }}
                         >
                             <div className="flex flex-wrap items-center justify-between gap-4">

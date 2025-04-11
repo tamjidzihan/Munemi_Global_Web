@@ -10,7 +10,7 @@ type HealthInsurancePartnerListProps = {
 
 const HealthInsurancePartnerList = ({ allPartners, deletePartner }: HealthInsurancePartnerListProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [partnerList, setPartnerList] = useState < HealthInsurancePartner[] > (allPartners);
+    const [partnerList, setPartnerList] = useState<HealthInsurancePartner[]>(allPartners);
 
     useEffect(() => {
         setPartnerList([...allPartners].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
@@ -61,7 +61,7 @@ const HealthInsurancePartnerList = ({ allPartners, deletePartner }: HealthInsura
             />
             {/* Create Partner Modal */}
 
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Trading Name</p>
                 </div>
@@ -83,15 +83,10 @@ const HealthInsurancePartnerList = ({ allPartners, deletePartner }: HealthInsura
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Applying As</p>
                 </div>
-                <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Contact Name</p>
+                <div className="col-span-2 flex items-center">
+                    <p className="font-bold">Contact Detail</p>
                 </div>
-                <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Contact Email</p>
-                </div>
-                <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Contact Phone</p>
-                </div>
+
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Action</p>
                 </div>
@@ -104,7 +99,7 @@ const HealthInsurancePartnerList = ({ allPartners, deletePartner }: HealthInsura
                     .map((partner: HealthInsurancePartner) => (
                         <div
                             key={partner.id}
-                            className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5"
+                            className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5"
                         >
                             <div className="col-span-1 flex items-center mr-3">
                                 <p className="overflow-hidden">{partner.tradingName || "N/A"}</p>
@@ -127,19 +122,16 @@ const HealthInsurancePartnerList = ({ allPartners, deletePartner }: HealthInsura
                             <div className="col-span-1 flex items-center mr-3">
                                 <p className="overflow-hidden">{partner.applyingAs || "N/A"}</p>
                             </div>
-                            <div className="col-span-1 flex items-center mr-3">
-                                <p className="overflow-hidden">
+                            <div className="col-span-2 flex items-center mr-3">
+                                <p className="overflow-hidden text-sm">
                                     {partner.firstName} {partner.lastName}
+                                    <br />
+                                    {partner.contactEmail || "N/A"}
+                                    <br />
+                                    {partner.contactPhoneNumber}
                                 </p>
                             </div>
-                            <div className="col-span-1 flex items-center mr-3">
-                                <p className="overflow-hidden">{partner.contactEmail || "N/A"}</p>
-                            </div>
-                            <div className="col-span-1 flex items-center mr-3">
-                                <p className="overflow-hidden">
-                                    {partner.contactCountryCode} {partner.contactPhoneNumber}
-                                </p>
-                            </div>
+
 
                             {/* Actions */}
                             <div className="col-span-1 flex items-center">
