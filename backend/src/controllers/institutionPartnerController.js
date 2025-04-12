@@ -28,7 +28,7 @@ const createNewInstitutionPartner = async (req, res) => {
             'fullNameOfInstitute', 'category', 'coursesProviding',
             'businessRegistrationNumber', 'countryLocated', 'campusLocations',
             'primaryEmailAddress', 'firstName', 'lastName', 'position',
-            'contactEmail', 'countryCode', 'phoneNumber'
+            'contactEmail', 'phoneNumber'
         ];
 
         const missingFields = requiredFields.filter(field => !req.body[field]);

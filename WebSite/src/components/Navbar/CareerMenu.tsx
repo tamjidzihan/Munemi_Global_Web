@@ -20,10 +20,11 @@ const CareerMenu = () => {
                         <ul className="space-y-2">
                             {[
                                 { label: "Career with us", link: "/career" },
-                                { label: "Become an Agent (B2B)", link: "/" },
-                                { label: "Become an Institute Partner", link: "/" },
-                                { label: "Become a Health Insurance Partner", link: "/" },
-                                { label: "Log In", link: "/adminpanel" }
+                                { label: "Job Application", link: "/career/job-application" },
+                                { label: "Become an Agent (B2B)", link: "/career/agents-application" },
+                                { label: "Become an Institute Partner", link: "/career/institution-partner-application" },
+                                { label: "Become a Health Insurance Partner", link: "/career/health-insurance-partner-application" },
+                                { label: "Log In", link: "/signin" }
                             ].map((item, index) => (
                                 <li key={index}>
                                     <Link

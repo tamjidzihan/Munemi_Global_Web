@@ -31,7 +31,7 @@ const openings = [
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
-        links: '#'
+        links: '/career/institution-partner-application'
     },
     {
         title: "Become a Health Insurance Partner",

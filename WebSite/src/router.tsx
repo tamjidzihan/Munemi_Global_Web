@@ -56,6 +56,7 @@ import Career from "./components/Career/Career";
 import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplicationForm";
 import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartner/HealthInsurancePartnerForm";
 import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
+import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
 
 
 
@@ -130,6 +131,7 @@ export const router = createBrowserRouter([
                     { index: true, element: <Career /> },
                     { path: 'job-application', element: <JobApplicationForm /> },
                     { path: 'agents-application', element: <AgentApplicationForm /> },
+                    { path: 'institution-partner-application', element: <InstitutionPartnerForm /> },
                     { path: 'health-insurance-partner-application', element: <HealthInsurancePartnerForm /> },
                 ]
             },

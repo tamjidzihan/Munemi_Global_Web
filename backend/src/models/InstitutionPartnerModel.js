@@ -48,7 +48,7 @@ const InstitutionPartner = sequelize.define('InstitutionPartner', {
         allowNull: false
     },
     campusLocations: {
-        type: DataTypes.STRING, // Changed to STRING for MariaDB compatibility
+        type: DataTypes.STRING,
         allowNull: false
     },
     primaryEmailAddress: {
@@ -76,10 +76,6 @@ const InstitutionPartner = sequelize.define('InstitutionPartner', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: { isEmail: true }
-    },
-    countryCode: {
-        type: DataTypes.STRING,
-        allowNull: false
     },
     phoneNumber: {
         type: DataTypes.STRING,

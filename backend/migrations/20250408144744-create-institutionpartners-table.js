@@ -64,10 +64,6 @@ module.exports = {
         allowNull: false,
         validate: { isEmail: true }
       },
-      countryCode: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       phoneNumber: {
         type: Sequelize.STRING,
         allowNull: false
