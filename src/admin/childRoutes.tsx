@@ -4,6 +4,7 @@ import Appointments from "./pages/Appointment/Appointments";
 import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
+import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
 import Offers from "./pages/Offers/Offers";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
@@ -63,6 +64,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="Agent Application | Modarate Agent  Partners Here" />
                 <Agent />
+            </>
+        ),
+    },
+    {
+        path: "institution-partners",
+        element: (
+            <>
+                <PageTitle title="Institution Partners | Modarate Institution Partners Here" />
+                <InstitutionPartner />
             </>
         ),
     },

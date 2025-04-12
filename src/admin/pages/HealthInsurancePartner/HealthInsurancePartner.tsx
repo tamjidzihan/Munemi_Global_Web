@@ -1,9 +1,12 @@
+import Loader from "../../../components/common/Loader"
 import useHealthInsurancePartners from "../../../hooks/useHealthInsurancePartners"
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb"
 import HealthInsurancePartnerList from "../../components/HealthInsurancePartner/HealthInsurancePartnerList"
 
 const HealthInsurancePartner = () => {
-    const { healthInsurancePartners, deleteHealthInsurancePartner } = useHealthInsurancePartners()
+    const { healthInsurancePartners, deleteHealthInsurancePartner, loading } = useHealthInsurancePartners()
+
+    if (loading) return <Loader />
 
     return (
         <>
