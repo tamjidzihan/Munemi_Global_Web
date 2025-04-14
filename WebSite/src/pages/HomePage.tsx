@@ -1,6 +1,5 @@
 import { Statistics } from "../components/home/Statistics";
 // import { ProcessSection } from "../components/home/ProcessSection";
-import { ImmigrationConsult } from "../components/home/ImmigrationConsult";
 import { OverseasEducation } from "../components/home/OverseasEducation";
 import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
@@ -11,6 +10,8 @@ import { AppointmentBoking } from "../components/home/AppointmentBoking";
 import { HelpProcess } from "../components/home/HelpProcess";
 import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import PageTitle from "../admin/components/PageTitle";
+import { PopularDestination } from "../components/home/PopularDestination";
+import AirTicketBooking from "../components/home/AirTicketBooking";
 
 const HomePage = () => {
 
@@ -45,8 +46,9 @@ const HomePage = () => {
         <main className="w-full">
             <PageTitle title="Home | Munemi Global" />
             <HeroSection />
-            <ImmigrationConsult />
-            <section className="py-20 px-4">
+            <AirTicketBooking />
+            <PopularDestination />
+            <section className="py-20 px-4 bg-gray-50">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-midnight">
                         Our Services

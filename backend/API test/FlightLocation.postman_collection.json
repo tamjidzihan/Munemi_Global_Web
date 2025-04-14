@@ -1,0 +1,109 @@
+{
+    "info": {
+        "name": "Flight Location",
+        "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "description": "Test suite for Flight Location API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get All Flight Locations",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/flightLocation",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "flightLocation"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create New Flight Location",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"cityName\": \"Abbse\",\n  \"airportCode\": \"EAB\",\n  \"airportName\": \"Abbse Airport\",\n  \"countryName\": \"Yemen\",\n  \"countryAbbrev\": \"YE\",\n  \"worldAreaCode\": 694\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/flightLocation",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "flightLocation"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Flight Location",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"cityName\": \"Updated City\",\n  \"airportCode\": \"NEW\",\n  \"airportName\": \"New Airport\",\n  \"countryName\": \"Updated Country\",\n  \"countryAbbrev\": \"UC\",\n  \"worldAreaCode\": 123\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/flightLocation/{{location_id}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "flightLocation",
+                        "{{location_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Flight Location",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/flightLocation/{{location_id}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "flightLocation",
+                        "{{location_id}}"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5000",
+            "type": "string"
+        },
+        {
+            "key": "location_id",
+            "value": "REPLACE_WITH_ID"
+        }
+    ]
+}

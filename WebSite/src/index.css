@@ -13,7 +13,7 @@ html {
 
 @import "tailwindcss";
 
-
+@import 'react-datepicker/dist/react-datepicker.css';
 
 @theme {
   --color-midnight: #294674;

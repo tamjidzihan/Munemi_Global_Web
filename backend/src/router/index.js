@@ -8,6 +8,7 @@ const offerRouter = require('./offerRouter')
 const agentRouter = require('./agentRouter')
 const institutionPartnerRouter = require('./institutionPartnerRouter')
 const healthInsurancePartnerRouter = require('./healthInsurancePartnerRouter')
+const flightLocationRouter = require('./flightLocationRouter')
 
 
 const router = express.Router();
@@ -22,5 +23,6 @@ module.exports = () => {
     agentRouter(router)
     institutionPartnerRouter(router)
     healthInsurancePartnerRouter(router)
+    flightLocationRouter(router)
     return router;
 };

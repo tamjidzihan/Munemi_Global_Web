@@ -57,6 +57,7 @@ import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplic
 import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartner/HealthInsurancePartnerForm";
 import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
 import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
+import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
 
 
 
@@ -97,6 +98,7 @@ export const router = createBrowserRouter([
                     { path: 'permanent-residency', element: <PermanentResidency /> }
                 ]
             },
+            { path: "booking", element: <BookingConfirmation /> },
             {
                 path: 'study-destination',
                 element: <StudyDestinationPage />,
