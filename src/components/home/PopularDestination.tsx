@@ -52,13 +52,13 @@ const countries = [
     },
 ];
 
-export function ImmigrationConsult() {
+export function PopularDestination() {
     return (
-        <section className="py-20 px-4 bg-gray-50">
+        <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
-                        Destination Countries
+                        Popular Destination
                     </h2>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                         Start your immigration journey with our expert guidance
@@ -119,3 +119,8 @@ export function ImmigrationConsult() {
         </section>
     );
 }
+
+
+
+
+

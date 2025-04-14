@@ -57,7 +57,7 @@ const HeroCarousel = () => {
     };
 
     return (
-        <section className="relative min-h-[400px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[500px] flex items-center justify-center text-center text-white overflow-hidden">
+        <section className="relative  min-h-[400px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[500px] flex items-center justify-center text-center text-white overflow-hidden">
             <AnimatePresence>
                 <motion.div
                     key={currentIndex}
