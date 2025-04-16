@@ -12,20 +12,18 @@ const getAllLocations = async (req, res) => {
 
 const createNewLocation = async (req, res) => {
     try {
-        const { cityName, airportCode, airportName, countryName, countryAbbrev, worldAreaCode } = req.body;
+        const { cityName, airportCode, airportName } = req.body;
 
         // Validate required fields
-        if (!cityName || !airportCode || !airportName || !countryName || !countryAbbrev || !worldAreaCode) {
-            return res.status(400).json({ message: "All fields are required" });
+        if (!airportCode || !airportName) {
+            return res.status(400).json({ message: "airport-Code and airport Name fields are required" });
         }
 
         const newFlightLocation = await flightLocationService.createFlightLocation({
             cityName,
             airportCode,
-            airportName,
-            countryName,
-            countryAbbrev,
-            worldAreaCode
+            airportName
+
         });
 
         res.status(201).json(newFlightLocation);
@@ -38,20 +36,17 @@ const createNewLocation = async (req, res) => {
 const updateLocation = async (req, res) => {
     try {
         const { id } = req.params;
-        const { cityName, airportCode, airportName, countryName, countryAbbrev, worldAreaCode } = req.body;
+        const { cityName, airportCode, airportName } = req.body;
 
         // Validate required fields
-        if (!cityName || !airportCode || !airportName || !countryName || !countryAbbrev || !worldAreaCode) {
-            return res.status(400).json({ message: "All fields are required" });
+        if (!airportCode || !airportName) {
+            return res.status(400).json({ message: "airport-Code and airport Name fields are required" });
         }
 
         const updatedLocation = await flightLocationService.updateFlightLocationById(id, {
             cityName,
             airportCode,
-            airportName,
-            countryName,
-            countryAbbrev,
-            worldAreaCode
+            airportName
         });
 
         if (!updatedLocation) {

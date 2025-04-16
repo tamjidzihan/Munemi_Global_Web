@@ -11,16 +11,20 @@ const WhatsAppButton = () => {
     return (
         <motion.button
             onClick={handleClick}
-            className="fixed hidden md:flex items-center gap-2 cursor-pointer bottom-10 left-10 bg-green-500 text-white px-4 py-3 rounded-full shadow-lg hover:bg-green-600"
+            className="fixed flex items-center gap-2 cursor-pointer bottom-4 sm:bottom-10 left-4 sm:left-10 bg-green-500 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full shadow-lg hover:bg-green-600"
             aria-label="Chat on WhatsApp"
-            // initial={{ opacity: 0, scale: 0.8 }}
-            // animate={{ opacity: 1, scale: 1 }}
             initial={{ left: -200, opacity: 0, scale: 0.8 }}
             animate={{ left: 30, opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-            <svg fill="#ffffff" height="30px" width="30px" viewBox="0 0 308 308">
+            <svg
+                fill="#ffffff"
+                height="20px"
+                width="20px"
+                viewBox="0 0 308 308"
+                className="sm:h-6 sm:w-6"
+            >
                 <g>
                     <path d="M227.904,176.981c-0.6-0.288-23.054-11.345-27.044-12.781c-1.629-0.585-3.374-1.156-5.23-1.156 
                         c-3.032,0-5.579,1.511-7.563,4.479c-2.243,3.334-9.033,11.271-11.131,13.642c-0.274,0.313-0.648,0.687-0.872,0.687 
@@ -41,7 +45,7 @@ const WhatsAppButton = () => {
                         C276.546,215.678,222.799,268.994,156.734,268.994z"></path>
                 </g>
             </svg>
-            <span className="text-lg font-semibold">WhatsApp</span>
+            <span className="text-sm sm:text-lg font-semibold">WhatsApp</span>
         </motion.button>
     );
 };

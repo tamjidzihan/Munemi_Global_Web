@@ -1,0 +1,109 @@
+{
+    "info": {
+        "name": "Bookings API",
+        "_postman_id": "b1a2c3d4-e5f6-7890-abcd-ef1234567890",
+        "description": "Test suite for Bookings API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Get All Bookings",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/bookings",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "bookings"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create New Booking",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"fullName\": \"John Doe\",\n  \"email\": \"johndoe@example.com\",\n  \"mobile\": \"+1234567890\",\n  \"tripType\": \"round-trip\",\n  \"origin\": \"New York\",\n  \"destination\": \"Los Angeles\",\n  \"startDate\": \"2023-12-01\",\n  \"endDate\": \"2023-12-10\",\n  \"travelers\": 2\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/bookings",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "bookings"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Booking",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"fullName\": \"Jane Doe\",\n  \"email\": \"janedoe@example.com\",\n  \"mobile\": \"+0987654321\",\n  \"tripType\": \"one-way\",\n  \"origin\": \"Chicago\",\n  \"destination\": \"Miami\",\n  \"startDate\": \"2023-11-15\",\n  \"endDate\": null,\n  \"travelers\": 1\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/bookings/{{booking_id}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "bookings",
+                        "{{booking_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete Booking",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/bookings/{{booking_id}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "bookings",
+                        "{{booking_id}}"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:5000",
+            "type": "string"
+        },
+        {
+            "key": "booking_id",
+            "value": "REPLACE_WITH_ID"
+        }
+    ]
+}

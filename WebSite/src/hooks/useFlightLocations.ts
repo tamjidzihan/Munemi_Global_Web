@@ -3,12 +3,9 @@ import { useEffect, useState } from 'react';
 import apiClient from '../services/apiClient';
 
 export interface FlightLocation {
-    cityName: string;
+    cityName?: string;
     airportCode: string;
     airportName: string;
-    countryName: string;
-    countryAbbrev: string;
-    worldAreaCode: number;
     updatedAt?: string; // Optional field
     id?: string; // Optional field for existing locations
 }

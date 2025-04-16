@@ -24,21 +24,6 @@ module.exports = {
         allowNull: false,
         field: 'airport_name' // Optional: specify the database column name
       },
-      countryName: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        field: 'country_name' // Optional: specify the database column name
-      },
-      countryAbbrev: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        field: 'country_abbrev' // Optional: specify the database column name
-      },
-      worldAreaCode: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        field: 'world_area_code' // Optional: specify the database column name
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

@@ -16,7 +16,7 @@ export function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 30) {
                 setIsScrolled(true);
             } else {
                 setIsScrolled(false);
@@ -44,7 +44,7 @@ export function Navbar() {
                         <img
                             src={logo}
                             alt="Munemi Global Logo"
-                            className={`transition-all duration-300 ${isScrolled ? "h-15" : "h-18"}`}
+                            className={`transition-all duration-300 py-4 md:py-3  ${isScrolled ? "h-15" : "h-18"}`}
                         />
                     </Link>
                 </div>
@@ -97,6 +97,7 @@ export function Navbar() {
 
                 {/* Mobile Menu */}
                 <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
+
                     {/* <!-- Hamburger Toggle BTN --> */}
                     <button
                         aria-controls="sidebar"
@@ -134,6 +135,7 @@ export function Navbar() {
                         </span>
                     </button>
                     {/* <!-- Hamburger Toggle BTN --> */}
+
                 </div>
             </div>
 

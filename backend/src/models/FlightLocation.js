@@ -9,7 +9,7 @@ const FlightLocation = sequelize.define('FlightLocation', {
     },
     cityName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         field: 'city_name' // Optional: specify the database column name
     },
     airportCode: {
@@ -21,21 +21,6 @@ const FlightLocation = sequelize.define('FlightLocation', {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'airport_name' // Optional: specify the database column name
-    },
-    countryName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: 'country_name' // Optional: specify the database column name
-    },
-    countryAbbrev: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        field: 'country_abbrev' // Optional: specify the database column name
-    },
-    worldAreaCode: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        field: 'world_area_code' // Optional: specify the database column name
     }
 }, {
     tableName: 'flight_location',

@@ -12,7 +12,7 @@ export function Footer() {
                         <img
                             src={logo}
                             alt="ImmiEx"
-                            className="h-30 mb-4"
+                            className="h-30 mb-4 py-9"
                         />
                         <p className="text-gray-600 mb-4">
                             Munemi Global offers expert visa and immigration services, ensuring a smooth, hassle-free process with professional guidance and reliable support at every step.

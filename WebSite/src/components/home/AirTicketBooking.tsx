@@ -1,31 +1,45 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SetStateAction, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { PaperAirplaneIcon, UserIcon } from '@heroicons/react/24/outline';
+import { UserIcon } from '@heroicons/react/24/outline';
 import CalendarIcon from '../common/CalendarIcon/CalendarIcon';
+import useFlightLocations from '../../hooks/useFlightLocations'; // Import the custom hook
+import Select, { StylesConfig } from 'react-select'; // Import react-select
 
 interface AirTicketBookingProps {
     className?: string;
 }
 
+type OptionType = {
+    label: string;
+    value: string;
+};
+
 export default function AirTicketBooking({ className }: AirTicketBookingProps) {
     const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way');
-    const [startDate, setStartDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [travelers, setTravelers] = useState(1);
-    const [origin, setOrigin] = useState('');
-    const [destination, setDestination] = useState('');
+    const [origin, setOrigin] = useState<any>(null); // Use any for react-select
+    const [destination, setDestination] = useState<any>(null); // Use any for react-select
 
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
+    const { flightLocations } = useFlightLocations(); // Use the custom hook to get flight locations
+
+    // Transform flight locations for react-select
+    const locationOptions = flightLocations.map(location => ({
+        value: location.id,
+        label: `(${location.airportCode})${location.cityName}, ${location.airportName} `, // Display format
+    }));
 
     const handleBookFlight = () => {
-        // Navigate to the booking page with the selected data
         navigate('/booking', {
             state: {
                 tripType,
-                origin,
-                destination,
+                origin: origin?.label, // Get the selected label
+                destination: destination?.label, // Get the selected label
                 startDate,
                 endDate,
                 travelers,
@@ -33,8 +47,24 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
         });
     };
 
+    const customStyles: StylesConfig<OptionType, false> = {
+        control: (provided, state) => ({
+            ...provided,
+            borderColor: state.isFocused ? '#3b82f6' : '#e5e7eb', // blue-500 or gray-600
+            boxShadow: state.isFocused ? '0 0 0 1px #3b82f6' : 'none',
+            '&:hover': {
+                borderColor: '#3b82f6',
+            },
+            paddingLeft: '2rem',
+            paddingTop: '0.4rem',   // Tailwind: py-2
+            paddingBottom: '0.4rem',
+            borderRadius: '0.5rem', // Tailwind: rounded-lg
+        })
+
+    }
+
     return (
-        <section className="relative -mt-20 z-20 max-w-7xl mx-auto px-4">
+        <section className="relative -mt-16  max-w-7xl mx-auto px-4">
             <div className={`bg-white rounded-2xl p-6 shadow-xl mx-4 ${className}`}>
                 <div className="flex gap-4 mb-6">
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -44,7 +74,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             value="one-way"
                             checked={tripType === 'one-way'}
                             onChange={(e) => setTripType(e.target.value as 'one-way')}
-                            className="w-5 h-5 text-blue-600"
+                            className="w-5 h-5 text-blue-600 cursor-pointer"
                         />
                         One Way
                     </label>
@@ -55,35 +85,67 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             value="round-trip"
                             checked={tripType === 'round-trip'}
                             onChange={(e) => setTripType(e.target.value as 'round-trip')}
-                            className="w-5 h-5 text-blue-600"
+                            className="w-5 h-5 text-blue-600 cursor-pointer"
                         />
                         Round Trip
                     </label>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {/* Origin */}
-                    <div className="relative flex items-center">
-                        <PaperAirplaneIcon className="w-5 h-5 text-gray-400 absolute left-3" />
-                        <input
-                            type="text"
-                            placeholder="Flying From"
+                    {/* Origin Dropdown */}
+                    <div className="relative">
+                        <Select
+                            options={locationOptions}
                             value={origin}
-                            onChange={(e) => setOrigin(e.target.value)}
-                            className="pl-10 pr-4 py-3 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={setOrigin}
+                            placeholder="Flying From"
+                            className="basic-single"
+                            classNamePrefix="select"
+                            styles={customStyles}
                         />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="absolute left-3 top-3.5 text-blue-400 pointer-events-none"
+                        >
+                            <path d="M2 22h20" />
+                            <path d="M6.36 17.4 4 17l-2-4 1.1-.55a2 2 0 0 1 1.8 0l.17.1a2 2 0 0 0 1.8 0L8 12 5 6l.9-.45a2 2 0 0 1 2.09.2l4.02 3a2 2 0 0 0 2.1.2l4.19-2.06a2.41 2.41 0 0 1 1.73-.17L21 7a1.4 1.4 0 0 1 .87 1.99l-.38.76c-.23.46-.6.84-1.07 1.08L7.58 17.2a2 2 0 0 1-1.22.18Z" />
+                        </svg>
                     </div>
 
-                    {/* Destination */}
-                    <div className="relative flex items-center">
-                        <PaperAirplaneIcon className="w-5 h-5 text-gray-400 absolute left-3 rotate-45" />
-                        <input
-                            type="text"
-                            placeholder="Flying To"
+                    {/* Destination Dropdown */}
+                    <div className="relative">
+                        <Select
+                            options={locationOptions}
                             value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                            className="pl-10 pr-4 py-3 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={setDestination}
+                            placeholder="Flying To"
+                            className="basic-single"
+                            classNamePrefix="select"
+                            styles={customStyles}
                         />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="absolute left-3 top-3.5 text-blue-400 pointer-events-none"
+                        >
+                            <path d="M2 22h20" />
+                            <path d="M3.77 10.77 2 9l2-4.5 1.1.55c.55.28.9.84.9 1.45s.35 1.17.9 1.45L8 8.5l3-6 1.05.53a2 2 0 0 1 1.09 1.52l.72 5.4a2 2 0 0 0 1.09 1.52l4.4 2.2c.42.22.78.55 1.01.96l.6 1.03c.49.88-.06 1.98-1.06 2.1l-1.18.15c-.47.06-.95-.02-1.37-.24L4.29 11.15a2 2 0 0 1-.52-.38Z" />
+                        </svg>
                     </div>
 
                     {/* Departure Date */}
@@ -97,7 +159,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             className="w-full pl-10 pr-20 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             minDate={new Date()}
                         />
-                        <CalendarIcon className="w-5 h-5 text-gray-400 absolute left-3 top-3.5" />
+                        <CalendarIcon className="w-5 h-5 text-blue-400 absolute left-3 top-3.5" />
                     </div>
 
                     {/* Return Date */}
@@ -110,13 +172,13 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                                 className="w-full pl-10 pr-20 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 minDate={startDate || new Date()}
                             />
-                            <CalendarIcon className="w-5 h-5 text-gray-400 absolute left-3 top-3.5" />
+                            <CalendarIcon className="w-5 h-5 text-blue-400 absolute left-3 top-3.5" />
                         </div>
                     )}
 
                     {/* Travelers */}
                     <div className="relative flex items-center">
-                        <UserIcon className="w-5 h-5 text-gray-400 absolute left-3" />
+                        <UserIcon className="w-5 h-5 text-blue-400 absolute left-3" />
                         <select
                             value={travelers}
                             onChange={(e) => setTravelers(Number(e.target.value))}
@@ -131,14 +193,13 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                     </div>
 
                     {/* Search Button */}
-
                     <button
                         onClick={handleBookFlight}
-                        className="w-xl place-self-center md:col-span-4 bg-blue-600 hover:bg-blue-700  text-white text-xl font-semibold py-3 px-8 rounded-lg transition-colors duration-200 cursor-pointer"
+                        disabled={!origin || !destination}
+                        className="w-full place-self-center md:col-span-4 bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold py-3 px-8 rounded-lg transition-colors duration-200 cursor-pointer"
                     >
                         Book Flights
                     </button>
-
                 </div>
             </div>
         </section>
