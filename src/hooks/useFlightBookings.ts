@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import apiClient from '../services/apiClient';
 
 export interface Booking {
-    id: string;
+    id?: string;
     fullName: string;
     email: string;
     mobile: string;
@@ -12,12 +12,12 @@ export interface Booking {
     destination: string;
     startDate: string;
     endDate?: string;
-    travelers: number;
-    createdAt: string;
-    updatedAt: string;
+    adult: number;
+    children?: number;
+    infants?: number;
 }
 
-const useFlightBookings = () => {
+const useBookings = () => {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -26,7 +26,7 @@ const useFlightBookings = () => {
     // Fetch all bookings
     useEffect(() => {
         setLoading(true);
-        const getBookings = async () => {
+        const getAllBookings = async () => {
             try {
                 const response = await apiClient.get('/bookings');
                 setBookings(response.data);
@@ -36,15 +36,15 @@ const useFlightBookings = () => {
                 setLoading(false);
             }
         };
-        getBookings();
+        getAllBookings();
     }, []);
 
     // Create a new booking
-    const createBooking = async (booking: Omit<Booking, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const createBooking = async (booking: Booking) => {
         setLoading(true);
         try {
             const response = await apiClient.post('/bookings', booking);
-            setBookings(prev => [response.data, ...prev]);
+            setBookings((prev) => [response.data, ...prev]);
             setLoading(false);
             return response.data;
         } catch (err) {
@@ -55,20 +55,18 @@ const useFlightBookings = () => {
     };
 
     // Update an existing booking
-    const updateBooking = async (id: string, updatedBooking: Partial<Booking>) => {
+    const updateBooking = async (id: string, updatedBooking: Booking) => {
         setLoading(true);
         try {
             const response = await apiClient.patch(`/bookings/${id}`, updatedBooking);
-            const updatedBookings = bookings.map(booking =>
-                booking.id === id ? { ...booking, ...response.data } : booking
+            const updatedBookings = bookings.map((booking) =>
+                booking.id === id ? response.data : booking
             );
             setBookings(updatedBookings);
             setLoading(false);
-            return response.data;
         } catch (err) {
             setError('Failed to update booking');
             setLoading(false);
-            throw err;
         }
     };
 
@@ -77,12 +75,11 @@ const useFlightBookings = () => {
         setLoading(true);
         try {
             await apiClient.delete(`/bookings/${id}`);
-            setBookings(prev => prev.filter(booking => booking.id !== id));
+            setBookings(bookings.filter((booking) => booking.id !== id));
             setLoading(false);
         } catch (err) {
             setError('Failed to delete booking');
             setLoading(false);
-            throw err;
         }
     };
 
@@ -98,4 +95,4 @@ const useFlightBookings = () => {
     };
 };
 
-export default useFlightBookings;
+export default useBookings;

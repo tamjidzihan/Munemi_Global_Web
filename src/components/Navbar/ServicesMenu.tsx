@@ -122,6 +122,7 @@ export default function ServicesMenu() {
                     </div>
                 </div>
                 <div>
+
                     {/* Visa Services Section */}
                     <div className="mb-3">
                         <h3 className="font-bold text-midnight text-lg mb-4">Visa Services:</h3>
@@ -138,6 +139,7 @@ export default function ServicesMenu() {
                             ))}
                         </ul>
                     </div>
+
                 </div>
             </div>
         </motion.div>
