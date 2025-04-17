@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { UserIcon } from '@heroicons/react/24/outline';
 import CalendarIcon from '../common/CalendarIcon/CalendarIcon';
 import useFlightLocations from '../../hooks/useFlightLocations'; // Import the custom hook
 import Select, { StylesConfig } from 'react-select'; // Import react-select
+import PassengerCounter from '../AirTicketBooking/PassengerCounter';
 
 interface AirTicketBookingProps {
     className?: string;
@@ -21,7 +21,9 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
     const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way');
     const [startDate, setStartDate] = useState<Date | null>(new Date());
     const [endDate, setEndDate] = useState<Date | null>(null);
-    const [travelers, setTravelers] = useState(1);
+    const [adult, setAdult] = useState(1);
+    const [children, setChildren] = useState(0);
+    const [infants, setInfants] = useState(0);
     const [origin, setOrigin] = useState<any>(null); // Use any for react-select
     const [destination, setDestination] = useState<any>(null); // Use any for react-select
 
@@ -42,7 +44,9 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                 destination: destination?.label, // Get the selected label
                 startDate,
                 endDate,
-                travelers,
+                adult,
+                children,
+                infants
             },
         });
     };
@@ -63,8 +67,25 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
 
     }
 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setIsDropdownOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const passengerSummary = `${adult} Adult${adult > 1 ? 's' : ''}${children > 0 ? `, ${children} Child${children > 1 ? 'ren' : ''}` : ''}${infants > 0 ? `, ${infants} Infant${infants > 1 ? 's' : ''}` : ''}`;
+
+
     return (
-        <section className="relative -mt-16  max-w-7xl mx-auto px-4">
+        <section className="relative -mt-16 z-20 max-w-7xl mx-auto px-4">
             <div className={`bg-white rounded-2xl p-6 shadow-xl mx-4 ${className}`}>
                 <div className="flex gap-4 mb-6">
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -176,21 +197,45 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                         </div>
                     )}
 
-                    {/* Travelers */}
-                    <div className="relative flex items-center">
-                        <UserIcon className="w-5 h-5 text-blue-400 absolute left-3" />
-                        <select
-                            value={travelers}
-                            onChange={(e) => setTravelers(Number(e.target.value))}
-                            className="pl-10 pr-4 py-3 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                    {/* Passengers Dropdown */}
+                    <div className="relative w-full" ref={dropdownRef}>
+                        <button
+                            onClick={() => setIsDropdownOpen(prev => !prev)}
+                            className="w-full text-left pl-10 pr-4 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 relative"
                         >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                                <option key={num} value={num}>
-                                    {num} {num === 1 ? 'Traveler' : 'Travelers'}
-                                </option>
-                            ))}
-                        </select>
+                            <span className="text-sm text-gray-500 absolute left-3 top-3">Passengers</span>
+                            <span className="text-base pl-20 text-gray-800">{passengerSummary}</span>
+                        </button>
+
+                        {isDropdownOpen && (
+                            <div className="absolute z-50 mt-2 w-full bg-white rounded-lg shadow-lg p-4 space-y-4">
+                                <PassengerCounter
+                                    value={adult}
+                                    onIncrement={() => setAdult(prev => prev + 1)}
+                                    onDecrement={() => setAdult(prev => Math.max(1, prev - 1))}
+                                    label="Adults"
+                                    tag='Above 12 years old'
+                                />
+                                <hr className="border-t-2 border-red-300 mx-auto " />
+                                <PassengerCounter
+                                    value={children}
+                                    onIncrement={() => setChildren(prev => prev + 1)}
+                                    onDecrement={() => setChildren(prev => Math.max(0, prev - 1))}
+                                    label="Children"
+                                    tag='2-12 years old'
+                                />
+                                <hr className="border-t-2 border-red-300 mx-auto " />
+                                <PassengerCounter
+                                    value={infants}
+                                    onIncrement={() => setInfants(prev => prev + 1)}
+                                    onDecrement={() => setInfants(prev => Math.max(0, prev - 1))}
+                                    label="Infants"
+                                    tag='Below 2 years old'
+                                />
+                            </div>
+                        )}
                     </div>
+
 
                     {/* Search Button */}
                     <button

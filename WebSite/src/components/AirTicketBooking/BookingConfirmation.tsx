@@ -7,7 +7,7 @@ import Alert from '../common/Alert/Alert';
 const BookingConfirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { tripType, origin, destination, startDate, endDate, travelers } = location.state || {};
+    const { tripType, origin, destination, startDate, endDate, adult, children, infants } = location.state || {};
 
     const { createBooking, loading } = useFlightBookings();
     const [fullName, setFullName] = useState<string>('');
@@ -48,7 +48,10 @@ const BookingConfirmation = () => {
             destination,
             startDate: startDate?.toISOString(),
             endDate: endDate?.toISOString(),
-            travelers,
+            adult,
+            children,
+            infants
+
         };
 
         try {
@@ -88,7 +91,9 @@ const BookingConfirmation = () => {
                     {tripType === 'round-trip' && (
                         <li><span className="font-medium">Return Date:</span> {endDate?.toLocaleDateString()}</li>
                     )}
-                    <li><span className="font-medium">Travelers:</span> {travelers}</li>
+                    <li><span className="font-medium">Adult:</span> {adult}</li>
+                    {children && <li><span className="font-medium">Children:</span> {children}</li>}
+                    {infants && <li><span className="font-medium">Infants:</span> {infants}</li>}
                 </ul>
             </section>
 

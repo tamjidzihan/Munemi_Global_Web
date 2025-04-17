@@ -41,11 +41,20 @@ module.exports = {
       },
       endDate: {
         type: Sequelize.DATE,
-        allowNull: true // Optional for one-way trips
+        allowNull: true
       },
-      travelers: {
+      adult: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 1
+      },
+      children: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      infants: {
+        type: Sequelize.INTEGER,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -39,11 +39,20 @@ const Booking = sequelize.define('Booking', {
     },
     endDate: {
         type: DataTypes.DATE,
-        allowNull: true, // Optional for one-way trips
+        allowNull: true,
     },
-    travelers: {
+    adult: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1
+    },
+    children: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    infants: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
 }, {
     tableName: 'bookings',

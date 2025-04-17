@@ -32,7 +32,9 @@ const createNewBooking = async (req, res) => {
             destination,
             startDate,
             endDate,
-            travelers,
+            adult,
+            children,
+            infants,
         } = req.body;
 
         // Validate required fields
@@ -44,7 +46,7 @@ const createNewBooking = async (req, res) => {
             !origin ||
             !destination ||
             !startDate ||
-            !travelers
+            !adult
         ) {
             return res.status(400).json({ message: 'Please fill out all required fields' });
         }
@@ -58,11 +60,14 @@ const createNewBooking = async (req, res) => {
             destination,
             startDate,
             endDate,
-            travelers,
+            adult,
+            children,
+            infants,
         });
 
         res.status(201).json(newBooking);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Error creating booking', error });
     }
 };
