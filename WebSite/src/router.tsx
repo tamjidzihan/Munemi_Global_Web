@@ -60,8 +60,6 @@ import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/I
 import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
 
 
-
-
 export const router = createBrowserRouter([
     {
         path: '/',

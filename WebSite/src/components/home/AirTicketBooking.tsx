@@ -74,7 +74,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             value="one-way"
                             checked={tripType === 'one-way'}
                             onChange={(e) => setTripType(e.target.value as 'one-way')}
-                            className="w-5 h-5 text-blue-600 cursor-pointer"
+                            className="w-5 h-5 text-blue-600"
                         />
                         One Way
                     </label>
@@ -85,7 +85,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             value="round-trip"
                             checked={tripType === 'round-trip'}
                             onChange={(e) => setTripType(e.target.value as 'round-trip')}
-                            className="w-5 h-5 text-blue-600 cursor-pointer"
+                            className="w-5 h-5 text-blue-600"
                         />
                         Round Trip
                     </label>
