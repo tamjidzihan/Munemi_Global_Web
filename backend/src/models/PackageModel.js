@@ -13,15 +13,15 @@ const Package = sequelize.define('Package', {
     },
     type: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
     price: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     duration: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     description: {
         type: DataTypes.STRING,
@@ -47,7 +47,7 @@ const Package = sequelize.define('Package', {
         defaultValue: true
     }
 }, {
-    tableName: 'package',
+    tableName: 'packages',
     timestamps: true
 });
 

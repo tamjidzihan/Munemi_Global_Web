@@ -5,7 +5,7 @@ import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
 import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
-import Offers from "./pages/Offers/Offers";
+import Package from "./pages/Package/Package";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
 
@@ -41,11 +41,11 @@ export const childRoutes = [
         ),
     },
     {
-        path: "offers",
+        path: "package",
         element: (
             <>
-                <PageTitle title="Offers | Manage your Offers Here" />
-                < Offers />
+                <PageTitle title="Package | Manage your Package Here" />
+                <Package />
             </>
         ),
     },

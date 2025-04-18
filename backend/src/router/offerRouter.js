@@ -1,7 +1,6 @@
 const offerController = require('../controllers/OfferController')
 const upload = require("../middlewares/multerConfig")
 
-
 module.exports = (router) => {
     router.get('/offers', offerController.getAllOffers);
     router.get('/offers/:id', offerController.getOfferById);

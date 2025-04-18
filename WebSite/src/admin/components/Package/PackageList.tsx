@@ -1,34 +1,33 @@
 import { useState } from "react";
-import { formatDate, truncateText } from "../../../helpers/helpers";
-import { OfferProps } from "../../../hooks/useOffers";
-import CreateOffersModal from "./CreateOffersModel";
+import { formatDate } from "../../../helpers/helpers";
+import { PackageProps } from "../../../hooks/usePackage";
+import CreatePackageModal from "./CreatePackageModal";
 import { Minus } from "lucide-react";
 
-type OffersListProps = {
-    allOffers: OfferProps[];
-    deleteOffer: (id: string) => void;
+type PackageListProps = {
+    allPackages: PackageProps[];
+    deletePackage: (id: string) => void;
 }
 
-const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
+const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [offersList, setOffersList] = useState<OfferProps[]>(allOffers)
+    const [packagesList, setPackagesList] = useState<PackageProps[]>(allPackages);
 
-    const addNewOffer = (newOffers: OfferProps) => {
-        setOffersList(prevOffers => [newOffers, ...prevOffers])
-    }
+    const addNewPackage = (newPackage: PackageProps) => {
+        setPackagesList(prevPackages => [newPackage, ...prevPackages]);
+    };
     const closeModal = () => setIsModalOpen(false);
 
-
     return (
-        <div className="  rounded-sm border border-stroke bg-white shadow-default ">
+        <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-                <h4 className="text-xl place-self-center font-semibold text-midnight ">
-                    List of Offers
+                <h4 className="text-xl place-self-center font-semibold text-midnight">
+                    List of Packages
                 </h4>
                 <button
                     onClick={() => isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true)}
-                    className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? `bg-red-500 hover:bg-red-600` : `bg-primary`} py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-8 cursor-pointer hover:text-gray-50`
-                    }>
+                    className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? `bg-red-500 hover:bg-red-600` : `bg-primary`} py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-8 cursor-pointer hover:text-gray-50`}
+                >
                     {isModalOpen ?
                         <Minus />
                         : <span>
@@ -43,33 +42,27 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                         </span>}
-                    {isModalOpen ? `Cancel` : ` Create New Offer`}
+                    {isModalOpen ? `Cancel` : ` Create New Package`}
                 </button>
             </div>
 
-            {/* Create Event Modal */}
-
-            <CreateOffersModal
-                addNewOffer={addNewOffer}
+            {/* Create Package Modal */}
+            <CreatePackageModal
+                addNewPackage={addNewPackage}
                 isOpen={isModalOpen}
                 closeModal={closeModal}
             />
+            {/* Create Package Modal */}
 
-            {/* Create Event Modal */}
-
-
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
-                <div className="col-span-1 flex items-center">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
+                <div className="col-span-2 flex items-center">
                     <p className="font-bold">Title</p>
                 </div>
-                <div className="col-span-3 flex items-center">
-                    <p className="font-bold">Description</p>
-                </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Start-Date</p>
+                    <p className="font-bold">Destination / Type</p>
                 </div>
-                <div className="col-span-1 flex items-center">
-                    <p className="font-bold">End-Date</p>
+                <div className="col-span-2 flex items-center">
+                    <p className="font-bold">Package Detail</p>
                 </div>
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Status</p>
@@ -82,36 +75,33 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                 </div>
             </div>
 
-            {/* List of Events */}
-            {offersList.length > 0 ? (
-                offersList
+            {/* List of Packages */}
+            {packagesList.length > 0 ? (
+                packagesList
                     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-                    .map((offer: OfferProps) => (
+                    .map((pkg: PackageProps) => (
                         <div
-                            key={offer.id}
-                            className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5"
+                            key={pkg.id}
+                            className="grid grid-cols-10 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5"
                         >
-                            <div className="col-span-1 flex  items-center mr-3">
-                                <p className=' overflow-hidden'>{offer.title || "N/A"}</p>
+                            <div className="col-span-2 flex items-center mr-3">
+                                <p className='overflow-hidden'>{pkg.title || "N/A"}</p>
                             </div>
-                            <div className="col-span-3 text-sm flex items-center mr-3">
-                                <p className="line-clamp-3 overflow-hidden pr-5">{truncateText(offer.description) || "N/A"}</p>
-                            </div>
-                            <div className="col-span-1 flex  items-center mr-3">
-                                <p className='overflow-hidden'>{formatDate(offer.startDate)}</p>
-                            </div>
-                            <div className="col-span-1 flex  items-center mr-3">
-                                <p className='overflow-hidden'>{formatDate(offer.endDate)}</p>
-                            </div>
-                            <div className={`col-span-1 flex items-center mr-3 font-bold ${offer.isActive ? `text-green-700` : ` text-red-600`}`}>
-                                <p className="overflow-hidden">{offer.isActive ? "Active" : "Inactive"}</p>
+                            <div className="col-span-1 flex items-center mr-3">
+                                <p className='overflow-hidden'>{pkg.type || "N/A"}</p>
                             </div>
                             <div className="col-span-2 flex items-center mr-3">
-                                {offer.image
+                                <p className='overflow-hidden'>Price: ${pkg.price || "N/A"}<br />Duration: {pkg.duration || "N/A"}<br />Offer Duration: {formatDate(pkg.startDate)} -   {formatDate(pkg.endDate)}</p>
+                            </div>
+                            <div className={`col-span-1 flex items-center mr-3 font-bold ${pkg.isActive ? `text-green-700` : `text-red-600`}`}>
+                                <p className="overflow-hidden">{pkg.isActive ? "Active" : "Inactive"}</p>
+                            </div>
+                            <div className="col-span-2 flex items-center mr-3">
+                                {pkg.image
                                     ?
                                     <img
-                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${offer.image}`}
-                                        alt="Offer"
+                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${pkg.image}`}
+                                        alt="Package"
                                         className="w-full h-25 object-cover rounded-lg"
                                     />
                                     :
@@ -120,7 +110,7 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                             </div>
                             <div className="col-span-1 flex items-center">
                                 <div className="flex items-center space-x-3.5">
-                                    {/* View AppointMent */}
+                                    {/* View Package */}
                                     <button className="hover:text-success">
                                         <svg
                                             className="fill-current"
@@ -140,20 +130,31 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                             />
                                         </svg>
                                     </button>
-                                    {/* View AppointMent */}
+                                    {/* View Package */}
 
-                                    {/* Update AppointMent */}
+                                    {/* Update Package */}
                                     <button className="hover:text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="size-5"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                                            />
                                         </svg>
                                     </button>
-                                    {/* Update AppointMent */}
+                                    {/* Update Package */}
 
-                                    {/* Delete AppointMent */}
+                                    {/* Delete Package */}
                                     <button
                                         className="hover:text-danger cursor-pointer"
-                                        onClick={() => deleteOffer(offer.id)}
+                                        onClick={() => deletePackage(pkg.id)}
                                     >
                                         <svg
                                             className="fill-current"
@@ -181,18 +182,18 @@ const OffersList = ({ allOffers, deleteOffer }: OffersListProps) => {
                                             />
                                         </svg>
                                     </button>
-                                    {/* Delete AppointMent */}
+                                    {/* Delete Package */}
                                 </div>
                             </div>
                         </div>
                     ))
             ) : (
                 <div className="text-center py-4">
-                    <p className="text-gray-500">No Appointments available.</p>
+                    <p className="text-gray-500">No Packages available.</p>
                 </div>
             )}
-        </div >
-    )
-}
+        </div>
+    );
+};
 
-export default OffersList
+export default PackageList;
