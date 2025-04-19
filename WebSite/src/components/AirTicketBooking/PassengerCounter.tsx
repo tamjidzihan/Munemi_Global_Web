@@ -17,11 +17,11 @@ const PassengerCounter = ({
 }: PassengerCounterProps) => {
     return (
         <>
-            <span className=" text-sm text-gray-500">  {tag}</span>
+            <span className=" text-xs text-gray-500">  {tag}</span>
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-700">
                     <UserIcon className="w-5 h-5 text-blue-500" />
-                    <span className="text-sm font-medium">{label}</span>
+                    <span className="text-lg font-medium">{label}</span>
                 </div>
                 <div className="flex items-center gap-3 bg-gray-100 rounded-lg px-3 py-1.5">
                     <button
