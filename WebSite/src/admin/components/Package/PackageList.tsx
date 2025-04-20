@@ -91,19 +91,28 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
                                 <p className='overflow-hidden'>{pkg.type || "N/A"}</p>
                             </div>
                             <div className="col-span-2 flex items-center mr-3">
-                                <p className='overflow-hidden'>Price: ${pkg.price || "N/A"}<br />Duration: {pkg.duration || "N/A"}<br />Offer Duration: {formatDate(pkg.startDate)} -   {formatDate(pkg.endDate)}</p>
+                                <p className='overflow-hidden'>
+                                    <span className=" font-bold text-indigo-800 ">Price :</span>  ${pkg.price || "N/A"}<br />
+                                    <span className=" font-bold text-indigo-800">Duration :</span> {pkg.duration || "N/A"}<br />
+                                    <span className=" font-bold text-indigo-800"> Destination :</span> {pkg.destination || "N/A"}<br />
+                                    <span className=" font-bold text-indigo-800">Number Of traveller : </span>{pkg.numberOftraveller || "N/A"}<br />
+                                    <span className=" font-bold text-indigo-800">Offer Duration :</span> {formatDate(pkg.startDate)} -   {formatDate(pkg.endDate)}</p>
                             </div>
                             <div className={`col-span-1 flex items-center mr-3 font-bold ${pkg.isActive ? `text-green-700` : `text-red-600`}`}>
                                 <p className="overflow-hidden">{pkg.isActive ? "Active" : "Inactive"}</p>
                             </div>
                             <div className="col-span-2 flex items-center mr-3">
-                                {pkg.image
+                                {pkg.images
                                     ?
-                                    <img
-                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${pkg.image}`}
-                                        alt="Package"
-                                        className="w-full h-25 object-cover rounded-lg"
-                                    />
+                                    pkg.images.map((image) =>
+                                        <img
+                                            src={`${import.meta.env.VITE_APICLIENT}/uploads/${image.url}`}
+                                            key={image.id}
+                                            alt="Package"
+                                            className="w-15 h-20 object-cover rounded-lg"
+                                        />
+                                    )
+
                                     :
                                     <p className="line-clamp-3 overflow-hidden">No Image</p>
                                 }

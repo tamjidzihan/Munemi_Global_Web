@@ -15,6 +15,14 @@ const Package = sequelize.define('Package', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    destination: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    numberOftraveller: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
     price: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -36,11 +44,8 @@ const Package = sequelize.define('Package', {
         allowNull: true
     },
     termsAndConditions: {
-        type: DataTypes.STRING
-    },
-    image: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: false
     },
     isActive: {
         type: DataTypes.BOOLEAN,
@@ -51,5 +56,4 @@ const Package = sequelize.define('Package', {
     timestamps: true
 });
 
-// Export the Package model
 module.exports = Package;

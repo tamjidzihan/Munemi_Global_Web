@@ -2,19 +2,28 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 
+
+
+export interface PackageImageProps {
+    id: string;
+    url: string;
+    createdAt: string;
+}
+
 export interface PackageProps {
     id: string;
     title: string;
     type: string;
-    price: number;
+    destination: string;
+    numberOftraveller?: number;
+    price?: number;
     duration?: string;
     description: string;
     startDate: string;
     endDate: string;
     termsAndConditions?: string;
-    image?: string;
+    images: PackageImageProps[];
     isActive: boolean;
-    createdAt: string;
     updatedAt: string;
 }
 
@@ -48,9 +57,11 @@ const usePackage = () => {
                 }
             });
             setPackages(prev => [response.data, ...prev]);
+            setLoading(false);
             return response.data;
         } catch (err) {
             setError("Failed to create package");
+            setLoading(false);
             throw err;
         } finally {
             setLoading(false);
@@ -68,6 +79,7 @@ const usePackage = () => {
             setPackages(prev =>
                 prev.map(pkg => pkg.id === id ? response.data : pkg)
             );
+            setLoading(false);
             return response.data;
         } catch (err) {
             setError("Failed to update package");
@@ -82,8 +94,10 @@ const usePackage = () => {
         try {
             await apiClient.delete(`/package/${id}`);
             setPackages(prev => prev.filter(pkg => pkg.id !== id));
+            setLoading(false);
         } catch (err) {
             setError("Failed to delete package");
+            setLoading(false);
             throw err;
         } finally {
             setLoading(false);

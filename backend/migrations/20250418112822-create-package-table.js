@@ -22,6 +22,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true
       },
+      destination: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      numberOftraveller: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
       duration: {
         type: Sequelize.STRING,
         allowNull: true
@@ -39,10 +47,6 @@ module.exports = {
         allowNull: true
       },
       termsAndConditions: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      image: {
         type: Sequelize.STRING,
         allowNull: true
       },

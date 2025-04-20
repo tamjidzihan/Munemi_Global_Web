@@ -9,8 +9,8 @@ const getAllPackage = async (req, res) => {
         const packages = await packageService.getPackage();
         res.status(200).json(packages);
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: 'Error fetching Offers', error });
+        console.log(error);
+        res.status(500).json({ message: 'Error fetching Packages', error });
     }
 };
 
@@ -18,41 +18,46 @@ const getPackagesById = async (req, res) => {
     try {
         const { id } = req.params;
         const package = await packageService.findPackageById(id);
-        if (!package) return res.status(404).json({ message: 'Packag not found' });
+        if (!package) return res.status(404).json({ message: 'Package not found' });
         res.status(200).json(package);
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({ message: 'Error fetching Package', error });
     }
 };
 
 const createNewPackage = async (req, res) => {
     try {
-        const { title, type, price, duration, description, startDate, endDate, termsAndConditions, isActive } = req.body;
+        const { title, type, price, destination, numberOftraveller, duration, description, startDate, endDate, termsAndConditions, isActive } = req.body;
 
-        if (!title || !type || !description) {
+        if (!title || !type || !description || !destination || !numberOftraveller) {
             return res.status(400).json({ message: "Please fill out all the required fields" });
         }
 
-        const image = req.files['image'] ? req.files['image'][0].filename : null;
+        // Get uploaded image filenames
+        const imageUrls = req.files['image'] ? req.files['image'].map(file => file.filename) : [];
 
-        const newPackage = await packageService.createPackage({
-            title,
-            type,
-            price,
-            duration,
-            description,
-            startDate,
-            endDate,
-            termsAndConditions,
-            image,
-            isActive
-        });
+        const newPackage = await packageService.createPackage(
+            {
+                title,
+                type,
+                price,
+                destination,
+                numberOftraveller,
+                duration,
+                description,
+                startDate,
+                endDate,
+                termsAndConditions,
+                isActive
+            },
+            imageUrls // Pass image URLs to the service
+        );
 
         res.status(201).json(newPackage);
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: 'Error creating Package', error: error });
+        console.log(error);
+        res.status(500).json({ message: 'Error creating Package', error });
     }
 };
 
@@ -66,21 +71,15 @@ const updatePackage = async (req, res) => {
             return res.status(404).json({ message: 'Package not found' });
         }
 
-        // Handle image update
-        const newImage = req.files && req.files['image'] ? req.files['image'][0].filename : null;
-        if (newImage) {
-            // Delete old image if exists
-            if (package.image) {
-                try {
-                    await fs.unlink(path.join(uploadDir, package.image));
-                } catch (err) {
-                    console.error(`Error deleting old image ${package.image}:`, err);
-                }
-            }
-            updateData.image = newImage;
-        }
+        // Get new uploaded image filenames
+        const newImageUrls = req.files['images'] ? req.files['images'].map(file => file.filename) : [];
 
-        const updatedPackage = await packageService.updatePackageById(id, updateData);
+        const updatedPackage = await packageService.updatePackageById(
+            id,
+            updateData,
+            newImageUrls // Pass new image URLs to the service
+        );
+
         if (!updatedPackage) {
             return res.status(400).json({ message: 'No changes made to the package' });
         }
@@ -101,15 +100,15 @@ const deletePackage = async (req, res) => {
             return res.status(404).json({ message: 'Package not found' });
         }
 
-        // Collect files to delete
-        const filesToDelete = [];
-        if (package.image) filesToDelete.push(package.image);
+        // Collect files to delete (images associated with the package)
+        const filesToDelete = package.images ? package.images.map(image => image.url) : [];
 
         const deleted = await packageService.deletePackageById(id);
         if (!deleted) {
-            return res.status(404).json({ message: ' Package not found' });
+            return res.status(404).json({ message: 'Package not found' });
         }
 
+        // Delete associated image files from the uploads directory
         await Promise.all(
             filesToDelete.map(async (filename) => {
                 try {
