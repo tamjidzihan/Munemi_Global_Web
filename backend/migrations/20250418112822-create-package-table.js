@@ -35,7 +35,7 @@ module.exports = {
         allowNull: true
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
       },
       startDate: {
@@ -47,7 +47,7 @@ module.exports = {
         allowNull: true
       },
       termsAndConditions: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true
       },
       isActive: {

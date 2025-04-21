@@ -103,6 +103,7 @@ const deletePackage = async (req, res) => {
         // Collect files to delete (images associated with the package)
         const filesToDelete = package.images ? package.images.map(image => image.url) : [];
 
+        // Delete database record
         const deleted = await packageService.deletePackageById(id);
         if (!deleted) {
             return res.status(404).json({ message: 'Package not found' });

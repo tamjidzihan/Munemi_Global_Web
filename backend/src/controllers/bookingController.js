@@ -1,5 +1,6 @@
 // controllers/bookingController.js
 const bookingService = require('../services/bookingService');
+const { sendMail } = require('../helpers/sendMail')
 
 const getAllBookings = async (req, res) => {
     try {
@@ -50,6 +51,18 @@ const createNewBooking = async (req, res) => {
         ) {
             return res.status(400).json({ message: 'Please fill out all required fields' });
         }
+
+        sendMail(email, "Your Flight Booking Confirmation - Munemi Global", {
+            fullName,
+            tripType,
+            origin,
+            destination,
+            startDate,
+            endDate,
+            adult,
+            children,
+            infants,
+        });
 
         const newBooking = await bookingService.createBooking({
             fullName,

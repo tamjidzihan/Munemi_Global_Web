@@ -11,13 +11,22 @@ For Cpanel Routing:
 </IfModule>
 
 
+Your account ticket@munemiglobal.com has been setup. In your e-mail program, use:
+Username:	ticket@munemiglobal.com
+Password:	munemiticket
+POP/IMAP Server:	mail.munemiglobal.com
+SMTP Server:	mail.munemiglobal.com port 587
 
 
 
+Your account service@munemiglobal.com has been setup. In your e-mail program, use:
+Username:	service@munemiglobal.com
+Password:	munemiservice
+POP/IMAP Server:	mail.munemiglobal.com
+SMTP Server:	mail.munemiglobal.com port 587
 
 
-
-
+https://ibb.co.com/jv6LmKDJ
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

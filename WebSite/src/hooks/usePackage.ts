@@ -2,8 +2,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 
-
-
 export interface PackageImageProps {
     id: string;
     url: string;

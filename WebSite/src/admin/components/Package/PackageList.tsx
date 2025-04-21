@@ -92,7 +92,7 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
                             </div>
                             <div className="col-span-2 flex items-center mr-3">
                                 <p className='overflow-hidden'>
-                                    <span className=" font-bold text-indigo-800 ">Price :</span>  ${pkg.price || "N/A"}<br />
+                                    <span className=" font-bold text-indigo-800 ">Price :</span>  ৳ {pkg.price || "N/A"}/-<br />
                                     <span className=" font-bold text-indigo-800">Duration :</span> {pkg.duration || "N/A"}<br />
                                     <span className=" font-bold text-indigo-800"> Destination :</span> {pkg.destination || "N/A"}<br />
                                     <span className=" font-bold text-indigo-800">Number Of traveller : </span>{pkg.numberOftraveller || "N/A"}<br />

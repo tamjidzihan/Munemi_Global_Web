@@ -32,7 +32,7 @@ const Package = sequelize.define('Package', {
         allowNull: true
     },
     description: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     startDate: {
@@ -44,7 +44,7 @@ const Package = sequelize.define('Package', {
         allowNull: true
     },
     termsAndConditions: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     isActive: {

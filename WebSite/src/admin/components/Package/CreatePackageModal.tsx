@@ -90,9 +90,9 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Destination</label>
+                            <label className="block text font-medium mb-2">  Destination</label>
                             <input {...register("destination")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.destination && <p className="text-red-500 text-sm">{errors.destination.message}</p>}
                         </div>
@@ -103,7 +103,7 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Duration</label>
+                        <label className="block text-sm font-medium mb-2"> Package Duration</label>
                         <div className="flex space-x-4">
                             <div className="flex flex-col w-1/2">
                                 <label className="block text-sm font-medium mb-1">Days</label>
@@ -128,31 +128,26 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Description</label>
-                        <textarea {...register("description")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" rows={3} />
-                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
-                    </div>
-                    <div className="grid grid-cols-2 gap-5">
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Offer Start Date</label>
-                            <input type="date" {...register("startDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
-                            {errors.startDate && <p className="text-red-500 text-sm">{errors.startDate.message}</p>}
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Offer End Date</label>
-                            <input type="date" {...register("endDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
-                            {errors.endDate && <p className="text-red-500 text-sm">{errors.endDate.message}</p>}
+                        <label className="block text-sm font-medium mb-2"> Offer Duration</label>
+                        <div className="grid grid-cols-2 gap-5">
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium mb-2">Offer Start Date</label>
+                                <input type="date" {...register("startDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
+                                {errors.startDate && <p className="text-red-500 text-sm">{errors.startDate.message}</p>}
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium mb-2">Offer End Date</label>
+                                <input type="date" {...register("endDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
+                                {errors.endDate && <p className="text-red-500 text-sm">{errors.endDate.message}</p>}
+                            </div>
                         </div>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Terms And Conditions</label>
-                        <input {...register("termsAndConditions")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
-                        {errors.termsAndConditions && <p className="text-red-500 text-sm">{errors.termsAndConditions.message}</p>}
-                    </div>
+
                     <div className="flex items-center mb-4">
                         <input type="checkbox" {...register("isActive")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500" />
                         <label className="ms-2 text-sm font-medium">Package Status</label>
                     </div>
+
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">Upload Photos</label>
                         <div className="relative mb-4 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
@@ -184,6 +179,7 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                                 <p className="text-xs text-gray-500">SVG, PNG, JPG, or GIF (max 5 images)</p>
                             </div>
                         </div>
+
                         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {previewImages.map((preview, index) => (
                                 <div key={index} className="relative group">
@@ -223,6 +219,19 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             ))}
                         </div>
                     </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Terms And Conditions</label>
+                        <textarea {...register("termsAndConditions")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" rows={10} />
+                        {errors.termsAndConditions && <p className="text-red-500 text-sm">{errors.termsAndConditions.message}</p>}
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium mb-2">Description</label>
+                        <textarea {...register("description")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" rows={20} />
+                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                    </div>
+
                     <div className="flex justify-between">
                         <button type="button" onClick={closeModal} className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer" disabled={loading}>
                             Cancel
