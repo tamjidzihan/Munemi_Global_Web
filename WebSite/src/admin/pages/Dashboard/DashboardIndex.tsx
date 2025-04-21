@@ -6,6 +6,7 @@ import useAppointments from '../../../hooks/useAppointments';
 import useStudentEnquiries from '../../../hooks/useStudentEnquiry';
 import useCareer from '../../../hooks/useCareer';
 import usePackage from '../../../hooks/usePackage';
+import useFlightBookings from '../../../hooks/useFlightBookings';
 
 
 const DashboardIndex: React.FC = () => {
@@ -14,6 +15,7 @@ const DashboardIndex: React.FC = () => {
   const { totalEnquiries } = useStudentEnquiries()
   const { totalPackages } = usePackage()
   const { totalCareers } = useCareer()
+  const { totalBookings } = useFlightBookings()
 
   return (
     <>
@@ -79,18 +81,13 @@ const DashboardIndex: React.FC = () => {
             </svg>
           </CardDataStats>
         </Link>
-      </div>
-
-      <div className=' text-2xl text-midnight pb-5 pt-10'>Others</div>
-      <div className='grid grid-cols-1'>
-        <Link to={'/adminpanel/career/job'}>
-          <CardDataStats title="Job / Career Appication" total={totalCareers.toString()} rate="4.35%" levelUp>
+        <Link to={'/adminpanel/flight/flight-booking'}>
+          <CardDataStats title="Flight Booking" total={totalBookings.toString()} rate="4.35%" levelUp>
             <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="M8 7H5a2 2 0 0 0-2 2v4m5-6h8M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m0 0h3a2 2 0 0 1 2 2v4m0 0v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6m18 0s-4 2-9 2-9-2-9-2m9-2h.01" />
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
             </svg>
           </CardDataStats>
         </Link>
-
       </div>
     </>
   );

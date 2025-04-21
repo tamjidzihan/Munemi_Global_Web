@@ -16,10 +16,11 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   levelUp,
   levelDown,
   children,
+
 }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow hover:shadow-lg cursor-pointer ">
-      <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 ">
+      <div className="flex w-11.5 items-center justify-center rounded-full bg-meta-2 h-11.5" >
         {children}
       </div>
 

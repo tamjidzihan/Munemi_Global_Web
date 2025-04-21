@@ -66,7 +66,7 @@ const createNewBooking = async (req, res) => {
 
 
         // Prepare the email for the team
-        const teamEmailSubject = `New Flight Booking - for ${fullName} | From: ${origin} - To: ${destination}`;
+        const teamEmailSubject = `New Flight Booking - for ${fullName} || From: ${origin} | To: ${destination}`;
         const teamEmailHtml = `
             <h1>Flight Booking Details : </h1>
             <p><strong>Name :</strong> ${fullName}</p>
