@@ -3,6 +3,8 @@ import Agent from "./pages/Agent/Agent";
 import Appointments from "./pages/Appointment/Appointments";
 import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
+import FlightBooking from "./pages/Flight/FlightBooking";
+import FlightLocation from "./pages/Flight/FlightLocation";
 import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
 import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
 import Package from "./pages/Package/Package";
@@ -50,7 +52,7 @@ export const childRoutes = [
         ),
     },
     {
-        path: "career",
+        path: "career/job",
         element: (
             <>
                 <PageTitle title="Career | Modarate Job Application Here" />
@@ -59,7 +61,7 @@ export const childRoutes = [
         ),
     },
     {
-        path: "agent",
+        path: "career/agent",
         element: (
             <>
                 <PageTitle title="Agent Application | Modarate Agent  Partners Here" />
@@ -68,7 +70,7 @@ export const childRoutes = [
         ),
     },
     {
-        path: "institution-partners",
+        path: "career/institution-partners",
         element: (
             <>
                 <PageTitle title="Institution Partners | Modarate Institution Partners Here" />
@@ -77,11 +79,29 @@ export const childRoutes = [
         ),
     },
     {
-        path: "health-insurance-partners",
+        path: "career/health-insurance-partners",
         element: (
             <>
                 <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
                 <HealthInsurancePartner />
+            </>
+        ),
+    },
+    {
+        path: "flight/flight-booking",
+        element: (
+            <>
+                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <FlightBooking />
+            </>
+        ),
+    },
+    {
+        path: "flight/flight-location",
+        element: (
+            <>
+                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <FlightLocation />
             </>
         ),
     },

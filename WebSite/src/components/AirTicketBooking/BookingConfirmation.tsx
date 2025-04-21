@@ -50,14 +50,18 @@ const BookingConfirmation = () => {
             endDate: endDate?.toISOString(),
             adult,
             children,
-            infants
-
+            infants,
         };
 
         try {
             // Save booking to backend
             await createBooking(booking);
             setAlert({ message: 'Booking confirmed successfully!', type: 'success' });
+
+            // Clear form fields
+            setFullName('');
+            setEmail('');
+            setMobile('');
 
             // Redirect to home page after 2 seconds
             setTimeout(() => {
@@ -83,7 +87,7 @@ const BookingConfirmation = () => {
 
             <section className="mb-8 bg-blue-50 p-6 rounded-lg">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Trip Summary</h2>
-                <ul className="space-y-2 text-gray-700" >
+                <ul className="space-y-2 text-gray-700">
                     <li><span className="font-medium">Trip Type:</span> {tripType}</li>
                     <li><span className="font-medium">Origin:</span> {origin}</li>
                     <li><span className="font-medium">Destination:</span> {destination}</li>
@@ -118,7 +122,7 @@ const BookingConfirmation = () => {
 
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                            Email <span className="text-red-500">*</span>
+                            Email < span className="text-red-500">*</span>
                         </label>
                         <input
                             type="email"
@@ -151,9 +155,19 @@ const BookingConfirmation = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-3 px-6 rounded-lg transition duration-300"
+                        className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center"
                     >
-                        Confirm Booking
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                                </svg>
+                                Confirming...
+                            </>
+                        ) : (
+                            'Confirm Booking'
+                        )}
                     </button>
                 </form>
             </section>

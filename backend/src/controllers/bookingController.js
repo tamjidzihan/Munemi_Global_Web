@@ -52,7 +52,7 @@ const createNewBooking = async (req, res) => {
             return res.status(400).json({ message: 'Please fill out all required fields' });
         }
 
-        sendMail(email, "Your Flight Booking Confirmation - Munemi Global", {
+        await sendMail(email, "Your Flight Booking Confirmation - Munemi Global", {
             fullName,
             tripType,
             origin,
@@ -63,6 +63,38 @@ const createNewBooking = async (req, res) => {
             children,
             infants,
         });
+
+
+        // Prepare the email for the team
+        const teamEmailSubject = `New Flight Booking - for ${fullName} | From: ${origin} - To: ${destination}`;
+        const teamEmailHtml = `
+            <h1>Flight Booking Details : </h1>
+            <p><strong>Name :</strong> ${fullName}</p>
+            <p><strong>Email :</strong> ${email}</p>
+            <p><strong>Mobile :</strong> ${mobile}</p>
+            <p><strong>Trip Type :</strong> ${tripType}</p>
+            <p><strong>From :</strong> ${origin}</p>
+            <p><strong>To :</strong> ${destination}</p>
+            <p><strong>Start Date :</strong> ${startDate}</p>
+            <p><strong>End Date :</strong> ${endDate}</p>
+            <p><strong>Passengers :</strong> ${adult} Adult(s), ${children || 0} Child(ren), ${infants || 0} Infant(s)</p>
+        `;
+
+        // Send email to the team
+        await sendMail("ticket@munemiglobal.com", teamEmailSubject, {
+            fullName,
+            email,
+            mobile,
+            tripType,
+            origin,
+            destination,
+            startDate,
+            endDate,
+            adult,
+            children,
+            infants,
+        }, teamEmailHtml); // Pass the custom HTML directly
+
 
         const newBooking = await bookingService.createBooking({
             fullName,

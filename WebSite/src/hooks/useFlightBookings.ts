@@ -17,7 +17,7 @@ export interface Booking {
     infants?: number;
 }
 
-const useBookings = () => {
+const useFlightBookings = () => {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -95,4 +95,4 @@ const useBookings = () => {
     };
 };
 
-export default useBookings;
+export default useFlightBookings;
