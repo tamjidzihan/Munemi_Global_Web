@@ -62,16 +62,14 @@ const FlightBookingList = ({ allBookings, deleteBooking }: FlightBookingListProp
                 closeModal={closeModal}
             />
 
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Full Name</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Email</p>
+                    <p className="font-bold">User Info</p>
                 </div>
-                <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Mobile</p>
-                </div>
+
                 <div className="col-span-1 flex items-center">
                     <p className="font-bold">Trip Type</p>
                 </div>
@@ -99,17 +97,15 @@ const FlightBookingList = ({ allBookings, deleteBooking }: FlightBookingListProp
                 bookingList.map((booking) => (
                     <div
                         key={booking.id}
-                        className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5"
+                        className="grid grid-cols-7 text-form-input border-t hover:bg-gray-100 border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5"
                     >
                         <div className="col-span-1 flex items-center">
                             <p className="overflow-hidden">{booking.fullName || "N/A"}</p>
                         </div>
                         <div className="col-span-1 flex items-center">
-                            <p className="overflow-hidden">{booking.email || "N/A"}</p>
+                            <p className="overflow-hidden text-sm">{booking.email || "N/A"} <br />{booking.mobile || "N/A"}</p>
                         </div>
-                        <div className="col-span-1 flex items-center">
-                            <p className="overflow-hidden">{booking.mobile || "N/A"}</p>
-                        </div>
+
                         <div className="col-span-1 flex items-center">
                             <p className="overflow-hidden">{booking.tripType || "N/A"}</p>
                         </div>

@@ -1,14 +1,20 @@
 const nodemailer = require("nodemailer");
 const path = require('path');
 const fs = require('fs').promises;
+const dotenv = require("dotenv")
+
+dotenv.config()
+
+const hostEmailAddress = process.env.HOSTMAIL
+const hostEmailPassword = process.env.HOSTMAILPASS
 
 const transporter = nodemailer.createTransport({
     host: "mail.munemiglobal.com",
     port: 587,
     secure: false, // true for port 465, false for other ports
     auth: {
-        user: "service@munemiglobal.com",
-        pass: "munemiservice",
+        user: hostEmailAddress,
+        pass: hostEmailPassword,
     },
 });
 
