@@ -3,9 +3,9 @@ import { AppointmentBoking } from "../home/AppointmentBoking"
 import { NewsSection } from "../home/NewsSection"
 import { ProcessSection } from "../home/ProcessSection"
 import { Statistics } from "../home/Statistics"
-import { TestimonialsSection } from "../home/TestimonialsSection"
 import { BoardMembers } from "./BoardMembers"
 import HeroImg from "../../assets/slide-1.jpg";
+import TestimonialCarousel from "../home/TestimonialCarousel"
 
 const AboutUs = () => {
     return (
@@ -28,7 +28,7 @@ const AboutUs = () => {
             <BoardMembers />
             <ProcessSection />
             <Statistics />
-            <TestimonialsSection />
+            <TestimonialCarousel />
             <NewsSection />
             <AppointmentBoking />
         </main>

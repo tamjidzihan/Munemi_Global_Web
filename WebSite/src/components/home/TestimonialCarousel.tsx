@@ -82,7 +82,7 @@ const TestimonialCarousel: React.FC = () => {
     const currentTestimonial = testimonials[currentIndex];
 
     return (
-        <div className="max-w-7xl mx-auto px-4 mb-20">
+        <div className="max-w-7xl mx-auto px-4 my-20">
             <h2 className="text-3xl font-bold text-midnight text-center mb-4">
                 What Our Clients Say
             </h2>

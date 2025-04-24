@@ -38,7 +38,7 @@ export function BoardMembers() {
                     Meet our experienced team of immigration specialists and consultants
                     who are dedicated to helping you achieve your immigration goals
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {boardMembers.map((member, index) => (
                         <div key={index} className="group">
                             <div className="bg-white max-h-[600px] rounded-lg overflow-hidden shadow-md transition-transform duration-300 group-hover:-translate-y-2">
@@ -50,9 +50,8 @@ export function BoardMembers() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 </div>
-                                <div className="p-6 text-center">
-
-                                    <h3 className="font-bold text-lg mb-1 group-hover:text-red-500 transition-colors">
+                                <div className="p-6 min-h-[140px] text-center">
+                                    <h3 className="font-bold text-lg text-midnight mb-1 group-hover:text-red-500 transition-colors">
                                         {member.name}
                                     </h3>
                                     {member.title && <p className=' text-sm text-gray-500'>({member.title})</p>}
