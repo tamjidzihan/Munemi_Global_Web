@@ -9,7 +9,7 @@ const getUser = async (req, res) => {
         const SESSION_COOKIE_NAME = process.env.SESSION_COOKIE_NAME;
         const token = req.cookies[SESSION_COOKIE_NAME]
         if (!token) {
-            return res.status(401).json({ message: "Unauthorized" });
+            return res.status(401).json({ message: "Unauthorized user" });
         }
         const user = await getUserBySessionToken(token)
         if (!user) {

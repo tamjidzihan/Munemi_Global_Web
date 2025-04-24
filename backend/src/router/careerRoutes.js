@@ -5,9 +5,9 @@ const { isAuthenticated } = require("../middlewares")
 
 module.exports = (router) => {
     router.get('/careers', isAuthenticated, careerController.getAllCareers);
-    router.get('/careers/:id', careerController.getCareerById);
+    router.get('/careers/:id', isAuthenticated, careerController.getCareerById);
     router.post(
-        '/careers', isAuthenticated,
+        '/careers',
         upload.fields([
             { name: 'idCard', maxCount: 1 },
             { name: 'resume', maxCount: 1 }

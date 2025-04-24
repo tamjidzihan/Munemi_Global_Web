@@ -1,7 +1,6 @@
 import { Statistics } from "../components/home/Statistics";
-// import { ProcessSection } from "../components/home/ProcessSection";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-import { TestimonialsSection } from "../components/home/TestimonialsSection";
+// import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
@@ -12,6 +11,7 @@ import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import PageTitle from "../admin/components/PageTitle";
 import { PopularDestination } from "../components/home/PopularDestination";
 import AirTicketBooking from "../components/home/AirTicketBooking";
+import TestimonialCarousel from "../components/home/TestimonialCarousel";
 
 const HomePage = () => {
 
@@ -65,12 +65,12 @@ const HomePage = () => {
                 </div>
             </section>
             <HelpProcess />
-            {/* <ProcessSection /> */}
             <OverseasEducation />
             <PartnerUniversities />
             <AppointmentBoking />
             <NewsSection />
-            <TestimonialsSection />
+            {/* <TestimonialsSection /> */}
+            <TestimonialCarousel />
             <Statistics />
         </main>
     )
