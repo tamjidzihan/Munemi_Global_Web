@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import usePackage, { PackageProps } from "../../../hooks/usePackage";
+import { Editor } from '@tinymce/tinymce-react';
 
 
 type CreatePackageModalProps = {
@@ -29,12 +30,14 @@ const schema = yup.object().shape({
 
 const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackageModalProps) => {
     const { createPackage, loading } = usePackage();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
         resolver: yupResolver(schema),
     });
 
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [previewImages, setPreviewImages] = useState<string[]>([]);
+    const descriptionEditorRef = useRef(null);
+    const termsAndConditions = useRef(null);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -70,43 +73,43 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
 
     return (
         <div className="inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl">
                 <h3 className="text-xl font-semibold mb-4">Create New Package</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Title</label>
+                        <label className="block text-md text-midnight font-medium mb-2">Title</label>
                         <input {...register("title")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                         {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Package Type</label>
+                            <label className="block text-md text-midnight font-medium mb-2">Package Type</label>
                             <input {...register("type")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.type && <p className="text-red-500 text-sm">{errors.type.message}</p>}
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Price</label>
+                            <label className="block text-md text-midnight font-medium mb-2">Price</label>
                             <input type="number" {...register("price")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                         <div className="mb-4">
-                            <label className="block text font-medium mb-2">  Destination</label>
+                            <label className="block text-md text-midnight font-medium mb-2">  Destination</label>
                             <input {...register("destination")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.destination && <p className="text-red-500 text-sm">{errors.destination.message}</p>}
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium mb-2">Number Of Traveller</label>
+                            <label className="block text-md text-midnight font-medium mb-2">Number Of Traveller</label>
                             <input type="number" {...register("numberOftraveller")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.numberOftraveller && <p className="text-red-500 text-sm">{errors.numberOftraveller.message}</p>}
                         </div>
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2"> Package Duration</label>
+                    <div className="mb-8">
+                        <label className="block text-md text-midnight font-medium mb-2"> Package Duration</label>
                         <div className="flex space-x-4">
                             <div className="flex flex-col w-1/2">
-                                <label className="block text-sm font-medium mb-1">Days</label>
+                                <label className="block text-sm  font-medium mb-1">Days</label>
                                 <select {...register("days")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
                                     <option value="">Select Days</option>
                                     {[...Array(30).keys()].map((day) => (
@@ -128,7 +131,7 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2"> Offer Duration</label>
+                        <label className="block text-md text-midnight font-medium mb-2"> Offer Duration</label>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="mb-4">
                                 <label className="block text-sm font-medium mb-2">Offer Start Date</label>
@@ -143,13 +146,13 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         </div>
                     </div>
 
-                    <div className="flex items-center mb-4">
+                    <div className="flex items-center mb-8">
                         <input type="checkbox" {...register("isActive")} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500" />
-                        <label className="ms-2 text-sm font-medium">Package Status</label>
+                        <label className="ms-2 text-midnight text-md font-medium">Package Status</label>
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Upload Photos</label>
+                        <label className="block text-md text-midnight font-medium mb-2">Upload Photos</label>
                         <div className="relative mb-4 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
                             <input
                                 type="file"
@@ -219,18 +222,56 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             ))}
                         </div>
                     </div>
-
+                    <div className="mb-8">
+                        <label className="block text-md text-midnight font-medium mb-2">Description</label>
+                        <Editor
+                            apiKey='szvsb3j972bv6ztvs28hf4r9kd9gz63sa203op71yb7mbxoo'
+                            onInit={(_evt, editor) => descriptionEditorRef.current = editor}
+                            initialValue="<p>Write Package Description here.</p>"
+                            init={{
+                                height: 300,
+                                menubar: false,
+                                plugins: [
+                                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                                ],
+                                toolbar: 'undo redo | blocks | ' +
+                                    'bold italic forecolor | alignleft aligncenter ' +
+                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                    'removeformat | help',
+                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                            onEditorChange={(content) => setValue("description", content)}
+                        />
+                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                    </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Terms And Conditions</label>
-                        <textarea {...register("termsAndConditions")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" rows={10} />
+                        <label className="block text-md text-midnight font-medium mb-2">Terms And Conditions</label>
+                        <Editor
+                            apiKey='szvsb3j972bv6ztvs28hf4r9kd9gz63sa203op71yb7mbxoo'
+                            onInit={(_evt, editor) => termsAndConditions.current = editor}
+                            initialValue="<p>This is the initial content of the editor.</p>"
+                            init={{
+                                height: 300,
+                                menubar: false,
+                                plugins: [
+                                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                                ],
+                                toolbar: 'undo redo | blocks | ' +
+                                    'bold italic forecolor | alignleft aligncenter ' +
+                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                    'removeformat | help',
+                                content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                            }}
+                            onEditorChange={(content) => setValue("termsAndConditions", content)}
+                        />
                         {errors.termsAndConditions && <p className="text-red-500 text-sm">{errors.termsAndConditions.message}</p>}
                     </div>
 
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium mb-2">Description</label>
-                        <textarea {...register("description")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" rows={20} />
-                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
-                    </div>
+
 
                     <div className="flex justify-between">
                         <button type="button" onClick={closeModal} className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer" disabled={loading}>

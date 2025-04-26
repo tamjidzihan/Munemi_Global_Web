@@ -12,6 +12,7 @@ import PageTitle from "../admin/components/PageTitle";
 import { PopularDestination } from "../components/home/PopularDestination";
 import AirTicketBooking from "../components/home/AirTicketBooking";
 import TestimonialCarousel from "../components/home/TestimonialCarousel";
+import PopularPackage from "../components/home/PopularPackage";
 
 const HomePage = () => {
 
@@ -47,6 +48,7 @@ const HomePage = () => {
             <PageTitle title="Home | Munemi Global" />
             <HeroSection />
             <AirTicketBooking />
+            <PopularPackage />
             <PopularDestination />
             <section className="py-20 px-4 bg-gray-50">
                 <div className="text-center mb-12">
