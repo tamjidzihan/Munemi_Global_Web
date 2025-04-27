@@ -58,6 +58,7 @@ import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartn
 import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
 import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
 import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
+import PackagePage from "./pages/PackagePage";
 
 
 export const router = createBrowserRouter([
@@ -141,6 +142,13 @@ export const router = createBrowserRouter([
                 children: [
                     { index: true, element: <AboutUs /> },
                     { path: 'appointment-booking', element: <AppointmentBookingForm /> }
+                ]
+            },
+            {
+                path: 'package',
+                element: <PackagePage />,
+                children: [
+                    { index: true, element: <AboutUs /> },
                 ]
             }
         ]
