@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import usePackage, { PackageProps } from "../../../hooks/usePackage";
 import { Editor } from '@tinymce/tinymce-react';
+import { PackageProps } from "../../../hooks/usePackage";
 
-
-type CreatePackageModalProps = {
+type EditPackageModalProps = {
     isOpen: boolean;
     closeModal: () => void;
-    addNewPackage: (newPackage: PackageProps) => void;
+    packageData: PackageProps;
+    updatePackage: (id: string, formData: FormData) => Promise<void>;
 };
 
 const schema = yup.object().shape({
@@ -22,22 +22,58 @@ const schema = yup.object().shape({
     days: yup.string().required("Days is required"),
     nights: yup.string().required("Nights is required"),
     description: yup.string().required("Description is required"),
-    startDate: yup.date().required("Start date is required"),
-    endDate: yup.date().required("End date is required"),
+    startDate: yup
+        .date()
+        .required("Start date is required")
+        .transform((value) => new Date(value)),
+    endDate: yup
+        .date()
+        .required("End date is required")
+        .transform((value) => new Date(value)),
     termsAndConditions: yup.string().required("Terms and conditions are required"),
     isActive: yup.boolean().required("Package status is required"),
 });
 
-const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackageModalProps) => {
-    const { createPackage, loading } = usePackage();
+const EditPackageModal = ({ isOpen, closeModal, packageData, updatePackage }: EditPackageModalProps) => {
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
         resolver: yupResolver(schema),
     });
 
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [previewImages, setPreviewImages] = useState<string[]>([]);
+    const [existingImages, setExistingImages] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
+
     const descriptionEditorRef = useRef(null);
-    const termsAndConditions = useRef(null);
+    const termsEditorRef = useRef(null);
+
+    useEffect(() => {
+        if (isOpen && packageData) {
+            // Parse duration into days and nights
+            const durationParts = packageData.duration?.split(/ days?,? /) || ['', ''];
+            const days = durationParts[0] || '';
+            const nights = durationParts[1]?.replace(' nights', '') || '';
+
+            // Set form values
+            reset({
+                title: packageData.title,
+                type: packageData.type,
+                price: packageData.price,
+                destination: packageData.destination,
+                numberOftraveller: packageData.numberOftraveller,
+                days: days,
+                nights: nights,
+                description: packageData.description,
+                termsAndConditions: packageData.termsAndConditions,
+                isActive: packageData.isActive
+            });
+
+            // Set existing images
+            setExistingImages(packageData.images.map(img => img.url));
+            setSelectedImages([]);
+            setPreviewImages([]);
+        }
+    }, [isOpen, packageData, reset]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -50,22 +86,26 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
     };
 
     const onSubmit = async (data: any) => {
+        setLoading(true);
         const duration = `${data.days} days, ${data.nights} nights`;
-        const formDataToSend = new FormData();
+        const formData = new FormData();
 
-        Object.keys(data).forEach(key => formDataToSend.append(key, data[key]));
-        formDataToSend.append("duration", duration);
-        selectedImages.forEach((img) => formDataToSend.append(`image`, img));
+        // Append all form data
+        Object.keys(data).forEach(key => {
+            if (key !== 'days' && key !== 'nights') {
+                formData.append(key, data[key]);
+            }
+        });
+        formData.append("duration", duration);
+        selectedImages.forEach((img) => formData.append(`images`, img));
 
         try {
-            const newPackage = await createPackage(formDataToSend);
-            addNewPackage(newPackage);
+            await updatePackage(packageData.id, formData);
             closeModal();
-            reset();
-            setSelectedImages([]);
-            setPreviewImages([]);
         } catch (error) {
-            console.error("Failed to create package:", error);
+            console.error("Failed to update package:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,13 +114,14 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
     return (
         <div className="inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl">
-                <h3 className="text-xl font-semibold mb-4">Create New Package</h3>
+                <h3 className="text-xl font-semibold mb-4">Edit Package</h3>
                 <form onSubmit={handleSubmit(onSubmit)} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">
                         <label className="block text-md text-midnight font-medium mb-2">Title</label>
                         <input {...register("title")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                         {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
                     </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="mb-4">
                             <label className="block text-md text-midnight font-medium mb-2">Package Type</label>
@@ -93,9 +134,10 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
                         </div>
                     </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
                         <div className="mb-4">
-                            <label className="block text-md text-midnight font-medium mb-2">  Destination</label>
+                            <label className="block text-md text-midnight font-medium mb-2">Destination</label>
                             <input {...register("destination")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                             {errors.destination && <p className="text-red-500 text-sm">{errors.destination.message}</p>}
                         </div>
@@ -105,13 +147,13 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             {errors.numberOftraveller && <p className="text-red-500 text-sm">{errors.numberOftraveller.message}</p>}
                         </div>
                     </div>
+
                     <div className="mb-8">
-                        <label className="block text-md text-midnight font-medium mb-2"> Package Duration</label>
+                        <label className="block text-md text-midnight font-medium mb-2">Package Duration</label>
                         <div className="flex space-x-4">
                             <div className="flex flex-col w-1/2">
-                                <label className="block text-sm  font-medium mb-1">Days</label>
+                                <label className="block text-sm font-medium mb-1">Days</label>
                                 <select {...register("days")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
-                                    <option value="">Select Days</option>
                                     {[...Array(30).keys()].map((day) => (
                                         <option key={day + 1} value={day + 1}>{day + 1}</option>
                                     ))}
@@ -121,7 +163,6 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             <div className="flex flex-col w-1/2">
                                 <label className="block text-sm font-medium mb-1">Nights</label>
                                 <select {...register("nights")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
-                                    <option value="">Select Nights</option>
                                     {[...Array(30).keys()].map((night) => (
                                         <option key={night + 1} value={night + 1}>{night + 1}</option>
                                     ))}
@@ -132,15 +173,15 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-md text-midnight font-medium mb-2"> Offer Duration</label>
+                        <label className="block text-md text-midnight font-medium mb-2">Offer Duration</label>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="mb-4">
-                                <label className="block text-sm font-medium mb-2">Offer Start Date</label>
+                                <label className="block text-sm font-medium mb-2">Start Date</label>
                                 <input type="date" {...register("startDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                                 {errors.startDate && <p className="text-red-500 text-sm">{errors.startDate.message}</p>}
                             </div>
                             <div className="mb-4">
-                                <label className="block text-sm font-medium mb-2">Offer End Date</label>
+                                <label className="block text-sm font-medium mb-2">End Date</label>
                                 <input type="date" {...register("endDate")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
                                 {errors.endDate && <p className="text-red-500 text-sm">{errors.endDate.message}</p>}
                             </div>
@@ -153,7 +194,22 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-md text-midnight font-medium mb-2">Upload Photos</label>
+                        <label className="block text-md text-midnight font-medium mb-2">Existing Images</label>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {existingImages.map((url, index) => (
+                                <div key={index} className="relative group">
+                                    <img
+                                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${url}`}
+                                        alt={`Existing ${index + 1}`}
+                                        className="rounded-lg w-full h-32 object-cover shadow-sm"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-md text-midnight font-medium mb-2">Add New Images</label>
                         <div className="relative mb-4 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors cursor-pointer">
                             <input
                                 type="file"
@@ -223,12 +279,16 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                             ))}
                         </div>
                     </div>
+
                     <div className="mb-8">
                         <label className="block text-md text-midnight font-medium mb-2">Description</label>
                         <Editor
                             apiKey='szvsb3j972bv6ztvs28hf4r9kd9gz63sa203op71yb7mbxoo'
-                            onInit={(_evt, editor) => descriptionEditorRef.current = editor}
-                            initialValue="<p>Write Package Description here.</p>"
+                            onInit={(_evt, editor) => {
+                                descriptionEditorRef.current = editor;
+                                editor.setContent(packageData.description);
+                            }}
+                            initialValue={packageData.description}
                             init={{
                                 height: 300,
                                 menubar: false,
@@ -247,12 +307,16 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         />
                         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
                     </div>
+
                     <div className="mb-4">
                         <label className="block text-md text-midnight font-medium mb-2">Terms And Conditions</label>
                         <Editor
                             apiKey='szvsb3j972bv6ztvs28hf4r9kd9gz63sa203op71yb7mbxoo'
-                            onInit={(_evt, editor) => termsAndConditions.current = editor}
-                            initialValue="<p>This is the initial content of the editor.</p>"
+                            onInit={(_evt, editor) => {
+                                termsEditorRef.current = editor;
+                                editor.setContent(packageData.termsAndConditions || '');
+                            }}
+                            initialValue={packageData.termsAndConditions}
                             init={{
                                 height: 300,
                                 menubar: false,
@@ -272,8 +336,6 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         {errors.termsAndConditions && <p className="text-red-500 text-sm">{errors.termsAndConditions.message}</p>}
                     </div>
 
-
-
                     <div className="flex justify-between">
                         <button type="button" onClick={closeModal} className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer" disabled={loading}>
                             Cancel
@@ -285,7 +347,7 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
                                 </svg>
                             ) : (
-                                "Create Package"
+                                "Update Package"
                             )}
                         </button>
                     </div>
@@ -295,4 +357,4 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
     );
 };
 
-export default CreatePackageModal;
+export default EditPackageModal;

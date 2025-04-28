@@ -4,7 +4,7 @@ interface PackageDetailsProps {
 }
 export const PackageDetails = ({ details, termsAndConditions }: PackageDetailsProps) => {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 text-gray-700">
             {/* Render HTML content for details */}
             {details && (
                 <div
@@ -18,7 +18,7 @@ export const PackageDetails = ({ details, termsAndConditions }: PackageDetailsPr
                 <div className="mt-8">
                     <h3 className="text-lg font-semibold mb-4">Terms & Conditions</h3>
                     <div
-                        className="prose max-w-none"
+                        className="prose max-w-none text-gray-700"
                         dangerouslySetInnerHTML={{ __html: termsAndConditions }}
                     />
                 </div>

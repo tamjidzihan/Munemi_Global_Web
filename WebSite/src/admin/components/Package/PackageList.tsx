@@ -4,20 +4,33 @@ import { PackageProps } from "../../../hooks/usePackage";
 import CreatePackageModal from "./CreatePackageModal";
 import { Minus } from "lucide-react";
 import { Link } from "react-router-dom";
+import EditPackageModal from "./EditPackageModal";
 
 type PackageListProps = {
     allPackages: PackageProps[];
     deletePackage: (id: string) => void;
+    updatePackageById: (id: string, formData: FormData) => Promise<void>;
 }
 
-const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
+const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageListProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [updatePackage, setUpdatePackage] = useState<PackageProps | null>(null)
     const [packagesList, setPackagesList] = useState<PackageProps[]>(allPackages);
+
 
     const addNewPackage = (newPackage: PackageProps) => {
         setPackagesList(prevPackages => [newPackage, ...prevPackages]);
     };
-    const closeModal = () => setIsModalOpen(false);
+
+    const handleUpdateClick = (pkg: PackageProps) => {
+        setUpdatePackage(pkg)
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        setUpdatePackage(null)
+    };
 
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default">
@@ -48,12 +61,26 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
             </div>
 
             {/* Create Package Modal */}
-            <CreatePackageModal
-                addNewPackage={addNewPackage}
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-            />
+            {isModalOpen && !updatePackage && (
+                <CreatePackageModal
+                    addNewPackage={addNewPackage}
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                />
+            )}
             {/* Create Package Modal */}
+
+            {/* Update Package Modal */}
+            {isModalOpen && updatePackage && (
+                <EditPackageModal
+                    packageData={updatePackage}
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                    updatePackage={updatePackageById}
+
+                />
+            )}
+            {/* Update Package Modal */}
 
             <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
                 <div className="col-span-2 flex items-center">
@@ -143,7 +170,10 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
                                     {/* View Package */}
 
                                     {/* Update Package */}
-                                    <button className="hover:text-primary">
+                                    <button
+                                        className="hover:text-primary cursor-pointer"
+                                        onClick={() => handleUpdateClick(pkg)}
+                                    >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"

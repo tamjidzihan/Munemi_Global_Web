@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb"
 import PackageList from "../../components/Package/PackageList"
 
 const Package = () => {
-    const { packages, deletePackage, loading } = usePackage()
+    const { packages, updatePackage, deletePackage, loading } = usePackage()
 
     if (loading) return <Loader />
 
@@ -15,6 +15,7 @@ const Package = () => {
                 <PackageList
                     allPackages={packages}
                     deletePackage={deletePackage}
+                    updatePackageById={updatePackage}
                 />
             </div>
         </>
