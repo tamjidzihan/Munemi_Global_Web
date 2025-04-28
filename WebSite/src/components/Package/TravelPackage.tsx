@@ -24,7 +24,12 @@ export const TravelPackage = () => {
                     />
                 </div>
                 <div className="w-full md:w-1/3 mt-6 md:mt-0">
-                    <PackageSidebar />
+                    <PackageSidebar
+                        price={travelPackageDetail?.price}
+                        duration={travelPackageDetail?.duration}
+                        numberOftraveller={travelPackageDetail?.numberOftraveller}
+                        destination={travelPackageDetail?.destination}
+                    />
                 </div>
             </div>
         </div>
