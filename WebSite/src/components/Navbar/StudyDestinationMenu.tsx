@@ -33,35 +33,35 @@ export function StudyDestinationMenu() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
                 {/* Study Destination Section */}
                 <div className=" mb-3">
-                    <h3 className="font-bold text-midnight text-lg mb-2">Study Destination :</h3>
-                    <ul className="space-y-2">
+                    <div className="font-bold text-midnight text-lg mb-2">Study Destination :</div>
+                    <div className="space-y-2">
                         {studyDestination.map((item, index) => (
-                            <li key={index}>
+                            <div key={index}>
                                 <Link
                                     to={`/study-destination/${item.label.split(' ').join('').toLocaleLowerCase()}`}
                                     className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
                 {/* Support Services Section */}
                 <div className="mb-3">
-                    <h3 className="font-bold text-midnight text-lg mb-4">Study Abroad :</h3>
-                    <ul className="space-y-2">
+                    <div className="font-bold text-midnight text-lg mb-4">Study Abroad :</div>
+                    <div className="space-y-2">
                         {studyAbroad.map((item, index) => (
-                            <li key={index}>
+                            <div key={index}>
                                 <Link
                                     to={item.link}
                                     className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                 >
                                     {item.label}
                                 </Link>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
 
             </div>

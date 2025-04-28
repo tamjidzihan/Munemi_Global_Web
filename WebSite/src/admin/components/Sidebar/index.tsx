@@ -97,14 +97,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <nav className=" py-4 px-4 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <div className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               MENU
-            </h3>
+            </div>
 
-            <ul className="mb-6 flex flex-col gap-1.5">
+            <div className="mb-6 flex flex-col gap-1.5">
 
               {/* <!-- Menu Item Dashboard --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/adminpanel"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 $`}
@@ -136,11 +136,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Dashboard
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item Dashboard --> */}
 
               {/* <!-- Menu Item Appointments --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/adminpanel/appointments"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('appointments') &&
@@ -162,11 +162,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Appointments
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item Appointments --> */}
 
               {/* <!-- Menu Item StudentEnquiry --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/adminpanel/student-enquiry"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('student-enquiry') && 'bg-graydark dark:bg-meta-4'
@@ -191,12 +191,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Student Enquiry
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item StudentEnquiry --> */}
 
 
               {/* <!-- Menu Item package --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/adminpanel/package"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('package') && 'bg-graydark dark:bg-meta-4'
@@ -207,7 +207,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Packages
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item package --> */}
 
 
@@ -261,9 +261,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`translate transform overflow-hidden ${!open && 'hidden'
                           }`}
                       >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                        <div className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/career/job"
                               className={({ isActive }) =>
@@ -273,9 +273,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Job Application
                             </NavLink>
-                          </li>
+                          </div>
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/career/agent"
                               className={({ isActive }) =>
@@ -285,9 +285,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Agents Application
                             </NavLink>
-                          </li>
+                          </div>
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/career/institution-partners"
                               className={({ isActive }) =>
@@ -297,9 +297,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Institution Partners
                             </NavLink>
-                          </li>
+                          </div>
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/career/health-insurance-partners"
                               className={({ isActive }) =>
@@ -309,9 +309,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Health Insurance
                             </NavLink>
-                          </li>
+                          </div>
 
-                        </ul>
+                        </div>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
@@ -371,9 +371,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`translate transform overflow-hidden ${!open && 'hidden'
                           }`}
                       >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                        <div className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/flight/flight-location"
                               className={({ isActive }) =>
@@ -383,9 +383,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Air Port Location
                             </NavLink>
-                          </li>
+                          </div>
 
-                          <li>
+                          <div>
                             <NavLink
                               to="/adminpanel/flight/flight-booking"
                               className={({ isActive }) =>
@@ -395,10 +395,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             >
                               Flight Booking
                             </NavLink>
-                          </li>
+                          </div>
 
 
-                        </ul>
+                        </div>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
@@ -516,18 +516,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </SidebarLinkGroup> */}
               {/* <!-- Menu Item Site Settings --> */}
 
-            </ul>
+            </div>
           </div>
 
           {/* <!-- Others Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <div className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               OTHERS
-            </h3>
+            </div>
 
-            <ul className="mb-6 flex flex-col gap-1.5">
+            <div className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item University --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/adminpanel/university"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('university') && 'bg-graydark dark:bg-meta-4'
@@ -539,9 +539,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                   University
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item Career --> */}
-            </ul>
+            </div>
           </div>
         </nav>
         {/* <!-- Sidebar Menu --> */}

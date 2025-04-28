@@ -7,17 +7,17 @@ const Breadcrumb = () => {
     return (
         <div className="container max-w-7xl mx-auto px-4 py-1 flex flex-wrap items-center gap-2 sm:gap-3">
             <nav className="w-full">
-                <ol className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
-                    <li>
+                <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base md:text-lg">
+                    <div>
                         <Link className="font-medium text-white transition-colors hover:text-red-300" to="/">
                             HOME /
                         </Link>
-                    </li>
+                    </div>
                     {pathnames.map((name, index) => {
                         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
                         const isLast = index === pathnames.length - 1;
                         return (
-                            <li key={routeTo} className="flex items-center">
+                            <div key={routeTo} className="flex items-center">
                                 {!isLast ? (
                                     <Link className="font-medium text-white transition-colors hover:text-red-200" to={routeTo}>
                                         {name.toUpperCase()} /
@@ -25,10 +25,10 @@ const Breadcrumb = () => {
                                 ) : (
                                     <span className="font-medium text-gray-300">{name.toUpperCase()}</span>
                                 )}
-                            </li>
+                            </div>
                         );
                     })}
-                </ol>
+                </div>
             </nav>
         </div>
     );

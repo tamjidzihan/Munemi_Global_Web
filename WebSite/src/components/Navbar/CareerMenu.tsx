@@ -16,8 +16,8 @@ const CareerMenu = () => {
                 <div>
                     {/* Academic Services Section */}
                     <div className=" mb-3">
-                        <h3 className="font-bold text-midnight text-lg mb-2">Join Us :</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-2">Join Us :</div>
+                        <div className="space-y-2">
                             {[
                                 { label: "Career with us", link: "/career" },
                                 { label: "Job Application", link: "/career/job-application" },
@@ -26,7 +26,7 @@ const CareerMenu = () => {
                                 { label: "Become a Health Insurance Partner", link: "/career/health-insurance-partner-application" },
                                 { label: "Log In", link: "/signin" }
                             ].map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700  hover:text-red-600 transition duration-300 text-base"
@@ -34,9 +34,9 @@ const CareerMenu = () => {
                                         <ChevronRight size={20} className=" place-self-center inline-block " />
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

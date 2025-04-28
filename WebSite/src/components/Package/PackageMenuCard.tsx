@@ -3,7 +3,7 @@ import { CalendarIcon, MapPin, UsersIcon } from 'lucide-react';
 import { PackageImageProps } from '../../hooks/usePackage';
 import { Link } from 'react-router-dom';
 
-export interface PackageCardProps {
+export interface PackageMenuCardProps {
     id: string;
     destination: string;
     image: PackageImageProps[];
@@ -14,7 +14,7 @@ export interface PackageCardProps {
     priceSubtext: string;
 }
 
-const PackageCard: React.FC<PackageCardProps> = ({
+const PackageMenuCard: React.FC<PackageMenuCardProps> = ({
     id,
     destination,
     image,
@@ -37,7 +37,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
     return (
         <div className="max-w-md rounded-xl overflow-hidden shadow-lg bg-white">
             {/* Card Image Container */}
-            <div className="relative h-48">
+            <div className="relative h-58">
                 {image.length > 0 && (
                     image.map((img, index) => (
                         <img
@@ -84,4 +84,4 @@ const PackageCard: React.FC<PackageCardProps> = ({
     );
 };
 
-export default PackageCard;
+export default PackageMenuCard;

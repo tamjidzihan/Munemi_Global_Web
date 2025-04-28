@@ -14,28 +14,28 @@ export function Footer() {
                             alt="ImmiEx"
                             className="h-30 mb-4 py-9"
                         />
-                        <p className="text-gray-600 mb-4">
+                        <div className="text-gray-600 mb-4">
                             Munemi Global offers expert visa and immigration services, ensuring a smooth, hassle-free process with professional guidance and reliable support at every step.
-                        </p>
+                        </div>
                     </div>
                     <div>
-                        <h3 className="font-bold text-midnight mb-4">Contact Details</h3>
+                        <div className="font-bold text-midnight mb-4">Contact Details</div>
                         <div className="space-y-2 text-gray-600">
-                            <p>
+                            <div>
                                 House-5, Kolotan School Road,
                                 <br />
                                 Notun Bazar, Gulshan, Dhaka-1212,
                                 <br />
                                 Bangladesh
-                            </p>
-                            <p>Phone: +88 01978100105</p>
-                            <p>Email: info@munemiglobal.com</p>
+                            </div>
+                            <div>Phone: +88 01978100105</div>
+                            <div>Email: info@munemiglobal.com</div>
 
                         </div>
                     </div>
                     <div>
-                        <h3 className="font-bold text-midnight mb-4">Useful Links</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight mb-4">Useful Links</div>
+                        <div className="space-y-2">
                             {[
                                 { tag: "About Munemi Global", links: '/about' },
                                 { tag: "Visa Information", links: '/services' },
@@ -45,17 +45,17 @@ export function Footer() {
                                 { tag: "Contact Us", links: '/' },
                                 { tag: "Terms and Conditions", links: '/' }
                             ].map((link) => (
-                                <li key={link.tag}>
+                                <div key={link.tag}>
                                     <Link to={link.links} className="text-gray-600 hover:text-red-500">
                                         {link.tag}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                     <div>
-                        <h3 className="font-bold text-midnight mb-4">Visas</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight mb-4">Visas</div>
+                        <div className="space-y-2">
                             {[
                                 "Visitor Visas",
                                 "Permanent Residence Visas",
@@ -65,19 +65,19 @@ export function Footer() {
                                 "Skilled Work Visas",
                                 "Family & Partner Visas",
                             ].map((visa) => (
-                                <li key={visa}>
+                                <div key={visa}>
                                     <Link to="#" className="text-gray-600 hover:text-red-500">
                                         {visa}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="border-t py-8 flex flex-wrap justify-between items-center">
-                    <p className="text-gray-600">
+                    <div className="text-gray-600">
                         © Copyright Munemi Global 2025. All Rights Reserved
-                    </p>
+                    </div>
                     <div className="flex space-x-4">
                         <a href="https://www.facebook.com/munemiglobalbd" className="text-gray-400 hover:text-red-500">
                             <FaFacebookF size={20} />

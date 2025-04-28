@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom"
 import { PackageDetails } from "./PackageDetails"
-import { PackageGallery } from "./PackageGallery"
 import { PackageSidebar } from "./PackageSidebar"
-import Loader from "../common/Loader"
-import usePackageDetail from "../../hooks/useTravelPackageDetail"
+import Loader from "../../common/Loader"
+import usePackageDetail from "../../../hooks/useTravelPackageDetail"
+import { PackageGallery } from "./PackageGallery"
 
 export const TravelPackage = () => {
     const { id } = useParams()

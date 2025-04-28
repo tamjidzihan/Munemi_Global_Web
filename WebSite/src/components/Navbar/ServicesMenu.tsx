@@ -54,90 +54,90 @@ export default function ServicesMenu() {
                 <div>
                     {/* Academic Services Section */}
                     <div className=" mb-3">
-                        <h3 className="font-bold text-midnight text-lg mb-2">Academic Services:</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-2">Academic Services:</div>
+                        <div className="space-y-2">
                             {academicServices.map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                     <hr className="border-t-2 border-red-300 mx-auto my-6" />
                     {/* Post-Academic Services Section */}
                     <div >
-                        <h3 className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-2">Post-Academic Services:</div>
+                        <div className="space-y-2">
                             {postAcademicServices.map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
                 <div>
                     {/* Support Services Section */}
                     <div className="mb-3">
-                        <h3 className="font-bold text-midnight text-lg mb-4">Support Services:</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-4">Support Services:</div>
+                        <div className="space-y-2">
                             {supportServices.map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                     <hr className="border-t-2 border-red-300 mx-auto my-6" />
                     {/* Pre-Departure Services Section */}
                     <div>
-                        <h3 className="font-bold text-midnight text-lg mb-4">Pre-Departure Services:</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-4">Pre-Departure Services:</div>
+                        <div className="space-y-2">
                             {preDepartureServices.map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
                 <div>
 
                     {/* Visa Services Section */}
                     <div className="mb-3">
-                        <h3 className="font-bold text-midnight text-lg mb-4">Visa Services:</h3>
-                        <ul className="space-y-2">
+                        <div className="font-bold text-midnight text-lg mb-4">Visa Services:</div>
+                        <div className="space-y-2">
                             {visaServices.map((item, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <Link
                                         to={item.link}
                                         className="text-gray-700 hover:text-red-600 hover:pl-2 transform duration-300 text-base"
                                     >
                                         {item.label}
                                     </Link>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
 
                 </div>

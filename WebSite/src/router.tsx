@@ -59,7 +59,8 @@ import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm
 import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
 import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
 import PackagePage from "./pages/PackagePage";
-import { TravelPackage } from "./components/Package/TravelPackage";
+import { TravelPackage } from "./components/Package/PackageDetails/TravelPackage";
+import TravelPackageList from "./components/Package/PackageList/TravelPackageList";
 
 
 export const router = createBrowserRouter([
@@ -149,7 +150,7 @@ export const router = createBrowserRouter([
                 path: 'package',
                 element: <PackagePage />,
                 children: [
-                    // { index: true, element: <AboutUs /> },
+                    { index: true, element: <TravelPackageList /> },
                     { path: `:id`, element: <TravelPackage /> }
                 ]
             }
