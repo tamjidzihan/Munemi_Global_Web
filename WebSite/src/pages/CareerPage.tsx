@@ -2,8 +2,6 @@ import Breadcrumb from '../components/Breadcrumb/Breadcrumb'
 import PageTitle from '../admin/components/PageTitle'
 import { Outlet } from 'react-router-dom'
 
-
-
 const CareerPage = () => {
     return (
         <>

@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import 'react-datepicker/dist/react-datepicker.css';
+
 html {
   scroll-behavior: smooth;
 }
@@ -11,9 +14,6 @@ html {
   src: url("../src/assets/fonts/Roboto-Regular.ttf");
 }
 
-@import "tailwindcss";
-
-@import 'react-datepicker/dist/react-datepicker.css';
 
 @theme {
   --color-midnight: #294674;

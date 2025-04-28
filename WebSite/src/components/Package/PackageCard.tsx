@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { CalendarIcon, MapPin, UsersIcon } from 'lucide-react';
 import { PackageImageProps } from '../../hooks/usePackage';
+import { Link } from 'react-router-dom';
 
 export interface PackageCardProps {
+    id: string;
     destination: string;
     image: PackageImageProps[];
     duration?: string;
@@ -13,6 +15,7 @@ export interface PackageCardProps {
 }
 
 const PackageCard: React.FC<PackageCardProps> = ({
+    id,
     destination,
     image,
     duration,
@@ -49,9 +52,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
                     ))
                 )}
                 {/* Destination Badge */}
-                <div className="absolute top-3 left-3 bg-black bg-opacity-70 text-white px-3 py-1 z-20 rounded-md flex items-center">
+                <div className="absolute top-3 left-3 bg-black bg-opacity-70 text-white font-bold px-3 py-1 z-20 rounded-md flex items-center">
                     <MapPin size={15} className="text-green-500 mr-2" />
-
                     <span>{destination}</span>
                 </div>
             </div>
@@ -69,7 +71,9 @@ const PackageCard: React.FC<PackageCardProps> = ({
                     </div>
                 </div>
                 {/* Title */}
-                <h3 className="font-medium text-xl text-midnight mb-2">{title}</h3>
+                <Link to={`/package/${id}`}>
+                    <h3 className="font-medium text-xl text-midnight mb-2 hover:text-violet-900">{title}</h3>
+                </Link>
                 {/* Price */}
                 <div className="mt-2">
                     <span className="text-green-600 font-bold text-xl">৳ {price}</span>

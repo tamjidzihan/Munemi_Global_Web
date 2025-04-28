@@ -3,6 +3,7 @@ import { formatDate } from "../../../helpers/helpers";
 import { PackageProps } from "../../../hooks/usePackage";
 import CreatePackageModal from "./CreatePackageModal";
 import { Minus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type PackageListProps = {
     allPackages: PackageProps[];
@@ -120,7 +121,7 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
                             <div className="col-span-1 flex items-center">
                                 <div className="flex items-center space-x-3.5">
                                     {/* View Package */}
-                                    <button className="hover:text-success">
+                                    <Link to={`/package/${pkg.id}`} className="hover:text-success cursor-pointer">
                                         <svg
                                             className="fill-current"
                                             width="18"
@@ -138,7 +139,7 @@ const PackageList = ({ allPackages, deletePackage }: PackageListProps) => {
                                                 fill=""
                                             />
                                         </svg>
-                                    </button>
+                                    </Link>
                                     {/* View Package */}
 
                                     {/* Update Package */}

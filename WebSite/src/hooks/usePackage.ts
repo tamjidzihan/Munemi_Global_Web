@@ -46,6 +46,20 @@ const usePackage = () => {
         getPackages();
     }, []);
 
+    const getPackageById = async (id: string): Promise<PackageProps> => {
+        setLoading(true);
+        try {
+            const response = await apiClient.get(`/package/${id}`);
+            return response.data;
+        } catch (err) {
+            setError("Failed to fetch package");
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     const createPackage = async (formData: FormData): Promise<PackageProps> => {
         setLoading(true);
         try {
@@ -108,6 +122,7 @@ const usePackage = () => {
         loading,
         error,
         setPackages,
+        getPackageById,
         createPackage,
         updatePackage,
         deletePackage
