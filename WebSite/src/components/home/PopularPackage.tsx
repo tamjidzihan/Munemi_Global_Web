@@ -19,6 +19,7 @@ const PopularPackage = () => {
                     {packages.length > 0 ? (
                         packages
                             .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+                            .slice(0, 6)
                             .map((pkg) =>
                                 <PackageMenuCard
                                     key={pkg.id}

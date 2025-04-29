@@ -1,8 +1,10 @@
+
 interface PackageDetailsProps {
     details?: string
     termsAndConditions?: string
 }
 export const PackageDetails = ({ details, termsAndConditions }: PackageDetailsProps) => {
+
     return (
         <div className="space-y-6 text-gray-700">
             {/* Render HTML content for details */}

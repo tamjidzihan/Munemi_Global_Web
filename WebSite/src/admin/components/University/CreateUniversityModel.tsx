@@ -61,7 +61,7 @@ const CreateUniversityModal = ({
     return (
         <div className="inset-0 py-10 flex items-center justify-center bg-gray-200 shadow-2xl">
             <div className="bg-white p-6 rounded-lg shadow-lg w-3/4">
-                <h3 className="text-xl font-semibold mb-4">Create New University</h3>
+                <div className="text-xl font-semibold mb-4">Create New University</div>
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                     <div className="mb-4">
                         <label className="block text-sm font-medium mb-2">University Name</label>

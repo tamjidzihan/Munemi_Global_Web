@@ -57,9 +57,9 @@ export const PackageSidebar = ({ price, duration, numberOftraveller, destination
                     </div>
                 </div>
             </div>
-            <button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-md mt-6 uppercase text-sm tracking-wide">
+            {/* <button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-md mt-6 uppercase text-sm tracking-wide">
                 Book this package
-            </button>
+            </button> */}
         </div>
     )
 }

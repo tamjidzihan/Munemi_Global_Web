@@ -27,9 +27,9 @@ const AgentApplicationList = ({ allApplications, deleteApplication }: AgentAppli
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-                <h4 className="text-xl place-self-center font-semibold text-midnight">
+                <div className="text-xl place-self-center font-semibold text-midnight">
                     Agent Applications
-                </h4>
+                </div>
                 <button
                     onClick={() => setIsModalOpen(!isModalOpen)}
                     className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? `bg-red-500 hover:bg-red-600` : `bg-primary`

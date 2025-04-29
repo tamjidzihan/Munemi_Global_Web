@@ -10,7 +10,7 @@ type EditPackageModalProps = {
     isOpen: boolean;
     closeModal: () => void;
     packageData: PackageProps;
-    updatePackage: (id: string, formData: FormData) => Promise<void>;
+    updatePackage: (id: string, formData: FormData) => Promise<PackageProps>; // Changed return type
 };
 
 const schema = yup.object().shape({

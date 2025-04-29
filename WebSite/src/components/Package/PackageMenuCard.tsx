@@ -35,7 +35,7 @@ const PackageMenuCard: React.FC<PackageMenuCardProps> = ({
     }, [image.length]);
 
     return (
-        <div className="max-w-md rounded-xl overflow-hidden shadow-lg bg-white">
+        <div className="max-w-md rounded-xl overflow-hidden shadow-lg hover:bg-gray-50 bg-white">
             {/* Card Image Container */}
             <div className="relative h-58">
                 {image.length > 0 && (

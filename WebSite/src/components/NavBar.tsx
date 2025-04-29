@@ -76,8 +76,8 @@ export function Navbar() {
                         </button>
                         {showStudyDestination && <StudyDestinationMenu />}
                     </div>
-                    <Link to="/blog" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
-                        BLOG
+                    <Link to="/package" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
+                        PACKAGES
                     </Link>
                     <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         ABOUT US

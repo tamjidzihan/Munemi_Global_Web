@@ -9,7 +9,7 @@ import EditPackageModal from "./EditPackageModal";
 type PackageListProps = {
     allPackages: PackageProps[];
     deletePackage: (id: string) => void;
-    updatePackageById: (id: string, formData: FormData) => Promise<void>;
+    updatePackageById: (id: string, formData: FormData) => Promise<PackageProps>; // Changed return type
 }
 
 const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageListProps) => {
@@ -35,9 +35,9 @@ const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageL
     return (
         <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between">
-                <h4 className="text-xl place-self-center font-semibold text-midnight">
+                <div className="text-xl place-self-center font-semibold text-midnight">
                     List of Packages
-                </h4>
+                </div>
                 <button
                     onClick={() => isModalOpen ? setIsModalOpen(false) : setIsModalOpen(true)}
                     className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? `bg-red-500 hover:bg-red-600` : `bg-primary`} py-3 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-8 cursor-pointer hover:text-gray-50`}
@@ -76,8 +76,7 @@ const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageL
                     packageData={updatePackage}
                     isOpen={isModalOpen}
                     closeModal={closeModal}
-                    updatePackage={updatePackageById}
-
+                    updatePackage={updatePackageById}  // This should now match the corrected type
                 />
             )}
             {/* Update Package Modal */}
