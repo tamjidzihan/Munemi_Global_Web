@@ -13,13 +13,13 @@ export function AppointmentBoking() {
                     <p className="text-sm uppercase tracking-wider text-gray-200 font-semibold">
                         24/7 SUPPORT
                     </p>
-                    <h2 className="text-5xl font-extrabold leading-tight">
+                    <div className="text-5xl font-extrabold leading-tight">
                         Get Quality
                         <br />
                         <span className="bg-gradient-to-r from-indigo-500 to-blue-800 bg-clip-text text-transparent">
                             Online Consultation
                         </span>
-                    </h2>
+                    </div>
                     <p className="text-lg text-gray-100 leading-relaxed">
                         Relax! Our counselors are available to chat with you online!
                     </p>

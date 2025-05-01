@@ -40,12 +40,12 @@ export function HelpProcess() {
             <div className="max-w-7xl mx-auto">
 
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
+                    <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         How do we help?
-                    </h2>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    </div>
+                    <div className="text-gray-600 text-lg max-w-2xl mx-auto">
                         Five Easy Steps to Follow
-                    </p>
+                    </div>
                 </div>
 
 
@@ -61,9 +61,9 @@ export function HelpProcess() {
                                         </div>
                                     </div>
                                     <div>
-                                        <h2 className="  text-midnight font-bold text-2xl mb-1">
+                                        <div className="  text-midnight font-bold text-2xl mb-1">
                                             {step.title}
-                                        </h2>
+                                        </div>
                                         <p className="text-gray-800">{step.description}</p>
                                     </div>
                                 </div>

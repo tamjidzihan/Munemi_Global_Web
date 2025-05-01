@@ -43,9 +43,9 @@ export function PartnerUniversities() {
     return (
         <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-3xl text-midnight font-bold text-center mb-4">
+                <div className="text-3xl text-midnight font-bold text-center mb-4">
                     Partner Institutes & Universities
-                </h2>
+                </div>
                 <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
                     Our partner institutes and universities are committed to transforming lives through quality education.
                 </p>

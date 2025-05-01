@@ -1,6 +1,5 @@
 import { Statistics } from "../components/home/Statistics";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-// import { TestimonialsSection } from "../components/home/TestimonialsSection";
 import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
@@ -71,7 +70,6 @@ const HomePage = () => {
             <PartnerUniversities />
             <AppointmentBoking />
             <NewsSection />
-            {/* <TestimonialsSection /> */}
             <TestimonialCarousel />
             <Statistics />
         </main>

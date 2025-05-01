@@ -83,9 +83,9 @@ const TestimonialCarousel: React.FC = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 my-20">
-            <h2 className="text-3xl font-bold text-midnight text-center mb-4">
+            <div className="text-3xl font-bold text-midnight text-center mb-4">
                 What Our Clients Say
-            </h2>
+            </div>
             <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">
                 Discover why thousands trust Munemi Global for their travel needs
             </p>
@@ -105,9 +105,9 @@ const TestimonialCarousel: React.FC = () => {
                                         .join('')}
                                 </span>
                             </div>
-                            <h3 className="text-xl sm:text-2xl font-semibold text-midnight mb-1 tracking-tight">
+                            <div className="text-xl sm:text-2xl font-semibold text-midnight mb-1 tracking-tight">
                                 {currentTestimonial.name}
-                            </h3>
+                            </div>
                             <p className="text-xs sm:text-sm font-medium text-gray-700 mb-5 uppercase tracking-wider">
                                 {currentTestimonial.title}
                             </p>

@@ -82,8 +82,8 @@ const HeroCarousel = () => {
                         transition={{ duration: 0.5 }}
                     >
                         <p className="text-sm sm:text-lg mb-2 sm:mb-4">We have 20+ years experience in</p>
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">{slides[currentIndex].title}</h1>
-                        <p className="text-xs sm:text-xl mb-4 sm:mb-8">{slides[currentIndex].description}</p>
+                        <div className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">{slides[currentIndex].title}</div>
+                        <div className="text-xs sm:text-xl mb-4 sm:mb-8">{slides[currentIndex].description}</div>
                         <Link to={slides[currentIndex].link}>
                             <button
                                 aria-label={slides[currentIndex].button}

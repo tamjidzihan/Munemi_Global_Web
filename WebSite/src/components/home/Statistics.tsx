@@ -28,9 +28,9 @@ export function Statistics() {
             style={{ backgroundImage: `url('${statistic}')` }}
         >
             <div className="relative z-10 text-center" ref={ref}>
-                <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6">
+                <div className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6">
                     Thousands Of People Choose Our Services
-                </h2>
+                </div>
                 <hr className="border-t-4 border-red-500 w-2/3 mx-auto mb-6" />
 
                 <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">

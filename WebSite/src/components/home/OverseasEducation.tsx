@@ -15,9 +15,9 @@ export function OverseasEducation() {
                 </div>
                 <div>
                     <div className="text-sm mb-2">OVERSEAS EDUCATION</div>
-                    <h2 className="text-6xl font-bold mb-6">
+                    <div className="text-6xl font-bold mb-6">
                         Looking for Quality Abroad Education?
-                    </h2>
+                    </div>
                     <p className="mb-8">
                         Unlock endless opportunities with world-class education. We connect you with top universities, guiding you through every step of your study abroad journey for a seamless and enriching experience.
                     </p>

@@ -8,12 +8,12 @@ const PopularPackage = () => {
         <section className="pt-20 px-4">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
+                    <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         Popular Packages
-                    </h2>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    </div>
+                    <div className="text-gray-600 text-lg max-w-2xl mx-auto">
                         Your next great adventure starts with our best travel packages.
-                    </p>
+                    </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {packages.length > 0 ? (

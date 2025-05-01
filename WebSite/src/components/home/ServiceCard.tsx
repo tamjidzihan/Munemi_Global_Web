@@ -17,7 +17,7 @@ export function ServiceCard({
                 <Icon size={50} className="text-red-500" />
             </div>
             <div>
-                <h3 className="text-xl text-midnight font-semibold mb-2">{title}</h3>
+                <div className="text-xl text-midnight font-semibold mb-2">{title}</div>
                 <p className="text-gray-600">{description}</p>
             </div>
         </Link>

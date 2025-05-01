@@ -57,9 +57,9 @@ export function PopularDestination() {
         <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
+                    <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         Popular Destination
-                    </h2>
+                    </div>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                         Start your immigration journey with our expert guidance
                     </p>
