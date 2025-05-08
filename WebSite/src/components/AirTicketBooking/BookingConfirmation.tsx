@@ -85,21 +85,60 @@ const BookingConfirmation = () => {
                 />
             )}
 
-            <section className="mb-8 bg-blue-50 p-6 rounded-lg">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4">Trip Summary</h2>
-                <ul className="space-y-2 text-gray-700">
-                    <li><span className="font-medium">Trip Type:</span> {tripType}</li>
-                    <li><span className="font-medium">Origin:</span> {origin}</li>
-                    <li><span className="font-medium">Destination:</span> {destination}</li>
-                    <li><span className="font-medium">Departure Date:</span> {startDate?.toLocaleDateString()}</li>
-                    {tripType === 'round-trip' && (
-                        <li><span className="font-medium">Return Date:</span> {endDate?.toLocaleDateString()}</li>
-                    )}
-                    <li><span className="font-medium">Adult:</span> {adult}</li>
-                    {children && <li><span className="font-medium">Children:</span> {children}</li>}
-                    {infants && <li><span className="font-medium">Infants:</span> {infants}</li>}
-                </ul>
+            <section className="mb-8 bg-white shadow-md p-6 rounded-lg border border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Trip Summary</h2>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                                <th className="py-3 px-6 text-left">Detail</th>
+                                <th className="py-3 px-6 text-left">Information</th>
+                            </tr>
+                        </thead>
+                        <tbody className="text-gray-700 text-sm font-light">
+                            <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                <td className="py-3 px-6">Trip Type</td>
+                                <td className="py-3 px-6">{tripType}</td>
+                            </tr>
+                            <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                <td className="py-3 px-6">Origin</td>
+                                <td className="py-3 px-6">{origin}</td>
+                            </tr>
+                            <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                <td className="py-3 px-6">Destination</td>
+                                <td className="py-3 px-6">{destination}</td>
+                            </tr>
+                            <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                <td className="py-3 px-6">Departure Date</td>
+                                <td className="py-3 px-6">{startDate?.toLocaleDateString('en-GB')}</td>
+                            </tr>
+                            {tripType === 'round-trip' && (
+                                <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                    <td className="py-3 px-6">Return Date</td>
+                                    <td className="py-3 px-6">{endDate?.toLocaleDateString('en-GB')}</td>
+                                </tr>
+                            )}
+                            <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                <td className="py-3 px-6">Adults</td>
+                                <td className="py-3 px-6">{adult}</td>
+                            </tr>
+                            {children > 0 && (
+                                <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                    <td className="py-3 px-6">Children</td>
+                                    <td className="py-3 px-6">{children}</td>
+                                </tr>
+                            )}
+                            {infants > 0 && (
+                                <tr className="border-b border-gray-200 hover:bg-gray-50">
+                                    <td className="py-3 px-6">Infants</td>
+                                    <td className="py-3 px-6">{infants}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </section>
+
 
             <section>
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Your Information</h2>

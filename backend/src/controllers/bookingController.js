@@ -1,6 +1,7 @@
 // controllers/bookingController.js
 const bookingService = require('../services/bookingService');
-const { sendMail } = require('../helpers/sendMail')
+const { sendMail } = require('../helpers/sendMail');
+const { format } = require('date-fns');
 
 const getAllBookings = async (req, res) => {
     try {
@@ -57,8 +58,8 @@ const createNewBooking = async (req, res) => {
             tripType,
             origin,
             destination,
-            startDate,
-            endDate,
+            startDate: startDate ? format(new Date(startDate), 'dd/MM/yyyy') : 'N/A',
+            endDate: endDate ? format(new Date(endDate), 'dd/MM/yyyy') : 'N/A',
             adult,
             children,
             infants,

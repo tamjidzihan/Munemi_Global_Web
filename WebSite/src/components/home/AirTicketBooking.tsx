@@ -179,10 +179,10 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                             placeholderText="Journey Date"
                             className="w-full pl-10 pr-20 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
                         />
                         <CalendarIcon className="w-5 h-5 text-blue-400 absolute left-3 top-3.5" />
                     </div>
-
                     {/* Return Date */}
                     {tripType === 'round-trip' && (
                         <div className="relative">
@@ -192,6 +192,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                                 placeholderText="Return Date"
                                 className="w-full pl-10 pr-20 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 minDate={startDate || new Date()}
+                                dateFormat="dd/MM/yyyy"
                             />
                             <CalendarIcon className="w-5 h-5 text-blue-400 absolute left-3 top-3.5" />
                         </div>
