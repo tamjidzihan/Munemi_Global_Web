@@ -190,6 +190,24 @@ const BookingConfirmation = () => {
                             placeholder="Enter your mobile number"
                         />
                     </div>
+                    <div className="mt-4 p-4 border-l-4 border-blue-600 bg-blue-50">
+                        <p className="font-semibold text-gray-800">* Note:</p>
+                        <p className="text-gray-700">
+                            Thank you for your booking! Our team will reach out to you shortly to confirm your booking details and provide any further assistance you may need.
+                            If you have any questions or require additional information, please do not hesitate to contact us.
+                        </p>
+                        <p className="text-gray-700 mt-2">
+                            For assistance, you can reach us via email at {" "}
+                            <a href="mailto:info@munemiglobal.com" className="text-blue-600 hover:underline">
+                                info@munemiglobal.com
+                            </a>
+                            {" "}  or call us at{" "}
+                            <a href="tel:+8801600300877" className="text-blue-600 hover:underline">
+                                +880 160 0300877.
+                            </a>
+                        </p>
+                    </div>
+
 
                     <button
                         type="submit"

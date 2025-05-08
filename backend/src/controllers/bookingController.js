@@ -1,4 +1,3 @@
-// controllers/bookingController.js
 const bookingService = require('../services/bookingService');
 const { sendMail } = require('../helpers/sendMail');
 const { format } = require('date-fns');

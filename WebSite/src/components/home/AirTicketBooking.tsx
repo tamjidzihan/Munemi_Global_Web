@@ -237,7 +237,6 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                         )}
                     </div>
 
-
                     {/* Search Button */}
                     <button
                         onClick={handleBookFlight}
