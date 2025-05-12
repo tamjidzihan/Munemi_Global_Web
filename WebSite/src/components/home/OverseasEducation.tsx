@@ -4,7 +4,7 @@ import overseas from "../../assets/overseas.jpg"
 
 export function OverseasEducation() {
     return (
-        <section className="pt-15 text-white bg-center bg-cover bg-fixed" style={{ backgroundImage: `url('${overseas}')` }}>
+        <section className="py-10 text-white bg-center bg-cover bg-fixed" style={{ backgroundImage: `url('${overseas}')` }}>
             <div className=" relative z-10 max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <img
@@ -15,16 +15,16 @@ export function OverseasEducation() {
                 </div>
                 <div>
                     <div className="text-sm mb-2">OVERSEAS EDUCATION</div>
-                    <div className="text-6xl font-bold mb-6">
+                    <div className="text-4xl  md:text-6xl font-bold mb-6">
                         Looking for Quality Abroad Education?
                     </div>
-                    <p className="mb-8">
-                        Unlock endless opportunities with world-class education. We connect you with top universities, guiding you through every step of your study abroad journey for a seamless and enriching experience.
-                    </p>
                     <div className="mb-8">
-                        <h3 className="font-semibold mb-4">
+                        Unlock endless opportunities with world-class education. We connect you with top universities, guiding you through every step of your study abroad journey for a seamless and enriching experience.
+                    </div>
+                    <div className="mb-8">
+                        <div className="font-semibold mb-4">
                             350+ Universities in 17 Countries:
-                        </h3>
+                        </div>
                         <div className="flex flex-wrap gap-4">
                             <img
                                 src="https://flagcdn.com/w40/ca.png"

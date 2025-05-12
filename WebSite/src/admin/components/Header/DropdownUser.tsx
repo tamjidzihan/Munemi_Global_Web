@@ -29,11 +29,11 @@ const DropdownUser = () => {
             <span className="block text-sm font-medium text-black ">
               {user?.firstName}{" "} {user?.lastName}
             </span>
-            <span className="block text-xs">
+            <span className="block text-xs text-gray-500">
               {user?.role === 2 ? "Admin" : "User"}
             </span>
           </span>
-          <span className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-300 text-black dark:bg-gray-600 dark:text-white text-lg font-semibold">
+          <span className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-500 text-white text-lg font-semibold">
             {user?.firstName ? user.firstName.slice(0, 2).toUpperCase() : "NA"}
           </span>
         </div>
@@ -59,12 +59,12 @@ const DropdownUser = () => {
       {/* <!-- Dropdown Start --> */}
       {dropdownOpen && (
         <div
-          className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white text-white shadow-default dark:border-strokedark dark:bg-boxdark`}
+          className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white text-black shadow-default `}
         >
-          <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
-            <li>
+          <div className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5">
+            <div>
               <Link
-                to="/profile"
+                to="/adminpanel/user-profile"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg
@@ -86,9 +86,9 @@ const DropdownUser = () => {
                 </svg>
                 My Profile
               </Link>
-            </li>
+            </div>
 
-            <li>
+            {/* <div>
               <Link
                 to="/settings"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
@@ -112,8 +112,8 @@ const DropdownUser = () => {
                 </svg>
                 Account Settings
               </Link>
-            </li>
-          </ul>
+            </div> */}
+          </div>
           <button onClick={handleSignOut} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg
               className="fill-current"

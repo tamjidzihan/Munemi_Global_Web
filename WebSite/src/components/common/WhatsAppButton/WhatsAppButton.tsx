@@ -11,7 +11,7 @@ const WhatsAppButton = () => {
     return (
         <motion.button
             onClick={handleClick}
-            className="fixed flex items-center gap-2 cursor-pointer bottom-4 sm:bottom-10 left-4 sm:left-10 bg-green-500 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full shadow-lg hover:bg-green-600"
+            className="fixed flex items-center gap-2 cursor-pointer bottom-4 sm:bottom-10 left-4 sm:left-10 bg-green-500 text-white px-3 py-2 sm:px-4 sm:py-3 z-99 rounded-full shadow-lg hover:bg-green-600"
             aria-label="Chat on WhatsApp"
             initial={{ left: -200, opacity: 0, scale: 0.8 }}
             animate={{ left: 30, opacity: 1, scale: 1 }}

@@ -63,7 +63,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-background duration-300 ease-linear bg-white lg:hidden lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-screen flex-col overflow-y-hidden bg-background duration-300 ease-linear bg-white lg:hidden lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
 
@@ -73,14 +73,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         <nav className=" py-4 px-4 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-midnight">
+            <div className="mb-4 ml-4 text-sm font-semibold text-midnight">
               MENU
-            </h3>
+              <hr className="border-t-2 border-red-300 mx-auto mt-2" />
+            </div>
 
-            <ul className="mb-6 flex flex-col gap-1.5">
+            <div className="mb-6 flex flex-col gap-1.5">
 
               {/* <!-- Menu Item Home --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/"
                   onClick={() => setSidebarOpen(false)}
@@ -88,7 +89,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   Home
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item Home --> */}
 
               {/* <!-- Menu Item services --> */}
@@ -133,13 +134,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`translate transform overflow-hidden ${!open && 'hidden'
                           }`}
                       >
-                        <ul className=" flex flex-col gap-2.5 pl-6">
+                        <div className=" flex flex-col gap-2.5 pl-6">
                           <SideMenuListItem name='Academic Services' listItem={academicServices} setSidebarOpen={setSidebarOpen} />
                           <SideMenuListItem name='Post-Academic Services' listItem={postAcademicServices} setSidebarOpen={setSidebarOpen} />
                           <SideMenuListItem name='Support Services' listItem={supportServices} setSidebarOpen={setSidebarOpen} />
                           <SideMenuListItem name='Pre Departure Services' listItem={preDepartureServices} setSidebarOpen={setSidebarOpen} />
                           <SideMenuListItem name='Visa Services' listItem={visaServices} setSidebarOpen={setSidebarOpen} />
-                        </ul>
+                        </div>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
@@ -190,10 +191,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         className={`translate transform overflow-hidden ${!open && 'hidden'
                           }`}
                       >
-                        <ul className=" flex flex-col gap-2.5 pl-6">
+                        <div className=" flex flex-col gap-2.5 pl-6">
                           <SideMenuListItem name='Study Destination' listItem={studyDestination} setSidebarOpen={setSidebarOpen} />
                           <SideMenuListItem name=' Study Abroad' listItem={studyAbroad} setSidebarOpen={setSidebarOpen} />
-                        </ul>
+                        </div>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
                     </React.Fragment>
@@ -202,8 +203,44 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </SidebarLinkGroup>
               {/* <!-- Menu Item Study Destination --> */}
 
+
+              <div>
+                <NavLink
+                  to="/career"
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
+                >
+                  Career
+                </NavLink>
+              </div>
+              {/* <!-- Menu Item Package --> */}
+
+            </div>
+          </div>
+
+          {/* <!-- Others Group --> */}
+          <div>
+            <div className="mb-4 ml-4 text-sm font-semibold text-midnight">
+              OTHERS
+              <hr className="border-t-2 border-red-300 mx-auto mt-2" />
+            </div>
+
+            <div className="mb-6 flex flex-col gap-1.5">
+
+              {/* <!-- Menu Item Package --> */}
+              <div>
+                <NavLink
+                  to="/package"
+                  onClick={() => setSidebarOpen(false)}
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
+                >
+                  Package
+                </NavLink>
+              </div>
+              {/* <!-- Menu Item Package --> */}
+
               {/* <!-- Menu Item ABOUT US --> */}
-              <li>
+              <div>
                 <NavLink
                   to="/about"
                   onClick={() => setSidebarOpen(false)}
@@ -211,33 +248,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                   About Us
                 </NavLink>
-              </li>
+              </div>
               {/* <!-- Menu Item ABOUT US --> */}
 
-              {/* <!-- Menu Item Blogs --> */}
-              <li>
-                <NavLink
-                  to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
-                >
-                  Blogs
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Blogs --> */}
 
 
-            </ul>
-          </div>
-
-          {/* <!-- Others Group --> */}
-          <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-midnight">
-              OTHERS
-            </h3>
-
-            <ul className="mb-6 flex flex-col gap-1.5">
-
-            </ul>
+            </div>
           </div>
         </nav>
         {/* <!-- Sidebar Menu --> */}

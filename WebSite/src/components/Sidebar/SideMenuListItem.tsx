@@ -53,9 +53,9 @@ const SideMenuListItem: React.FC<SideMenuListItemProps> = ({ name, listItem, set
                     </NavLink>
                     {/* Dropdown Menu */}
                     <div className={`transform overflow-hidden transition-all ${!open ? "hidden" : ""}`}>
-                        <ul className="flex flex-col gap-2.5 pl-6">
+                        <div className="flex flex-col gap-2.5 pl-6">
                             {listItem.map((academic, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <NavLink
                                         to={academic.link}
                                         onClick={() => setSidebarOpen && setSidebarOpen(false)}
@@ -65,9 +65,9 @@ const SideMenuListItem: React.FC<SideMenuListItemProps> = ({ name, listItem, set
                                     >
                                         {academic.label}
                                     </NavLink>
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </>
             )}

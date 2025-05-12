@@ -10,6 +10,7 @@ import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
 import Package from "./pages/Package/Package";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
+import Profile from "./pages/User/Profile";
 
 
 
@@ -20,6 +21,16 @@ export const childRoutes = [
             <>
                 <PageTitle title="Admin Dashboard | Dashboard" />
                 <DashboardIndex />
+            </>
+        ),
+        index: true,
+    },
+    {
+        path: "user-profile",
+        element: (
+            <>
+                <PageTitle title="User Profile | User profile" />
+                <Profile />
             </>
         ),
         index: true,
