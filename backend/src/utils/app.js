@@ -7,12 +7,13 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const ORIGINS = process.env.ORIGINS;
+const ORIGINS1 = process.env.ORIGINS1;
+const ORIGINS2 = process.env.ORIGINS2;
 
 const app = express();
 
 app.use(cors({
-    origin: [ORIGINS],
+    origin: [ORIGINS1, ORIGINS2],
     credentials: true,
     methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     allowedHeaders: "Content-Type, Authorization",

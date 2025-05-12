@@ -147,7 +147,7 @@ const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageL
                             <div className="col-span-1 flex items-center">
                                 <div className="flex items-center space-x-3.5">
                                     {/* View Package */}
-                                    <Link to={`/package/${pkg.id}`} className="hover:text-success cursor-pointer">
+                                    <Link to={`/package/${pkg.id}`} target="_blank" className="hover:text-success cursor-pointer">
                                         <svg
                                             className="fill-current"
                                             width="18"
