@@ -25,9 +25,9 @@ export function Footer() {
                             <div>
                                 5, Kolotan School Road,
                                 <br />
-                                Notun Bazar, Vatara, Gulshan Dhaka-1212,
+                                Notun Bazar, Vatara,
                                 <br />
-                                Bangladesh
+                                Gulshan Dhaka-1212, Bangladesh
                             </div>
                             <div>Phone: +88 01600300877</div>
                             <div>Email: info@munemiglobal.com</div>
