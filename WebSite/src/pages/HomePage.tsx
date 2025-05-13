@@ -46,8 +46,8 @@ const HomePage = () => {
         <main className="w-full">
             <PageTitle title="Home | Munemi Global" />
             <HeroSection />
-            <AirTicketBooking />
             <PopularPackage />
+            <AirTicketBooking />
             <PopularDestination />
             <section className="py-20 px-4 bg-gray-50">
                 <div className="text-center mb-12">

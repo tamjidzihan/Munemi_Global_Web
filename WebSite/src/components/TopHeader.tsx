@@ -11,7 +11,7 @@ export function TopHeader() {
                     <div className="flex items-center">
                         <MapPin size={14} className="mr-1" />
                         <span className="text-xs sm:text-sm">
-                            House- 5, Kolotan School Road, Notun Bazar, Badda, Dhaka
+                            5, Kolotan School Road, Notun Bazar, Vatara, Gulshan Dhaka-1212, Bangladesh
                         </span>
                     </div>
                 </div>

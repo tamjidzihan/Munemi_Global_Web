@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 
 const openings = [
     {
-        title: 'Senior Immigration Consultant',
+        title: 'Job Application',
         type: ['Full Time', 'Part Time', 'Casual', 'Internship'],
         location: 'Dhaka, Bangladesh',
         department: 'Immigration Services',
@@ -18,29 +18,29 @@ const openings = [
         links: '/career/job-application'
     },
     {
-        title: 'Become an Agent',
+        title: 'Become an Agent (B2B)',
         type: ['Full Time'],
         location: 'Dhaka, Bangladesh',
         department: 'Visa Services',
         experience: '1-5 years',
         links: '/career/agents-application'
     },
-    {
-        title: 'Become an Institute Partner',
-        type: ['Full Time'],
-        location: 'Dhaka, Bangladesh',
-        department: 'Visa Services',
-        experience: '1-5 years',
-        links: '/career/institution-partner-application'
-    },
-    {
-        title: "Become a Health Insurance Partner",
-        type: ['Full Time'],
-        location: 'Dhaka, Bangladesh',
-        department: 'Visa Services',
-        experience: '1-5 years',
-        links: '/career/health-insurance-partner-application'
-    },
+    // {
+    //     title: 'Become an Institute Partner',
+    //     type: ['Full Time'],
+    //     location: 'Dhaka, Bangladesh',
+    //     department: 'Visa Services',
+    //     experience: '1-5 years',
+    //     links: '/career/institution-partner-application'
+    // },
+    // {
+    //     title: "Become a Health Insurance Partner",
+    //     type: ['Full Time'],
+    //     location: 'Dhaka, Bangladesh',
+    //     department: 'Visa Services',
+    //     experience: '1-5 years',
+    //     links: '/career/health-insurance-partner-application'
+    // },
 ]
 
 

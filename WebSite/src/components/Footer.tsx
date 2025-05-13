@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { FaEnvelope } from "react-icons/fa6";
 import logo from "../assets/logo_munemi_global.png"
 
 export function Footer() {
@@ -22,13 +23,13 @@ export function Footer() {
                         <div className="font-bold text-midnight mb-4">Contact Details</div>
                         <div className="space-y-2 text-gray-600">
                             <div>
-                                House-5, Kolotan School Road,
+                                5, Kolotan School Road,
                                 <br />
-                                Notun Bazar, Gulshan, Dhaka-1212,
+                                Notun Bazar, Vatara, Gulshan Dhaka-1212,
                                 <br />
                                 Bangladesh
                             </div>
-                            <div>Phone: +88 01978100105</div>
+                            <div>Phone: +88 01600300877</div>
                             <div>Email: info@munemiglobal.com</div>
 
                         </div>
@@ -87,6 +88,9 @@ export function Footer() {
                         </a>
                         <a href="#" className="text-gray-400 hover:text-red-500">
                             <FaGoogle size={20} />
+                        </a>
+                        <a href="https://mail.munemiglobal.com/" target="_blank" className="text-gray-400 hover:text-red-500">
+                            <FaEnvelope size={20} />
                         </a>
                     </div>
                 </div>
