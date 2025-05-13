@@ -33,7 +33,7 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
     // Transform flight locations for react-select
     const locationOptions = flightLocations.map(location => ({
         value: location.id,
-        label: `(${location.airportCode})${location.cityName}, ${location.airportName} `, // Display format
+        label: `(${location.airportCode}), ${location.airportName} `, // Display format
     }));
 
     const handleBookFlight = () => {
