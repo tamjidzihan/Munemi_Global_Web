@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useFlightBookings from '../../hooks/useFlightBookings';
 import Alert from '../common/Alert/Alert';
+import { sendConfirmationSms } from '../../services/sendConfirmationSms';
 
 const BookingConfirmation = () => {
     const location = useLocation();
@@ -32,9 +33,9 @@ const BookingConfirmation = () => {
         }
 
         // Validate mobile number format
-        const mobileRegex = /^\+?[0-9]{10,15}$/;
+        const mobileRegex = /^01\d{9}$/; // Must start with 01 and have exactly 11 digits
         if (!mobileRegex.test(mobile)) {
-            setAlert({ message: 'Please enter a valid mobile number.', type: 'error' });
+            setAlert({ message: 'Please enter a valid mobile number starting with 01 and exactly 11 digits.', type: 'error' });
             return;
         }
 
@@ -62,6 +63,18 @@ const BookingConfirmation = () => {
             setFullName('');
             setEmail('');
             setMobile('');
+
+            // Prepare SMS message
+            const smsMessage = `প্রিয় ${fullName}, আপনার বুকিং MunemiGlobal.com এর পক্ষ হতে নিশ্চিত করা হয়েছে।
+ভ্রমণের বিবরণ:
+- থেকে: ${origin}
+- পর্যন্ত: ${destination}
+- তারিখ: ${startDate?.toLocaleDateString('en-GB')}
+${tripType === 'round-trip' ? `- প্রত্যাবর্তন: ${endDate?.toLocaleDateString('en-GB')}` : ''} 
+আমাদের একজন টিম সদস্য অতি শীঘ্রই আপনার সঙ্গে যোগাযোগ করবেন, ভ্রমণ সংক্রান্ত বিস্তারিত নিশ্চিত করতে এবং প্রয়োজনীয় সহায়তা প্রদান করতে। ধন্যবাদ।`;
+
+            // Send confirmation SMS
+            await sendConfirmationSms(`+88${mobile}`, smsMessage);
 
             // Redirect to home page after 2 seconds
             setTimeout(() => {
