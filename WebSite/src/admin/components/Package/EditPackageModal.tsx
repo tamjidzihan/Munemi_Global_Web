@@ -15,21 +15,21 @@ type EditPackageModalProps = {
 
 const schema = yup.object().shape({
     title: yup.string().required("Title is required"),
-    type: yup.string().required("Package type is required"),
+    type: yup.string().required("Package type is required").oneOf(["International", "Domestic"], "Package type must be either International or Domestic"),
     price: yup.number().required("Price is required").positive("Price must be positive"),
     destination: yup.string().required("Destination is required"),
     numberOftraveller: yup.number().required("Number of travellers is required").positive("Number of travellers must be positive"),
     days: yup.string().required("Days is required"),
     nights: yup.string().required("Nights is required"),
     description: yup.string().required("Description is required"),
-    startDate: yup
-        .date()
-        .required("Start date is required")
-        .transform((value) => new Date(value)),
-    endDate: yup
-        .date()
-        .required("End date is required")
-        .transform((value) => new Date(value)),
+    startDate: yup.string().required("Start date is required").test('is-date', 'Start date is invalid', (value) => {
+        if (!value) return false;
+        return !isNaN(new Date(value).getTime());
+    }),
+    endDate: yup.string().required("End date is required").test('is-date', 'End date is invalid', (value) => {
+        if (!value) return false;
+        return !isNaN(new Date(value).getTime());
+    }),
     termsAndConditions: yup.string().required("Terms and conditions are required"),
     isActive: yup.boolean().required("Package status is required"),
 });
@@ -63,6 +63,8 @@ const EditPackageModal = ({ isOpen, closeModal, packageData, updatePackage }: Ed
                 numberOftraveller: packageData.numberOftraveller,
                 days: days,
                 nights: nights,
+                startDate: packageData.startDate,
+                endDate: packageData.endDate,
                 description: packageData.description,
                 termsAndConditions: packageData.termsAndConditions,
                 isActive: packageData.isActive
@@ -125,7 +127,11 @@ const EditPackageModal = ({ isOpen, closeModal, packageData, updatePackage }: Ed
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="mb-4">
                             <label className="block text-md text-midnight font-medium mb-2">Package Type</label>
-                            <input {...register("type")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500" />
+                            <select {...register("type")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
+                                <option value="">Select Package Type</option>
+                                <option value="International">International</option>
+                                <option value="Domestic">Domestic</option>
+                            </select>
                             {errors.type && <p className="text-red-500 text-sm">{errors.type.message}</p>}
                         </div>
                         <div className="mb-4">

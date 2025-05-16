@@ -86,7 +86,7 @@ const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageL
                     <p className="font-bold">Title</p>
                 </div>
                 <div className="col-span-1 flex items-center">
-                    <p className="font-bold">Destination / Type</p>
+                    <p className="font-bold">Type</p>
                 </div>
                 <div className="col-span-2 flex items-center">
                     <p className="font-bold">Package Detail</p>
@@ -123,7 +123,9 @@ const PackageList = ({ allPackages, deletePackage, updatePackageById }: PackageL
                                     <span className=" font-bold text-indigo-800">Duration :</span> {pkg.duration || "N/A"}<br />
                                     <span className=" font-bold text-indigo-800"> Destination :</span> {pkg.destination || "N/A"}<br />
                                     <span className=" font-bold text-indigo-800">Number Of traveller : </span>{pkg.numberOftraveller || "N/A"}<br />
-                                    <span className=" font-bold text-indigo-800">Offer Duration :</span> {formatDate(pkg.startDate)} -   {formatDate(pkg.endDate)}</p>
+                                    <span className=" font-bold text-indigo-800">Offer Duration :</span>
+                                    {pkg.startDate ? formatDate(pkg.startDate) : ''} -
+                                    {pkg.endDate ? formatDate(pkg.endDate) : ''}</p>
                             </div>
                             <div className={`col-span-1 flex items-center mr-3 font-bold ${pkg.isActive ? `text-green-700` : `text-red-600`}`}>
                                 <p className="overflow-hidden">{pkg.isActive ? "Active" : "Inactive"}</p>

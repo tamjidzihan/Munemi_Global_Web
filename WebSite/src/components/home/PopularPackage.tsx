@@ -4,6 +4,17 @@ import PackageMenuCard from "../Package/PackageMenuCard";
 
 const PopularPackage = () => {
     const { packages } = usePackage()
+
+    // Filter active packages and limit to 3 per type
+    // const domesticPackages = packages
+    //     .filter(pkg => pkg.type === "Domestic" && pkg.isActive)
+    //     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    //     .slice(0, 3);
+    // const internationalPackages = packages
+    //     .filter(pkg => pkg.type === "International" && pkg.isActive)
+    //     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    //     .slice(0, 3);
+
     return (
         <section className="pt-20 px-4">
             <div className="max-w-7xl mx-auto">

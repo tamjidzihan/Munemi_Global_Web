@@ -34,6 +34,11 @@ const createNewPackage = async (req, res) => {
             return res.status(400).json({ message: "Please fill out all the required fields" });
         }
 
+        // Validate 'Package Type'
+        if (!["International", "Domestic"].includes(type)) {
+            return res.status(400).json({ message: "Invalid Package type" })
+        }
+
         // Get uploaded image filenames
         const imageUrls = req.files['image'] ? req.files['image'].map(file => file.filename) : [];
 

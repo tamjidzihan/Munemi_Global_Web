@@ -12,7 +12,7 @@ const Package = sequelize.define('Package', {
         allowNull: false
     },
     type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("International", "Domestic"),
         allowNull: false
     },
     destination: {

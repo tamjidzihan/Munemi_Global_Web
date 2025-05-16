@@ -14,6 +14,7 @@ export const PackageSidebar = ({ price, duration, numberOftraveller, destination
             <div className="text-sm text-gray-500">Starting From</div>
             <div className="text-2xl font-bold text-green-600">BDT {price}</div>
             <div className="text-sm text-gray-500">Per person</div>
+            <hr className="border-t-2 border-red-200 mx-auto my-3" />
             <div className="mt-6 space-y-4">
                 <div className="flex items-start">
                     <MapPinIcon className="h-5 w-5 text-green-500 mr-2 mt-0.5" />

@@ -11,14 +11,14 @@ export interface PackageImageProps {
 export interface PackageProps {
     id: string;
     title: string;
-    type: string;
+    type: "International" | "Domestic";
     destination: string;
     numberOftraveller?: number;
     price?: number;
     duration?: string;
     description: string;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
     termsAndConditions?: string;
     images: PackageImageProps[];
     isActive: boolean;
