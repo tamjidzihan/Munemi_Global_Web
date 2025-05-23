@@ -30,7 +30,7 @@ const PopularPackage = () => {
                 {/* Domestic Packages */}
                 {domesticPackages.length > 0 && (
                     <div className="mb-5 rounded-2xl p-3 ">
-                        <div className="text-lg text-midnight mb-8 text-start">
+                        <div className="text-lg text-white mb-8 text-start p-2 rounded-lg bg-gradient-to-r from-red-500">
                             ✈️ Domestic Packages
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -54,7 +54,7 @@ const PopularPackage = () => {
                 {/* International Packages */}
                 {internationalPackages.length > 0 && (
                     <div className="mb-5  rounded-2xl p-5 ">
-                        <div className="text-lg text-midnight mb-8 text-start">
+                        <div className="text-lg text-white mb-8 text-start p-2 rounded-lg bg-gradient-to-r from-purple-600">
                             🌍 International Packages
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
