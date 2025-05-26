@@ -14,6 +14,7 @@ export function PackageList({ packages, loading }: PackageListProps) {
             {packages.map((pkg) => (
                 <PackageListCard
                     pkg={pkg}
+                    key={pkg.id}
                 />
             ))}
         </div>
