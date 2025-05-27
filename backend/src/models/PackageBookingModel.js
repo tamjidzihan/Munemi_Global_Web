@@ -31,11 +31,6 @@ const PackageBooking = sequelize.define('PackageBooking', {
     title: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    numberOfTravelers: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 1
     }
 }, {
     tableName: 'packagebookings',
