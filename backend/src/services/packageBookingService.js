@@ -8,7 +8,7 @@ const updatePackageBookingById = async (id, values) => {
         where: { id },
     })
     if (updateCount === 0) return null;
-    return Booking.findByPk(id)
+    return PackageBooking.findByPk(id)
 };
 const deletePackageBookingById = (id) => PackageBooking.destroy({ where: { id } });
 

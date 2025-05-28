@@ -52,6 +52,14 @@ const createNewBooking = async (req, res) => {
             return res.status(400).json({ message: 'Please fill out all required fields' });
         }
 
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                message: 'Please provide a valid email address'
+            });
+        }
+
         await sendMail(email, "Your Flight Booking Confirmation - Munemi Global", {
             fullName,
             tripType,
