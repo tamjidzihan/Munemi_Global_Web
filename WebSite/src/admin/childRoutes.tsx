@@ -8,6 +8,7 @@ import FlightLocation from "./pages/Flight/FlightLocation";
 import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
 import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
 import Package from "./pages/Package/Package";
+import PackageBooking from "./pages/Package/PackageBooking";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
 import Profile from "./pages/User/Profile";
@@ -54,11 +55,20 @@ export const childRoutes = [
         ),
     },
     {
-        path: "package",
+        path: "package/packagelist",
         element: (
             <>
                 <PageTitle title="Package | Manage your Package Here" />
                 <Package />
+            </>
+        ),
+    },
+    {
+        path: "package/packagebooking",
+        element: (
+            <>
+                <PageTitle title="Package Booking | Manage your Package Booking Here" />
+                <PackageBooking />
             </>
         ),
     },

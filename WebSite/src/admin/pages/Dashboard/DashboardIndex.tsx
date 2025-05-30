@@ -7,6 +7,7 @@ import useStudentEnquiries from '../../../hooks/useStudentEnquiry';
 import useCareer from '../../../hooks/useCareer';
 import usePackage from '../../../hooks/usePackage';
 import useFlightBookings from '../../../hooks/useFlightBookings';
+import usePackageBookings from '../../../hooks/usePackageBookings';
 
 
 const DashboardIndex: React.FC = () => {
@@ -16,6 +17,7 @@ const DashboardIndex: React.FC = () => {
   const { totalPackages } = usePackage()
   const { totalCareers } = useCareer()
   const { totalBookings } = useFlightBookings()
+  const { totalPackageBookings } = usePackageBookings()
 
   return (
     <>
@@ -66,13 +68,6 @@ const DashboardIndex: React.FC = () => {
           </CardDataStats>
         </Link>
 
-        <Link to={'/adminpanel/package'}>
-          <CardDataStats title="Package" total={totalPackages.toString()} rate="2.59%" levelUp>
-            <svg className="w-[30px] h-[30px] text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.193-.538 1.193H5.538c-.538 0-.538-.6-.538-1.193 0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365Zm-8.134 5.368a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M8.54 17.901a3.48 3.48 0 0 0 6.92 0H8.54Z" />
-            </svg>
-          </CardDataStats>
-        </Link>
 
         <Link to={'/adminpanel/career/job'}>
           <CardDataStats title="Job / Career Appication" total={totalCareers.toString()} rate="4.35%" levelUp>
@@ -86,6 +81,25 @@ const DashboardIndex: React.FC = () => {
             <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
             </svg>
+          </CardDataStats>
+        </Link>
+      </div>
+
+      <div className=' text-xl lg:mt-10 lg:mb-5 text-midnight'>Package</div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <Link to={'/adminpanel/package/packagelist'}>
+          <CardDataStats title="Package List" total={totalPackages.toString()} rate="2.59%" levelUp>
+            <svg className="w-[30px] h-[30px] text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.193-.538 1.193H5.538c-.538 0-.538-.6-.538-1.193 0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365Zm-8.134 5.368a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M8.54 17.901a3.48 3.48 0 0 0 6.92 0H8.54Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+        <Link to={'/adminpanel/package/packagebooking'}>
+          <CardDataStats title="Package Booking" total={totalPackageBookings.toString()} rate="2.59%" levelUp>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 text-primary">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46" />
+            </svg>
+
           </CardDataStats>
         </Link>
       </div>
