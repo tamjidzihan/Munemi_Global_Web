@@ -1,4 +1,5 @@
 import { ClockIcon, UsersIcon, TruckIcon, MapPinIcon } from 'lucide-react'
+import { Link } from 'react-router-dom';
 
 interface PackageSidebarProps {
     price?: number;
@@ -57,7 +58,18 @@ export const PackageSidebar = ({ price, duration, numberOftraveller, destination
                         <div className="text-sm text-gray-600">Not Applicable</div>
                     </div>
                 </div>
+
+                {/* Appointment Button */}
+                <div className="flex justify-content-center pt-4 md:pt-8">
+                    <Link to="/about/appointment-booking" className="w-full sm:w-auto ">
+                        <button className="w-full text-center cursor-pointer py-1.5 px-10 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.05] shadow-lg hover:shadow-xl sm:text-sm">
+                            Book An Appointment
+                        </button>
+                    </Link>
+                </div>
+
             </div>
+
             {/* <button className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-md mt-6 uppercase text-sm tracking-wide">
                 Book this package
             </button> */}

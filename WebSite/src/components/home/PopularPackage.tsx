@@ -6,14 +6,14 @@ const PopularPackage = () => {
     const { packages } = usePackage()
 
     // Filter active packages and limit to 3 per type
-    const domesticPackages = packages
-        .filter(pkg => pkg.type === "Domestic" && pkg.isActive)
-        .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-        .slice(0, 3);
+    // const domesticPackages = packages
+    //     .filter(pkg => pkg.type === "Domestic" && pkg.isActive)
+    //     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    //     .slice(0, 3);
     const internationalPackages = packages
         .filter(pkg => pkg.type === "International" && pkg.isActive)
         .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-        .slice(0, 3);
+        .slice(0, 6);
 
     return (
         <section className="pt-20 px-4">
@@ -28,7 +28,7 @@ const PopularPackage = () => {
                 </div>
 
                 {/* Domestic Packages */}
-                {domesticPackages.length > 0 && (
+                {/* {domesticPackages.length > 0 && (
                     <div className="mb-5 rounded-2xl p-3 ">
                         <div className="text-lg text-white mb-8 text-start p-2 rounded-lg bg-gradient-to-r from-red-500">
                             ✈️ Domestic Packages
@@ -49,7 +49,7 @@ const PopularPackage = () => {
                             ))}
                         </div>
                     </div>
-                )}
+                )} */}
 
                 {/* International Packages */}
                 {internationalPackages.length > 0 && (

@@ -43,7 +43,7 @@ export function TopHeader() {
                     </Link>
 
                     {/* Appointment Button */}
-                    <Link to="about/appointment-booking" className="w-full sm:w-auto">
+                    <Link to="/about/appointment-booking" className="w-full sm:w-auto">
                         <button className="w-full sm:w-auto text-center cursor-pointer py-1.5 px-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.08] shadow-lg hover:shadow-xl text-xs sm:text-sm">
                             Book An Appointment
                         </button>

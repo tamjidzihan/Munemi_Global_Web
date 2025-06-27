@@ -13,7 +13,7 @@ export function PackageListCard({ pkg }: PackageListCardProps) {
                 <img
                     src={`${import.meta.env.VITE_APICLIENT}/uploads/${pkg.images[0].url}`}
                     alt={pkg.destination}
-                    className="w-full h-full object-cover"
+                    className="w-full max-h-50 min-h-48 object-contain"
                 />
                 <div className="absolute top-3 left-3 bg-black bg-opacity-70 text-white font-bold px-3 py-1 z-20 rounded-md flex items-center">
                     <MapPin size={20} className="text-green-500 mr-2" />

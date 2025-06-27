@@ -18,7 +18,7 @@ export const PackageGallery = ({ images }: PackageGalleryProps) => {
                         <img
                             src={`${import.meta.env.VITE_APICLIENT}/uploads/${image.url}`}
                             alt={`Travel package image ${image.id}`}
-                            className="w-full h-full object-cover rounded-md hover:scale-105 duration-300"
+                            className="w-full max-h-95 object-contain rounded-md hover:scale-105 duration-300"
                         />
                     </div>
                 </div>

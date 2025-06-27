@@ -85,7 +85,6 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                         <div className="mb-4">
                             <label className="block text-md text-midnight font-medium mb-2">Package Type</label>
                             <select {...register("type")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
-                                <option value="">Select Package Type</option>
                                 <option value="International">International</option>
                                 <option value="Domestic">Domestic</option>
                             </select>
