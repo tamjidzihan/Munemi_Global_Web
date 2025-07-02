@@ -16,17 +16,17 @@ type EditPackageModalProps = {
 const schema = yup.object().shape({
     title: yup.string().required("Title is required"),
     type: yup.string().required("Package type is required").oneOf(["International", "Domestic"], "Package type must be either International or Domestic"),
-    price: yup.number().required("Price is required").positive("Price must be positive"),
+    price: yup.number().nullable().transform((value, originalValue) => originalValue === '' ? null : value).positive("Price must be positive"),
     destination: yup.string().required("Destination is required"),
-    numberOftraveller: yup.number().required("Number of travellers is required").positive("Number of travellers must be positive"),
-    days: yup.string().required("Days is required"),
-    nights: yup.string().required("Nights is required"),
+    numberOftraveller: yup.number().nullable().transform((value, originalValue) => originalValue === '' ? null : value).positive("Number of travellers must be positive"),
+    days: yup.string().nullable().transform((value, originalValue) => originalValue === '' ? null : value),
+    nights: yup.string().nullable().transform((value, originalValue) => originalValue === '' ? null : value),
     description: yup.string().required("Description is required"),
-    startDate: yup.string().required("Start date is required").test('is-date', 'Start date is invalid', (value) => {
+    startDate: yup.string().nullable().transform((value, originalValue) => originalValue === '' ? null : value).test('is-date', 'Start date is invalid', (value) => {
         if (!value) return false;
         return !isNaN(new Date(value).getTime());
     }),
-    endDate: yup.string().required("End date is required").test('is-date', 'End date is invalid', (value) => {
+    endDate: yup.string().nullable().transform((value, originalValue) => originalValue === '' ? null : value).test('is-date', 'End date is invalid', (value) => {
         if (!value) return false;
         return !isNaN(new Date(value).getTime());
     }),
@@ -160,8 +160,9 @@ const EditPackageModal = ({ isOpen, closeModal, packageData, updatePackage }: Ed
                             <div className="flex flex-col w-1/2">
                                 <label className="block text-sm font-medium mb-1">Days</label>
                                 <select {...register("days")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
-                                    {[...Array(30).keys()].map((day) => (
-                                        <option key={day + 1} value={day + 1}>{day + 1}</option>
+                                    <option value="">Select Days</option>
+                                    {[...Array(31).keys()].map((day) => (
+                                        <option key={day} value={day}>{day}</option>
                                     ))}
                                 </select>
                                 {errors.days && <p className="text-red-500 text-sm">{errors.days.message}</p>}
@@ -169,8 +170,9 @@ const EditPackageModal = ({ isOpen, closeModal, packageData, updatePackage }: Ed
                             <div className="flex flex-col w-1/2">
                                 <label className="block text-sm font-medium mb-1">Nights</label>
                                 <select {...register("nights")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
-                                    {[...Array(30).keys()].map((night) => (
-                                        <option key={night + 1} value={night + 1}>{night + 1}</option>
+                                    <option value="">Select Days</option>
+                                    {[...Array(31).keys()].map((day) => (
+                                        <option key={day} value={day}>{day}</option>
                                     ))}
                                 </select>
                                 {errors.nights && <p className="text-red-500 text-sm">{errors.nights.message}</p>}

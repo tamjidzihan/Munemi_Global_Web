@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo_munemi_global.png";
 import CareerMenu from "./Navbar/CareerMenu";
 import ServicesMenu from "./Navbar/ServicesMenu";
-import { StudyDestinationMenu } from "./Navbar/StudyDestinationMenu";
+// import { StudyDestinationMenu } from "./Navbar/StudyDestinationMenu";
 import Sidebar from "./Sidebar";
 
 export function Navbar() {
-    const [showStudyDestination, setShowStudyDestination] = useState(false);
+    // const [showStudyDestination, setShowStudyDestination] = useState(false);
     const [showServicesMenu, setShowServicesMenu] = useState(false);
     const [showCareerMenu, setShowCareerMenu] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -54,6 +54,12 @@ export function Navbar() {
                     <Link to="/" onClick={scrollToTop} className="text-gray-600 hover:text-gray-800 transition duration-300 font-bold">
                         HOME
                     </Link>
+                    <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
+                        ABOUT US
+                    </Link>
+                    <Link to="/package" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
+                        PACKAGES
+                    </Link>
                     <div
                         className="relative"
                         onMouseEnter={() => setShowServicesMenu(true)}
@@ -65,23 +71,6 @@ export function Navbar() {
                         </button>
                         {showServicesMenu && <ServicesMenu />}
                     </div>
-                    <div
-                        className="relative"
-                        onMouseEnter={() => setShowStudyDestination(true)}
-                        onMouseLeave={() => setShowStudyDestination(false)}
-                    >
-                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-2" : "py-3"}`}>
-                            STUDY DESTINATION
-                            <ChevronDown size={20} className=" place-self-center" />
-                        </button>
-                        {showStudyDestination && <StudyDestinationMenu />}
-                    </div>
-                    <Link to="/package" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
-                        PACKAGES
-                    </Link>
-                    <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
-                        ABOUT US
-                    </Link>
 
                     <div
                         className="relative"
@@ -93,6 +82,20 @@ export function Navbar() {
                         </button>
                         {showCareerMenu && <CareerMenu />}
                     </div>
+
+
+                    {/* <div
+                        className="relative"
+                        onMouseEnter={() => setShowStudyDestination(true)}
+                        onMouseLeave={() => setShowStudyDestination(false)}
+                    >
+                        <button className={`text-gray-600 hover:text-gray-800 font-bold transition duration-300 cursor-pointer flex ${isScrolled ? "py-2" : "py-3"}`}>
+                            STUDY DESTINATION
+                            <ChevronDown size={20} className=" place-self-center" />
+                        </button>
+                        {showStudyDestination && <StudyDestinationMenu />}
+                    </div> */}
+
                 </div>
 
                 {/* Mobile Menu */}

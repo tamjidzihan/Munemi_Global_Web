@@ -115,8 +115,8 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                                 <label className="block text-sm  font-medium mb-1">Days</label>
                                 <select {...register("days")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
                                     <option value="">Select Days</option>
-                                    {[...Array(30).keys()].map((day) => (
-                                        <option key={day + 1} value={day + 1}>{day + 1}</option>
+                                    {[...Array(31).keys()].map((day) => (
+                                        <option key={day} value={day}>{day}</option>
                                     ))}
                                 </select>
                                 {errors.days && <p className="text-red-500 text-sm">{errors.days.message}</p>}
@@ -125,8 +125,8 @@ const CreatePackageModal = ({ isOpen, closeModal, addNewPackage }: CreatePackage
                                 <label className="block text-sm font-medium mb-1">Nights</label>
                                 <select {...register("nights")} className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500">
                                     <option value="">Select Nights</option>
-                                    {[...Array(30).keys()].map((night) => (
-                                        <option key={night + 1} value={night + 1}>{night + 1}</option>
+                                    {[...Array(31).keys()].map((day) => (
+                                        <option key={day} value={day}>{day}</option>
                                     ))}
                                 </select>
                                 {errors.nights && <p className="text-red-500 text-sm">{errors.nights.message}</p>}
