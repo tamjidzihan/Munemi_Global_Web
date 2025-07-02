@@ -1,6 +1,6 @@
 import { Statistics } from "../components/home/Statistics";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-import { NewsSection } from "../components/home/NewsSection";
+// import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
@@ -69,7 +69,7 @@ const HomePage = () => {
             <OverseasEducation />
             <PartnerUniversities />
             <AppointmentBoking />
-            <NewsSection />
+            {/* <NewsSection /> */}
             <TestimonialCarousel />
             <Statistics />
         </main>

@@ -1,6 +1,8 @@
-import { Mail, MapPin } from "lucide-react";
+import { Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 export function TopHeader() {
     return (
@@ -9,9 +11,18 @@ export function TopHeader() {
                 {/* Address Section (Hidden on Small Screens) */}
                 <div className="hidden sm:flex items-center space-x-4">
                     <div className="flex items-center">
-                        <MapPin size={14} className="mr-1" />
                         <span className="text-xs sm:text-sm">
-                            5, Kolotan School Road, Notun Bazar, Vatara, Gulshan Dhaka-1212, Bangladesh
+                            <div className="flex space-x-4">
+                                <a href="https://www.facebook.com/munemiglobalbd" className="text-gray-400 hover:text-red-500">
+                                    <FaFacebookF size={20} />
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-red-500">
+                                    <FaXTwitter size={20} />
+                                </a>
+                                <a href="#" className="text-gray-400 hover:text-red-500">
+                                    <FaGoogle size={20} />
+                                </a>
+                            </div>
                         </span>
                     </div>
                 </div>

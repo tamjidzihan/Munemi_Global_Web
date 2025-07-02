@@ -1,6 +1,6 @@
 import Hero from "../common/Hero/Hero"
 import { AppointmentBoking } from "../home/AppointmentBoking"
-import { NewsSection } from "../home/NewsSection"
+// import { NewsSection } from "../home/NewsSection"
 import { ProcessSection } from "../home/ProcessSection"
 import { Statistics } from "../home/Statistics"
 import { BoardMembers } from "./BoardMembers"
@@ -29,7 +29,7 @@ const AboutUs = () => {
             <ProcessSection />
             <Statistics />
             <TestimonialCarousel />
-            <NewsSection />
+            {/* <NewsSection /> */}
             <AppointmentBoking />
         </main>
     )

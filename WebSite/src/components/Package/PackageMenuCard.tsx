@@ -75,10 +75,12 @@ const PackageMenuCard: React.FC<PackageMenuCardProps> = ({
                     <h3 className="font-medium text-xl text-midnight mb-2 hover:text-violet-900">{title}</h3>
                 </Link>
                 {/* Price */}
-                <div className="mt-2">
-                    <span className="text-green-600 font-bold text-xl">৳ {price}</span>
-                    <p className="text-gray-500 text-sm">{priceSubtext}</p>
-                </div>
+                {Number(price) > 0 &&
+                    <div className="mt-2">
+                        <span className="text-green-600 font-bold text-xl">৳ {price}</span>
+                        <p className="text-gray-500 text-sm">{priceSubtext}</p>
+                    </div>}
+
             </div>
         </div>
     );
