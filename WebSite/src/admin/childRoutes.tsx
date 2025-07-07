@@ -1,6 +1,7 @@
 import PageTitle from "./components/PageTitle";
 import Agent from "./pages/Agent/Agent";
 import Appointments from "./pages/Appointment/Appointments";
+import Blog from "./pages/Blog/Blog";
 import Career from "./pages/Career/Career";
 import DashboardIndex from "./pages/Dashboard/DashboardIndex";
 import FlightBooking from "./pages/Flight/FlightBooking";
@@ -132,6 +133,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="University | Modarate University Here" />
                 <Universities />
+            </>
+        ),
+    },
+    {
+        path: "blog",
+        element: (
+            <>
+                <PageTitle title="Blog | Create Your Blogs" />
+                <Blog />
             </>
         ),
     },

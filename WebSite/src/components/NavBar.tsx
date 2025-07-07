@@ -57,6 +57,9 @@ export function Navbar() {
                     <Link to="/about" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         ABOUT US
                     </Link>
+                    <Link to="/blog" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
+                        BLOGS
+                    </Link>
                     <Link to="/package" className="text-gray-600 hover:text-gray-800 font-bold transition duration-300">
                         PACKAGES
                     </Link>
