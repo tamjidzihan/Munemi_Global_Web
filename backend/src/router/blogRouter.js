@@ -13,20 +13,20 @@ module.exports = (router) => {
     // Protected routes
     router.post(
         '/blogs',
-        isAuthenticated,
+        // isAuthenticated,
         upload.single('featuredImage'), // Single image upload
         blogController.createBlog
     );
     router.put(
         '/blogs/:id',
-        isAuthenticated,
+        // isAuthenticated,
         upload.single('featuredImage'), // Single image upload
         blogController.updateBlog
     );
 
     router.delete(
         '/blogs/:id',
-        isAuthenticated,
+        // isAuthenticated,
         blogController.deleteBlog
     );
 };
