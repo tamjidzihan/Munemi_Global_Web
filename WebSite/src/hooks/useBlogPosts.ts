@@ -56,6 +56,18 @@ const useBlogPosts = () => {
         }
     };
 
+
+    const getCategories = (): string[] => {
+        const categories = new Set<string>();
+        blogPosts.forEach(post => {
+            if (post.category) {
+                categories.add(post.category);
+            }
+        });
+        return Array.from(categories).sort();
+    };
+
+
     const updateBlogPost = async (id: string, updatedData: Partial<BlogPostProps> | FormData): Promise<BlogPostProps> => {
         setLoading(true);
         try {
@@ -111,6 +123,7 @@ const useBlogPosts = () => {
         totalPosts,
         loading,
         error,
+        getCategories,
         createBlogPost,
         updateBlogPost,
         deleteBlogPost,

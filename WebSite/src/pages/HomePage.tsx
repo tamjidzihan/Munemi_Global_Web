@@ -1,6 +1,5 @@
 import { Statistics } from "../components/home/Statistics";
 import { OverseasEducation } from "../components/home/OverseasEducation";
-// import { NewsSection } from "../components/home/NewsSection";
 import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
@@ -12,6 +11,7 @@ import { PopularDestination } from "../components/home/PopularDestination";
 import AirTicketBooking from "../components/home/AirTicketBooking";
 import TestimonialCarousel from "../components/home/TestimonialCarousel";
 import PopularPackage from "../components/home/PopularPackage";
+import { BlogPostGrid } from "../components/home/BlogPostCard";
 
 const HomePage = () => {
 
@@ -69,7 +69,7 @@ const HomePage = () => {
             <OverseasEducation />
             <PartnerUniversities />
             <AppointmentBoking />
-            {/* <NewsSection /> */}
+            <BlogPostGrid />
             <TestimonialCarousel />
             <Statistics />
         </main>

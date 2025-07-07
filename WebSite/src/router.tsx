@@ -4,8 +4,18 @@ import { childRoutes } from "./admin/childRoutes";
 import AdminLayout from "./admin/pages/AdminLayout";
 import SignIn from "./admin/pages/Authentication/SignIn";
 import SignUp from "./admin/pages/Authentication/SignUp";
-import BlogList from "./components/Blog/BlogList";
-import { BlogPost } from "./components/Blog/BlogPost";
+import AboutUs from "./components/About/AboutUs";
+import AppointmentBookingForm from "./components/About/AppointmentBookingForm/AppointmentBookingForm";
+import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
+import { BlogPostDetail } from "./components/Blog/BlogPostDetail";
+import BlogPostList from "./components/Blog/BlogPostList";
+import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
+import Career from "./components/Career/Career";
+import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartner/HealthInsurancePartnerForm";
+import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
+import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplicationForm";
+import { TravelPackage } from "./components/Package/PackageDetails/TravelPackage";
+import TravelPackageList from "./components/Package/PackageList/TravelPackageList";
 import Enrollment from "./components/Services/AcademicServices/Enrollment";
 import FreeCareerCounseling from "./components/Services/AcademicServices/FreeCareerCounseling";
 import GeneralHealthInsurance from "./components/Services/AcademicServices/GeneralHealthInsurance";
@@ -44,23 +54,13 @@ import StudyGuides from "./components/StudyDestination/StudyAbroad/StudyGuides";
 import StudyDestination from "./components/StudyDestination/StudyDestination";
 import AboutPage from "./pages/AboutPage";
 import BlogPage from "./pages/BlogPage";
+import CareerPage from "./pages/CareerPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
 import Layout from "./pages/Layout";
+import PackagePage from "./pages/PackagePage";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
-import AboutUs from "./components/About/AboutUs";
-import AppointmentBookingForm from "./components/About/AppointmentBookingForm/AppointmentBookingForm";
-import CareerPage from "./pages/CareerPage";
-import Career from "./components/Career/Career";
-import JobApplicationForm from "./components/Career/JobApplicationForm/JobApplicationForm";
-import HealthInsurancePartnerForm from "./components/Career/HealthInsurancePartner/HealthInsurancePartnerForm";
-import AgentApplicationForm from "./components/Career/Agent/AgentApplicationForm";
-import InstitutionPartnerForm from "./components/Career/InstitutionPartnerForm/InstitutionPartnerForm";
-import BookingConfirmation from "./components/AirTicketBooking/BookingConfirmation";
-import PackagePage from "./pages/PackagePage";
-import { TravelPackage } from "./components/Package/PackageDetails/TravelPackage";
-import TravelPackageList from "./components/Package/PackageList/TravelPackageList";
 
 
 export const router = createBrowserRouter([
@@ -123,8 +123,8 @@ export const router = createBrowserRouter([
                 path: 'blog',
                 element: <BlogPage />,
                 children: [
-                    { index: true, element: <BlogList /> },
-                    { path: 'blog-post', element: <BlogPost /> },
+                    { index: true, element: < BlogPostList /> },
+                    { path: ':slug', element: <BlogPostDetail /> },
                 ]
             },
             {

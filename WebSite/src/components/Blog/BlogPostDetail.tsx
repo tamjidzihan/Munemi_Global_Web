@@ -2,8 +2,9 @@ import { Facebook, Twitter, Linkedin } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import useBlogPosts from '../../hooks/useBlogPosts'
 
-export function BlogPost() {
+export function BlogPostDetail() {
     const { slug } = useParams()
+    console.log(slug)
     const { blogPosts, loading, error } = useBlogPosts()
     const post = blogPosts.find(post => post.slug === slug)
 
@@ -16,7 +17,7 @@ export function BlogPost() {
             <article className="bg-white max-w-2xl rounded-xl overflow-hidden shadow-sm">
                 {post.featuredImage && (
                     <img
-                        src={post.featuredImage}
+                        src={`${import.meta.env.VITE_APICLIENT}/uploads/${post.featuredImage}`}
                         alt="Featured"
                         className="w-full h-96 object-cover"
                     />
