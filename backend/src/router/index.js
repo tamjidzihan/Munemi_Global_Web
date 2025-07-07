@@ -12,6 +12,7 @@ const flightLocationRouter = require('./flightLocationRouter')
 const bookingRoutes = require('./bookingRoutes')
 const packageRouter = require('./packageRouter')
 const packageBookingRouter = require('./packageBookingRouter')
+const blogRouter = require('./blogRouter')
 
 
 const router = express.Router();
@@ -30,6 +31,7 @@ module.exports = () => {
     bookingRoutes(router)
     packageRouter(router)
     packageBookingRouter(router)
+    blogRouter(router)
 
     return router;
 };
