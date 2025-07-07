@@ -1,4 +1,10 @@
 const blogService = require('../services/blogsService');
+const fs = require('fs').promises;
+const path = require('path');
+
+// Configure upload directory path
+const uploadDir = path.join(__dirname, '../uploads/');
+
 
 const getAllBlogs = async (req, res) => {
     try {
@@ -188,7 +194,7 @@ const deleteBlog = async (req, res) => {
             }
         }
 
-        res.sendStatus(204);
+        res.status(204).json({ message: "Blog deleted successfully" })
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Error deleting blog", error: error.message });
