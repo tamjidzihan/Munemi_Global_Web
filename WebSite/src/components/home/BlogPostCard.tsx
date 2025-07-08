@@ -84,13 +84,11 @@ export function BlogPostGrid() {
     return (
         <section className="py-20">
             <div className="max-w-7xl mx-auto px-4">
-                <h2 className="text-3xl text-midnight font-bold text-center mb-4">
-                    Our Blogs & Latest News
-                </h2>
-                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                    At Munemi Global, we are committed to sharing impactful stories, industry insights, and the latest updates.
-                </p>
-
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
+                        Latest News  & Blogs
+                    </h2>
+                </div>
                 {lastThreePosts.length > 0 ? (
                     <div className="grid md:grid-cols-3 gap-8">
                         {lastThreePosts.map((post) => (

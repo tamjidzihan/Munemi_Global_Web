@@ -43,12 +43,9 @@ export function PartnerUniversities() {
     return (
         <section className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
-                <div className="text-3xl text-midnight font-bold text-center mb-4">
-                    Partner Institutes & Universities
+                <div className="text-3xl sm:text-4xl  text-midnight font-medium text-center mb-4">
+                    Our worldwide network of organizations
                 </div>
-                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-                    Our partner institutes and universities are committed to transforming lives through quality education.
-                </p>
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {countries.map((country) => (
                         <motion.button

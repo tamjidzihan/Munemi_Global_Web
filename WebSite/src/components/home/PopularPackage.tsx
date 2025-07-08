@@ -13,7 +13,7 @@ const PopularPackage = () => {
     const internationalPackages = packages
         .filter(pkg => pkg.type === "International" && pkg.isActive)
         .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-        .slice(0, 6);
+        .slice(0, 9);
 
     return (
         <section className="pt-20 px-4">

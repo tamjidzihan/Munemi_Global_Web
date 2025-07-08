@@ -4,12 +4,11 @@ import HeroSection from "../components/home/HeroSection";
 import { GraduationCap, Users, Briefcase, Globe } from "lucide-react";
 import { ServiceCard } from "../components/home/ServiceCard";
 import { AppointmentBoking } from "../components/home/AppointmentBoking";
-import { HelpProcess } from "../components/home/HelpProcess";
 import { PartnerUniversities } from "../components/home/PartnerUniversities";
 import PageTitle from "../admin/components/PageTitle";
 import { PopularDestination } from "../components/home/PopularDestination";
 import AirTicketBooking from "../components/home/AirTicketBooking";
-import TestimonialCarousel from "../components/home/TestimonialCarousel";
+// import TestimonialCarousel from "../components/home/TestimonialCarousel";
 import PopularPackage from "../components/home/PopularPackage";
 import { BlogPostGrid } from "../components/home/BlogPostCard";
 
@@ -48,7 +47,7 @@ const HomePage = () => {
             <HeroSection />
             <PopularPackage />
             <AirTicketBooking />
-            <PopularDestination />
+            <BlogPostGrid />
             <section className="py-20 px-4 bg-gray-50">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
@@ -65,12 +64,12 @@ const HomePage = () => {
                     ))}
                 </div>
             </section>
-            <HelpProcess />
+            <AppointmentBoking />
+            <PopularDestination />
             <OverseasEducation />
             <PartnerUniversities />
-            <AppointmentBoking />
-            <BlogPostGrid />
-            <TestimonialCarousel />
+
+            {/* <TestimonialCarousel /> */}
             <Statistics />
         </main>
     )
