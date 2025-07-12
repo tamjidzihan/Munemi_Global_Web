@@ -53,9 +53,6 @@ const HomePage = () => {
                     <h2 className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         Our Services
                     </h2>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        We offer a range of services to support students and professionals at every stage of their journey, from education to career growth.
-                    </p>
                 </div>
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 ">
 

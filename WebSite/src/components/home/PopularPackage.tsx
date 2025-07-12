@@ -22,9 +22,6 @@ const PopularPackage = () => {
                     <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         Popular Packages
                     </div>
-                    <div className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        Your next great adventure starts with our best travel packages.
-                    </div>
                 </div>
 
                 {/* Domestic Packages */}

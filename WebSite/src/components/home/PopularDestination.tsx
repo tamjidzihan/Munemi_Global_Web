@@ -60,9 +60,6 @@ export function PopularDestination() {
                     <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                         Popular Destination
                     </div>
-                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        Start your immigration journey with our expert guidance
-                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

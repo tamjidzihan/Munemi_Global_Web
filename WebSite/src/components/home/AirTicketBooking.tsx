@@ -90,9 +90,6 @@ export default function AirTicketBooking({ className }: AirTicketBookingProps) {
                 <div className="text-3xl sm:text-4xl font-medium mb-4 text-midnight">
                     Book Your Flight Tickets
                 </div>
-                <div className="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Find the best deals on flight tickets. Enjoy seamless booking, exclusive offers, and explore destinations worldwide.
-                </div>
             </div>
             <div
                 className={`bg-white rounded-2xl p-6 mx-4 ${className}`}
