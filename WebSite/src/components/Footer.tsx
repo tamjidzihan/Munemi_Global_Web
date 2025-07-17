@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaEnvelope } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
 import logo from "../assets/logo_munemi_global.png"
 
 export function Footer() {
@@ -77,20 +76,17 @@ export function Footer() {
                 </div>
                 <div className="border-t py-8 flex flex-wrap justify-between items-center">
                     <div className="text-gray-600">
-                        © Copyright Munemi Global 2025. All Rights Reserved
+                        © Copyright Munemi Global 2025. All Rights Reserved.
                     </div>
                     <div className="flex space-x-4">
-                        <a href="https://www.facebook.com/munemiglobalbd" className="text-gray-400 hover:text-red-500">
+                        <a href="https://www.facebook.com/munemiglobalbd" target="_blank" className="text-gray-400 hover:text-red-500">
                             <FaFacebookF size={20} />
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-red-500">
-                            <FaXTwitter size={20} />
+                        <a href="https://www.instagram.com/munemiglobal/" className="text-gray-400 hover:text-red-500">
+                            <FaInstagram size={24} />
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-red-500">
+                        <a href="https://g.co/kgs/6L1ZxbX" target="_blank" className="text-gray-400 hover:text-red-500">
                             <FaGoogle size={20} />
-                        </a>
-                        <a href="https://mail.munemiglobal.com/" target="_blank" className="text-gray-400 hover:text-red-500">
-                            <FaEnvelope size={20} />
                         </a>
                     </div>
                 </div>

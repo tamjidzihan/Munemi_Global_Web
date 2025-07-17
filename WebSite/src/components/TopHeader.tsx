@@ -2,7 +2,7 @@ import { Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
 
 export function TopHeader() {
     return (
@@ -16,8 +16,8 @@ export function TopHeader() {
                                 <a href="https://www.facebook.com/munemiglobalbd" target="_blank" className="text-gray-400 hover:text-red-500">
                                     <FaFacebookF size={20} />
                                 </a>
-                                <a href="#" className="text-gray-400 hover:text-red-500">
-                                    <FaXTwitter size={20} />
+                                <a href="https://www.instagram.com/munemiglobal/" className="text-gray-400 hover:text-red-500">
+                                    <FaInstagram size={24} />
                                 </a>
                                 <a href="https://g.co/kgs/6L1ZxbX" target="_blank" className="text-gray-400 hover:text-red-500">
                                     <FaGoogle size={20} />
@@ -56,7 +56,7 @@ export function TopHeader() {
                     {/* Appointment Button */}
                     <Link to="/about/appointment-booking" className="w-full sm:w-auto">
                         <button className="w-full sm:w-auto text-center cursor-pointer py-1.5 px-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-[1.08] shadow-lg hover:shadow-xl text-xs sm:text-sm">
-                            Book An Appointment
+                            Get Free Assessment
                         </button>
                     </Link>
                 </div>

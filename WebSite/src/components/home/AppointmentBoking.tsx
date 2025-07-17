@@ -2,9 +2,6 @@ import image9 from "../../assets/image_9.jpg"
 import { Link } from "react-router-dom";
 
 export function AppointmentBoking() {
-
-
-
     return (
         <section className="relative py-14 bg-cover bg-no-repeat" style={{ backgroundImage: `url('${image9}')` }}>
             <div className="absolute inset-0 bg-gradient-to-b from-black/80 to-black/20"></div>
@@ -34,7 +31,7 @@ export function AppointmentBoking() {
                         to={'/about/appointment-booking'}
                         className="inline-block w-full text-center cursor-pointer py-4 px-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white text-3xl font-semibold rounded-xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                     >
-                        Book Appointment Now
+                        Get Free Assessment
                     </Link>
                 </div>
             </div>

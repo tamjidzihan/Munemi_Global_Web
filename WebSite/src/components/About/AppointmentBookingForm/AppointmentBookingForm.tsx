@@ -75,7 +75,7 @@ const AppointmentBookingForm = () => {
 
     return (
         <main className="w-full">
-            <Hero bgImage={heroImage} heroName="Book An Appointment" />
+            <Hero bgImage={heroImage} heroName="Get Free Assessment" />
             {alert && (
                 <Alert
                     message={alert.message}
