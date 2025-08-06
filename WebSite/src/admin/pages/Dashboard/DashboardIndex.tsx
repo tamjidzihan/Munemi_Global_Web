@@ -42,7 +42,7 @@ const DashboardIndex: React.FC = () => {
           </CardDataStats>
         </Link>
 
-        <Link to={'/adminpanel/student-enquiry'}>
+        {totalEnquiries && <Link to={'/adminpanel/student-enquiry'}>
           <CardDataStats title="Student Enquiry " total={totalEnquiries.toString()} rate="0.00%" levelDown>
             <svg
               className="fill-primary "
@@ -66,7 +66,8 @@ const DashboardIndex: React.FC = () => {
               />
             </svg>
           </CardDataStats>
-        </Link>
+        </Link>}
+
 
 
         <Link to={'/adminpanel/career/job'}>

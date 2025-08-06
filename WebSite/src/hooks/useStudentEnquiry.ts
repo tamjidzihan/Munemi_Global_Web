@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import apiClient from "../services/apiClient";
-
 
 export interface TestResult {
     reading: string;
@@ -43,83 +41,107 @@ export interface StudentEnquiry {
     updatedAt: string;
 }
 
+interface UseStudentEnquiriesReturn {
+    totalEnquiries: number;
+    enquiries: StudentEnquiry[];
+    loading: boolean;
+    error: string | null;
+    fetchEnquiries: () => Promise<void>;
+    createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => Promise<StudentEnquiry>;
+    updateEnquiry: (id: string, updatedEnquiry: Partial<StudentEnquiry>) => Promise<void>;
+    deleteEnquiry: (id: string) => Promise<void>;
+    getEnquiryById: (id: string) => StudentEnquiry | undefined;
+}
 
-const useStudentEnquiries = () => {
+const useStudentEnquiries = (): UseStudentEnquiriesReturn => {
     const [enquiries, setEnquiries] = useState<StudentEnquiry[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const totalEnquiries = enquiries.length
+    const totalEnquiries = enquiries.length;
 
-    // Fetch all student enquiries
-    useEffect(() => {
+    const fetchEnquiries = useCallback(async () => {
         setLoading(true);
-        const getEnquiries = async () => {
-            try {
-                const response = await apiClient.get('/student-enquiries');
-                setEnquiries(response.data);
-                setLoading(false);
-            } catch (err) {
-                setError('Failed to fetch student enquiries');
-                setLoading(false);
-            }
-        };
-        getEnquiries();
+        setError(null);
+        try {
+            const response = await apiClient.get<StudentEnquiry[]>('/student-enquiries');
+            setEnquiries(response.data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to fetch student enquiries');
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
+    // Fetch all student enquiries on mount
+    useEffect(() => {
+        fetchEnquiries();
+    }, [fetchEnquiries]);
 
     // Create a new student enquiry
-    const createEnquiry = async (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const createEnquiry = useCallback(async (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>): Promise<StudentEnquiry> => {
         setLoading(true);
+        setError(null);
         try {
-            const response = await apiClient.post('/student-enquiries', enquiry);
-            setEnquiries((prev) => [response.data, ...prev]);
-            setLoading(false);
+            const response = await apiClient.post<StudentEnquiry>('/student-enquiries', enquiry);
+            setEnquiries(prev => [response.data, ...prev]);
             return response.data;
         } catch (err) {
-            setError('Failed to create student enquiry');
+            const message = err instanceof Error ? err.message : 'Failed to create student enquiry';
+            setError(message);
+            throw new Error(message);
+        } finally {
             setLoading(false);
-            throw err;
         }
-    };
+    }, []);
 
     // Update an existing student enquiry
-    const updateEnquiry = async (id: string, updatedEnquiry: Partial<StudentEnquiry>) => {
+    const updateEnquiry = useCallback(async (id: string, updatedEnquiry: Partial<StudentEnquiry>): Promise<void> => {
         setLoading(true);
+        setError(null);
         try {
-            const response = await apiClient.patch(`/student-enquiries/${id}`, updatedEnquiry);
-            setEnquiries((prev) => prev.map((enquiry) => (enquiry.id === id ? response.data : enquiry)));
-            setLoading(false);
+            const response = await apiClient.patch<StudentEnquiry>(`/student-enquiries/${id}`, updatedEnquiry);
+            setEnquiries(prev => prev.map(enquiry =>
+                enquiry.id === id ? response.data : enquiry
+            ));
         } catch (err) {
-            setError('Failed to update student enquiry');
+            setError(err instanceof Error ? err.message : 'Failed to update student enquiry');
+            throw err;
+        } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     // Delete a student enquiry
-    const deleteEnquiry = async (id: string) => {
+    const deleteEnquiry = useCallback(async (id: string): Promise<void> => {
         setLoading(true);
+        setError(null);
         try {
             await apiClient.delete(`/student-enquiries/${id}`);
-            setEnquiries((prev) => prev.filter((enquiry) => enquiry.id !== id));
-            setLoading(false);
+            setEnquiries(prev => prev.filter(enquiry => enquiry.id !== id));
         } catch (err) {
-            setError('Failed to delete student enquiry');
+            setError(err instanceof Error ? err.message : 'Failed to delete student enquiry');
+            throw err;
+        } finally {
             setLoading(false);
         }
-    };
+    }, []);
+
+    // Get single enquiry by ID
+    const getEnquiryById = useCallback((id: string): StudentEnquiry | undefined => {
+        return enquiries.find(enquiry => enquiry.id === id);
+    }, [enquiries]);
 
     return {
         totalEnquiries,
         enquiries,
         loading,
         error,
-        setEnquiries,
+        fetchEnquiries,
         createEnquiry,
         updateEnquiry,
         deleteEnquiry,
+        getEnquiryById,
     };
-
-}
-
+};
 
 export default useStudentEnquiries;
