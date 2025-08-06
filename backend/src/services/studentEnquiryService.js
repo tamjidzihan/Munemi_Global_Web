@@ -1,18 +1,36 @@
-const StudentEnquiry = require("../models/StudentEnquiryModel"); // Adjust the path as necessary
+const StudentEnquiry = require("../models/StudentEnquiryModel");
 
-const getStudentEnquiries = () => StudentEnquiry.findAll(); // Fetch all student enquiries
-const findStudentEnquiryById = (id) => StudentEnquiry.findByPk(id); // Find student enquiry by ID
-const createStudentEnquiry = (values) => StudentEnquiry.create(values); // Create a new student enquiry
-const updateStudentEnquiry = (id, values) =>
-    StudentEnquiry
-        .update(values, { where: { id }, returning: true }) // Update student enquiry by ID
-        .then(([rowsUpdate, [updatedEnquiry]]) => updatedEnquiry); // Return the updated enquiry
-const deleteStudentEnquiryById = (id) => StudentEnquiry.destroy({ where: { id } }); // Delete student enquiry by ID
+const getStudentEnquiries = async () => {
+    const enquiries = await StudentEnquiry.findAll();
+    return enquiries.map(enquiry => enquiry.toJSON());
+};
+
+const findStudentEnquiryById = async (id) => {
+    const enquiry = await StudentEnquiry.findByPk(id);
+    return enquiry ? enquiry.toJSON() : null;
+};
+
+const createStudentEnquiry = async (values) => {
+    const enquiry = await StudentEnquiry.create(values);
+    return enquiry.toJSON();
+};
+
+const updateStudentEnquiryById = async (id, values) => {
+    const [rowsUpdated, [updatedEnquiry]] = await StudentEnquiry.update(values, {
+        where: { id },
+        returning: true
+    });
+    return updatedEnquiry ? updatedEnquiry.toJSON() : null;
+};
+
+const deleteStudentEnquiryById = async (id) => {
+    return await StudentEnquiry.destroy({ where: { id } });
+};
 
 module.exports = {
     getStudentEnquiries,
     findStudentEnquiryById,
     createStudentEnquiry,
-    updateStudentEnquiry,
+    updateStudentEnquiryById,
     deleteStudentEnquiryById
 };

@@ -1,5 +1,6 @@
 const { merge, get } = require("lodash");
 const { getUserBySessionToken } = require("../services/userService");
+const { validationResult } = require('express-validator');
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -67,8 +68,21 @@ const isAdmin = async (req, res, next) => {
     }
 };
 
+
+const validate = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            success: false,
+            errors: errors.array()
+        });
+    }
+    next();
+};
+
 module.exports = {
     isAuthenticated,
     isOwner,
     isAdmin,
+    validate
 };

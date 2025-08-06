@@ -5,7 +5,7 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
-        defaultValue: DataTypes.UUIDV4 // Automatically generate a UUID
+        defaultValue: DataTypes.UUIDV4
     },
     studentName: {
         type: DataTypes.STRING,
@@ -13,7 +13,10 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isEmail: true
+        }
     },
     phone: {
         type: DataTypes.STRING,
@@ -28,19 +31,25 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
         allowNull: false
     },
     testResult: {
-        type: DataTypes.JSON, // Store test results as a JSON object
+        type: DataTypes.TEXT, // Store as string
         allowNull: false,
         get() {
             const value = this.getDataValue('testResult');
-            return typeof value === 'string' ? JSON.parse(value) : value;
+            return value ? JSON.parse(value) : null;
+        },
+        set(value) {
+            this.setDataValue('testResult', JSON.stringify(value));
         }
     },
     academicQualification: {
-        type: DataTypes.JSON, // Store academic qualifications as a JSON array
+        type: DataTypes.TEXT, // Store as string
         allowNull: false,
         get() {
             const value = this.getDataValue('academicQualification');
-            return typeof value === 'string' ? JSON.parse(value) : value;
+            return value ? JSON.parse(value) : null;
+        },
+        set(value) {
+            this.setDataValue('academicQualification', JSON.stringify(value));
         }
     },
     que1: {
@@ -56,16 +65,18 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
         allowNull: false
     },
     visaHistory: {
-        type: DataTypes.JSON, // Store visa history as a JSON object
+        type: DataTypes.TEXT, // Store as string
         allowNull: false,
         get() {
             const value = this.getDataValue('visaHistory');
-            return typeof value === 'string' ? JSON.parse(value) : value;
+            return value ? JSON.parse(value) : null;
+        },
+        set(value) {
+            this.setDataValue('visaHistory', JSON.stringify(value));
         }
     }
 }, {
     timestamps: true
 });
 
-// Export the StudentEnquiry model
 module.exports = StudentEnquiry;

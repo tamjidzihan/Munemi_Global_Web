@@ -12,47 +12,84 @@ module.exports = {
       },
       studentName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isEmail: true,
+          notEmpty: true
+        }
       },
       phone: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       address: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       englishProficiencyTest: {
         type: Sequelize.ENUM("IELTS", "PTE", "TOEFL", "Duolingo"),
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       testResult: {
-        type: Sequelize.JSON, // Store test results as a JSON object
-        allowNull: false
+        type: Sequelize.TEXT, // Changed from JSON to TEXT
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          isJSON: true // Add validation to ensure it's valid JSON
+        }
       },
       academicQualification: {
-        type: Sequelize.JSON, // Store academic qualifications as a JSON array
-        allowNull: false
+        type: Sequelize.TEXT, // Changed from JSON to TEXT
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          isJSON: true // Add validation to ensure it's valid JSON
+        }
       },
       que1: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       que2: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       que3: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       visaHistory: {
-        type: Sequelize.JSON, // Store visa history as a JSON object
-        allowNull: false
+        type: Sequelize.TEXT, // Changed from JSON to TEXT
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          isJSON: true // Add validation to ensure it's valid JSON
+        }
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -65,9 +102,18 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
       }
     });
+
+    // Add indexes for better performance
+    await queryInterface.addIndex('StudentEnquiries', ['email']);
+    await queryInterface.addIndex('StudentEnquiries', ['createdAt']);
   },
 
   async down(queryInterface, Sequelize) {
+    // Remove indexes first
+    await queryInterface.removeIndex('StudentEnquiries', ['email']);
+    await queryInterface.removeIndex('StudentEnquiries', ['createdAt']);
+
+    // Then drop the table
     await queryInterface.dropTable('StudentEnquiries');
   }
 };
