@@ -5,12 +5,14 @@ type CreateStudentEnquiryModalProps = {
     isOpen: boolean;
     closeModal: () => void;
     createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => Promise<StudentEnquiry>;
+    addNewEnquiry: (enquiry: StudentEnquiry) => void; // <-- ADD THIS
 };
 
 const CreateStudentEnquiryModal = ({
     isOpen,
     closeModal,
     createEnquiry,
+    addNewEnquiry
 }: CreateStudentEnquiryModalProps) => {
     const [studentName, setStudentName] = useState("");
     const [email, setEmail] = useState("");
@@ -18,24 +20,22 @@ const CreateStudentEnquiryModal = ({
     const [address, setAddress] = useState("");
     const [englishProficiencyTest, setEnglishProficiencyTest] = useState("IELTS");
     const [testResult, setTestResult] = useState<TestResult>({
-        testType: "IELTS",
-        overallScore: 0,
-        reading: 0,
-        writing: 0,
-        listening: 0,
-        speaking: 0
+        reading: "",
+        writing: "",
+        listening: "",
+        speaking: "",
+        overAll: ""
     });
     const [academicQualification, setAcademicQualification] = useState<AcademicQualification[]>([]);
     const [visaHistory, setVisaHistory] = useState<VisaHistory>({
-        hasPreviousVisa: false,
-        countries: [],
-        rejections: false
+        heldVisa: false,
+        visaRefusal: false,
+        visaViolation: false,
     });
     const [que1, setQue1] = useState("");
     const [que2, setQue2] = useState("");
     const [que3, setQue3] = useState("");
     const [loading, setLoading] = useState(false);
-    const [newCountry, setNewCountry] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -46,16 +46,13 @@ const CreateStudentEnquiryModal = ({
 
         setLoading(true);
 
-        const newEnquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
+        const formDataToSend: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
             studentName,
             email,
             phone,
             address,
             englishProficiencyTest,
-            testResult: {
-                ...testResult,
-                testType: englishProficiencyTest
-            },
+            testResult,
             academicQualification,
             visaHistory,
             que1,
@@ -64,7 +61,8 @@ const CreateStudentEnquiryModal = ({
         };
 
         try {
-            await createEnquiry(newEnquiry);
+            const newEnquiry = await createEnquiry(formDataToSend);
+            addNewEnquiry(newEnquiry)
             resetForm();
             closeModal();
         } catch (error) {
@@ -82,18 +80,17 @@ const CreateStudentEnquiryModal = ({
         setAddress("");
         setEnglishProficiencyTest("IELTS");
         setTestResult({
-            testType: "IELTS",
-            overallScore: 0,
-            reading: 0,
-            writing: 0,
-            listening: 0,
-            speaking: 0
+            reading: "",
+            writing: "",
+            listening: "",
+            speaking: "",
+            overAll: ""
         });
         setAcademicQualification([]);
         setVisaHistory({
-            hasPreviousVisa: false,
-            countries: [],
-            rejections: false
+            heldVisa: false,
+            visaRefusal: false,
+            visaViolation: false,
         });
         setQue1("");
         setQue2("");
@@ -102,17 +99,17 @@ const CreateStudentEnquiryModal = ({
 
     const addAcademicQualification = () => {
         setAcademicQualification([...academicQualification, {
-            degree: '',
-            institution: '',
-            yearCompleted: new Date().getFullYear()
+            degreeName: '',
+            institutionName: '',
+            passingYear: ''
         }]);
     };
 
-    const handleAcademicChange = (index: number, field: keyof AcademicQualification, value: string | number) => {
+    const handleAcademicChange = (index: number, field: keyof AcademicQualification, value: string) => {
         const updatedQualifications = [...academicQualification];
         updatedQualifications[index] = {
             ...updatedQualifications[index],
-            [field]: field === 'yearCompleted' ? Number(value) : value
+            [field]: value
         };
         setAcademicQualification(updatedQualifications);
     };
@@ -122,32 +119,23 @@ const CreateStudentEnquiryModal = ({
         setAcademicQualification(updatedQualifications);
     };
 
-    const addCountry = () => {
-        if (newCountry.trim()) {
-            setVisaHistory(prev => ({
-                ...prev,
-                countries: [...prev.countries, newCountry.trim()]
-            }));
-            setNewCountry("");
-        }
-    };
-
-    const removeCountry = (index: number) => {
-        setVisaHistory(prev => ({
-            ...prev,
-            countries: prev.countries.filter((_, i) => i !== index)
-        }));
-    };
-
     if (!isOpen) return null;
 
     return (
         <div className=" py-4 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl max-w-6xl  overflow-y-auto">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-semibold">Create Student Enquiry</h3>
+                        <button
+                            onClick={closeModal}
+                            className="text-gray-500 hover:text-gray-700"
+                            disabled={loading}
+                        >
+                            &times;
+                        </button>
                     </div>
+
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -156,7 +144,7 @@ const CreateStudentEnquiryModal = ({
                                     type="text"
                                     value={studentName}
                                     onChange={(e) => setStudentName(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     required
                                 />
                             </div>
@@ -166,7 +154,7 @@ const CreateStudentEnquiryModal = ({
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     required
                                 />
                             </div>
@@ -179,7 +167,7 @@ const CreateStudentEnquiryModal = ({
                                     type="tel"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     required
                                 />
                             </div>
@@ -189,7 +177,7 @@ const CreateStudentEnquiryModal = ({
                                     type="text"
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     required
                                 />
                             </div>
@@ -200,7 +188,7 @@ const CreateStudentEnquiryModal = ({
                             <select
                                 value={englishProficiencyTest}
                                 onChange={(e) => setEnglishProficiencyTest(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                             >
                                 <option value="IELTS">IELTS</option>
                                 <option value="PTE">PTE</option>
@@ -215,61 +203,46 @@ const CreateStudentEnquiryModal = ({
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Reading</label>
                                     <input
-                                        type="number"
-                                        step="0.5"
-                                        min="0"
-                                        max="9"
+                                        type="text"
                                         value={testResult.reading}
-                                        onChange={(e) => setTestResult({ ...testResult, reading: Number(e.target.value) })}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        onChange={(e) => setTestResult({ ...testResult, reading: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Writing</label>
                                     <input
-                                        type="number"
-                                        step="0.5"
-                                        min="0"
-                                        max="9"
+                                        type="text"
                                         value={testResult.writing}
-                                        onChange={(e) => setTestResult({ ...testResult, writing: Number(e.target.value) })}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        onChange={(e) => setTestResult({ ...testResult, writing: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Listening</label>
                                     <input
-                                        type="number"
-                                        step="0.5"
-                                        min="0"
-                                        max="9"
+                                        type="text"
                                         value={testResult.listening}
-                                        onChange={(e) => setTestResult({ ...testResult, listening: Number(e.target.value) })}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        onChange={(e) => setTestResult({ ...testResult, listening: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Speaking</label>
                                     <input
-                                        type="number"
-                                        step="0.5"
-                                        min="0"
-                                        max="9"
+                                        type="text"
                                         value={testResult.speaking}
-                                        onChange={(e) => setTestResult({ ...testResult, speaking: Number(e.target.value) })}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        onChange={(e) => setTestResult({ ...testResult, speaking: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Overall</label>
                                     <input
-                                        type="number"
-                                        step="0.5"
-                                        min="0"
-                                        max="9"
-                                        value={testResult.overallScore}
-                                        onChange={(e) => setTestResult({ ...testResult, overallScore: Number(e.target.value) })}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                        type="text"
+                                        value={testResult.overAll}
+                                        onChange={(e) => setTestResult({ ...testResult, overAll: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
                             </div>
@@ -294,42 +267,32 @@ const CreateStudentEnquiryModal = ({
                                     <div key={index} className="mb-3 border p-4 rounded-lg bg-gray-50">
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Degree</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Degree Name</label>
                                                 <input
                                                     type="text"
-                                                    value={qual.degree}
-                                                    onChange={(e) => handleAcademicChange(index, 'degree', e.target.value)}
+                                                    value={qual.degreeName}
+                                                    onChange={(e) => handleAcademicChange(index, 'degreeName', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Institution</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Institution Name</label>
                                                 <input
                                                     type="text"
-                                                    value={qual.institution}
-                                                    onChange={(e) => handleAcademicChange(index, 'institution', e.target.value)}
+                                                    value={qual.institutionName}
+                                                    onChange={(e) => handleAcademicChange(index, 'institutionName', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Year Completed</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Passing Year</label>
                                                 <input
-                                                    type="number"
-                                                    value={qual.yearCompleted}
-                                                    onChange={(e) => handleAcademicChange(index, 'yearCompleted', e.target.value)}
+                                                    type="text"
+                                                    value={qual.passingYear}
+                                                    onChange={(e) => handleAcademicChange(index, 'passingYear', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
-                                        </div>
-                                        <div className="mb-2">
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Grade (Optional)</label>
-                                            <input
-                                                type="text"
-                                                value={qual.grade || ''}
-                                                onChange={(e) => handleAcademicChange(index, 'grade', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                                placeholder="e.g., 3.5/4.0"
-                                            />
                                         </div>
                                         <button
                                             type="button"
@@ -349,59 +312,65 @@ const CreateStudentEnquiryModal = ({
                                 <div className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
-                                        checked={visaHistory.hasPreviousVisa}
-                                        onChange={(e) => setVisaHistory({ ...visaHistory, hasPreviousVisa: e.target.checked })}
+                                        checked={visaHistory.heldVisa}
+                                        onChange={(e) => setVisaHistory({ ...visaHistory, heldVisa: e.target.checked })}
                                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                     />
                                     <label className="text-sm">Have you ever held a visa?</label>
                                 </div>
-                                {visaHistory.hasPreviousVisa && (
-                                    <div className="ml-6 space-y-2">
-                                        <label className="block text-xs font-medium text-gray-500 mb-1">Countries</label>
-                                        <div className="flex gap-2">
-                                            <input
-                                                type="text"
-                                                value={newCountry}
-                                                onChange={(e) => setNewCountry(e.target.value)}
-                                                className="flex-1 p-2 border border-gray-300 rounded-md"
-                                                placeholder="Add country"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={addCountry}
-                                                className="px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
-                                            >
-                                                Add
-                                            </button>
-                                        </div>
-                                        {visaHistory.countries.length > 0 && (
-                                            <div className="mt-2 flex flex-wrap gap-2">
-                                                {visaHistory.countries.map((country, index) => (
-                                                    <div key={index} className="flex items-center bg-gray-100 px-2 py-1 rounded">
-                                                        <span>{country}</span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => removeCountry(index)}
-                                                            className="ml-1 text-red-500 hover:text-red-700"
-                                                        >
-                                                            &times;
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
+                                {visaHistory.heldVisa && (
+                                    <div className="ml-6">
+                                        <label className="block text-xs font-medium text-gray-500 mb-1">Visa Details</label>
+                                        <input
+                                            type="text"
+                                            value={visaHistory.heldVisaDetails || ''}
+                                            onChange={(e) => setVisaHistory({ ...visaHistory, heldVisaDetails: e.target.value })}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
                                     </div>
                                 )}
 
                                 <div className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
-                                        checked={visaHistory.rejections}
-                                        onChange={(e) => setVisaHistory({ ...visaHistory, rejections: e.target.checked })}
+                                        checked={visaHistory.visaRefusal}
+                                        onChange={(e) => setVisaHistory({ ...visaHistory, visaRefusal: e.target.checked })}
                                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                     />
-                                    <label className="text-sm">Have you ever had a visa rejection?</label>
+                                    <label className="text-sm">Have you ever had a visa refusal?</label>
                                 </div>
+                                {visaHistory.visaRefusal && (
+                                    <div className="ml-6">
+                                        <label className="block text-xs font-medium text-gray-500 mb-1">Refusal Details</label>
+                                        <input
+                                            type="text"
+                                            value={visaHistory.visaRefusalDetails || ''}
+                                            onChange={(e) => setVisaHistory({ ...visaHistory, visaRefusalDetails: e.target.value })}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={visaHistory.visaViolation}
+                                        onChange={(e) => setVisaHistory({ ...visaHistory, visaViolation: e.target.checked })}
+                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                    />
+                                    <label className="text-sm">Have you ever violated visa conditions?</label>
+                                </div>
+                                {visaHistory.visaViolation && (
+                                    <div className="ml-6">
+                                        <label className="block text-xs font-medium text-gray-500 mb-1">Violation Details</label>
+                                        <input
+                                            type="text"
+                                            value={visaHistory.visaViolationDetails || ''}
+                                            onChange={(e) => setVisaHistory({ ...visaHistory, visaViolationDetails: e.target.value })}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -410,7 +379,7 @@ const CreateStudentEnquiryModal = ({
                             <textarea
                                 value={que1}
                                 onChange={(e) => setQue1(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 rows={2}
                             />
                         </div>
@@ -419,7 +388,7 @@ const CreateStudentEnquiryModal = ({
                             <textarea
                                 value={que2}
                                 onChange={(e) => setQue2(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 rows={2}
                             />
                         </div>
@@ -428,7 +397,7 @@ const CreateStudentEnquiryModal = ({
                             <textarea
                                 value={que3}
                                 onChange={(e) => setQue3(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 rows={2}
                             />
                         </div>

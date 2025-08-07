@@ -32,10 +32,7 @@ const validateEnquiryData = (data) => {
 const getAllStudentEnquiries = async (req, res) => {
     try {
         const studentEnquiries = await getStudentEnquiries();
-        res.status(200).json({
-            success: true,
-            data: studentEnquiries
-        });
+        res.status(200).json(studentEnquiries);
     } catch (error) {
         console.error('Error fetching student enquiries:', error);
         res.status(500).json({
@@ -49,24 +46,15 @@ const getStudentEnquiryById = async (req, res) => {
     try {
         const { id } = req.params;
         if (!id) {
-            return res.status(400).json({
-                success: false,
-                message: "ID parameter is required"
-            });
+            return res.status(400).json({ message: "ID parameter is required" });
         }
 
         const studentEnquiry = await findStudentEnquiryById(id);
         if (!studentEnquiry) {
-            return res.status(404).json({
-                success: false,
-                message: "Student enquiry not found"
-            });
+            return res.status(404).json({ message: "Student enquiry not found" });
         }
 
-        res.status(200).json({
-            success: true,
-            data: studentEnquiry
-        });
+        res.status(200).json(studentEnquiry);
     } catch (error) {
         console.error('Error fetching student enquiry:', error);
         res.status(500).json({
@@ -96,10 +84,7 @@ const createNewStudentEnquiry = async (req, res) => {
 
         const newStudentEnquiry = await createStudentEnquiry(req.body);
 
-        res.status(201).json({
-            success: true,
-            data: newStudentEnquiry
-        });
+        res.status(201).json(newStudentEnquiry);
     } catch (error) {
         console.error('Error creating student enquiry:', error);
         res.status(500).json({
@@ -144,10 +129,7 @@ const updateStudentEnquiry = async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            success: true,
-            data: updatedEnquiry
-        });
+        res.status(200).json(updatedEnquiry);
     } catch (error) {
         console.error('Error updating student enquiry:', error);
         res.status(500).json({
