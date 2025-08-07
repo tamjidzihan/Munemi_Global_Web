@@ -2,26 +2,25 @@ import { useEffect, useState, useCallback } from "react";
 import apiClient from "../services/apiClient";
 
 export interface TestResult {
-    reading: string;
-    writing: string;
-    listening: string;
-    speaking: string;
-    overAll: string;
+    testType: string;
+    overallScore: number;
+    reading: number;
+    writing: number;
+    listening: number;
+    speaking: number;
 }
 
 export interface AcademicQualification {
-    degreeName: string;
-    institutionName: string;
-    passingYear: string;
+    degree: string;
+    institution: string;
+    yearCompleted: number;
+    grade?: string;
 }
 
 export interface VisaHistory {
-    heldVisa: boolean;
-    heldVisaDetails?: string;
-    visaRefusal: boolean;
-    visaRefusalDetails?: string;
-    visaViolation: boolean;
-    visaViolationDetails?: string;
+    hasPreviousVisa: boolean;
+    countries: string[];
+    rejections: boolean;
 }
 
 export interface StudentEnquiry {
@@ -33,12 +32,17 @@ export interface StudentEnquiry {
     englishProficiencyTest: string;
     testResult: TestResult;
     academicQualification: AcademicQualification[];
+    visaHistory: VisaHistory;
     que1: string;
     que2: string;
     que3: string;
-    visaHistory: VisaHistory;
     createdAt: string;
     updatedAt: string;
+}
+
+interface ApiResponse {
+    success: boolean;
+    data: StudentEnquiry[];
 }
 
 interface UseStudentEnquiriesReturn {
@@ -48,7 +52,7 @@ interface UseStudentEnquiriesReturn {
     error: string | null;
     fetchEnquiries: () => Promise<void>;
     createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => Promise<StudentEnquiry>;
-    updateEnquiry: (id: string, updatedEnquiry: Partial<StudentEnquiry>) => Promise<void>;
+    updateEnquiry: (id: string, updatedEnquiry: Partial<StudentEnquiry>) => Promise<StudentEnquiry>;
     deleteEnquiry: (id: string) => Promise<void>;
     getEnquiryById: (id: string) => StudentEnquiry | undefined;
 }
@@ -63,8 +67,12 @@ const useStudentEnquiries = (): UseStudentEnquiriesReturn => {
         setLoading(true);
         setError(null);
         try {
-            const response = await apiClient.get<StudentEnquiry[]>('/student-enquiries');
-            setEnquiries(response.data);
+            const response = await apiClient.get<ApiResponse>('/student-enquiries');
+            if (response.data.success) {
+                setEnquiries(response.data.data);
+            } else {
+                throw new Error('Failed to fetch student enquiries');
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch student enquiries');
         } finally {
@@ -82,9 +90,13 @@ const useStudentEnquiries = (): UseStudentEnquiriesReturn => {
         setLoading(true);
         setError(null);
         try {
-            const response = await apiClient.post<StudentEnquiry>('/student-enquiries', enquiry);
-            setEnquiries(prev => [response.data, ...prev]);
-            return response.data;
+            const response = await apiClient.post<ApiResponse>('/student-enquiries', enquiry);
+            if (response.data.success && response.data.data[0]) {
+                const newEnquiry = response.data.data[0];
+                setEnquiries(prev => [newEnquiry, ...prev]);
+                return newEnquiry;
+            }
+            throw new Error('Failed to create student enquiry');
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Failed to create student enquiry';
             setError(message);
@@ -95,17 +107,23 @@ const useStudentEnquiries = (): UseStudentEnquiriesReturn => {
     }, []);
 
     // Update an existing student enquiry
-    const updateEnquiry = useCallback(async (id: string, updatedEnquiry: Partial<StudentEnquiry>): Promise<void> => {
+    const updateEnquiry = useCallback(async (id: string, updatedEnquiry: Partial<StudentEnquiry>): Promise<StudentEnquiry> => {
         setLoading(true);
         setError(null);
         try {
-            const response = await apiClient.patch<StudentEnquiry>(`/student-enquiries/${id}`, updatedEnquiry);
-            setEnquiries(prev => prev.map(enquiry =>
-                enquiry.id === id ? response.data : enquiry
-            ));
+            const response = await apiClient.patch<ApiResponse>(`/student-enquiries/${id}`, updatedEnquiry);
+            if (response.data.success && response.data.data[0]) {
+                const updated = response.data.data[0];
+                setEnquiries(prev => prev.map(enquiry =>
+                    enquiry.id === id ? updated : enquiry
+                ));
+                return updated;
+            }
+            throw new Error('Failed to update student enquiry');
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to update student enquiry');
-            throw err;
+            const message = err instanceof Error ? err.message : 'Failed to update student enquiry';
+            setError(message);
+            throw new Error(message);
         } finally {
             setLoading(false);
         }
@@ -116,8 +134,12 @@ const useStudentEnquiries = (): UseStudentEnquiriesReturn => {
         setLoading(true);
         setError(null);
         try {
-            await apiClient.delete(`/student-enquiries/${id}`);
-            setEnquiries(prev => prev.filter(enquiry => enquiry.id !== id));
+            const response = await apiClient.delete<{ success: boolean }>(`/student-enquiries/${id}`);
+            if (response.data.success) {
+                setEnquiries(prev => prev.filter(enquiry => enquiry.id !== id));
+            } else {
+                throw new Error('Failed to delete student enquiry');
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to delete student enquiry');
             throw err;
