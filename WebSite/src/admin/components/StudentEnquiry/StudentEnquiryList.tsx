@@ -134,28 +134,28 @@ const StudentEnquiryList = ({
                                     <p className="text-sm text-gray-600 truncate">{enquiry.address}</p>
                                 </div>
                                 <div className="col-span-2 flex items-center">
-                                    <ul className="text-sm text-gray-600 list-disc list-inside space-y-1">
-                                        <li className="truncate max-w-xs">{enquiry.que1}</li>
-                                        <li className="truncate max-w-xs">{enquiry.que2}</li>
-                                        <li className="truncate max-w-xs">{enquiry.que3}</li>
-                                    </ul>
+                                    <div className="text-sm text-gray-600 list-disc list-inside space-y-1">
+                                        <div className="truncate max-w-xs">{enquiry.que1}</div>
+                                        <div className="truncate max-w-xs">{enquiry.que2}</div>
+                                        <div className="truncate max-w-xs">{enquiry.que3}</div>
+                                    </div>
                                 </div>
                                 <div className="col-span-1 flex items-center">
                                     <div className="flex space-x-3">
                                         <button
-                                            className="text-blue-600 hover:text-blue-800 transition-colors"
+                                            className="text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
                                             title="View details"
                                         >
                                             <Eye size={18} />
                                         </button>
                                         <button
-                                            className="text-yellow-600 hover:text-yellow-800 transition-colors"
+                                            className="text-yellow-600 hover:text-yellow-800 transition-colors cursor-pointer"
                                             title="Edit enquiry"
                                         >
                                             <Pencil size={18} />
                                         </button>
                                         <button
-                                            className="text-red-600 hover:text-red-800 transition-colors"
+                                            className="text-red-600 hover:text-red-800 transition-colors cursor-pointer"
                                             onClick={() => handleDelete(enquiry.id)}
                                             disabled={deletingId === enquiry.id}
                                             title="Delete enquiry"

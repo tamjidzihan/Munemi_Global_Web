@@ -122,8 +122,8 @@ const CreateStudentEnquiryModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className=" py-4 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
-            <div className="bg-white rounded-lg shadow-xl max-w-6xl  overflow-y-auto">
+        <div className=" p-4 md:px-20 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
+            <div className="bg-white rounded-lg shadow-xl w-full  overflow-y-auto">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-semibold">Create Student Enquiry</h3>
