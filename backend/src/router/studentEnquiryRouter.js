@@ -1,40 +1,25 @@
-const studentEnquiryController = require('../controllers/StudentEnquiryController');
-const { isAuthenticated } = require("../middlewares");
+const {
+    getAllStudentEnquiries,
+    getStudentEnquiryById,
+    createNewStudentEnquiry,
+    updateStudentEnquiry,
+    deleteStudentEnquiry
+} = require("../controllers/StudentEnquiryController");
+
+const upload = require("../middlewares/multerConfig");
 
 module.exports = (router) => {
-    // Public routes (if any)
-    router.get('/student-enquiries/:id', studentEnquiryController.getStudentEnquiryById);
-
-    // Authenticated routes
-    router.get('/student-enquiries',
-        // isAuthenticated,
-        studentEnquiryController.getAllStudentEnquiries
+    router.get("/student-enquiries", getAllStudentEnquiries); // GET all
+    router.get("/student-enquiries/:id", getStudentEnquiryById); // GET by ID
+    router.post(
+        "/student-enquiries",
+        upload.array("documents"), // multiple docs
+        createNewStudentEnquiry
     );
-
-    router.post('/student-enquiries',
-        // isAuthenticated,
-        studentEnquiryController.createNewStudentEnquiry
+    router.put(
+        "/student-enquiries/:id",
+        upload.array("documents"), // allow updating with new docs
+        updateStudentEnquiry
     );
-
-    router.patch('/student-enquiries/:id',
-        // isAuthenticated,
-        studentEnquiryController.updateStudentEnquiry
-    );
-
-    router.delete('/student-enquiries/:id',
-        isAuthenticated,
-        studentEnquiryController.deleteStudentEnquiry
-    );
-
-    // Alternative RESTful route naming convention option:
-    /*
-    router.route('/student-enquiries')
-        .get(isAuthenticated, studentEnquiryController.getAllStudentEnquiries)
-        .post(isAuthenticated, studentEnquiryValidations.create, validate, studentEnquiryController.createNewStudentEnquiry);
-    
-    router.route('/student-enquiries/:id')
-        .get(studentEnquiryController.getStudentEnquiryById)
-        .patch(isAuthenticated, studentEnquiryValidations.update, validate, studentEnquiryController.updateStudentEnquiry)
-        .delete(isAuthenticated, studentEnquiryController.deleteStudentEnquiry);
-    */
+    router.delete("/student-enquiries/:id", deleteStudentEnquiry); // DELETE
 };
