@@ -16,7 +16,7 @@ module.exports = (router) => {
         upload.array("documents"), // multiple docs
         createNewStudentEnquiry
     );
-    router.put(
+    router.patch(
         "/student-enquiries/:id",
         upload.array("documents"), // allow updating with new docs
         updateStudentEnquiry

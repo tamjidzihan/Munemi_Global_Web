@@ -1,65 +1,109 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 
+
+export interface ApiFetch {
+    success: boolean
+    data: StudentEnquiry[];
+}
+
+export interface educationBackground {
+    institution: string
+    degree: string
+    fieldOfStudy: string
+    yearCompleted: string
+    grades: string
+}
+
+
 export interface TestResult {
+    testType: string;
+    overallScore: string;
     reading: string;
     writing: string;
     listening: string;
     speaking: string;
-    overAll: string;
+    testDate: string;
 }
 
-export interface AcademicQualification {
-    degreeName: string;
-    institutionName: string;
-    passingYear: string;
+export interface emergencyContact {
+    name: string,
+    relationship: string,
+    phone: string,
+    email: string,
+    address: string
+}
+export interface passportDetails {
+    passportNumber: string,
+    issueDate: string,
+    expiryDate: string,
+    issueAuthority: string,
+}
+export interface passportDetails {
+    passportNumber: string,
+    issueDate: string,
+    expiryDate: string,
+    issueAuthority: string,
 }
 
-export interface VisaHistory {
-    heldVisa: boolean;
-    heldVisaDetails?: string;
-    visaRefusal: boolean;
-    visaRefusalDetails?: string;
-    visaViolation: boolean;
-    visaViolationDetails?: string;
+export interface visaRefusalDetails {
+    hasRefusalHistory: boolean;
+    country: string;
+    reason?: string;
+    dateOfRefusal?: string;
+    refusalLetter?: string;
+    appliedForVisaAgain: string
 }
 
 export interface StudentEnquiry {
     id: string;
-    studentName: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string
     email: string;
     phone: string;
-    address: string;
-    englishProficiencyTest: string;
-    testResult: TestResult;
-    academicQualification: AcademicQualification[];
-    que1: string;
-    que2: string;
-    que3: string;
-    visaHistory: VisaHistory;
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+    interestedServices: string[];
+    educationBackground: educationBackground[]
+    englishTestScores: TestResult;
+    documents: UploadedFile[];
+    emergencyContact: emergencyContact;
+    passportDetails: passportDetails;
+    preferredIntake: string | boolean;
+    visaRefusalDetails: visaRefusalDetails;
     createdAt: string;
     updatedAt: string;
 }
 
+export interface UploadedFile {
+    filename: string;
+    originalname: string;
+    path: string;
+    mimetype: string;
+    size: number;
+}
+
 const useStudentEnquiries = () => {
     const [enquiries, setEnquiries] = useState<StudentEnquiry[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
     const totalEnquiries = enquiries.length;
 
+    // 🔹 Fetch all enquiries
     useEffect(() => {
         const fetchEnquiries = async () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await apiClient.get("/student-enquiries");
-                setEnquiries(response.data);
+                const { data } = await apiClient.get<ApiFetch>("/student-enquiries");
+                setEnquiries(data.data);
             } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError("An unknown error occurred");
-                }
+                setError(err instanceof Error ? err.message : "An unknown error occurred");
             } finally {
                 setLoading(false);
             }
@@ -68,12 +112,12 @@ const useStudentEnquiries = () => {
         fetchEnquiries();
     }, []);
 
-
+    // 🔹 Get by ID
     const getEnquiryById = async (id: string): Promise<StudentEnquiry> => {
         setLoading(true);
         try {
-            const response = await apiClient.get(`/student-enquiries/${id}`);
-            return response.data;
+            const { data } = await apiClient.get<StudentEnquiry>(`/student-enquiries/${id}`);
+            return data;
         } catch (err) {
             setError("Failed to fetch enquiry");
             throw err;
@@ -82,14 +126,29 @@ const useStudentEnquiries = () => {
         }
     };
 
+    // 🔹 Create (supports FormData for files)
     const createEnquiry = async (
         enquiry: Omit<StudentEnquiry, "id" | "createdAt" | "updatedAt">
     ): Promise<StudentEnquiry> => {
         setLoading(true);
         try {
-            const response = await apiClient.post("/student-enquiries", enquiry);
-            setEnquiries((prev) => [response.data, ...prev]);
-            return response.data;
+            const formData = new FormData();
+            Object.entries(enquiry).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    formData.append(key, JSON.stringify(value));
+                } else if (typeof value === "object" && value !== null) {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, String(value));
+                }
+            });
+
+            const { data } = await apiClient.post<StudentEnquiry>("/student-enquiries", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            setEnquiries((prev) => [data, ...prev]);
+            return data;
         } catch (err) {
             setError("Failed to create enquiry");
             throw err;
@@ -98,20 +157,34 @@ const useStudentEnquiries = () => {
         }
     };
 
+    // 🔹 Update (PUT instead of PATCH)
     const updateEnquiry = async (
         id: string,
         updatedEnquiry: Partial<StudentEnquiry>
     ): Promise<StudentEnquiry> => {
         setLoading(true);
         try {
-            const response = await apiClient.patch(
+            const formData = new FormData();
+            Object.entries(updatedEnquiry).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    formData.append(key, JSON.stringify(value));
+                } else if (typeof value === "object" && value !== null) {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, String(value));
+                }
+            });
+
+            const { data } = await apiClient.patch<StudentEnquiry>(
                 `/student-enquiries/${id}`,
-                updatedEnquiry
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
+
             setEnquiries((prev) =>
-                prev.map((enq) => (enq.id === id ? response.data : enq))
+                prev.map((enq) => (enq.id === id ? data : enq))
             );
-            return response.data;
+            return data;
         } catch (err) {
             setError("Failed to update enquiry");
             throw err;
@@ -120,6 +193,7 @@ const useStudentEnquiries = () => {
         }
     };
 
+    // 🔹 Delete
     const deleteEnquiry = async (id: string): Promise<void> => {
         setLoading(true);
         try {

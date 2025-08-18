@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { AcademicQualification, StudentEnquiry, TestResult, VisaHistory } from "../../../hooks/useStudentEnquiry";
+import { StudentEnquiry, TestResult, educationBackground } from "../../../hooks/useStudentEnquiry";
+
 
 type CreateStudentEnquiryModalProps = {
     isOpen: boolean;
     closeModal: () => void;
     createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>) => Promise<StudentEnquiry>;
-    addNewEnquiry: (enquiry: StudentEnquiry) => void; // <-- ADD THIS
+    addNewEnquiry: (enquiry: StudentEnquiry) => void;
 };
 
 const CreateStudentEnquiryModal = ({
@@ -14,32 +15,54 @@ const CreateStudentEnquiryModal = ({
     createEnquiry,
     addNewEnquiry
 }: CreateStudentEnquiryModalProps) => {
-    const [studentName, setStudentName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const [englishProficiencyTest, setEnglishProficiencyTest] = useState("IELTS");
-    const [testResult, setTestResult] = useState<TestResult>({
+    const [street, setStreet] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [zipCode, setZipCode] = useState("");
+    const [country, setCountry] = useState("");
+    const [interestedServices, setInterestedServices] = useState<string[]>([]);
+    const [educationBackground, setEducationBackground] = useState<educationBackground[]>([]);
+    const [englishTestScores, setEnglishTestScores] = useState<TestResult>({
+        testType: "",
+        overallScore: "",
         reading: "",
         writing: "",
         listening: "",
         speaking: "",
-        overAll: ""
+        testDate: ""
     });
-    const [academicQualification, setAcademicQualification] = useState<AcademicQualification[]>([]);
-    const [visaHistory, setVisaHistory] = useState<VisaHistory>({
-        heldVisa: false,
-        visaRefusal: false,
-        visaViolation: false,
+    const [preferredIntake, setPreferredIntake] = useState("");
+    const [visaRefusalDetails, setVisaRefusalDetails] = useState({
+        hasRefusalHistory: false,
+        country: "",
+        reason: "",
+        dateOfRefusal: "",
+        refusalLetter: "",
+        appliedForVisaAgain: ""
     });
-    const [que1, setQue1] = useState("");
-    const [que2, setQue2] = useState("");
-    const [que3, setQue3] = useState("");
+    const [emergencyContact, setEmergencyContact] = useState({
+        name: "",
+        relationship: "",
+        phone: "",
+        email: "",
+        address: ""
+    });
+    const [passportDetails, setPassportDetails] = useState({
+        passportNumber: "",
+        issueDate: "",
+        expiryDate: "",
+        issueAuthority: ""
+    });
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!studentName || !email || !phone || !address) {
+        if (!firstName || !lastName || !email || !phone) {
             alert("Please fill in all required fields.");
             return;
         }
@@ -47,22 +70,29 @@ const CreateStudentEnquiryModal = ({
         setLoading(true);
 
         const formDataToSend: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
-            studentName,
+            firstName,
+            lastName,
+            dateOfBirth,
             email,
             phone,
-            address,
-            englishProficiencyTest,
-            testResult,
-            academicQualification,
-            visaHistory,
-            que1,
-            que2,
-            que3,
+            street,
+            city,
+            state,
+            zipCode,
+            country,
+            interestedServices,
+            educationBackground,
+            englishTestScores,
+            preferredIntake,
+            visaRefusalDetails,
+            emergencyContact,
+            passportDetails,
+            documents: []
         };
 
         try {
             const newEnquiry = await createEnquiry(formDataToSend);
-            addNewEnquiry(newEnquiry)
+            addNewEnquiry(newEnquiry);
             resetForm();
             closeModal();
         } catch (error) {
@@ -74,56 +104,80 @@ const CreateStudentEnquiryModal = ({
     };
 
     const resetForm = () => {
-        setStudentName("");
+        setFirstName("");
+        setLastName("");
+        setDateOfBirth("");
         setEmail("");
         setPhone("");
-        setAddress("");
-        setEnglishProficiencyTest("IELTS");
-        setTestResult({
+        setStreet("");
+        setCity("");
+        setState("");
+        setZipCode("");
+        setCountry("");
+        setInterestedServices([]);
+        setEducationBackground([]);
+        setEnglishTestScores({
+            testType: "",
+            overallScore: "",
             reading: "",
             writing: "",
             listening: "",
             speaking: "",
-            overAll: ""
+            testDate: ""
         });
-        setAcademicQualification([]);
-        setVisaHistory({
-            heldVisa: false,
-            visaRefusal: false,
-            visaViolation: false,
+        setPreferredIntake("");
+        setVisaRefusalDetails({
+            hasRefusalHistory: false,
+            country: "",
+            reason: "",
+            dateOfRefusal: "",
+            refusalLetter: "",
+            appliedForVisaAgain: ""
         });
-        setQue1("");
-        setQue2("");
-        setQue3("");
+        setEmergencyContact({
+            name: "",
+            relationship: "",
+            phone: "",
+            email: "",
+            address: ""
+        });
+        setPassportDetails({
+            passportNumber: "",
+            issueDate: "",
+            expiryDate: "",
+            issueAuthority: ""
+        });
     };
 
-    const addAcademicQualification = () => {
-        setAcademicQualification([...academicQualification, {
-            degreeName: '',
-            institutionName: '',
-            passingYear: ''
+    const addEducationBackground = () => {
+        setEducationBackground([...educationBackground, {
+            institution: '',
+            degree: '',
+            fieldOfStudy: '',
+            yearCompleted: '',
+            grades: ''
         }]);
     };
 
-    const handleAcademicChange = (index: number, field: keyof AcademicQualification, value: string) => {
-        const updatedQualifications = [...academicQualification];
-        updatedQualifications[index] = {
-            ...updatedQualifications[index],
+    const handleEducationChange = (index: number, field: string, value: string) => {
+        const updatedEducation = [...educationBackground];
+        updatedEducation[index] = {
+            ...updatedEducation[index],
             [field]: value
         };
-        setAcademicQualification(updatedQualifications);
+        setEducationBackground(updatedEducation);
     };
 
-    const removeAcademicQualification = (index: number) => {
-        const updatedQualifications = academicQualification.filter((_, i) => i !== index);
-        setAcademicQualification(updatedQualifications);
+    const removeEducationBackground = (index: number) => {
+        const updatedEducation = educationBackground.filter((_, i) => i !== index);
+        setEducationBackground(updatedEducation);
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className=" p-4 md:px-20 inset-0 flex items-center justify-center bg-gray-200  shadow-2xl">
-            <div className="bg-white rounded-lg shadow-xl w-full  overflow-y-auto">
+        <div className="p-4 md:px-20 inset-0 flex items-center justify-center bg-gray-200 shadow-2xl">
+            <div className="bg-white rounded-lg shadow-xl w-full overflow-y-auto">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-xl font-semibold">Create Student Enquiry</h3>
@@ -139,13 +193,35 @@ const CreateStudentEnquiryModal = ({
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Student Name*</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">First Name*</label>
                                 <input
                                     type="text"
-                                    value={studentName}
-                                    onChange={(e) => setStudentName(e.target.value)}
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name*</label>
+                                <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                                <input
+                                    type="date"
+                                    value={dateOfBirth}
+                                    onChange={(e) => setDateOfBirth(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 />
                             </div>
                             <div>
@@ -172,40 +248,99 @@ const CreateStudentEnquiryModal = ({
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Address*</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Street</label>
                                 <input
                                     type="text"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
+                                    value={street}
+                                    onChange={(e) => setStreet(e.target.value)}
                                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                <input
+                                    type="text"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                <input
+                                    type="text"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                                <input
+                                    type="text"
+                                    value={zipCode}
+                                    onChange={(e) => setZipCode(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                <input
+                                    type="text"
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                 />
                             </div>
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">English Proficiency Test</label>
-                            <select
-                                value={englishProficiencyTest}
-                                onChange={(e) => setEnglishProficiencyTest(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                            >
-                                <option value="IELTS">IELTS</option>
-                                <option value="PTE">PTE</option>
-                                <option value="TOEFL">TOEFL</option>
-                                <option value="Duolingo">Duolingo</option>
-                            </select>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Test Results</label>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">English Test Scores</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Test Type</label>
+                                    <select
+                                        value={englishTestScores.testType}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, testType: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    >
+                                        <option value="">Select</option>
+                                        <option value="IELTS">IELTS</option>
+                                        <option value="TOEFL">TOEFL</option>
+                                        <option value="PTE">PTE</option>
+                                        <option value="Duolingo">Duolingo</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Overall Score</label>
+                                    <input
+                                        type="text"
+                                        value={englishTestScores.overallScore}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, overallScore: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Test Date</label>
+                                    <input
+                                        type="date"
+                                        value={englishTestScores.testDate}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, testDate: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Reading</label>
                                     <input
                                         type="text"
-                                        value={testResult.reading}
-                                        onChange={(e) => setTestResult({ ...testResult, reading: e.target.value })}
+                                        value={englishTestScores.reading}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, reading: e.target.value })}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
@@ -213,8 +348,8 @@ const CreateStudentEnquiryModal = ({
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Writing</label>
                                     <input
                                         type="text"
-                                        value={testResult.writing}
-                                        onChange={(e) => setTestResult({ ...testResult, writing: e.target.value })}
+                                        value={englishTestScores.writing}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, writing: e.target.value })}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
@@ -222,8 +357,8 @@ const CreateStudentEnquiryModal = ({
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Listening</label>
                                     <input
                                         type="text"
-                                        value={testResult.listening}
-                                        onChange={(e) => setTestResult({ ...testResult, listening: e.target.value })}
+                                        value={englishTestScores.listening}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, listening: e.target.value })}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
@@ -231,17 +366,8 @@ const CreateStudentEnquiryModal = ({
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Speaking</label>
                                     <input
                                         type="text"
-                                        value={testResult.speaking}
-                                        onChange={(e) => setTestResult({ ...testResult, speaking: e.target.value })}
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Overall</label>
-                                    <input
-                                        type="text"
-                                        value={testResult.overAll}
-                                        onChange={(e) => setTestResult({ ...testResult, overAll: e.target.value })}
+                                        value={englishTestScores.speaking}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, speaking: e.target.value })}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
@@ -250,56 +376,74 @@ const CreateStudentEnquiryModal = ({
 
                         <div className="mb-4">
                             <div className="flex justify-between items-center mb-2">
-                                <label className="block text-sm font-medium text-gray-700">Academic Qualifications</label>
+                                <label className="block text-sm font-medium text-gray-700">Education Background</label>
                                 <button
                                     type="button"
-                                    onClick={addAcademicQualification}
+                                    onClick={addEducationBackground}
                                     className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
                                 >
-                                    Add Qualification
+                                    Add Education
                                 </button>
                             </div>
 
-                            {academicQualification.length === 0 ? (
-                                <p className="text-sm text-gray-500">No qualifications added yet</p>
+                            {educationBackground.length === 0 ? (
+                                <p className="text-sm text-gray-500">No education background added yet</p>
                             ) : (
-                                academicQualification.map((qual, index) => (
+                                educationBackground.map((edu, index) => (
                                     <div key={index} className="mb-3 border p-4 rounded-lg bg-gray-50">
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Degree Name</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Institution</label>
                                                 <input
                                                     type="text"
-                                                    value={qual.degreeName}
-                                                    onChange={(e) => handleAcademicChange(index, 'degreeName', e.target.value)}
+                                                    value={edu.institution}
+                                                    onChange={(e) => handleEducationChange(index, 'institution', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Institution Name</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Degree</label>
                                                 <input
                                                     type="text"
-                                                    value={qual.institutionName}
-                                                    onChange={(e) => handleAcademicChange(index, 'institutionName', e.target.value)}
+                                                    value={edu.degree}
+                                                    onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-medium text-gray-500 mb-1">Passing Year</label>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Field of Study</label>
                                                 <input
                                                     type="text"
-                                                    value={qual.passingYear}
-                                                    onChange={(e) => handleAcademicChange(index, 'passingYear', e.target.value)}
+                                                    value={edu.fieldOfStudy}
+                                                    onChange={(e) => handleEducationChange(index, 'fieldOfStudy', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Year Completed</label>
+                                                <input
+                                                    type="text"
+                                                    value={edu.yearCompleted}
+                                                    onChange={(e) => handleEducationChange(index, 'yearCompleted', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Grades</label>
+                                                <input
+                                                    type="text"
+                                                    value={edu.grades}
+                                                    onChange={(e) => handleEducationChange(index, 'grades', e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
                                         </div>
                                         <button
                                             type="button"
-                                            onClick={() => removeAcademicQualification(index)}
+                                            onClick={() => removeEducationBackground(index)}
                                             className="text-red-500 hover:text-red-700 text-sm"
                                         >
-                                            Remove Qualification
+                                            Remove Education
                                         </button>
                                     </div>
                                 ))
@@ -307,99 +451,161 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Visa History</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Intake</label>
+                            <input
+                                type="text"
+                                value={preferredIntake}
+                                onChange={(e) => setPreferredIntake(e.target.value)}
+                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Visa Refusal Details</label>
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
-                                        checked={visaHistory.heldVisa}
-                                        onChange={(e) => setVisaHistory({ ...visaHistory, heldVisa: e.target.checked })}
+                                        checked={visaRefusalDetails.hasRefusalHistory}
+                                        onChange={(e) => setVisaRefusalDetails({ ...visaRefusalDetails, hasRefusalHistory: e.target.checked })}
                                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                     />
-                                    <label className="text-sm">Have you ever held a visa?</label>
+                                    <label className="text-sm">Has visa refusal history?</label>
                                 </div>
-                                {visaHistory.heldVisa && (
-                                    <div className="ml-6">
-                                        <label className="block text-xs font-medium text-gray-500 mb-1">Visa Details</label>
-                                        <input
-                                            type="text"
-                                            value={visaHistory.heldVisaDetails || ''}
-                                            onChange={(e) => setVisaHistory({ ...visaHistory, heldVisaDetails: e.target.value })}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={visaHistory.visaRefusal}
-                                        onChange={(e) => setVisaHistory({ ...visaHistory, visaRefusal: e.target.checked })}
-                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                    />
-                                    <label className="text-sm">Have you ever had a visa refusal?</label>
-                                </div>
-                                {visaHistory.visaRefusal && (
-                                    <div className="ml-6">
-                                        <label className="block text-xs font-medium text-gray-500 mb-1">Refusal Details</label>
-                                        <input
-                                            type="text"
-                                            value={visaHistory.visaRefusalDetails || ''}
-                                            onChange={(e) => setVisaHistory({ ...visaHistory, visaRefusalDetails: e.target.value })}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={visaHistory.visaViolation}
-                                        onChange={(e) => setVisaHistory({ ...visaHistory, visaViolation: e.target.checked })}
-                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                                    />
-                                    <label className="text-sm">Have you ever violated visa conditions?</label>
-                                </div>
-                                {visaHistory.visaViolation && (
-                                    <div className="ml-6">
-                                        <label className="block text-xs font-medium text-gray-500 mb-1">Violation Details</label>
-                                        <input
-                                            type="text"
-                                            value={visaHistory.visaViolationDetails || ''}
-                                            onChange={(e) => setVisaHistory({ ...visaHistory, visaViolationDetails: e.target.value })}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
+                                {visaRefusalDetails.hasRefusalHistory && (
+                                    <div className="ml-6 space-y-3">
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Country</label>
+                                            <input
+                                                type="text"
+                                                value={visaRefusalDetails.country}
+                                                onChange={(e) => setVisaRefusalDetails({ ...visaRefusalDetails, country: e.target.value })}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Reason</label>
+                                            <input
+                                                type="text"
+                                                value={visaRefusalDetails.reason || ''}
+                                                onChange={(e) => setVisaRefusalDetails({ ...visaRefusalDetails, reason: e.target.value })}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Date of Refusal</label>
+                                            <input
+                                                type="date"
+                                                value={visaRefusalDetails.dateOfRefusal || ''}
+                                                onChange={(e) => setVisaRefusalDetails({ ...visaRefusalDetails, dateOfRefusal: e.target.value })}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Applied for Visa Again</label>
+                                            <input
+                                                type="text"
+                                                value={visaRefusalDetails.appliedForVisaAgain || ''}
+                                                onChange={(e) => setVisaRefusalDetails({ ...visaRefusalDetails, appliedForVisaAgain: e.target.value })}
+                                                className="w-full p-2 border border-gray-300 rounded-md"
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             </div>
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Question 1</label>
-                            <textarea
-                                value={que1}
-                                onChange={(e) => setQue1(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                rows={2}
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Name</label>
+                                    <input
+                                        type="text"
+                                        value={emergencyContact.name}
+                                        onChange={(e) => setEmergencyContact({ ...emergencyContact, name: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Relationship</label>
+                                    <input
+                                        type="text"
+                                        value={emergencyContact.relationship}
+                                        onChange={(e) => setEmergencyContact({ ...emergencyContact, relationship: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Phone</label>
+                                    <input
+                                        type="text"
+                                        value={emergencyContact.phone}
+                                        onChange={(e) => setEmergencyContact({ ...emergencyContact, phone: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Email</label>
+                                    <input
+                                        type="text"
+                                        value={emergencyContact.email}
+                                        onChange={(e) => setEmergencyContact({ ...emergencyContact, email: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Address</label>
+                                    <input
+                                        type="text"
+                                        value={emergencyContact.address}
+                                        onChange={(e) => setEmergencyContact({ ...emergencyContact, address: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                            </div>
                         </div>
+
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Question 2</label>
-                            <textarea
-                                value={que2}
-                                onChange={(e) => setQue2(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                rows={2}
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Question 3</label>
-                            <textarea
-                                value={que3}
-                                onChange={(e) => setQue3(e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                rows={2}
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Passport Details</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Passport Number</label>
+                                    <input
+                                        type="text"
+                                        value={passportDetails.passportNumber}
+                                        onChange={(e) => setPassportDetails({ ...passportDetails, passportNumber: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Issue Date</label>
+                                    <input
+                                        type="date"
+                                        value={passportDetails.issueDate}
+                                        onChange={(e) => setPassportDetails({ ...passportDetails, issueDate: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Expiry Date</label>
+                                    <input
+                                        type="date"
+                                        value={passportDetails.expiryDate}
+                                        onChange={(e) => setPassportDetails({ ...passportDetails, expiryDate: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Issue Authority</label>
+                                    <input
+                                        type="text"
+                                        value={passportDetails.issueAuthority}
+                                        onChange={(e) => setPassportDetails({ ...passportDetails, issueAuthority: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         <div className="flex justify-end gap-3">
