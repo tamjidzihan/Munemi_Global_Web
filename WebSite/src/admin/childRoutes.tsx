@@ -1,4 +1,5 @@
 import PageTitle from "./components/PageTitle";
+import ViewStudentQuery from "./components/StudentEnquiry/ViewStudentQuery";
 import Agent from "./pages/Agent/Agent";
 import Appointments from "./pages/Appointment/Appointments";
 import Blog from "./pages/Blog/Blog";
@@ -50,8 +51,17 @@ export const childRoutes = [
         path: "student-enquiry",
         element: (
             <>
-                <PageTitle title="Student Enquiry List | Modarate Student Enquiry List" />
+                <PageTitle title="Student Enquiry List | Moderate Student Enquiry List" />
                 <StudentEnquiry />
+            </>
+        ),
+    },
+    {
+        path: "student-enquiry/view/:id",
+        element: (
+            <>
+                <PageTitle title="View Student Enquiry | Student Details" />
+                <ViewStudentQuery />
             </>
         ),
     },
@@ -77,7 +87,7 @@ export const childRoutes = [
         path: "career/job",
         element: (
             <>
-                <PageTitle title="Career | Modarate Job Application Here" />
+                <PageTitle title="Career | Moderate Job Application Here" />
                 <Career />
             </>
         ),
@@ -86,7 +96,7 @@ export const childRoutes = [
         path: "career/agent",
         element: (
             <>
-                <PageTitle title="Agent Application | Modarate Agent  Partners Here" />
+                <PageTitle title="Agent Application | Moderate Agent  Partners Here" />
                 <Agent />
             </>
         ),
@@ -95,7 +105,7 @@ export const childRoutes = [
         path: "career/institution-partners",
         element: (
             <>
-                <PageTitle title="Institution Partners | Modarate Institution Partners Here" />
+                <PageTitle title="Institution Partners | Moderate Institution Partners Here" />
                 <InstitutionPartner />
             </>
         ),
@@ -104,7 +114,7 @@ export const childRoutes = [
         path: "career/health-insurance-partners",
         element: (
             <>
-                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <PageTitle title="Health Insurance Partners | Moderate Health Insurance Partners Here" />
                 <HealthInsurancePartner />
             </>
         ),
@@ -113,7 +123,7 @@ export const childRoutes = [
         path: "flight/flight-booking",
         element: (
             <>
-                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <PageTitle title="Health Insurance Partners | Moderate Health Insurance Partners Here" />
                 <FlightBooking />
             </>
         ),
@@ -122,7 +132,7 @@ export const childRoutes = [
         path: "flight/flight-location",
         element: (
             <>
-                <PageTitle title="Health Insurance Partners | Modarate Health Insurance Partners Here" />
+                <PageTitle title="Health Insurance Partners | Moderate Health Insurance Partners Here" />
                 <FlightLocation />
             </>
         ),
@@ -131,7 +141,7 @@ export const childRoutes = [
         path: "university",
         element: (
             <>
-                <PageTitle title="University | Modarate University Here" />
+                <PageTitle title="University | Moderate University Here" />
                 <Universities />
             </>
         ),

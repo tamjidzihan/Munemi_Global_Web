@@ -152,19 +152,32 @@ const useStudentEnquiries = () => {
     ): Promise<StudentEnquiry> => {
         setLoading(true);
         try {
-            const formData = new FormData();
-            Object.entries(enquiry).forEach(([key, value]) => {
-                if (Array.isArray(value) || typeof value === "object") {
-                    formData.append(key, JSON.stringify(value));
-                } else {
-                    formData.append(key, String(value));
-                }
-            });
+            let formData: FormData;
+            const isFormData = enquiry instanceof FormData;
+
+            if (!isFormData) {
+                formData = new FormData();
+                Object.entries(enquiry).forEach(([key, value]) => {
+                    if (value !== undefined && value !== null) {
+                        if (Array.isArray(value) || typeof value === "object") {
+                            formData.append(key, JSON.stringify(value));
+                        } else {
+                            formData.append(key, String(value));
+                        }
+                    }
+                });
+            } else {
+                formData = enquiry as FormData;
+            }
 
             const { data } = await apiClient.post<ApiSingleResponse<StudentEnquiry>>(
                 "/student-enquiries",
-                formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
+                isFormData ? enquiry : formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             setEnquiries((prev) => [data.data, ...prev]);

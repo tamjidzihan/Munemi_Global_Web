@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { Minus, Plus, Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import useStudentEnquiries, { StudentEnquiry } from "../../../hooks/useStudentEnquiry";
 import CreateStudentEnquiryModal from "./CreateStudentEnquiryModel";
+import { Link } from "react-router-dom";
 
 const StudentEnquiryList = () => {
     const {
@@ -60,7 +61,7 @@ const StudentEnquiryList = () => {
                 <div className="text-xl font-semibold text-gray-900">Student Enquiries</div>
                 <button
                     onClick={() => setIsModalOpen((prev) => !prev)}
-                    className={`inline-flex items-center justify-center gap-2 rounded-md ${isModalOpen
+                    className={`inline-flex items-center justify-center gap-2 rounded-md cursor-pointer ${isModalOpen
                         ? "bg-red-600 hover:bg-red-700"
                         : "bg-blue-600 hover:bg-blue-700"
                         } py-2.5 px-6 text-sm font-medium text-white transition-colors`}
@@ -131,9 +132,9 @@ const StudentEnquiryList = () => {
                                 className="grid grid-cols-7 sm:grid-cols-9 py-4 px-4 hover:bg-gray-50 transition-colors md:px-6"
                             >
                                 <div className="col-span-1 flex items-center">
-                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                    <Link to={`/adminpanel/student-enquiry/view/${enquiry.id}`} className="text-sm font-medium text-gray-900 truncate">
                                         {enquiry.firstName} {enquiry.lastName}
-                                    </p>
+                                    </Link>
                                 </div>
                                 <div className="col-span-2 flex items-center">
                                     <p className="text-sm text-gray-600 truncate">

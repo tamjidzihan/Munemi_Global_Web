@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { EducationBackground, StudentEnquiry, TestResult } from "../../../hooks/useStudentEnquiry";
 
 
@@ -58,7 +58,43 @@ const CreateStudentEnquiryModal = ({
         expiryDate: "",
         issueAuthority: ""
     });
+    const [documents, setDocuments] = useState<File[]>([]);
+    const [documentDescriptions, setDocumentDescriptions] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(false);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleDocumentUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            const newFiles = Array.from(e.target.files);
+            setDocuments(prev => [...prev, ...newFiles]);
+
+            // Initialize descriptions for new files
+            const newDescriptions = { ...documentDescriptions };
+            newFiles.forEach(file => {
+                newDescriptions[file.name] = "";
+            });
+            setDocumentDescriptions(newDescriptions);
+        }
+    };
+
+    const removeDocument = (index: number) => {
+        const updatedDocuments = [...documents];
+        const removedFile = updatedDocuments.splice(index, 1)[0];
+        const updatedDescriptions = { ...documentDescriptions };
+        delete updatedDescriptions[removedFile.name];
+        setDocumentDescriptions(updatedDescriptions);
+        setDocuments(updatedDocuments);
+    };
+
+    const updateDocumentDescription = (fileName: string, description: string) => {
+        setDocumentDescriptions(prev => ({
+            ...prev,
+            [fileName]: description
+        }));
+    };
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -69,29 +105,47 @@ const CreateStudentEnquiryModal = ({
 
         setLoading(true);
 
-        const formDataToSend: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
-            firstName,
-            lastName,
-            dateOfBirth,
-            email,
-            phone,
-            street,
-            city,
-            state,
-            zipCode,
-            country,
-            interestedServices,
-            educationBackground,
-            englishTestScores,
-            preferredIntake,
-            visaRefusalDetails,
-            emergencyContact,
-            passportDetails,
-            documents: []
-        };
+        const formData = new FormData();
+
+        // Append all text fields
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        if (dateOfBirth) formData.append('dateOfBirth', dateOfBirth);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        if (street) formData.append('street', street);
+        if (city) formData.append('city', city);
+        if (state) formData.append('state', state);
+        if (zipCode) formData.append('zipCode', zipCode);
+        if (country) formData.append('country', country);
+
+        if (interestedServices.length > 0) {
+            formData.append('interestedServices', JSON.stringify(interestedServices));
+        }
+        formData.append('educationBackground', JSON.stringify(educationBackground));
+
+
+        formData.append('englishTestScores', JSON.stringify(englishTestScores));
+
+        if (preferredIntake) {
+            formData.append('preferredIntake', preferredIntake);
+        }
+
+        formData.append('visaRefusalDetails', JSON.stringify(visaRefusalDetails));
+        formData.append('emergencyContact', JSON.stringify(emergencyContact));
+        formData.append('passportDetails', JSON.stringify(passportDetails));
+
+        if (Object.keys(documentDescriptions).length > 0) {
+            formData.append('documentDescriptions', JSON.stringify(documentDescriptions));
+        }
+
+        // Append all documents
+        documents.forEach(file => {
+            formData.append('documents', file);
+        });
 
         try {
-            const newEnquiry = await createEnquiry(formDataToSend);
+            const newEnquiry = await createEnquiry(formData as unknown as Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>);
             addNewEnquiry(newEnquiry);
             resetForm();
             closeModal();
@@ -147,6 +201,8 @@ const CreateStudentEnquiryModal = ({
             expiryDate: "",
             issueAuthority: ""
         });
+        setDocuments([]);
+        setDocumentDescriptions({});
     };
 
     const addEducationBackground = () => {
@@ -225,6 +281,7 @@ const CreateStudentEnquiryModal = ({
                                 </div>
                             </div>
                         </div>
+
                         <div className="mb-6">
                             <div className="font-semibold text-gray-600 pb-4">Contact Details</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -250,6 +307,7 @@ const CreateStudentEnquiryModal = ({
                                 </div>
                             </div>
                         </div>
+
                         <div className="mb-6">
                             <div className="font-semibold text-gray-600 pb-4">Address Details</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -300,24 +358,134 @@ const CreateStudentEnquiryModal = ({
                                 </div>
                             </div>
                         </div>
+
+                        <div className="mb-4">
+                            <div className="font-semibold text-gray-600 pb-4">Documents</div>
+
+                            {/* Drag and drop area */}
+                            <div
+                                className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center mb-4 cursor-pointer hover:border-blue-400 transition-colors"
+                                onDragOver={(e) => {
+                                    e.preventDefault();
+                                    e.currentTarget.classList.add('border-blue-500', 'bg-blue-50');
+                                }}
+                                onDragLeave={(e) => {
+                                    e.preventDefault();
+                                    e.currentTarget.classList.remove('border-blue-500', 'bg-blue-50');
+                                }}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    e.currentTarget.classList.remove('border-blue-500', 'bg-blue-50');
+                                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                                        handleDocumentUpload({ target: { files: e.dataTransfer.files } } as React.ChangeEvent<HTMLInputElement>);
+                                    }
+                                }}
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <div className="flex flex-col items-center justify-center space-y-2">
+                                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <p className="text-sm text-gray-600">
+                                        <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        PDF, DOC, JPG, PNG up to 10MB
+                                    </p>
+                                </div>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={handleDocumentUpload}
+                                    multiple
+                                    className="hidden"
+                                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                />
+                            </div>
+
+                            {/* Uploaded files preview in a table */}
+                            {documents.length > 0 ? (
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File</th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {documents.map((file, index) => (
+                                                <tr key={index}>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <div className="flex items-center">
+                                                            {file.type.includes('image') ? (
+                                                                <div className="flex-shrink-0 h-10 w-10">
+                                                                    <img className="h-10 w-10 rounded" src={URL.createObjectURL(file)} alt="" />
+                                                                </div>
+                                                            ) : (
+                                                                <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-gray-100 rounded">
+                                                                    <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            )}
+                                                            <div className="ml-4">
+                                                                <div className="text-sm font-medium text-gray-900 truncate max-w-xs">{file.name}</div>
+                                                                <div className="text-sm text-gray-500">{file.type}</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        {(file.size / 1024 / 1024).toFixed(2)} MB
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Add description..."
+                                                            value={documentDescriptions[file.name] || ""}
+                                                            onChange={(e) => updateDocumentDescription(file.name, e.target.value)}
+                                                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                                                        />
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeDocument(index)}
+                                                            className="text-red-600 hover:text-red-900"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <p className="text-sm text-gray-500 text-center py-4">No documents uploaded yet</p>
+                            )}
+                        </div>
+
                         <div className="mb-4">
                             <div className="font-semibold text-gray-600 pb-4">English Test Scores</div>
                             <div className="pb-4">
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Test Type</label>
-                                <select
-                                    value={englishTestScores.testType}
-                                    onChange={(e) => setEnglishTestScores({ ...englishTestScores, testType: e.target.value })}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                >
-                                    <option value="">Select</option>
-                                    <option value="IELTS">IELTS</option>
-                                    <option value="TOEFL">TOEFL</option>
-                                    <option value="PTE">PTE</option>
-                                    <option value="Duolingo">Duolingo</option>
-                                </select>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                <div>
+                                <div className="pb-2">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Test Type</label>
+                                    <select
+                                        value={englishTestScores.testType}
+                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, testType: e.target.value })}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    >
+                                        <option value="">Select</option>
+                                        <option value="IELTS">IELTS</option>
+                                        <option value="TOEFL">TOEFL</option>
+                                        <option value="PTE">PTE</option>
+                                        <option value="Duolingo">Duolingo</option>
+                                    </select>
+                                </div>
+                                <div className="pb-2">
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Overall Score</label>
                                     <input
                                         type="text"
@@ -326,7 +494,7 @@ const CreateStudentEnquiryModal = ({
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
-                                <div>
+                                <div className="pb-2">
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Test Date</label>
                                     <input
                                         type="date"
@@ -335,6 +503,8 @@ const CreateStudentEnquiryModal = ({
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                     />
                                 </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Reading</label>
                                     <input
