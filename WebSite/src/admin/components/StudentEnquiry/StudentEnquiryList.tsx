@@ -61,8 +61,8 @@ const StudentEnquiryList = () => {
                 <button
                     onClick={() => setIsModalOpen((prev) => !prev)}
                     className={`inline-flex items-center justify-center gap-2 rounded-md ${isModalOpen
-                            ? "bg-red-600 hover:bg-red-700"
-                            : "bg-blue-600 hover:bg-blue-700"
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-blue-600 hover:bg-blue-700"
                         } py-2.5 px-6 text-sm font-medium text-white transition-colors`}
                     disabled={loading}
                 >

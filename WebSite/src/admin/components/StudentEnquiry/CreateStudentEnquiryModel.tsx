@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StudentEnquiry, TestResult, educationBackground } from "../../../hooks/useStudentEnquiry";
+import { EducationBackground, StudentEnquiry, TestResult } from "../../../hooks/useStudentEnquiry";
 
 
 type CreateStudentEnquiryModalProps = {
@@ -26,7 +26,7 @@ const CreateStudentEnquiryModal = ({
     const [zipCode, setZipCode] = useState("");
     const [country, setCountry] = useState("");
     const [interestedServices, setInterestedServices] = useState<string[]>([]);
-    const [educationBackground, setEducationBackground] = useState<educationBackground[]>([]);
+    const [educationBackground, setEducationBackground] = useState<EducationBackground[]>([]);
     const [englishTestScores, setEnglishTestScores] = useState<TestResult>({
         testType: "",
         overallScore: "",
@@ -180,7 +180,7 @@ const CreateStudentEnquiryModal = ({
             <div className="bg-white rounded-lg shadow-xl w-full overflow-y-auto">
                 <div className="p-6">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-semibold">Create Student Enquiry</h3>
+                        <div className="text-xl font-semibold">Create Student Enquiry</div>
                         <button
                             onClick={closeModal}
                             className="text-gray-500 hover:text-gray-700"
@@ -191,132 +191,132 @@ const CreateStudentEnquiryModal = ({
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">First Name*</label>
-                                <input
-                                    type="text"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Last Name*</label>
-                                <input
-                                    type="text"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
-                                <input
-                                    type="date"
-                                    value={dateOfBirth}
-                                    onChange={(e) => setDateOfBirth(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Phone*</label>
-                                <input
-                                    type="tel"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Street</label>
-                                <input
-                                    type="text"
-                                    value={street}
-                                    onChange={(e) => setStreet(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                                <input
-                                    type="text"
-                                    value={city}
-                                    onChange={(e) => setCity(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                                <input
-                                    type="text"
-                                    value={state}
-                                    onChange={(e) => setState(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
-                                <input
-                                    type="text"
-                                    value={zipCode}
-                                    onChange={(e) => setZipCode(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                                <input
-                                    type="text"
-                                    value={country}
-                                    onChange={(e) => setCountry(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">English Test Scores</label>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="mb-6">
+                            <div className="font-semibold text-gray-600 pb-4">Personal Details</div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Test Type</label>
-                                    <select
-                                        value={englishTestScores.testType}
-                                        onChange={(e) => setEnglishTestScores({ ...englishTestScores, testType: e.target.value })}
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">First Name*</label>
+                                    <input
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
-                                    >
-                                        <option value="">Select</option>
-                                        <option value="IELTS">IELTS</option>
-                                        <option value="TOEFL">TOEFL</option>
-                                        <option value="PTE">PTE</option>
-                                        <option value="Duolingo">Duolingo</option>
-                                    </select>
+                                        required
+                                    />
                                 </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Last Name*</label>
+                                    <input
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                                    <input
+                                        type="date"
+                                        value={dateOfBirth}
+                                        onChange={(e) => setDateOfBirth(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mb-6">
+                            <div className="font-semibold text-gray-600 pb-4">Contact Details</div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone*</label>
+                                    <input
+                                        type="tel"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mb-6">
+                            <div className="font-semibold text-gray-600 pb-4">Address Details</div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Street</label>
+                                    <input
+                                        type="text"
+                                        value={street}
+                                        onChange={(e) => setStreet(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                    <input
+                                        type="text"
+                                        value={city}
+                                        onChange={(e) => setCity(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                    <input
+                                        type="text"
+                                        value={state}
+                                        onChange={(e) => setState(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                                    <input
+                                        type="text"
+                                        value={zipCode}
+                                        onChange={(e) => setZipCode(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                    <input
+                                        type="text"
+                                        value={country}
+                                        onChange={(e) => setCountry(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <div className="font-semibold text-gray-600 pb-4">English Test Scores</div>
+                            <div className="pb-4">
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Test Type</label>
+                                <select
+                                    value={englishTestScores.testType}
+                                    onChange={(e) => setEnglishTestScores({ ...englishTestScores, testType: e.target.value })}
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                >
+                                    <option value="">Select</option>
+                                    <option value="IELTS">IELTS</option>
+                                    <option value="TOEFL">TOEFL</option>
+                                    <option value="PTE">PTE</option>
+                                    <option value="Duolingo">Duolingo</option>
+                                </select>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Overall Score</label>
                                     <input
@@ -376,7 +376,7 @@ const CreateStudentEnquiryModal = ({
 
                         <div className="mb-4">
                             <div className="flex justify-between items-center mb-2">
-                                <label className="block text-sm font-medium text-gray-700">Education Background</label>
+                                <div className="font-semibold text-gray-600 pb-4">Education Background</div>
                                 <button
                                     type="button"
                                     onClick={addEducationBackground}
@@ -451,7 +451,7 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Intake</label>
+                            <div className="font-semibold text-gray-600 pb-4">Preferred Intake</div>
                             <input
                                 type="text"
                                 value={preferredIntake}
@@ -461,7 +461,7 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Visa Refusal Details</label>
+                            <div className="font-semibold text-gray-600 pb-4">Visa Refusal Details</div>
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <input
@@ -516,7 +516,7 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
+                            <div className="font-semibold text-gray-600 pb-4">Emergency Contact</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Name</label>
@@ -567,7 +567,7 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Passport Details</label>
+                            <div className="font-semibold text-gray-600 pb-4">Passport Details</div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-xs font-medium text-gray-500 mb-1">Passport Number</label>
