@@ -8,6 +8,7 @@ import useCareer from '../../../hooks/useCareer';
 import usePackage from '../../../hooks/usePackage';
 import useFlightBookings from '../../../hooks/useFlightBookings';
 import usePackageBookings from '../../../hooks/usePackageBookings';
+import useAgentApplications from '../../../hooks/useAgentApplications';
 
 
 const DashboardIndex: React.FC = () => {
@@ -18,6 +19,7 @@ const DashboardIndex: React.FC = () => {
   const { totalCareers } = useCareer()
   const { totalBookings } = useFlightBookings()
   const { totalPackageBookings } = usePackageBookings()
+  const { totalApplications } = useAgentApplications()
 
   return (
     <>
@@ -68,15 +70,6 @@ const DashboardIndex: React.FC = () => {
           </CardDataStats>
         </Link>
 
-
-
-        <Link to={'/adminpanel/career/job'}>
-          <CardDataStats title="Job / Career Application" total={totalCareers.toString()} rate="4.35%" levelUp>
-            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="M8 7H5a2 2 0 0 0-2 2v4m5-6h8M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m0 0h3a2 2 0 0 1 2 2v4m0 0v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6m18 0s-4 2-9 2-9-2-9-2m9-2h.01" />
-            </svg>
-          </CardDataStats>
-        </Link>
         <Link to={'/adminpanel/flight/flight-booking'}>
           <CardDataStats title="Flight Booking" total={totalBookings.toString()} rate="4.35%" levelUp>
             <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -86,7 +79,28 @@ const DashboardIndex: React.FC = () => {
         </Link>
       </div>
 
-      <div className=' text-xl lg:mt-10 lg:mb-5 text-midnight'>Package</div>
+      <div className=' text-xl my-5 lg:mt-10 lg:mb-5 text-midnight'>Career</div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <Link to={'/adminpanel/career/job'}>
+          <CardDataStats title="Job / Career Application" total={totalCareers.toString()} rate="4.35%" levelUp>
+            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.7" d="M8 7H5a2 2 0 0 0-2 2v4m5-6h8M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m0 0h3a2 2 0 0 1 2 2v4m0 0v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6m18 0s-4 2-9 2-9-2-9-2m9-2h.01" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+        <Link to={'/adminpanel/career/agent'}>
+          <CardDataStats title="Agents Application" total={totalApplications.toString()} rate="2.5%" levelUp>
+            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+      </div>
+
+
+      <div className=' text-xl my-5 lg:mt-10 lg:mb-5 text-midnight'>Package</div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <Link to={'/adminpanel/package/packagelist'}>
           <CardDataStats title="Package List" total={totalPackages.toString()} rate="2.59%" levelUp>
@@ -98,7 +112,7 @@ const DashboardIndex: React.FC = () => {
         <Link to={'/adminpanel/package/packagebooking'}>
           <CardDataStats title="Package Booking" total={totalPackageBookings.toString()} rate="2.59%" levelUp>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6 text-primary">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46" />
             </svg>
 
           </CardDataStats>
