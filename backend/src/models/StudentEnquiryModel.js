@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../utils/database');
 
-const StudentEnquiry = sequelize.define('StudentEnquiry', {
+const StudentEnquiry = sequelize.define('studentEnquiry', {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -9,17 +9,32 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
     },
 
     // --- Personal Details ---
-    firstName: { type: DataTypes.STRING, allowNull: false },
-    lastName: { type: DataTypes.STRING, allowNull: false },
+    givenName: { type: DataTypes.STRING, allowNull: false },
+    surName: { type: DataTypes.STRING, allowNull: false },
+    gender: { type: DataTypes.ENUM('Male', 'Female') },
+    currentoccupation: { type: DataTypes.STRING, allowNull: false },
     dateOfBirth: { type: DataTypes.DATEONLY },
 
     // --- Contact Details ---
     phone: { type: DataTypes.STRING, allowNull: false },
+    nidNumbe: { type: DataTypes.STRING, allowNull: false },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: { isEmail: true }
     },
+
+    // --- family Details ---
+    fathersName: { type: DataTypes.STRING, allowNull: false },
+    fathersNid: { type: DataTypes.STRING, allowNull: false },
+    fathersPhone: { type: DataTypes.STRING },
+    mothersName: { type: DataTypes.STRING, allowNull: false },
+    mothersNid: { type: DataTypes.STRING, allowNull: false },
+    mothersPhone: { type: DataTypes.STRING },
+    spouseName: { type: DataTypes.STRING },
+    spouseNid: { type: DataTypes.STRING },
+    spousePhone: { type: DataTypes.STRING },
+
 
     // --- Address ---
     street: { type: DataTypes.STRING },
@@ -32,9 +47,6 @@ const StudentEnquiry = sequelize.define('StudentEnquiry', {
     visaType: { type: DataTypes.STRING },
     visaExpiryDate: { type: DataTypes.DATEONLY },
     passportCountry: { type: DataTypes.STRING },
-
-    // --- Other Details ---
-    preferredIntake: { type: DataTypes.STRING },
 
     // --- Interested Services (array as JSON) ---
     interestedServices: {
