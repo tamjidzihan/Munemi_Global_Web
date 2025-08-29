@@ -2,7 +2,6 @@ const fs = require('fs').promises;
 const path = require('path');
 const uploadDir = path.join(__dirname, '../uploads/');
 
-
 const {
     createStudentEnquiry,
     deleteStudentEnquiryById,
@@ -16,8 +15,9 @@ const { validationResult } = require('express-validator');
 // Updated validation schema to match new model
 const validateEnquiryData = (data, isUpdate = false) => {
     const requiredFields = [
-        'firstName', 'lastName', 'phone', 'email',
-        'country', 'educationBackground'
+        'givenName', 'surName', 'phone', 'email', 'nidNumber',
+        'fathersName', 'fathersNid', 'mothersName', 'mothersNid',
+        'currentOccupation'
     ];
 
     // For updates, only validate fields that are being updated
@@ -26,6 +26,14 @@ const validateEnquiryData = (data, isUpdate = false) => {
             if (!data[field]) {
                 return { isValid: false, message: `${field} is required` };
             }
+        }
+
+        // Validate required documents for new enquiries
+        if (!data.passportDocument) {
+            return { isValid: false, message: "Passport document is required" };
+        }
+        if (!data.cvDocument) {
+            return { isValid: false, message: "CV document is required" };
         }
     } else {
         for (const field of requiredFields) {
@@ -46,9 +54,10 @@ const validateEnquiryData = (data, isUpdate = false) => {
     // Validate JSON fields
     const jsonFields = [
         'interestedServices', 'educationBackground',
-        'englishTestScores', 'documents',
-        'emergencyContact', 'passportDetails',
-        'visaRefusalDetails'
+        'englishTestScores', 'emergencyContact',
+        'passportDetails', 'visaRefusalDetails',
+        'previousPassportNumbers',
+        'passportDocument', 'cvDocument'
     ];
 
     for (const field of jsonFields) {
@@ -83,7 +92,8 @@ const getAllStudentEnquiries = async (req, res) => {
             pagination: {
                 page: studentEnquiries.page,
                 limit: studentEnquiries.limit,
-                total: studentEnquiries.total
+                total: studentEnquiries.total,
+                totalPages: studentEnquiries.totalPages
             }
         });
     } catch (error) {
@@ -133,11 +143,7 @@ const createNewStudentEnquiry = async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             // Clean up uploaded files if validation fails
-            if (req.files && req.files.length > 0) {
-                req.files.forEach(file => {
-                    fs.unlinkSync(file.path); // Delete the uploaded files
-                });
-            }
+            cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 errors: errors.array()
@@ -147,38 +153,83 @@ const createNewStudentEnquiry = async (req, res) => {
         const validation = validateEnquiryData(req.body);
         if (!validation.isValid) {
             // Clean up uploaded files if validation fails
-            if (req.files && req.files.length > 0) {
-                req.files.forEach(file => {
-                    fs.unlinkSync(file.path); // Delete the uploaded files
-                });
-            }
+            cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 message: validation.message
             });
         }
 
-        // Process file uploads
-        let documents = [];
-        if (req.files && req.files.length > 0) {
-            documents = req.files.map(file => ({
-                filename: file.filename, // The stored filename
-                originalname: file.originalname, // Original filename
-                path: file.path, // Path where file is stored
-                mimetype: file.mimetype, // File type
-                size: file.size // File size in bytes
-            }));
+        // Process file uploads for passport and CV
+        let passportDocument = null;
+        let cvDocument = null;
+
+        if (req.files) {
+            // Handle passport document
+            if (req.files.passport && req.files.passport[0]) {
+                const file = req.files.passport[0];
+                passportDocument = {
+                    filename: file.filename,
+                    originalname: file.originalname,
+                    path: file.path,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                    uploadDate: new Date().toISOString()
+                };
+            }
+
+            // Handle CV document
+            if (req.files.cv && req.files.cv[0]) {
+                const file = req.files.cv[0];
+                cvDocument = {
+                    filename: file.filename,
+                    originalname: file.originalname,
+                    path: file.path,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                    uploadDate: new Date().toISOString()
+                };
+            }
         }
 
-        // Process JSON fields and include documents
+        // Validate that both documents are provided
+        if (!passportDocument) {
+            cleanupUploadedFiles(req);
+            return res.status(400).json({
+                success: false,
+                message: "Passport document is required"
+            });
+        }
+
+        if (!cvDocument) {
+            cleanupUploadedFiles(req);
+            return res.status(400).json({
+                success: false,
+                message: "CV document is required"
+            });
+        }
+
+        // Process enquiry data with the new document structure
         const enquiryData = {
             ...req.body,
-            documents, // Add the documents array
+            passportDocument,
+            cvDocument,
             dateOfBirth: req.body.dateOfBirth ? new Date(req.body.dateOfBirth) : null,
             visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null
         };
 
-        const newStudentEnquiry = await createStudentEnquiry(enquiryData);
+        // Get agent ID from authenticated user (assuming it's stored in req.user)
+        const agentId = req.user?.id; // Adjust based on your auth implementation
+
+        if (!agentId) {
+            cleanupUploadedFiles(req);
+            return res.status(400).json({
+                success: false,
+                message: "Agent ID is required"
+            });
+        }
+
+        const newStudentEnquiry = await createStudentEnquiry(enquiryData, agentId);
 
         res.status(201).json({
             success: true,
@@ -188,11 +239,7 @@ const createNewStudentEnquiry = async (req, res) => {
         console.error('Error creating student enquiry:', error);
 
         // Clean up uploaded files if error occurs
-        if (req.files && req.files.length > 0) {
-            req.files.forEach(file => {
-                fs.unlinkSync(file.path); // Delete the uploaded files
-            });
-        }
+        cleanupUploadedFiles(req);
 
         res.status(500).json({
             success: false,
@@ -201,7 +248,6 @@ const createNewStudentEnquiry = async (req, res) => {
         });
     }
 };
-
 
 const updateStudentEnquiry = async (req, res) => {
     try {
@@ -215,6 +261,7 @@ const updateStudentEnquiry = async (req, res) => {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 errors: errors.array()
@@ -224,40 +271,91 @@ const updateStudentEnquiry = async (req, res) => {
         // Use isUpdate flag for validation
         const validation = validateEnquiryData(req.body, true);
         if (!validation.isValid) {
+            cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 message: validation.message
             });
         }
 
-        // Process JSON fields and dates
+        // Get existing enquiry to preserve existing documents if not updating
+        const existingEnquiry = await findStudentEnquiryById(id);
+        if (!existingEnquiry) {
+            cleanupUploadedFiles(req);
+            return res.status(404).json({
+                success: false,
+                message: "Student enquiry not found"
+            });
+        }
+
+        // Process file uploads for passport and CV
+        let passportDocument = existingEnquiry.passportDocument;
+        let cvDocument = existingEnquiry.cvDocument;
+
+        if (req.files) {
+            // Handle passport document update
+            if (req.files.passport && req.files.passport[0]) {
+                // Delete old passport file if exists
+                if (passportDocument && passportDocument.path) {
+                    try {
+                        await fs.unlink(passportDocument.path);
+                    } catch (err) {
+                        console.warn('Could not delete old passport file:', err.message);
+                    }
+                }
+
+                const file = req.files.passport[0];
+                passportDocument = {
+                    filename: file.filename,
+                    originalname: file.originalname,
+                    path: file.path,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                    uploadDate: new Date().toISOString()
+                };
+            }
+
+            // Handle CV document update
+            if (req.files.cv && req.files.cv[0]) {
+                // Delete old CV file if exists
+                if (cvDocument && cvDocument.path) {
+                    try {
+                        await fs.unlink(cvDocument.path);
+                    } catch (err) {
+                        console.warn('Could not delete old CV file:', err.message);
+                    }
+                }
+
+                const file = req.files.cv[0];
+                cvDocument = {
+                    filename: file.filename,
+                    originalname: file.originalname,
+                    path: file.path,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                    uploadDate: new Date().toISOString()
+                };
+            }
+        }
+
+        // Process enquiry data with the new document structure
         const updateData = {
             ...req.body,
+            passportDocument,
+            cvDocument,
             dateOfBirth: req.body.dateOfBirth ? new Date(req.body.dateOfBirth) : null,
             visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null
         };
 
-        // Handle file uploads if any
-        if (req.files && req.files.length > 0) {
-            const newDocuments = req.files.map(file => ({
-                filename: file.filename,
-                originalname: file.originalname,
-                path: file.path,
-                mimetype: file.mimetype,
-                size: file.size
-            }));
+        // Get agent ID for authorization
+        const agentId = req.user?.id;
 
-            // Get existing documents and merge with new ones
-            const existingEnquiry = await findStudentEnquiryById(id);
-            const existingDocuments = existingEnquiry.documents || [];
-            updateData.documents = [...existingDocuments, ...newDocuments];
-        }
-
-        const updatedEnquiry = await updateStudentEnquiryById(id, updateData);
+        const updatedEnquiry = await updateStudentEnquiryById(id, updateData, agentId);
         if (!updatedEnquiry) {
+            cleanupUploadedFiles(req);
             return res.status(404).json({
                 success: false,
-                message: "Student enquiry not found"
+                message: "Student enquiry not found or unauthorized"
             });
         }
 
@@ -268,11 +366,7 @@ const updateStudentEnquiry = async (req, res) => {
     } catch (error) {
         console.error('Error updating student enquiry:', error);
         // Clean up uploaded files if error occurs
-        if (req.files && req.files.length > 0) {
-            req.files.forEach(file => {
-                fs.unlinkSync(file.path);
-            });
-        }
+        cleanupUploadedFiles(req);
         res.status(500).json({
             success: false,
             message: "Internal server error while updating student enquiry",
@@ -301,26 +395,30 @@ const deleteStudentEnquiry = async (req, res) => {
         }
 
         // Delete associated files
-        if (enquiry.documents && enquiry.documents.length > 0) {
-            for (const doc of enquiry.documents) {
-                const filePath = doc.path
-                    ? path.resolve(doc.path)
-                    : path.join(__dirname, "../src/uploads", doc.filename);
-
-                try {
-                    await fs.access(filePath); // check if file exists
-                    await fs.unlink(filePath); // delete it
-                } catch (err) {
-                    console.warn(`File not found or cannot delete: ${filePath}`);
-                }
+        if (enquiry.passportDocument && enquiry.passportDocument.path) {
+            try {
+                await fs.unlink(enquiry.passportDocument.path);
+            } catch (err) {
+                console.warn('Could not delete passport file:', err.message);
             }
         }
 
-        const deleted = await deleteStudentEnquiryById(id);
+        if (enquiry.cvDocument && enquiry.cvDocument.path) {
+            try {
+                await fs.unlink(enquiry.cvDocument.path);
+            } catch (err) {
+                console.warn('Could not delete CV file:', err.message);
+            }
+        }
+
+        // Get agent ID for authorization
+        const agentId = req.user?.id;
+
+        const deleted = await deleteStudentEnquiryById(id, agentId);
         if (!deleted) {
             return res.status(404).json({
                 success: false,
-                message: "Student enquiry not found"
+                message: "Student enquiry not found or unauthorized"
             });
         }
 
@@ -334,6 +432,23 @@ const deleteStudentEnquiry = async (req, res) => {
             success: false,
             message: "Internal server error while deleting student enquiry",
             error: error.message
+        });
+    }
+};
+
+// Helper function to clean up uploaded files
+const cleanupUploadedFiles = (req) => {
+    if (req.files) {
+        Object.values(req.files).forEach(fileArray => {
+            if (Array.isArray(fileArray)) {
+                fileArray.forEach(file => {
+                    try {
+                        fs.unlinkSync(file.path);
+                    } catch (err) {
+                        console.warn('Could not delete uploaded file:', err.message);
+                    }
+                });
+            }
         });
     }
 };

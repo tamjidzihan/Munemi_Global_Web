@@ -11,112 +11,165 @@ module.exports = {
         allowNull: false
       },
 
-      // --- Personal Details ---
-      firstName: {
-        type: Sequelize.STRING,
+      // --- Add Agent Reference ---
+      agentId: {
+        type: Sequelize.UUID,
         allowNull: false,
-        validate: { notEmpty: true }
+        references: {
+          model: 'agents',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT'
       },
-      lastName: {
+
+      // --- Personal Details ---
+      givenName: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: { notEmpty: true }
+        allowNull: false
+      },
+      surName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      gender: {
+        type: Sequelize.ENUM('Male', 'Female'),
+        allowNull: true
+      },
+      currentOccupation: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       dateOfBirth: {
         type: Sequelize.DATEONLY,
-        validate: { isDate: true }
+        allowNull: true
+      },
+      nidNumber: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
 
       // --- Contact Details ---
       phone: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: { notEmpty: true }
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          isEmail: true,
-          notEmpty: true
+          isEmail: true
         }
       },
 
-      // --- Address ---
-      street: { type: Sequelize.STRING },
-      city: { type: Sequelize.STRING },
-      state: { type: Sequelize.STRING },
-      zipCode: { type: Sequelize.STRING },
-      country: { type: Sequelize.STRING },
+      // --- Family Details ---
+      fathersName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      fathersNid: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      fathersPhone: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      mothersName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      mothersNid: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      mothersPhone: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      spouseName: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      spouseNid: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      spousePhone: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      numberOfChildren: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
 
       // --- Visa Information ---
-      visaType: { type: Sequelize.STRING },
+      visaType: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       visaExpiryDate: {
         type: Sequelize.DATEONLY,
-        validate: { isDate: true }
+        allowNull: true
       },
-      passportCountry: { type: Sequelize.STRING },
-
-      // --- Other Details ---
-      preferredIntake: { type: Sequelize.STRING },
+      passportCountry: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
 
       // --- Interested Services (array as JSON) ---
       interestedServices: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       // --- Education Background (array of objects) ---
       educationBackground: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       // --- English Test Scores (store as JSON) ---
       englishTestScores: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       // --- File Uploads ---
-      documents: {
+      passportDocument: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: false
       },
-
-      // --- Comments ---
-      comments: { type: Sequelize.TEXT },
+      cvDocument: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
 
       // --- Emergency Contact ---
       emergencyContact: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       // --- Passport Details ---
+      hasPreviousPassport: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      previousPassportNumbers: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
       passportDetails: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       // --- Visa Refusal Details ---
       visaRefusalDetails: {
         type: Sequelize.TEXT,
-        validate: {
-          isJSON: true
-        }
+        allowNull: true
       },
 
       createdAt: {
@@ -132,20 +185,24 @@ module.exports = {
     });
 
     // Add indexes for better performance
-    await queryInterface.addIndex('StudentEnquiries', ['email']);
-    await queryInterface.addIndex('StudentEnquiries', ['createdAt']);
-    await queryInterface.addIndex('StudentEnquiries', ['lastName']);
-    await queryInterface.addIndex('StudentEnquiries', ['country']);
+    await queryInterface.addIndex('studentEnquiries', ['email']);
+    await queryInterface.addIndex('studentEnquiries', ['agentId']);
+    await queryInterface.addIndex('studentEnquiries', ['createdAt']);
+    await queryInterface.addIndex('studentEnquiries', ['givenName']);
+    await queryInterface.addIndex('studentEnquiries', ['surName']);
+    await queryInterface.addIndex('studentEnquiries', ['phone']);
   },
 
   async down(queryInterface, Sequelize) {
     // Remove indexes first
-    await queryInterface.removeIndex('StudentEnquiries', ['email']);
-    await queryInterface.removeIndex('StudentEnquiries', ['createdAt']);
-    await queryInterface.removeIndex('StudentEnquiries', ['lastName']);
-    await queryInterface.removeIndex('StudentEnquiries', ['country']);
+    await queryInterface.removeIndex('studentEnquiries', ['email']);
+    await queryInterface.removeIndex('studentEnquiries', ['agentId']);
+    await queryInterface.removeIndex('studentEnquiries', ['createdAt']);
+    await queryInterface.removeIndex('studentEnquiries', ['givenName']);
+    await queryInterface.removeIndex('studentEnquiries', ['surName']);
+    await queryInterface.removeIndex('studentEnquiries', ['phone']);
 
     // Then drop the table
-    await queryInterface.dropTable('StudentEnquiries');
+    await queryInterface.dropTable('studentEnquiries');
   }
 };

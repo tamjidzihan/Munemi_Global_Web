@@ -28,7 +28,10 @@ module.exports = {
       },
       emailAddress: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isEmail: true
+        }
       },
       applyingAs: {
         type: Sequelize.ENUM('Sub-Agent', 'Super-Agent'),
@@ -64,7 +67,28 @@ module.exports = {
       },
       personalEmail: {
         type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          isEmail: true
+        }
+      },
+      // Add approval status fields
+      status: {
+        type: Sequelize.ENUM('pending', 'approved', 'rejected'),
+        defaultValue: 'pending',
         allowNull: false
+      },
+      approvedAt: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      approvedBy: {
+        type: Sequelize.UUID,
+        allowNull: true
+      },
+      rejectionReason: {
+        type: Sequelize.TEXT,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -77,9 +101,21 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
       }
     });
+
+    // Add indexes
+    await queryInterface.addIndex('agents_applications', ['emailAddress']);
+    await queryInterface.addIndex('agents_applications', ['personalEmail']);
+    await queryInterface.addIndex('agents_applications', ['status']);
+    await queryInterface.addIndex('agents_applications', ['tradingName']);
   },
 
   async down(queryInterface, Sequelize) {
+    // Remove indexes
+    await queryInterface.removeIndex('agents_applications', ['emailAddress']);
+    await queryInterface.removeIndex('agents_applications', ['personalEmail']);
+    await queryInterface.removeIndex('agents_applications', ['status']);
+    await queryInterface.removeIndex('agents_applications', ['tradingName']);
+
     await queryInterface.dropTable('agents_applications');
   }
 };

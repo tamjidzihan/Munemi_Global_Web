@@ -1,22 +1,12 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../utils/database');
 
-const Agent = sequelize.define('Agent', {
+const AgentApplication = sequelize.define('AgentApplication', {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
     },
-    applicationId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        unique: true,
-        references: {
-            model: 'agents_applications',
-            key: 'id'
-        }
-    },
-    // Copy relevant fields from application
     tradingName: {
         type: DataTypes.STRING,
         allowNull: false
@@ -74,22 +64,28 @@ const Agent = sequelize.define('Agent', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    // Additional fields for active agents
-    isActive: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
+    // Add approval status
+    status: {
+        type: DataTypes.ENUM('pending', 'approved', 'rejected'),
+        defaultValue: 'pending',
+        allowNull: false
     },
-    commissionRate: {
-        type: DataTypes.DECIMAL(5, 2),
-        defaultValue: 0.0
+    // Add approval timestamp and details
+    approvedAt: {
+        type: DataTypes.DATE,
+        allowNull: true
     },
-    totalStudentsReferred: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
+    approvedBy: {
+        type: DataTypes.UUID, // Reference to admin user who approved
+        allowNull: true
+    },
+    rejectionReason: {
+        type: DataTypes.TEXT,
+        allowNull: true
     }
 }, {
-    tableName: 'agents',
+    tableName: 'agents_applications',
     timestamps: true
 });
 
-module.exports = Agent;
+module.exports = AgentApplication;

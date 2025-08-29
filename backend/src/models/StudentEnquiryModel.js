@@ -8,16 +8,35 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
         defaultValue: DataTypes.UUIDV4
     },
 
+    // --- Reference Agent model instead ---
+    agentId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'agents',
+            key: 'id'
+        },
+        validate: {
+            async isValidAgent(value) {
+                const agent = await sequelize.models.Agent.findByPk(value);
+                if (!agent || !agent.isActive) {
+                    throw new Error('Only active agents can create student enquiries');
+                }
+            }
+        }
+    },
+
+
     // --- Personal Details ---
     givenName: { type: DataTypes.STRING, allowNull: false },
     surName: { type: DataTypes.STRING, allowNull: false },
     gender: { type: DataTypes.ENUM('Male', 'Female') },
-    currentoccupation: { type: DataTypes.STRING, allowNull: false },
+    currentOccupation: { type: DataTypes.STRING, allowNull: false },
     dateOfBirth: { type: DataTypes.DATEONLY },
+    nidNumber: { type: DataTypes.STRING, allowNull: false },
 
     // --- Contact Details ---
     phone: { type: DataTypes.STRING, allowNull: false },
-    nidNumbe: { type: DataTypes.STRING, allowNull: false },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -34,14 +53,7 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
     spouseName: { type: DataTypes.STRING },
     spouseNid: { type: DataTypes.STRING },
     spousePhone: { type: DataTypes.STRING },
-
-
-    // --- Address ---
-    street: { type: DataTypes.STRING },
-    city: { type: DataTypes.STRING },
-    state: { type: DataTypes.STRING },
-    zipCode: { type: DataTypes.STRING },
-    country: { type: DataTypes.STRING },
+    numberOfChildren: { type: DataTypes.STRING },
 
     // --- Visa Information ---
     visaType: { type: DataTypes.STRING },
@@ -85,19 +97,28 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
     },
 
     // --- File Uploads ---
-    documents: {
+    passportDocument: {
         type: DataTypes.TEXT,
+        allowNull: false,
         get() {
-            const value = this.getDataValue('documents');
-            return value ? JSON.parse(value) : [];
+            const value = this.getDataValue('passportDocument');
+            return value ? JSON.parse(value) : {};
         },
         set(value) {
-            this.setDataValue('documents', JSON.stringify(value));
+            this.setDataValue('passportDocument', JSON.stringify(value));
         }
     },
-
-    // --- Comments ---
-    comments: { type: DataTypes.TEXT },
+    cvDocument: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        get() {
+            const value = this.getDataValue('cvDocument');
+            return value ? JSON.parse(value) : {};
+        },
+        set(value) {
+            this.setDataValue('cvDocument', JSON.stringify(value));
+        }
+    },
 
     // --- Emergency Contact ---
     emergencyContact: {
@@ -112,6 +133,20 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
     },
 
     // --- Passport Details ---
+    hasPreviousPassport: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    previousPassportNumbers: {
+        type: DataTypes.TEXT,
+        get() {
+            const value = this.getDataValue('previousPassportNumbers');
+            return value ? JSON.parse(value) : [];
+        },
+        set(value) {
+            this.setDataValue('previousPassportNumbers', JSON.stringify(value));
+        }
+    },
     passportDetails: {
         type: DataTypes.TEXT,
         get() {
@@ -136,7 +171,9 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
     }
 
 }, {
-    timestamps: true
+    timestamps: true,
+    tableName: 'studentEnquiries'
 });
+
 
 module.exports = StudentEnquiry;

@@ -9,17 +9,26 @@ const {
 const upload = require("../middlewares/multerConfig");
 
 module.exports = (router) => {
-    router.get("/student-enquiries", getAllStudentEnquiries); // GET all
-    router.get("/student-enquiries/:id", getStudentEnquiryById); // GET by ID
+    router.get("/student-enquiries", getAllStudentEnquiries);
+    router.get("/student-enquiries/:id", getStudentEnquiryById);
+
     router.post(
         "/student-enquiries",
-        upload.array("documents"), // multiple docs
+        upload.fields([
+            { name: 'passport', maxCount: 1 },
+            { name: 'cv', maxCount: 1 }
+        ]),
         createNewStudentEnquiry
     );
+
     router.patch(
         "/student-enquiries/:id",
-        upload.array("documents"), // allow updating with new docs
+        upload.fields([
+            { name: 'passport', maxCount: 1 },
+            { name: 'cv', maxCount: 1 }
+        ]),
         updateStudentEnquiry
     );
-    router.delete("/student-enquiries/:id", deleteStudentEnquiry); // DELETE
+
+    router.delete("/student-enquiries/:id", deleteStudentEnquiry);
 };
