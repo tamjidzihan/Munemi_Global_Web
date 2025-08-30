@@ -304,6 +304,7 @@ const searchStudentEnquiries = async (searchCriteria) => {
     };
 };
 
+
 // Helper function to process JSON fields - UPDATED
 const processJsonFields = (values) => {
     const jsonFields = [

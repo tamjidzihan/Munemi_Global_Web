@@ -10,6 +10,7 @@ const {
     deleteAgent,
     updateCommissionRate,
     incrementStudentsReferred,
+    getAgentBybusinessRegistrationNumber,
     searchAgents,
     getAgentStats,
     getTopPerformingAgents,
@@ -34,6 +35,9 @@ module.exports = (router) => {
 
     // Get agent by ID
     router.get('/agents/:id', getAgentById);
+
+    // Get agent by BybusinessRegistrationNumber
+    router.get('/agents-registration-number/:registrationnumber', getAgentBybusinessRegistrationNumber);
 
     // Get agent by application ID
     router.get('/agents/application/:applicationId', getAgentByApplicationId);

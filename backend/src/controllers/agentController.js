@@ -1,4 +1,5 @@
 const AgentService = require('../services/agentService');
+const AgentApplicationsService = require('../services/agentApplicationService')
 
 // Get all agents
 const getAllAgents = async (req, res) => {
@@ -74,6 +75,59 @@ const getAgentById = async (req, res) => {
         });
     }
 };
+
+const getAgentBybusinessRegistrationNumber = async (req, res) => {
+    try {
+        const { registrationnumber } = req.params;
+
+        // First check if there's an active agent
+        const agent = await AgentService.getAgentBybusinessRegistrationNumber(registrationnumber);
+
+        // If agent exists and is active, return the agent data
+        if (agent && agent.isActive) {
+            return res.status(200).json({
+                success: true,
+                message: "Agent is approved and active",
+                data: agent
+            });
+        }
+
+        // Check if there are any pending or rejected applications
+        const agentApplication = await AgentApplicationsService.getAgentApplicationsByBusinessRegistrationNumber(registrationnumber);
+
+        if (agentApplication) {
+            if (agentApplication.status === 'pending') {
+                return res.status(200).json({
+                    success: false,
+                    message: "Agent application is pending approval",
+                    applicationStatus: 'pending'
+                });
+            } else if (agentApplication.status === 'rejected') {
+                return res.status(200).json({
+                    success: false,
+                    message: `Agent application was rejected. Reason: ${agentApplication.rejectionReason || 'No reason provided'}`,
+                    applicationStatus: 'rejected',
+                    rejectionReason: agentApplication.rejectionReason
+                });
+            }
+        }
+        // If nothing found
+        return res.status(404).json({
+            success: false,
+            message: "No agent or application found for this Registration Number"
+        });
+
+    } catch (error) {
+        console.error('Error fetching agent:', error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while fetching agent",
+            error: error.message
+        });
+    }
+}
+
+
 
 // Get agent by application ID
 const getAgentByApplicationId = async (req, res) => {
@@ -526,6 +580,7 @@ module.exports = {
     getAllAgents,
     getAgentById,
     getAgentByApplicationId,
+    getAgentBybusinessRegistrationNumber,
     getActiveAgents,
     updateAgent,
     deactivateAgent,

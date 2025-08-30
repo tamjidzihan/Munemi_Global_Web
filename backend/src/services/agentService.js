@@ -1,6 +1,7 @@
 const Agent = require('../models/AgentModel');
 const AgentApplication = require('../models/AgentApplicationModel');
 const StudentEnquiry = require('../models/StudentEnquiryModel')
+const { Op } = require('sequelize');
 
 Agent.hasMany(StudentEnquiry, {
     foreignKey: 'agentId',
@@ -52,6 +53,11 @@ const getActiveAgents = () =>
         }]
     });
 
+const getAgentBybusinessRegistrationNumber = (businessRegistrationNumber) =>
+    Agent.findOne({
+        where: { businessRegistrationNumber }
+    })
+
 const createAgent = async (agentData) => {
     // Check if application already has an agent
     const existingAgent = await Agent.findOne({
@@ -78,12 +84,7 @@ const updateAgentById = async (id, values) => {
 
     if (updateCount === 0) return null;
 
-    return Agent.findByPk(id, {
-        include: [{
-            model: AgentApplication,
-            as: 'application'
-        }]
-    });
+    return Agent.findByPk(id);
 };
 
 const deactivateAgent = async (id) => {
@@ -167,18 +168,21 @@ const searchAgents = async (searchCriteria) => {
 
     const whereClause = {};
 
-    if (tradingName) whereClause.tradingName = { [Op.iLike]: `%${tradingName}%` };
-    if (emailAddress) whereClause.emailAddress = { [Op.iLike]: `%${emailAddress}%` };
-    if (country) whereClause.country = { [Op.iLike]: `%${country}%` };
+    // Convert search terms to lowercase for case-insensitive search
+    if (tradingName) whereClause.tradingName = {
+        [Op.like]: `%${tradingName.toLowerCase()}%`
+    };
+    if (emailAddress) whereClause.emailAddress = {
+        [Op.like]: `%${emailAddress.toLowerCase()}%`
+    };
+    if (country) whereClause.country = {
+        [Op.like]: `%${country.toLowerCase()}%`
+    };
     if (applyingAs) whereClause.applyingAs = applyingAs;
     if (isActive !== undefined) whereClause.isActive = isActive;
 
     return Agent.findAll({
         where: whereClause,
-        include: [{
-            model: AgentApplication,
-            as: 'application'
-        }],
         order: [['createdAt', 'DESC']]
     });
 };
@@ -219,6 +223,7 @@ module.exports = {
     getAgentById,
     getAgentByApplicationId,
     getActiveAgents,
+    getAgentBybusinessRegistrationNumber,
     createAgent,
     updateAgentById,
     deactivateAgent,

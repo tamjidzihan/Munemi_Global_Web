@@ -7,21 +7,21 @@ const {
     deleteStudentEnquiryById,
     findStudentEnquiryById,
     getStudentEnquiries,
-    updateStudentEnquiryById
+    updateStudentEnquiryById,
 } = require("../services/studentEnquiryService");
 
 const { validationResult } = require('express-validator');
 
-// Updated validation schema to match new model
-const validateEnquiryData = (data, isUpdate = false) => {
+// validation schema to match new model
+const validateEnquiryData = (data, files, isUpdate = false) => {
     const requiredFields = [
-        'givenName', 'surName', 'phone', 'email', 'nidNumber',
+        'givenName', 'surName', 'phone', 'email', 'nidNumber', 'agentId',
         'fathersName', 'fathersNid', 'mothersName', 'mothersNid',
         'currentOccupation'
     ];
 
-    // For updates, only validate fields that are being updated
     if (!isUpdate) {
+        // Validate required text fields
         for (const field of requiredFields) {
             if (!data[field]) {
                 return { isValid: false, message: `${field} is required` };
@@ -29,13 +29,14 @@ const validateEnquiryData = (data, isUpdate = false) => {
         }
 
         // Validate required documents for new enquiries
-        if (!data.passportDocument) {
+        if (!files?.passport || !files.passport[0]) {
             return { isValid: false, message: "Passport document is required" };
         }
-        if (!data.cvDocument) {
+        if (!files?.cv || !files.cv[0]) {
             return { isValid: false, message: "CV document is required" };
         }
     } else {
+        // On update, only validate provided fields
         for (const field of requiredFields) {
             if (data[field] !== undefined && !data[field]) {
                 return { isValid: false, message: `${field} cannot be empty` };
@@ -43,7 +44,15 @@ const validateEnquiryData = (data, isUpdate = false) => {
         }
     }
 
-    // Validate email format if email is provided
+    if (!data.agentId) {
+        cleanupUploadedFiles(req);
+        return res.status(400).json({
+            success: false,
+            message: "Agent ID is required"
+        });
+    }
+
+    // Validate email format if provided
     if (data.email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
@@ -56,14 +65,12 @@ const validateEnquiryData = (data, isUpdate = false) => {
         'interestedServices', 'educationBackground',
         'englishTestScores', 'emergencyContact',
         'passportDetails', 'visaRefusalDetails',
-        'previousPassportNumbers',
-        'passportDocument', 'cvDocument'
+        'previousPassportNumbers'
     ];
 
     for (const field of jsonFields) {
         if (data[field]) {
             try {
-                // If it's already an object (from file upload middleware), skip parsing
                 if (typeof data[field] !== 'object') {
                     JSON.parse(data[field]);
                 }
@@ -75,6 +82,7 @@ const validateEnquiryData = (data, isUpdate = false) => {
 
     return { isValid: true };
 };
+
 
 const getAllStudentEnquiries = async (req, res) => {
     try {
@@ -150,9 +158,8 @@ const createNewStudentEnquiry = async (req, res) => {
             });
         }
 
-        const validation = validateEnquiryData(req.body);
+        const validation = validateEnquiryData(req.body, req.files);
         if (!validation.isValid) {
-            // Clean up uploaded files if validation fails
             cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
@@ -194,7 +201,7 @@ const createNewStudentEnquiry = async (req, res) => {
 
         // Validate that both documents are provided
         if (!passportDocument) {
-            cleanupUploadedFiles(req);
+            await cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 message: "Passport document is required"
@@ -202,7 +209,7 @@ const createNewStudentEnquiry = async (req, res) => {
         }
 
         if (!cvDocument) {
-            cleanupUploadedFiles(req);
+            await cleanupUploadedFiles(req);
             return res.status(400).json({
                 success: false,
                 message: "CV document is required"
@@ -218,18 +225,9 @@ const createNewStudentEnquiry = async (req, res) => {
             visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null
         };
 
-        // Get agent ID from authenticated user (assuming it's stored in req.user)
-        const agentId = req.user?.id; // Adjust based on your auth implementation
 
-        if (!agentId) {
-            cleanupUploadedFiles(req);
-            return res.status(400).json({
-                success: false,
-                message: "Agent ID is required"
-            });
-        }
 
-        const newStudentEnquiry = await createStudentEnquiry(enquiryData, agentId);
+        const newStudentEnquiry = await createStudentEnquiry(enquiryData, req.body.agentId);
 
         res.status(201).json({
             success: true,
@@ -437,19 +435,19 @@ const deleteStudentEnquiry = async (req, res) => {
 };
 
 // Helper function to clean up uploaded files
-const cleanupUploadedFiles = (req) => {
+const cleanupUploadedFiles = async (req) => {
     if (req.files) {
-        Object.values(req.files).forEach(fileArray => {
+        for (const fileArray of Object.values(req.files)) {
             if (Array.isArray(fileArray)) {
-                fileArray.forEach(file => {
+                for (const file of fileArray) {
                     try {
-                        fs.unlinkSync(file.path);
+                        await fs.unlink(file.path);
                     } catch (err) {
                         console.warn('Could not delete uploaded file:', err.message);
                     }
-                });
+                }
             }
-        });
+        }
     }
 };
 

@@ -1,6 +1,7 @@
 const { sequelize } = require('../utils/database');
 const AgentApplication = require('../models/AgentApplicationModel');
 const Agent = require('../models/AgentModel');
+const { Op } = require('sequelize');
 
 // AgentApplication -> Agent (One-to-One)
 AgentApplication.hasOne(Agent, {
@@ -93,11 +94,22 @@ const rejectAgentApplicationAdmin = async (applicationId, rejectedBy, reason) =>
     }
 
     application.status = 'rejected';
-    application.rejectionReason = reason;
     await application.save();
 
     return application;
 };
+
+// New function to get applications by Business Registration Number
+const getAgentApplicationsByBusinessRegistrationNumber = (businessRegistrationNumber) =>
+    AgentApplication.findOne({
+        where: {
+            businessRegistrationNumber,
+            status: {
+                [Op.in]: ['pending', 'rejected']
+            }
+        }
+    });
+
 
 // New function to get applications by status
 const getAgentApplicationsByStatus = (status) =>
@@ -143,5 +155,6 @@ module.exports = {
     getAgentApplicationsByStatus,
     getAgentByApplicationId,
     getAllApprovedAgents,
-    getAgentWithApplication
+    getAgentWithApplication,
+    getAgentApplicationsByBusinessRegistrationNumber
 };

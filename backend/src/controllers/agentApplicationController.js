@@ -75,12 +75,12 @@ const createNewAgentApplication = async (req, res) => {
 
         // Check if email already exists in pending or approved applications
         const existingApplication = await AgentApplicationService.getAgentApplicationsByStatus(['pending', 'approved']);
-        const emailExists = existingApplication.some(app =>
-            app.emailAddress === emailAddress || app.personalEmail === personalEmail
+        const businessRegistrationNumberExists = existingApplication.some(app =>
+            app.businessRegistrationNumber === businessRegistrationNumber
         );
 
-        if (emailExists) {
-            return res.status(400).json({ message: "An application with this email already exists" });
+        if (businessRegistrationNumberExists) {
+            return res.status(400).json({ message: "An application with this business Registration Number already exists" });
         }
 
         const newApplication = await AgentApplicationService.createAgentApplication({
@@ -201,16 +201,10 @@ const rejectAgentApplication = async (req, res) => {
         const { id } = req.params;
         const { rejectedBy, reason } = req.body;
 
-        if (!rejectedBy || !reason) {
+        if (!rejectedBy) {
             return res.status(400).json({
                 message: 'Rejecter ID and reason are required',
-                required: ['rejectedBy', 'reason']
-            });
-        }
-
-        if (reason.length < 10) {
-            return res.status(400).json({
-                message: 'Rejection reason must be at least 10 characters long'
+                required: 'rejectedBy'
             });
         }
 
@@ -250,6 +244,7 @@ const getApplicationsByStatus = async (req, res) => {
     try {
         const { status } = req.params;
         const { page = 1, limit = 10 } = req.query;
+        console.log(status)
 
         if (!['pending', 'approved', 'rejected'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status type' });
