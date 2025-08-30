@@ -1,6 +1,6 @@
 import PageTitle from "./components/PageTitle";
 import ViewStudentQuery from "./components/StudentEnquiry/ViewStudentQuery";
-import Agent from "./pages/Agent/Agent";
+import AgentApplication from "./pages/AgentApplication/AgentApplication";
 import Appointments from "./pages/Appointment/Appointments";
 import Blog from "./pages/Blog/Blog";
 import Career from "./pages/Career/Career";
@@ -93,11 +93,11 @@ export const childRoutes = [
         ),
     },
     {
-        path: "career/agent",
+        path: "career/agentapplication",
         element: (
             <>
                 <PageTitle title="Agent Application | Moderate Agent  Partners Here" />
-                <Agent />
+                <AgentApplication />
             </>
         ),
     },

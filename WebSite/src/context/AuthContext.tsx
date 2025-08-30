@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import apiClient from '../services/apiClient';
 
 interface User {
+    id: string;
     firstName: string;
     lastName: string;
     email: string;

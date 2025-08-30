@@ -93,6 +93,15 @@ const rejectAgentApplicationAdmin = async (applicationId, rejectedBy, reason) =>
         throw new Error('Application is already rejected');
     }
 
+    await Agent.destroy({
+        where: {
+            applicationId: applicationId
+        }
+    })
+
+
+
+    application.rejectionReason = reason
     application.status = 'rejected';
     await application.save();
 

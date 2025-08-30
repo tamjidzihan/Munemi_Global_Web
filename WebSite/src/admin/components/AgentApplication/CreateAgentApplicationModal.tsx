@@ -1,88 +1,90 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import useAgentApplications, { AgentApplication } from "../../../hooks/useAgentApplications";
+import { CreateAgentApplication } from "../../../hooks/useAgentApplications";
 
 type CreateAgentApplicationModalProps = {
+    createAgentApplication: (application: CreateAgentApplication) => void
     isOpen: boolean;
     closeModal: () => void;
-    addNewApplication: (newApplication: AgentApplication) => void;
-}
+    fetchApplications: () => void;
+    loading: boolean
+};
 
 const CreateAgentApplicationModal = ({
     isOpen,
     closeModal,
-    addNewApplication,
+    createAgentApplication,
+    fetchApplications,
+    loading
 }: CreateAgentApplicationModalProps) => {
-    const { createAgentApplication, loading } = useAgentApplications();
     const [formData, setFormData] = useState({
-        tradingName: '',
-        businessRegistrationNumber: '',
-        companyPhone: '',
-        country: '',
-        emailAddress: '',
-        applyingAs: '' as 'Sub-Agent' | 'Super-Agent',
-        primaryOfficeLocation: '',
-        currentAddress: '',
-        website: '',
-        firstName: '',
-        position: '',
-        lastName: '',
-        personalPhone: '',
-        personalEmail: '',
+        tradingName: "",
+        businessRegistrationNumber: "",
+        companyPhone: "",
+        country: "",
+        emailAddress: "",
+        applyingAs: "" as "Sub-Agent" | "Super-Agent",
+        primaryOfficeLocation: "",
+        currentAddress: "",
+        website: "",
+        firstName: "",
+        position: "",
+        lastName: "",
+        personalPhone: "",
+        personalEmail: "",
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validate required fields
         const requiredFields = [
-            'tradingName',
-            'businessRegistrationNumber',
-            'companyPhone',
-            'country',
-            'emailAddress',
-            'applyingAs',
-            'primaryOfficeLocation',
-            'currentAddress',
-            'firstName',
-            'position',
-            'lastName',
-            'personalPhone',
-            'personalEmail'
+            "tradingName",
+            "businessRegistrationNumber",
+            "companyPhone",
+            "country",
+            "emailAddress",
+            "applyingAs",
+            "primaryOfficeLocation",
+            "currentAddress",
+            "firstName",
+            "position",
+            "lastName",
+            "personalPhone",
+            "personalEmail",
         ];
 
-        const isValid = requiredFields.every(field => !!formData[field as keyof typeof formData]);
-
+        const isValid = requiredFields.every(
+            (field) => !!formData[field as keyof typeof formData]
+        );
         if (!isValid) {
             alert("All required fields must be filled.");
             return;
         }
 
         try {
-            const newApplication = await createAgentApplication(formData);
-            addNewApplication(newApplication);
+            createAgentApplication(formData);
             closeModal();
         } catch (error) {
             console.error(error);
             alert("Failed to create agent application.");
         } finally {
-            // Reset form fields
             setFormData({
-                tradingName: '',
-                businessRegistrationNumber: '',
-                companyPhone: '',
-                country: '',
-                emailAddress: '',
-                applyingAs: '' as 'Sub-Agent' | 'Super-Agent',
-                primaryOfficeLocation: '',
-                currentAddress: '',
-                website: '',
-                firstName: '',
-                position: '',
-                lastName: '',
-                personalPhone: '',
-                personalEmail: '',
+                tradingName: "",
+                businessRegistrationNumber: "",
+                companyPhone: "",
+                country: "",
+                emailAddress: "",
+                applyingAs: "" as "Sub-Agent" | "Super-Agent",
+                primaryOfficeLocation: "",
+                currentAddress: "",
+                website: "",
+                firstName: "",
+                position: "",
+                lastName: "",
+                personalPhone: "",
+                personalEmail: "",
             });
+            fetchApplications()
         }
     };
 

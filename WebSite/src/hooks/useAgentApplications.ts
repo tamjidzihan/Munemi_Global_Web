@@ -18,37 +18,101 @@ export interface AgentApplication {
     lastName: string;
     personalPhone: string;
     personalEmail: string;
+    status: 'pending' | 'approved' | 'rejected';
+    approvedAt?: string;
+    approvedBy?: string;
+    rejectionReason?: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface CreateAgentApplication {
+    tradingName: string;
+    businessRegistrationNumber: string;
+    companyPhone: string;
+    country: string;
+    emailAddress: string;
+    applyingAs: 'Sub-Agent' | 'Super-Agent';
+    primaryOfficeLocation: string;
+    currentAddress: string;
+    website?: string;
+    firstName: string;
+    position: string;
+    lastName: string;
+    personalPhone: string;
+    personalEmail: string;
+}
+
+interface ApplicationStats {
+    total: number;
+    pending: number;
+    approved: number;
+    rejected: number;
 }
 
 const useAgentApplications = () => {
     const [agentApplications, setAgentApplications] = useState<AgentApplication[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [stats, setStats] = useState<ApplicationStats>({
+        total: 0,
+        pending: 0,
+        approved: 0,
+        rejected: 0
+    });
+
     const totalApplications = agentApplications.length;
 
     // Fetch all agent applications
-    useEffect(() => {
+    const fetchApplications = async () => {
         setLoading(true);
-        const getApplications = async () => {
-            try {
-                const response = await apiClient.get('/agent-applications');
-                setAgentApplications(response.data);
-                setLoading(false);
-            } catch (err) {
-                setError('Failed to fetch agent applications');
-                setLoading(false);
-            }
+        try {
+            const response = await apiClient.get('/agent-applications');
+            setAgentApplications(response.data);
+            setLoading(false);
+        } catch (err) {
+            setError('Failed to fetch agent applications');
+            setLoading(false);
         }
-        getApplications();
+    };
+
+    useEffect(() => {
+        fetchApplications();
     }, []);
 
+    // Fetch application statistics
+    const fetchApplicationStats = async () => {
+        try {
+            const response = await apiClient.get('/agent-applications-stats');
+            setStats(response.data);
+            return response.data;
+        } catch (err) {
+            setError('Failed to fetch application statistics');
+            throw err;
+        }
+    };
+
+    // Fetch applications by status
+    const getApplicationsByStatus = async (status: string) => {
+        setLoading(true);
+        try {
+            const response = await apiClient.get(`/agent-applications-status/${status}`);
+            setAgentApplications(response.data);
+            setLoading(false);
+            return response.data;
+        } catch (err) {
+            setError(`Failed to fetch ${status} applications`);
+            setLoading(false);
+            throw err;
+        }
+    };
+
     // Create new agent application
-    const createAgentApplication = async (application: Omit<AgentApplication, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const createAgentApplication = async (application: CreateAgentApplication) => {
         setLoading(true);
         try {
             const response = await apiClient.post('/agent-applications', application);
+            fetchApplications()
             setAgentApplications(prev => [response.data, ...prev]);
             setLoading(false);
             return response.data;
@@ -63,7 +127,7 @@ const useAgentApplications = () => {
     const updateAgentApplication = async (id: string, updatedApplication: Partial<AgentApplication>) => {
         setLoading(true);
         try {
-            const response = await apiClient.patch(`/agent-applications/${id}`, updatedApplication);
+            const response = await apiClient.put(`/agent-applications/${id}`, updatedApplication);
             const updatedApplications = agentApplications.map(app =>
                 app.id === id ? { ...app, ...response.data } : app
             );
@@ -91,15 +155,59 @@ const useAgentApplications = () => {
         }
     };
 
+    // Approve agent application
+    const approveAgentApplication = async (id: string, approvedBy: string) => {
+        setLoading(true);
+        try {
+            const response = await apiClient.patch(`/agent-applications/${id}/approve`, { approvedBy });
+            const { application } = response.data; // only update application
+            const updatedApplications = agentApplications.map(app =>
+                app.id === id ? { ...app, ...application } : app
+            );
+            setAgentApplications(updatedApplications); // update parent state
+            setLoading(false);
+            return application;
+        } catch (err) {
+            setError('Failed to approve agent application');
+            setLoading(false);
+            throw err;
+        }
+    };
+
+    // Reject agent application
+    const rejectAgentApplication = async (id: string, reason: string, rejectedBy: string) => {
+        setLoading(true);
+        try {
+            const response = await apiClient.patch(`/agent-applications/${id}/reject`, { reason, rejectedBy });
+            const { application } = response.data; // only update application
+            const updatedApplications = agentApplications.map(app =>
+                app.id === id ? { ...app, ...application } : app
+            );
+            setAgentApplications(updatedApplications); // update parent state
+            setLoading(false);
+            return application;
+        } catch (err) {
+            setError('Failed to reject agent application');
+            setLoading(false);
+            throw err;
+        }
+    };
+
     return {
         totalApplications,
         agentApplications,
         loading,
         error,
+        stats,
+        fetchApplications,
         setAgentApplications,
+        fetchApplicationStats,
+        getApplicationsByStatus,
         createAgentApplication,
         updateAgentApplication,
         deleteAgentApplication,
+        approveAgentApplication,
+        rejectAgentApplication,
     };
 };
 

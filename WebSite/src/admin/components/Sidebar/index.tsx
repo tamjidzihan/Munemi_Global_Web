@@ -344,7 +344,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                           <div>
                             <NavLink
-                              to="/adminpanel/career/agent"
+                              to="/adminpanel/career/agentapplication"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md pb-1 px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
