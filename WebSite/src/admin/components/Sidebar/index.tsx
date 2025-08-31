@@ -139,6 +139,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </div>
               {/* <!-- Menu Item Dashboard --> */}
 
+
+              {/* <!-- Menu Item Active Agents --> */}
+              <div>
+                <NavLink
+                  to="/adminpanel/agents"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 $`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-check-icon lucide-user-check">
+                    <path d="m16 11 2 2 4-4" />
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                  </svg>
+                  Active Agents
+                </NavLink>
+              </div>
+              {/* <!-- Menu Item Active Agents --> */}
+
               {/* <!-- Menu Item Appointments --> */}
               <div>
                 <NavLink
@@ -196,7 +213,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
 
               {/* <!-- Menu Item package --> */}
-
               <SidebarLinkGroup
                 activeCondition={
                   pathname === '/package' || pathname.includes('package')
@@ -496,6 +512,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   University
                 </NavLink>
               </div>
+              {/* <!-- Menu Item University --> */}
+
               {/* <!-- Menu Item Blog --> */}
               <div>
                 <NavLink
@@ -513,6 +531,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Blog Posts
                 </NavLink>
               </div>
+              {/* <!-- Menu Item Blog --> */}
             </div>
           </div>
         </nav>

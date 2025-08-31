@@ -9,6 +9,8 @@ import usePackage from '../../../hooks/usePackage';
 import useFlightBookings from '../../../hooks/useFlightBookings';
 import usePackageBookings from '../../../hooks/usePackageBookings';
 import useAgentApplications from '../../../hooks/useAgentApplications';
+import useAgents from '../../../hooks/useAgents';
+
 
 
 const DashboardIndex: React.FC = () => {
@@ -20,6 +22,7 @@ const DashboardIndex: React.FC = () => {
   const { totalBookings } = useFlightBookings()
   const { totalPackageBookings } = usePackageBookings()
   const { totalApplications } = useAgentApplications()
+  const { totalAgents } = useAgents()
 
   return (
     <>
@@ -85,6 +88,17 @@ const DashboardIndex: React.FC = () => {
           <CardDataStats title="Agents Application" total={totalApplications.toString()} rate="2.5%" levelUp>
             <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+
+        <Link to={'/adminpanel/agents'}>
+          <CardDataStats title="Active Agents" total={totalAgents.toString()} rate="2.5%" levelUp>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary ">
+              <path d="m16 11 2 2 4-4" />
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
             </svg>
           </CardDataStats>
         </Link>

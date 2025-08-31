@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 import apiClient from '../services/apiClient';
@@ -107,6 +108,16 @@ const useAgentApplications = () => {
         }
     };
 
+    const getApplicationById = async (id: string) => {
+        try {
+            const response = await apiClient.get(`/agent-applications/${id}`);
+            return response.data;
+        } catch (err) {
+            setError("Failed to fetch application by ID");
+            throw err;
+        }
+    };
+
     // Create new agent application
     const createAgentApplication = async (application: CreateAgentApplication) => {
         setLoading(true);
@@ -148,10 +159,14 @@ const useAgentApplications = () => {
             await apiClient.delete(`/agent-applications/${id}`);
             setAgentApplications(prev => prev.filter(app => app.id !== id));
             setLoading(false);
-        } catch (err) {
-            setError('Failed to delete agent application');
+        } catch (err: any) {
+            const errorMessage = err.response?.data?.message ||
+                err.message ||
+                'Failed to delete agent application';
+
+            setError(errorMessage);
             setLoading(false);
-            throw err;
+            throw new Error(errorMessage);
         }
     };
 
@@ -200,6 +215,7 @@ const useAgentApplications = () => {
         error,
         stats,
         fetchApplications,
+        getApplicationById,
         setAgentApplications,
         fetchApplicationStats,
         getApplicationsByStatus,

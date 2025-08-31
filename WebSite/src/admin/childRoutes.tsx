@@ -1,5 +1,8 @@
+import ApplicationDetailsPage from "./components/AgentApplication/ApplicationDetailsPage";
+import AgentDetailsPage from "./components/Agents/AgentDetailsPage";
 import PageTitle from "./components/PageTitle";
 import ViewStudentQuery from "./components/StudentEnquiry/ViewStudentQuery";
+import Agents from "./pages/Agent/Agents";
 import AgentApplication from "./pages/AgentApplication/AgentApplication";
 import Appointments from "./pages/Appointment/Appointments";
 import Blog from "./pages/Blog/Blog";
@@ -102,6 +105,15 @@ export const childRoutes = [
         ),
     },
     {
+        path: "career/agentapplication/view/:id",
+        element: (
+            <>
+                <PageTitle title="View Agent Application | Application Details" />
+                <ApplicationDetailsPage />
+            </>
+        ),
+    },
+    {
         path: "career/institution-partners",
         element: (
             <>
@@ -152,6 +164,24 @@ export const childRoutes = [
             <>
                 <PageTitle title="Blog | Create Your Blogs" />
                 <Blog />
+            </>
+        ),
+    },
+    {
+        path: "agents",
+        element: (
+            <>
+                <PageTitle title="Agents | Active Agents of Munemi Global" />
+                <Agents />
+            </>
+        ),
+    },
+    {
+        path: "agents/view/:id",
+        element: (
+            <>
+                <PageTitle title="Agent Details Page | Agents of Munemi Global" />
+                <AgentDetailsPage />
             </>
         ),
     },

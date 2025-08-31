@@ -155,7 +155,7 @@ const deleteAgentApplication = async (req, res) => {
 
         // Prevent deletion of approved applications
         if (application.status === 'approved') {
-            return res.status(400).json({ message: 'Cannot delete an approved application' });
+            return res.status(400).json({ message: 'Cannot delete an approved application. To delete application please first reject the approved application.' });
         }
 
         const deleted = await AgentApplicationService.deleteAgentApplicationById(id);

@@ -50,6 +50,7 @@ const approveAgentApplicationAdmin = async (applicationId, approvedBy) => {
         application.status = 'approved';
         application.approvedAt = new Date();
         application.approvedBy = approvedBy;
+        application.rejectionReason = ''
         await application.save({ transaction });
 
         // 2. Create Agent record

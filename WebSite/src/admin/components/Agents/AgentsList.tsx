@@ -1,52 +1,46 @@
 import { useEffect, useRef, useState } from "react";
-import { AgentApplication, CreateAgentApplication } from "../../../hooks/useAgentApplications";
-import { Minus, Filter, SortAsc, SortDesc, CheckCircle, XCircle, Trash2, Eye, Settings } from "lucide-react";
-import CreateAgentApplicationModal from "./CreateAgentApplicationModal";
+import { Agent } from "../../../hooks/useAgents";
+import { Filter, SortAsc, SortDesc, CheckCircle, XCircle, Trash2, Eye, RefreshCw, Settings } from "lucide-react";
 import { useClickOutside } from "../../../Utils/useClickOutside";
-import { useAuth } from "../../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
-type AgentApplicationListProps = {
-    allApplications: AgentApplication[];
-    createAgentApplication: (application: CreateAgentApplication) => void
-    deleteApplication: (id: string) => void;
-    fetchApplications: () => void;
-    approveAgentApplication: (id: string, approvedBy: string) => void;
-    rejectAgentApplication: (id: string, reason: string, rejectedBy: string,) => void;
-    loading: boolean
+type AgentListProps = {
+    allAgents: Agent[];
+    deleteAgent: (id: string) => void;
+    fetchAgents: () => void;
+    deactivateAgent: (id: string) => void;
+    activateAgent: (id: string) => void;
+    loading: boolean;
+    updateCommissionRate: (id: string, commissionRate: number) => void;
 };
 
-const AgentApplicationList = ({
-    allApplications,
-    createAgentApplication,
-    deleteApplication,
-    approveAgentApplication,
-    rejectAgentApplication,
-    fetchApplications,
-    loading
-}: AgentApplicationListProps) => {
-    const { user } = useAuth()
-    const navigate = useNavigate()
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [applicationList, setApplicationList] = useState<AgentApplication[]>(allApplications);
-    const [filteredApplications, setFilteredApplications] = useState<AgentApplication[]>(allApplications);
-    const [sortConfig, setSortConfig] = useState<{ key: keyof AgentApplication; direction: 'asc' | 'desc' }>({
+const AgentList = ({
+    allAgents,
+    deleteAgent,
+    activateAgent,
+    deactivateAgent,
+    fetchAgents,
+    updateCommissionRate
+}: AgentListProps) => {
+    const navigate = useNavigate();
+    const [agentList, setAgentList] = useState<Agent[]>(allAgents);
+    const [filteredAgents, setFilteredAgents] = useState<Agent[]>(allAgents);
+    const [sortConfig, setSortConfig] = useState<{ key: keyof Agent; direction: 'asc' | 'desc' }>({
         key: 'updatedAt',
         direction: 'desc'
     });
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [applyingAsFilter, setApplyingAsFilter] = useState<string>('all');
-    const [selectedApplication, setSelectedApplication] = useState<AgentApplication | null>(null);
-    const [rejectionReason, setRejectionReason] = useState('');
+    const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+    const [newCommissionRate, setNewCommissionRate] = useState('');
     const [menuOpenFor, setMenuOpenFor] = useState<string | null>(null);
     const [showFilters, setShowFilters] = useState(false);
-
 
     const menuRef = useRef<HTMLDivElement>(null);
     useClickOutside(menuRef, () => setMenuOpenFor(null));
 
     useEffect(() => {
-        const sorted = [...allApplications].sort((a, b) => {
+        const sorted = [...allAgents].sort((a, b) => {
             const aValue = a[sortConfig.key];
             const bValue = b[sortConfig.key];
 
@@ -62,6 +56,11 @@ const AgentApplicationList = ({
                     : bValue.localeCompare(aValue);
             }
 
+            // Handle number comparison
+            if (typeof aValue === 'number' && typeof bValue === 'number') {
+                return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
+            }
+
             // Handle date comparison - check if values are date strings
             const aDate = new Date(aValue as string);
             const bDate = new Date(bValue as string);
@@ -70,6 +69,13 @@ const AgentApplicationList = ({
                 return sortConfig.direction === 'asc'
                     ? aDate.getTime() - bDate.getTime()
                     : bDate.getTime() - aDate.getTime();
+            }
+
+            // Handle boolean comparison
+            if (typeof aValue === 'boolean' && typeof bValue === 'boolean') {
+                return sortConfig.direction === 'asc'
+                    ? (aValue === bValue ? 0 : aValue ? 1 : -1)
+                    : (aValue === bValue ? 0 : aValue ? -1 : 1);
             }
 
             // Default comparison for other types
@@ -81,67 +87,61 @@ const AgentApplicationList = ({
             }
             return 0;
         });
-        setApplicationList(sorted);
-    }, [allApplications, sortConfig]);
+        setAgentList(sorted);
+    }, [allAgents, sortConfig]);
 
     useEffect(() => {
-        let filtered = applicationList;
+        let filtered = agentList;
 
         if (statusFilter !== 'all') {
-            filtered = filtered.filter(app => app.status === statusFilter);
+            filtered = filtered.filter(agent =>
+                statusFilter === 'active' ? agent.isActive : !agent.isActive
+            );
         }
 
         if (applyingAsFilter !== 'all') {
-            filtered = filtered.filter(app => app.applyingAs === applyingAsFilter);
+            filtered = filtered.filter(agent => agent.applyingAs === applyingAsFilter);
         }
 
-        setFilteredApplications(filtered);
-    }, [applicationList, statusFilter, applyingAsFilter]);
+        setFilteredAgents(filtered);
+    }, [agentList, statusFilter, applyingAsFilter]);
 
-    const closeModal = () => setIsModalOpen(false);
-
-    const handleSort = (key: keyof AgentApplication) => {
+    const handleSort = (key: keyof Agent) => {
         setSortConfig(prev => ({
             key,
             direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
         }));
     };
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'approved':
-                return 'bg-green-100 text-green-800';
-            case 'rejected':
-                return 'bg-red-100 text-red-800';
-            case 'pending':
-                return 'bg-yellow-100 text-yellow-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
+    const getStatusColor = (isActive: boolean) => {
+        return isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
     };
 
-    const handleApprove = (id: string) => {
-        if (user?.id) {
-            approveAgentApplication(id, user.id);
-        } else {
-            // Optionally handle the case where user.id is not available
-            alert("User ID is not available. Cannot approve application.");
-        }
-        setSelectedApplication(null);
+    const handleActivate = (id: string) => {
+        activateAgent(id);
+        setSelectedAgent(null);
     };
 
-    const handleReject = (id: string) => {
-        if (rejectionReason.trim() && user?.id) {
-            rejectAgentApplication(id, rejectionReason, user.id);
-            setRejectionReason('');
-            setSelectedApplication(null);
-        }
+    const handleDeactivate = (id: string) => {
+        deactivateAgent(id);
+        setSelectedAgent(null);
     };
 
     const handleDelete = (id: string) => {
-        if (window.confirm('Are you sure you want to delete this application?')) {
-            deleteApplication(id);
-            setSelectedApplication(null);
+        if (window.confirm('Are you sure you want to delete this agent?')) {
+            deleteAgent(id);
+            setSelectedAgent(null);
+        }
+    };
+
+    const handleCommissionUpdate = (id: string) => {
+        const rate = parseFloat(newCommissionRate);
+        if (!isNaN(rate) && rate >= 0 && rate <= 100) {
+            updateCommissionRate(id, rate);
+            setNewCommissionRate('');
+            setSelectedAgent(null);
+        } else {
+            alert('Please enter a valid commission rate between 0 and 100');
         }
     };
 
@@ -149,25 +149,24 @@ const AgentApplicationList = ({
         <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center">
                 <div className="text-xl font-semibold text-midnight">
-                    Agent Applications ({filteredApplications.length})
+                    Agents ({filteredAgents.length})
                 </div>
 
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => setShowFilters(!showFilters)}
-                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
                     >
                         <Filter size={16} />
                         Filters
                     </button>
 
                     <button
-                        onClick={() => setIsModalOpen(!isModalOpen)}
-                        className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary'
-                            } py-3 px-6 text-center font-medium text-white hover:bg-opacity-90`}
+                        onClick={fetchAgents}
+                        className="inline-flex items-center justify-center gap-2.5 rounded-md bg-primary py-2 px-6 text-center font-medium text-white hover:bg-opacity-90 cursor-pointer"
                     >
-                        {isModalOpen ? <Minus size={20} /> : 'Create New'}
-                        {isModalOpen ? `Cancel` : ` Application`}
+                        <RefreshCw size={16} />
+                        Refresh
                     </button>
                 </div>
             </div>
@@ -184,15 +183,14 @@ const AgentApplicationList = ({
                                 className="border bg-white border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition cursor-pointer"
                             >
                                 <option value="all">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
-                                <option value="rejected">Rejected</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
                             </select>
                         </div>
 
                         {/* Applying As Filter */}
                         <div className="flex flex-row space-x-2 bg-cyan-100 px-2 py-1 rounded-md">
-                            <label className="block place-self-center text-md font-medium text-gray-800">Applying As</label>
+                            <label className="block place-self-center text-md font-medium text-gray-800">Agent Type</label>
                             <select
                                 value={applyingAsFilter}
                                 onChange={(e) => setApplyingAsFilter(e.target.value)}
@@ -218,39 +216,42 @@ const AgentApplicationList = ({
                         </div>
                     </div>
                 </div>
-
             )}
 
-            <CreateAgentApplicationModal
-                fetchApplications={fetchApplications}
-                createAgentApplication={createAgentApplication}
-                isOpen={isModalOpen}
-                closeModal={closeModal}
-                loading={loading}
-            />
-
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-12 md:px-6 2xl:px-7.5">
-                <div className="col-span-3 flex items-center cursor-pointer" onClick={() => handleSort('tradingName')}>
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
+                <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('tradingName')}>
                     <p className="font-bold">Trading Name</p>
                     {sortConfig.key === 'tradingName' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
-                <div className="col-span-3 flex items-center cursor-pointer" onClick={() => handleSort('businessRegistrationNumber')}>
+                <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('businessRegistrationNumber')}>
                     <p className="font-bold">Reg. Number</p>
                     {sortConfig.key === 'businessRegistrationNumber' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
                 <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('applyingAs')}>
-                    <p className="font-bold">Applying As</p>
+                    <p className="font-bold">Agent Type</p>
                     {sortConfig.key === 'applyingAs' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
-                <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('status')}>
+                <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('commissionRate')}>
+                    <p className="font-bold">Commission</p>
+                    {sortConfig.key === 'commissionRate' && (
+                        sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
+                    )}
+                </div>
+                <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('totalStudentsReferred')}>
+                    <p className="font-bold">Students</p>
+                    {sortConfig.key === 'totalStudentsReferred' && (
+                        sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
+                    )}
+                </div>
+                <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('isActive')}>
                     <p className="font-bold">Status</p>
-                    {sortConfig.key === 'status' && (
+                    {sortConfig.key === 'isActive' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
@@ -259,34 +260,44 @@ const AgentApplicationList = ({
                 </div>
             </div>
 
-            {filteredApplications.length > 0 ? (
-                filteredApplications.map((application) => (
+            {filteredAgents.length > 0 ? (
+                filteredAgents.map((agent) => (
                     <div
-                        key={application.id}
-                        className="grid grid-cols-12 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
+                        key={agent.id}
+                        className="grid grid-cols-11 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
                     >
-                        <div className="col-span-3 flex items-center">
-                            <Link to={`view/${application.id}`}>
-                                <p className="font-medium hover:underline">{application.tradingName || "N/A"}</p>
+                        <div className="col-span-2 flex items-center">
+                            <Link to={`view/${agent.id}`}>
+                                <p className="font-medium hover:underline">{agent.tradingName || "N/A"}</p>
                             </Link>
                         </div>
-                        <div className="col-span-3 flex items-center">
-                            <p className="text-sm text-gray-600">{application.businessRegistrationNumber || "N/A"}</p>
+                        <div className="col-span-2 flex items-center">
+                            <p className="text-sm text-gray-600">{agent.businessRegistrationNumber || "N/A"}</p>
                         </div>
                         <div className="col-span-2 flex items-center">
                             <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                                {application.applyingAs}
+                                {agent.applyingAs}
                             </span>
                         </div>
-                        <div className="col-span-2 flex items-center">
-                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(application.status)}`}>
-                                {(application.status || "pending").toUpperCase()}
+                        <div className="col-span-1 flex items-center">
+                            <span className="text-sm font-medium">
+                                {agent.commissionRate}%
+                            </span>
+                        </div>
+                        <div className="col-span-1 flex items-center">
+                            <span className="text-sm font-medium">
+                                {agent.totalStudentsReferred}
+                            </span>
+                        </div>
+                        <div className="col-span-1 flex items-center">
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(agent.isActive)}`}>
+                                {agent.isActive ? 'ACTIVE' : 'INACTIVE'}
                             </span>
                         </div>
                         <div className="col-span-2 flex items-center">
                             <div className="flex items-center space-x-2">
                                 <button
-                                    onClick={() => navigate(`view/${application.id}`)}
+                                    onClick={() => navigate(`view/${agent.id}`)}
                                     className="relative flex items-center gap-2 px-5 py-1
                                                 rounded-xl border border-blue-500 
                                                 text-blue-600 font-medium
@@ -300,7 +311,7 @@ const AgentApplicationList = ({
                                 </button>
                                 <button
                                     onClick={() =>
-                                        setMenuOpenFor(menuOpenFor === application.id ? null : application.id)
+                                        setMenuOpenFor(menuOpenFor === agent.id ? null : agent.id)
                                     }
                                     className="relative flex items-center gap-2 px-5 py-1
                                                 rounded-xl border border-cyan-500 
@@ -311,38 +322,43 @@ const AgentApplicationList = ({
                                                 hover:shadow-lg active:scale-95 cursor-pointer"
                                 >
                                     <Settings size={16} />
-                                    Action
+                                    Actions
                                 </button>
 
-
-                                {menuOpenFor === application.id && (
+                                {menuOpenFor === agent.id && (
                                     <div ref={menuRef} className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                                         <div className="py-1">
-                                            <button
-                                                onClick={() => handleApprove(application.id)}
-
-                                                disabled={application.status === 'approved'}
-                                                className="flex items-center w-full px-4 py-2 text-sm text-green-600 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                                            >
-                                                <CheckCircle size={16} className="mr-2" />
-                                                Approve
-                                            </button>
+                                            {agent.isActive ? (
+                                                <button
+                                                    onClick={() => handleDeactivate(agent.id)}
+                                                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                                >
+                                                    <XCircle size={16} className="mr-2" />
+                                                    Deactivate
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleActivate(agent.id)}
+                                                    className="flex items-center w-full px-4 py-2 text-sm text-green-600 hover:bg-green-50"
+                                                >
+                                                    <CheckCircle size={16} className="mr-2" />
+                                                    Activate
+                                                </button>
+                                            )}
 
                                             <button
                                                 onClick={() => {
-                                                    setSelectedApplication(application); // opens modal
-                                                    setRejectionReason('');
-                                                    setMenuOpenFor(null); // close dropdown
+                                                    setSelectedAgent(agent);
+                                                    setNewCommissionRate(agent.commissionRate.toString());
+                                                    setMenuOpenFor(null);
                                                 }}
-                                                disabled={application.status === 'rejected'}
-                                                className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="flex items-center w-full px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-50"
                                             >
-                                                <XCircle size={16} className="mr-2" />
-                                                Reject
+                                                💰 Update Commission
                                             </button>
 
                                             <button
-                                                onClick={() => handleDelete(application.id)}
+                                                onClick={() => handleDelete(agent.id)}
                                                 className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                                             >
                                                 <Trash2 size={16} className="mr-2" />
@@ -351,45 +367,50 @@ const AgentApplicationList = ({
                                         </div>
                                     </div>
                                 )}
-
                             </div>
                         </div>
                     </div>
                 ))
             ) : (
                 <div className="text-center py-8">
-                    <p className="text-gray-500">No agent applications found.</p>
+                    <p className="text-gray-500">No agents found.</p>
                 </div>
             )}
 
-            {/* Rejection Modal */}
-            {selectedApplication && (
+            {/* Commission Update Modal */}
+            {selectedAgent && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 w-96">
-                        <h3 className="text-lg font-semibold mb-4">Reject Application</h3>
+                        <h3 className="text-lg font-semibold mb-4">Update Commission Rate</h3>
                         <p className="text-sm text-gray-600 mb-4">
-                            Please provide a reason for rejecting {selectedApplication.tradingName}'s application:
+                            Update commission rate for {selectedAgent.tradingName}:
                         </p>
-                        <textarea
-                            value={rejectionReason}
-                            onChange={(e) => setRejectionReason(e.target.value)}
-                            placeholder="Enter rejection reason..."
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                            rows={4}
-                        />
+                        <div className="flex items-center mb-4">
+                            <input
+                                type="number"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                                value={newCommissionRate}
+                                onChange={(e) => setNewCommissionRate(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                                placeholder="Enter commission rate (0-100)"
+                            />
+                            <span className="ml-2">%</span>
+                        </div>
                         <div className="flex justify-end gap-3 mt-4">
                             <button
-                                onClick={() => setSelectedApplication(null)}
+                                onClick={() => setSelectedAgent(null)}
                                 className="px-4 py-2 text-gray-600 hover:text-gray-800 cursor-pointer"
                             >
                                 Cancel
                             </button>
                             <button
-                                onClick={() => handleReject(selectedApplication.id)}
-                                disabled={!rejectionReason.trim()}
-                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                onClick={() => handleCommissionUpdate(selectedAgent.id)}
+                                disabled={!newCommissionRate || isNaN(parseFloat(newCommissionRate))}
+                                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             >
-                                Confirm Reject
+                                Update Commission
                             </button>
                         </div>
                     </div>
@@ -399,4 +420,4 @@ const AgentApplicationList = ({
     );
 };
 
-export default AgentApplicationList;
+export default AgentList;
