@@ -1,7 +1,7 @@
 const Agent = require('../models/AgentModel');
 const AgentApplication = require('../models/AgentApplicationModel');
 const StudentEnquiry = require('../models/StudentEnquiryModel')
-const { Op } = require('sequelize');
+
 
 Agent.hasMany(StudentEnquiry, {
     foreignKey: 'agentId',

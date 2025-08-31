@@ -1,6 +1,4 @@
 const fs = require('fs').promises;
-const path = require('path');
-const uploadDir = path.join(__dirname, '../uploads/');
 
 const {
     createStudentEnquiry,
@@ -234,15 +232,12 @@ const createNewStudentEnquiry = async (req, res) => {
             data: newStudentEnquiry
         });
     } catch (error) {
-        console.error('Error creating student enquiry:', error);
-
         // Clean up uploaded files if error occurs
         cleanupUploadedFiles(req);
 
         res.status(500).json({
             success: false,
-            message: "Internal server error while creating student enquiry",
-            error: error.message
+            message: error.message
         });
     }
 };
@@ -367,11 +362,11 @@ const updateStudentEnquiry = async (req, res) => {
         cleanupUploadedFiles(req);
         res.status(500).json({
             success: false,
-            message: "Internal server error while updating student enquiry",
-            error: error.message
+            message: error.message
         });
     }
 };
+
 
 const deleteStudentEnquiry = async (req, res) => {
     try {
@@ -428,8 +423,7 @@ const deleteStudentEnquiry = async (req, res) => {
         console.error('Error deleting student enquiry:', error);
         res.status(500).json({
             success: false,
-            message: "Internal server error while deleting student enquiry",
-            error: error.message
+            message: error.message
         });
     }
 };

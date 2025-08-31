@@ -3,7 +3,7 @@ const {
     getStudentEnquiryById,
     createNewStudentEnquiry,
     updateStudentEnquiry,
-    deleteStudentEnquiry
+    deleteStudentEnquiry,
 } = require("../controllers/StudentEnquiryController");
 
 const upload = require("../middlewares/multerConfig");

@@ -10,9 +10,7 @@ const StudentEnquiry = () => {
         <>
             <Breadcrumb pageName="Student Enquiry" />
             <div className="flex flex-col gap-10 ">
-                <StudentEnquiryList
-
-                />
+                <StudentEnquiryList />
             </div>
         </>
 

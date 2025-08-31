@@ -1,6 +1,7 @@
 const StudentEnquiry = require("../models/StudentEnquiryModel");
 const Agent = require("../models/AgentModel");
 const Address = require("../models/StudentEnquiryAddressModel");
+const { Op } = require('sequelize');
 
 StudentEnquiry.hasMany(Address, {
     foreignKey: 'studentEnquiryId',
@@ -261,49 +262,6 @@ const getEnquiryStats = async (agentId = null) => {
     };
 };
 
-const searchStudentEnquiries = async (searchCriteria) => {
-    const {
-        givenName,
-        surName,
-        email,
-        phone,
-        agentId,
-        page = 1,
-        limit = 10
-    } = searchCriteria;
-
-    const offset = (page - 1) * limit;
-    const whereClause = {};
-
-    if (givenName) whereClause.givenName = { [Op.iLike]: `%${givenName}%` };
-    if (surName) whereClause.surName = { [Op.iLike]: `%${surName}%` };
-    if (email) whereClause.email = { [Op.iLike]: `%${email}%` };
-    if (phone) whereClause.phone = { [Op.iLike]: `%${phone}%` };
-    if (agentId) whereClause.agentId = agentId;
-
-    const { count, rows } = await StudentEnquiry.findAndCountAll({
-        where: whereClause,
-        order: [['createdAt', 'DESC']],
-        limit: parseInt(limit),
-        offset: offset,
-        include: [
-            {
-                model: Agent,
-                as: 'agent',
-                attributes: ['id', 'tradingName', 'firstName', 'lastName']
-            }
-        ]
-    });
-
-    return {
-        data: rows.map(enquiry => enquiry.toJSON()),
-        total: count,
-        page: parseInt(page),
-        totalPages: Math.ceil(count / limit),
-        limit: parseInt(limit)
-    };
-};
-
 
 // Helper function to process JSON fields - UPDATED
 const processJsonFields = (values) => {
@@ -338,6 +296,5 @@ module.exports = {
     updateStudentEnquiryById,
     deleteStudentEnquiryById,
     getEnquiriesByAgent,
-    getEnquiryStats,
-    searchStudentEnquiries
+    getEnquiryStats
 };

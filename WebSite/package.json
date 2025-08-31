@@ -16,6 +16,8 @@
     "@tinymce/tinymce-react": "^6.1.0",
     "axios": "^1.8.2",
     "framer-motion": "^12.4.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
     "react-datepicker": "^8.3.0",
