@@ -223,8 +223,6 @@ const createNewStudentEnquiry = async (req, res) => {
             visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null
         };
 
-
-
         const newStudentEnquiry = await createStudentEnquiry(enquiryData, req.body.agentId);
 
         res.status(201).json({

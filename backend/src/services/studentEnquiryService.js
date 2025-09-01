@@ -99,13 +99,17 @@ const createStudentEnquiry = async (values, agentId) => {
     const enquiry = await StudentEnquiry.create(processedValues);
 
     // If addresses are provided, create them
-    if (values.addresses && Array.isArray(values.addresses)) {
-        const addressData = values.addresses.map(address => ({
-            ...address,
-            studentEnquiryId: enquiry.id
-        }));
-        await Address.bulkCreate(addressData);
+    if (values.addresses && typeof values.addresses === 'string') {
+        try {
+            values.addresses = JSON.parse(values.addresses);
+        } catch (e) {
+            console.error('Failed to parse addresses:', e);
+            values.addresses = []; // Set to empty array if parsing fails
+        }
     }
+
+    console.log('Addresses data:', values.addresses);
+    console.log('Is addresses array?', Array.isArray(values.addresses));
 
     const fullEnquiry = await StudentEnquiry.findByPk(enquiry.id, {
         include: [
