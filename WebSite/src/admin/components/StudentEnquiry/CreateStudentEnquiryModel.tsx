@@ -89,16 +89,23 @@ const CreateStudentEnquiryModal = ({
     const [hasPreviousPassport, setHasPreviousPassport] = useState(false);
 
     // --- Addresses ---
-    const [addresses, setAddresses] = useState<Address[]>([{
-        id: '',
+    const [permanentAddress, setPermanentAddress] = useState<Omit<Address, 'id'>>({
         addressType: 'Permanent',
         street: '',
         city: '',
         state: '',
         zipCode: '',
         country: ''
-    }]);
+    });
 
+    const [presentAddress, setPresentAddress] = useState<Omit<Address, 'id'>>({
+        addressType: 'Present',
+        street: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: ''
+    });
     // --- File Uploads ---
     const [passportFile, setPassportFile] = useState<File | null>(null);
     const [cvFile, setCvFile] = useState<File | null>(null);
@@ -161,6 +168,17 @@ const CreateStudentEnquiryModal = ({
             return;
         }
 
+        // Address validation
+        if (!permanentAddress.street || !permanentAddress.city || !permanentAddress.country) {
+            alert("Please fill in all required fields for Permanent Address.");
+            return;
+        }
+
+        if (!presentAddress.street || !presentAddress.city || !presentAddress.country) {
+            alert("Please fill in all required fields for Present Address.");
+            return;
+        }
+
         // File validation
         if (!passportFile || !cvFile) {
             alert("Please upload both passport and CV documents.");
@@ -201,7 +219,7 @@ const CreateStudentEnquiryModal = ({
                 visaRefusalDetails,
                 previousPassportNumbers,
                 hasPreviousPassport,
-                addresses,
+                addresses: [permanentAddress, presentAddress],
                 passportDocument: {} as any, // These will be handled by the backend
                 cvDocument: {} as any
             };
@@ -279,15 +297,23 @@ const CreateStudentEnquiryModal = ({
         });
         setPreviousPassportNumbers([]);
         setHasPreviousPassport(false);
-        setAddresses([{
-            id: '',
+        // Reset addresses
+        setPermanentAddress({
             addressType: 'Permanent',
             street: '',
             city: '',
             state: '',
             zipCode: '',
             country: ''
-        }]);
+        });
+        setPresentAddress({
+            addressType: 'Present',
+            street: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            country: ''
+        });
         setPassportFile(null);
         setCvFile(null);
     };
@@ -316,32 +342,18 @@ const CreateStudentEnquiryModal = ({
         setEducationBackground(updatedEducation);
     };
 
-    const addAddress = () => {
-        setAddresses([...addresses, {
-            id: '',
-            addressType: 'Current',
-            street: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            country: ''
-        }]);
-    };
-
-    const handleAddressChange = (index: number, field: string, value: string) => {
-        const updatedAddresses = [...addresses];
-        updatedAddresses[index] = {
-            ...updatedAddresses[index],
+    const handlePermanentAddressChange = (field: string, value: string) => {
+        setPermanentAddress(prev => ({
+            ...prev,
             [field]: value
-        };
-        setAddresses(updatedAddresses);
+        }));
     };
 
-    const removeAddress = (index: number) => {
-        if (addresses.length > 1) {
-            const updatedAddresses = addresses.filter((_, i) => i !== index);
-            setAddresses(updatedAddresses);
-        }
+    const handlePresentAddressChange = (field: string, value: string) => {
+        setPresentAddress(prev => ({
+            ...prev,
+            [field]: value
+        }));
     };
 
     const addPreviousPassportNumber = () => {
@@ -609,89 +621,119 @@ const CreateStudentEnquiryModal = ({
                         </div>
 
                         {/* Addresses */}
+                        {/* Addresses */}
                         <div className="border-b pb-6 mb-4">
-                            <div className="flex justify-between items-center mb-4">
-                                <h3 className="text-lg font-semibold text-gray-800">Addresses</h3>
-                                <button
-                                    type="button"
-                                    onClick={addAddress}
-                                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
-                                >
-                                    Add Address
-                                </button>
-                            </div>
-                            {addresses.map((address, index) => (
-                                <div key={index} className="mb-4 p-4 border rounded-lg bg-gray-50">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Address Type</label>
-                                            <select
-                                                value={address.addressType}
-                                                onChange={(e) => handleAddressChange(index, 'addressType', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            >
-                                                <option value="Permanent">Permanent</option>
-                                                <option value="Current">Current</option>
-                                                <option value="Mailing">Mailing</option>
-                                            </select>
-                                        </div>
-                                        <div className="md:col-span-2">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Street</label>
-                                            <input
-                                                type="text"
-                                                value={address.street}
-                                                onChange={(e) => handleAddressChange(index, 'street', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                                            <input
-                                                type="text"
-                                                value={address.city}
-                                                onChange={(e) => handleAddressChange(index, 'city', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                                            <input
-                                                type="text"
-                                                value={address.state}
-                                                onChange={(e) => handleAddressChange(index, 'state', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
-                                            <input
-                                                type="text"
-                                                value={address.zipCode}
-                                                onChange={(e) => handleAddressChange(index, 'zipCode', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-                                            <input
-                                                type="text"
-                                                value={address.country}
-                                                onChange={(e) => handleAddressChange(index, 'country', e.target.value)}
-                                                className="w-full p-2 border border-gray-300 rounded-md"
-                                            />
-                                        </div>
+                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Addresses</h3>
+
+                            {/* Permanent Address */}
+                            <div className="mb-6 p-4 border rounded-lg bg-gray-50">
+                                <h4 className="text-md font-semibold text-gray-700 mb-3">Permanent Address</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="md:col-span-2">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Street *</label>
+                                        <input
+                                            type="text"
+                                            value={permanentAddress.street}
+                                            onChange={(e) => handlePermanentAddressChange('street', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
                                     </div>
-                                    {addresses.length > 1 && (
-                                        <button
-                                            type="button"
-                                            onClick={() => removeAddress(index)}
-                                            className="mt-2 text-red-500 hover:text-red-700 text-sm"
-                                        >
-                                            Remove Address
-                                        </button>
-                                    )}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                                        <input
+                                            type="text"
+                                            value={permanentAddress.city}
+                                            onChange={(e) => handlePermanentAddressChange('city', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                        <input
+                                            type="text"
+                                            value={permanentAddress.state}
+                                            onChange={(e) => handlePermanentAddressChange('state', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                                        <input
+                                            type="text"
+                                            value={permanentAddress.zipCode}
+                                            onChange={(e) => handlePermanentAddressChange('zipCode', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Country *</label>
+                                        <input
+                                            type="text"
+                                            value={permanentAddress.country}
+                                            onChange={(e) => handlePermanentAddressChange('country', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                            ))}
+                            </div>
+
+                            {/* Present Address */}
+                            <div className="p-4 border rounded-lg bg-gray-50">
+                                <h4 className="text-md font-semibold text-gray-700 mb-3">Present Address</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="md:col-span-2">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Street *</label>
+                                        <input
+                                            type="text"
+                                            value={presentAddress.street}
+                                            onChange={(e) => handlePresentAddressChange('street', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                                        <input
+                                            type="text"
+                                            value={presentAddress.city}
+                                            onChange={(e) => handlePresentAddressChange('city', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                        <input
+                                            type="text"
+                                            value={presentAddress.state}
+                                            onChange={(e) => handlePresentAddressChange('state', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                                        <input
+                                            type="text"
+                                            value={presentAddress.zipCode}
+                                            onChange={(e) => handlePresentAddressChange('zipCode', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Country *</label>
+                                        <input
+                                            type="text"
+                                            value={presentAddress.country}
+                                            onChange={(e) => handlePresentAddressChange('country', e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="border-b pb-6 mb-4">

@@ -238,7 +238,7 @@ const StudentEnquiryList = () => {
                     )}
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-bold">Services</p>
+                    <p className="font-bold">Agent Info</p>
                 </div>
                 <div className="col-span-2 flex items-center">
                     <p className="font-bold">Actions</p>
@@ -275,18 +275,13 @@ const StudentEnquiryList = () => {
                         <p className="text-sm text-gray-600">{enquiry.phone}</p>
                     </div>
                     <div className="col-span-2 flex items-center">
-                        <div className="text-sm text-gray-600">
-                            {enquiry.interestedServices.slice(0, 2).map((service, idx) => (
-                                <div key={idx} className="truncate">
-                                    {service}
-                                </div>
-                            ))}
-                            {enquiry.interestedServices.length > 2 && (
-                                <div className="text-xs text-gray-500">
-                                    +{enquiry.interestedServices.length - 2} more
-                                </div>
-                            )}
-                        </div>
+                        {enquiry.agent &&
+                            <div className="text-sm text-gray-600">
+                                <p className="text-sm text-gray-600">{enquiry.agent.firstName} {enquiry.agent.lastName}</p>
+                                <p className="text-sm text-gray-600">{enquiry.agent.tradingName}</p>
+                                <p className="text-sm text-gray-600">{enquiry.agent.emailAddress}</p>
+                            </div>
+                        }
                     </div>
                     <div className="col-span-2 flex items-center">
                         <div className="flex items-center space-x-2">

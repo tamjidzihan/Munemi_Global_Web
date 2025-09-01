@@ -61,6 +61,9 @@ import Layout from "./pages/Layout";
 import PackagePage from "./pages/PackagePage";
 import ServicesPage from "./pages/ServicesPage";
 import StudyDestinationPage from "./pages/StudyDestinationPage";
+import AgentRoute from "./PrivateAgentRoute";
+import StudentEnquiryForm from "./components/StudentEnquiry/StudentEnquiryForm";
+import StudentEnquiryPage from "./pages/StudentEnquiryPage";
 
 
 export const router = createBrowserRouter([
@@ -70,6 +73,21 @@ export const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             { index: true, element: <HomePage /> },
+            {
+                path: 'studentenquiry',
+                element: <AgentRoute />,
+                children: [
+                    {
+                        path: "",
+                        element: <StudentEnquiryPage />,
+                        children: [
+                            { index: true, element: <StudentEnquiryForm /> }
+                        ]
+
+                    }
+                ]
+
+            },
             {
                 path: 'services',
                 element: <ServicesPage />,
@@ -159,7 +177,6 @@ export const router = createBrowserRouter([
 
     { path: '/signin', element: <SignIn /> },
     { path: '/signup', element: <SignUp /> },
-
     {
         path: "/adminpanel",
         element: <PrivateRoute />,

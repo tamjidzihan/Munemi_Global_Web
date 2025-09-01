@@ -99,17 +99,38 @@ const createStudentEnquiry = async (values, agentId) => {
     const enquiry = await StudentEnquiry.create(processedValues);
 
     // If addresses are provided, create them
-    if (values.addresses && typeof values.addresses === 'string') {
-        try {
-            values.addresses = JSON.parse(values.addresses);
-        } catch (e) {
-            console.error('Failed to parse addresses:', e);
-            values.addresses = []; // Set to empty array if parsing fails
+    if (values.addresses) {
+        let addressesData = values.addresses;
+
+        // Parse if it's a string
+        if (typeof addressesData === 'string') {
+            try {
+                addressesData = JSON.parse(addressesData);
+            } catch (e) {
+                console.error('Failed to parse addresses:', e);
+                addressesData = [];
+            }
+        }
+
+        // Only proceed if we have an array of addresses
+        if (Array.isArray(addressesData) && addressesData.length > 0) {
+            try {
+                // Remove any id fields from address objects to allow auto-generation
+                const addressPromises = addressesData.map(address => {
+                    const { id, ...addressWithoutId } = address; // Remove id field
+                    return Address.create({
+                        ...addressWithoutId,
+                        studentEnquiryId: enquiry.id
+                    });
+                });
+
+                await Promise.all(addressPromises);
+            } catch (error) {
+                console.error('Failed to create addresses:', error);
+                throw error; // Re-throw to handle in the controller
+            }
         }
     }
-
-    console.log('Addresses data:', values.addresses);
-    console.log('Is addresses array?', Array.isArray(values.addresses));
 
     const fullEnquiry = await StudentEnquiry.findByPk(enquiry.id, {
         include: [

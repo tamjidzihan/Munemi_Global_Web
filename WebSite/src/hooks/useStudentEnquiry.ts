@@ -71,7 +71,7 @@ export interface UploadedFile {
 }
 
 export interface Address {
-    id: string;
+    id?: string;
     addressType: string;
     street: string;
     city: string;
