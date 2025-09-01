@@ -21,7 +21,6 @@ const StudentEnquiryList = () => {
     const [filteredEnquiries, setFilteredEnquiries] = useState<StudentEnquiry[]>([]);
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [showFilters, setShowFilters] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
     const [sortConfig, setSortConfig] = useState<{ key: keyof StudentEnquiry; direction: 'asc' | 'desc' }>({
         key: 'updatedAt',
         direction: 'desc'
@@ -105,7 +104,10 @@ const StudentEnquiryList = () => {
     };
 
     const clearFilters = () => {
-        setSearchTerm("");
+        setSortConfig({
+            key: 'updatedAt',
+            direction: 'desc'
+        })
         setFilteredEnquiries(studentEnquiryList);
     };
 
@@ -132,7 +134,7 @@ const StudentEnquiryList = () => {
 
                     <button
                         onClick={() => setShowFilters(!showFilters)}
-                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
                     >
                         <Filter size={16} />
                         Filters
@@ -140,7 +142,7 @@ const StudentEnquiryList = () => {
 
                     <button
                         onClick={() => setIsModalOpen(!isModalOpen)}
-                        className={`inline-flex items-center justify-center gap-2.5 rounded-md ${isModalOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary'
+                        className={`inline-flex items-center justify-center gap-2.5 rounded-md cursor-pointer ${isModalOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary'
                             } py-3 px-6 text-center font-medium text-white hover:bg-opacity-90`}
                     >
                         {isModalOpen ? <Minus size={20} /> : 'Create New'}
@@ -153,18 +155,6 @@ const StudentEnquiryList = () => {
             {showFilters && (
                 <div className="px-4 md:px-6 2xl:px-7.5 pb-4 border-b border-stroke bg-gray-50">
                     <div className="flex flex-wrap items-end gap-5">
-                        {/* Search Filter */}
-                        <div className="flex flex-row space-x-2 bg-cyan-100 px-2 py-1 rounded-md">
-                            <label className="block place-self-center text-md font-medium text-gray-800">Search</label>
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Name, email, phone..."
-                                className="border bg-white border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                            />
-                        </div>
-
                         {/* Sort Options */}
                         <div className="flex flex-row space-x-2 bg-cyan-100 px-2 py-1 rounded-md">
                             <label className="block place-self-center text-md font-medium text-gray-800">Sort By</label>
@@ -175,8 +165,8 @@ const StudentEnquiryList = () => {
                             >
                                 <option value="updatedAt">Updated Date</option>
                                 <option value="createdAt">Created Date</option>
-                                <option value="givenName">First Name</option>
-                                <option value="surName">Last Name</option>
+                                <option value="givenName">Given Name</option>
+                                <option value="surName">SurName</option>
                                 <option value="email">Email</option>
                             </select>
                         </div>
@@ -200,8 +190,8 @@ const StudentEnquiryList = () => {
                         {/* Clear Filters Button */}
                         <div>
                             <button
-                                onClick={clearFilters}
-                                className="inline-flex items-center gap-2 border border-red-300 text-red-600 rounded-lg px-4 py-2 text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+                                onClick={() => clearFilters()}
+                                className="inline-flex items-center gap-2 border border-red-300 text-red-600 rounded-lg px-4 py-2 text-sm font-medium hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-400 transition cursor-pointer"
                             >
                                 ✕ Clear Filters
                             </button>
@@ -228,7 +218,7 @@ const StudentEnquiryList = () => {
             )}
 
             {/* Table header */}
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-12 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-10 md:px-6 2xl:px-7.5">
                 <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('givenName')}>
                     <p className="font-bold">Name</p>
                     {sortConfig.key === 'givenName' && (
@@ -248,9 +238,6 @@ const StudentEnquiryList = () => {
                     )}
                 </div>
                 <div className="col-span-2 flex items-center">
-                    <p className="font-bold">Address</p>
-                </div>
-                <div className="col-span-2 flex items-center">
                     <p className="font-bold">Services</p>
                 </div>
                 <div className="col-span-2 flex items-center">
@@ -265,19 +252,11 @@ const StudentEnquiryList = () => {
                 </div>
             )}
 
-            {!loading && !error && filteredEnquiries.length === 0 && (
-                <div className="text-center py-8">
-                    <p className="text-gray-500">
-                        {searchTerm ? 'No matching enquiries found.' : 'No student enquiries found.'}
-                    </p>
-                </div>
-            )}
-
             {/* Enquiry list */}
             {filteredEnquiries.length > 0 && filteredEnquiries.map((enquiry) => (
                 <div
                     key={enquiry.id}
-                    className="grid grid-cols-12 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
+                    className="grid grid-cols-10 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
                 >
                     <div className="col-span-2 flex items-center">
                         <Link
@@ -294,15 +273,6 @@ const StudentEnquiryList = () => {
                     </div>
                     <div className="col-span-2 flex items-center">
                         <p className="text-sm text-gray-600">{enquiry.phone}</p>
-                    </div>
-                    <div className="col-span-2 flex items-center">
-                        <p className="text-sm text-gray-600 truncate">
-                            {enquiry.addresses && enquiry.addresses.length > 0 ? (
-                                `${enquiry.addresses[0].city}, ${enquiry.addresses[0].country}`
-                            ) : (
-                                'No address'
-                            )}
-                        </p>
                     </div>
                     <div className="col-span-2 flex items-center">
                         <div className="text-sm text-gray-600">

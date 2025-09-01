@@ -188,21 +188,7 @@ const ViewStudentQuery = () => {
                     <span className="text-blue-600 font-semibold">Enquiry Details</span>
                 </div>
             </nav>
-            {/* Header with Download Button */}
-            <div className="flex justify-between items-center mb-6">
-                <button
-                    onClick={downloadAsPDF}
-                    disabled={downloading}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
-                >
-                    {downloading ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                        <Download className="h-4 w-4" />
-                    )}
-                    Download PDF
-                </button>
-            </div>
+
             {/* Card */}
             <div className="bg-white shadow rounded-lg overflow-hidden">
                 <div className="px-6 py-4 border-b flex justify-between items-center">
@@ -210,9 +196,33 @@ const ViewStudentQuery = () => {
                         Enquiry : <span className=" text-blue-800"> {enquiry.givenName} {enquiry.surName}
                         </span>
                     </h2>
-                    <p className="text-sm text-gray-500">
-                        Created: {format(new Date(enquiry.createdAt), "MMM dd, yyyy HH:mm")}
-                    </p>
+                    <div>
+                        <p className="text-sm text-gray-500 place-self-end mb-5">
+                            Created: {format(new Date(enquiry.createdAt), "MMM dd, yyyy HH:mm")}
+                        </p>
+                        {/* Header with Download Button */}
+                        <div className="flex justify-end items-center space-x-4">
+                            <div>Download Student Enquire Details : </div>
+                            <button
+                                onClick={downloadAsPDF}
+                                disabled={downloading}
+                                className="relative flex items-center gap-2 px-5 py-1
+                                            rounded-xl border border-blue-500 
+                                            text-blue-600 font-medium
+                                            bg-white/10 backdrop-blur-sm
+                                            shadow-md transition-all duration-300 
+                                            hover:bg-blue-600 hover:text-white 
+                                            hover:shadow-lg active:scale-95 cursor-pointer"
+                            >
+                                {downloading ? (
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                    <Download className="h-4 w-4" />
+                                )}
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div className="px-6 py-6">
                     {/* Personal Details */}
@@ -422,8 +432,11 @@ const ViewStudentQuery = () => {
                             {renderField("Agent ID", enquiry.agentId)}
                         </>
                     ))}
+
                 </div>
+
             </div>
+
         </div>
     );
 };

@@ -21,8 +21,8 @@ class PDFGenerator {
     constructor(config: PDFConfig = {}) {
         this.config = {
             companyName: "Munemi Global",
-            companyAddress: "123 Business Street, City, Country",
-            companyContact: "info@munemiglobal.com | +1234567890",
+            companyAddress: "5,Kolotan School Road,Notun Bazar, Vatara, Gulshan Dhaka- 1212, Bangladesh",
+            companyContact: "info@munemiglobal.com | +88 01600300877",
             ...config
         };
     }
@@ -126,13 +126,8 @@ class PDFGenerator {
         const lineHeight = 7;
         const maxWidth = pageWidth - (margin * 2);
 
-        // Helper function to add text with wrapping and page breaks
-        const addText = (text: string, y: number, isBold = false, fontSize = 10) => {
-            if (y > pageHeight - 20) {
-                pdf.addPage();
-                y = 20;
-            }
-
+        // Helper function to add text with proper page breaks
+        const addText = (text: string, isBold = false, fontSize = 10): number => {
             pdf.setFontSize(fontSize);
             if (isBold) {
                 pdf.setFont('helvetica', 'bold');
@@ -141,24 +136,39 @@ class PDFGenerator {
             }
 
             const lines = pdf.splitTextToSize(text, maxWidth);
-            pdf.text(lines, margin, y);
+            const spaceNeeded = lines.length * lineHeight;
 
-            return lines.length * lineHeight;
+            // Check if we need a new page
+            if (yPosition + spaceNeeded > pageHeight - 20) {
+                pdf.addPage();
+                yPosition = 20;
+            }
+
+            pdf.text(lines, margin, yPosition);
+            const heightUsed = lines.length * lineHeight;
+            yPosition += heightUsed + 2;
+
+            return heightUsed;
         };
 
         // Helper function to add section
         const addSection = (title: string, content: string[]) => {
             // Add section title
-            yPosition += addText(title, yPosition, true, 12) + 3;
+            addText(title, true, 12);
 
             // Add section content
             content.forEach(line => {
-                yPosition += addText(line, yPosition, false, 10) + 1;
+                addText(line, false, 10);
             });
 
-            yPosition += 5;
-            this.drawHorizontalLine(pdf, yPosition, 0.5, '#cccccc');
-            yPosition += 8;
+            // Add separator
+            if (yPosition > pageHeight - 15) {
+                pdf.addPage();
+                yPosition = 20;
+            } else {
+                this.drawHorizontalLine(pdf, yPosition, 0.5, '#cccccc');
+                yPosition += 8;
+            }
         };
 
         // Safe access function for nested objects
@@ -172,7 +182,7 @@ class PDFGenerator {
         // Define all sections
         const sections: PDFSection[] = [
             {
-                title: '📋 PERSONAL INFORMATION',
+                title: 'PERSONAL INFORMATION',
                 content: [
                     `Given Name: ${enquiry.givenName}`,
                     `Surname: ${enquiry.surName}`,
@@ -185,7 +195,7 @@ class PDFGenerator {
                 ]
             },
             {
-                title: '👨‍👩‍👧‍👦 FAMILY DETAILS',
+                title: 'FAMILY DETAILS',
                 content: [
                     `Father's Name: ${enquiry.fathersName}`,
                     `Father's NID: ${enquiry.fathersNid}`,
@@ -200,7 +210,7 @@ class PDFGenerator {
                 ]
             },
             {
-                title: '🌍 VISA & PASSPORT INFORMATION',
+                title: 'VISA & PASSPORT INFORMATION',
                 content: [
                     `Visa Type: ${safeGet(enquiry, 'visaType')}`,
                     `Visa Expiry Date: ${enquiry.visaExpiryDate ? format(new Date(enquiry.visaExpiryDate), 'MMMM dd, yyyy') : 'Not provided'}`,
@@ -210,7 +220,7 @@ class PDFGenerator {
                 ]
             },
             {
-                title: '🎓 EDUCATION BACKGROUND',
+                title: 'EDUCATION BACKGROUND',
                 content: enquiry.educationBackground && enquiry.educationBackground.length > 0 ?
                     enquiry.educationBackground.flatMap((edu, index) => [
                         `--- Education ${index + 1} ---`,
@@ -222,12 +232,12 @@ class PDFGenerator {
                     ]) : ['No education background provided']
             },
             {
-                title: '📊 INTERESTED SERVICES',
+                title: 'INTERESTED SERVICES',
                 content: enquiry.interestedServices && enquiry.interestedServices.length > 0 ?
                     enquiry.interestedServices : ['No services selected']
             },
             {
-                title: '📞 EMERGENCY CONTACT',
+                title: 'EMERGENCY CONTACT',
                 content: enquiry.emergencyContact ? [
                     `Name: ${safeGet(enquiry.emergencyContact, 'name')}`,
                     `Relationship: ${safeGet(enquiry.emergencyContact, 'relationship')}`,
@@ -237,7 +247,7 @@ class PDFGenerator {
                 ] : ['No emergency contact provided']
             },
             {
-                title: '🏠 ADDRESSES',
+                title: 'ADDRESSES',
                 content: enquiry.addresses && enquiry.addresses.length > 0 ?
                     enquiry.addresses.flatMap((address, index) => [
                         `--- Address ${index + 1} (${address.addressType}) ---`,
@@ -249,7 +259,7 @@ class PDFGenerator {
                     ]) : ['No addresses provided']
             },
             {
-                title: '📝 TEST SCORES',
+                title: 'TEST SCORES',
                 content: enquiry.englishTestScores ? [
                     `Test Type: ${safeGet(enquiry.englishTestScores, 'testType')}`,
                     `Overall Score: ${safeGet(enquiry.englishTestScores, 'overallScore')}`,
@@ -261,7 +271,7 @@ class PDFGenerator {
                 ] : ['No test scores provided']
             },
             {
-                title: '🔍 PASSPORT DETAILS',
+                title: 'PASSPORT DETAILS',
                 content: enquiry.passportDetails ? [
                     `Passport Number: ${safeGet(enquiry.passportDetails, 'passportNumber')}`,
                     `Issue Date: ${safeGet(enquiry.passportDetails, 'issueDate')}`,
@@ -270,7 +280,7 @@ class PDFGenerator {
                 ] : ['No passport details provided']
             },
             {
-                title: '⚠️ VISA REFUSAL HISTORY',
+                title: 'VISA REFUSAL HISTORY',
                 content: enquiry.visaRefusalDetails ? [
                     `Has Refusal History: ${safeGet(enquiry.visaRefusalDetails, 'hasRefusalHistory') ? 'Yes' : 'No'}`,
                     `Country: ${safeGet(enquiry.visaRefusalDetails, 'country')}`,
@@ -287,11 +297,11 @@ class PDFGenerator {
         });
 
         // Add system information at the end
-        yPosition += addText('⚙️ SYSTEM INFORMATION', yPosition, true, 12) + 3;
-        yPosition += addText(`Created: ${format(new Date(enquiry.createdAt), 'MMMM dd, yyyy HH:mm')}`, yPosition) + 1;
-        yPosition += addText(`Last Updated: ${format(new Date(enquiry.updatedAt), 'MMMM dd, yyyy HH:mm')}`, yPosition) + 1;
-        yPosition += addText(`Enquiry ID: ${enquiry.id}`, yPosition) + 1;
-        yPosition += addText(`Agent ID: ${enquiry.agentId}`, yPosition) + 1;
+        addText('SYSTEM INFORMATION', true, 12);
+        addText(`Created: ${format(new Date(enquiry.createdAt), 'MMMM dd, yyyy HH:mm')}`);
+        addText(`Last Updated: ${format(new Date(enquiry.updatedAt), 'MMMM dd, yyyy HH:mm')}`);
+        addText(`Enquiry ID: ${enquiry.id}`);
+        addText(`Agent ID: ${enquiry.agentId}`);
 
         // Add footer
         this.addFooter(pdf, pageHeight);
