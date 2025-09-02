@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useAgentApplications from "../../../hooks/useAgentApplications";
 import Hero from "../../common/Hero/Hero";
-import agentImage from '../../../assets/agents.png'; // Update with actual image path
+import agentImage from '../../../assets/agents.png';
 import { FiHelpCircle } from "react-icons/fi";
 import Alert from "../../common/Alert/Alert";
 
@@ -26,6 +26,7 @@ const AgentApplicationForm = () => {
     });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+    const [backendErrors, setBackendErrors] = useState<string[]>([]);
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
@@ -54,16 +55,17 @@ const AgentApplicationForm = () => {
         e.preventDefault();
         setErrors({});
         setAlert(null);
+        setBackendErrors([]);
 
         if (!validateForm()) return;
 
         try {
             await createAgentApplication(formData);
-            setAlert({ message: "Application submitted successfully!", type: 'success' });
-        } catch (error) {
-            console.error(error);
-            setAlert({ message: "Failed to submit application", type: 'error' });
-        } finally {
+            setAlert({
+                message: "Application submitted successfully! We will review your application shortly.",
+                type: 'success'
+            });
+            // Reset form on success
             setFormData({
                 tradingName: '',
                 businessRegistrationNumber: '',
@@ -80,12 +82,56 @@ const AgentApplicationForm = () => {
                 personalPhone: '',
                 personalEmail: '',
             });
+        } catch (error: any) {
+            // Handle backend validation errors
+            if (error.message.includes('Please fill out all required fields')) {
+                setAlert({
+                    message: 'Please complete all required fields marked with *',
+                    type: 'error'
+                });
+            } else if (error.message.includes('business Registration Number already exists')) {
+                setAlert({
+                    message: 'An application with this business registration number already exists. Please use a different registration number.',
+                    type: 'error'
+                });
+                setErrors(prev => ({ ...prev, businessRegistrationNumber: 'This registration number is already in use' }));
+            } else if (error.message.includes('Invalid application type')) {
+                setAlert({
+                    message: 'Please select a valid application type',
+                    type: 'error'
+                });
+                setErrors(prev => ({ ...prev, applyingAs: 'Invalid application type selected' }));
+            } else {
+                setAlert({
+                    message: error.message || 'Failed to submit application. Please try again.',
+                    type: 'error'
+                });
+            }
+        }
+    };
+
+    // Clear backend errors when form data changes
+    const handleInputChange = (field: string, value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+        // Clear field-specific error when user starts typing
+        if (errors[field]) {
+            setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+        // Clear backend errors when user interacts with the form
+        if (backendErrors.length > 0) {
+            setBackendErrors([]);
+        }
+        if (alert?.type === 'error') {
+            setAlert(null);
         }
     };
 
     return (
         <main className="w-full">
             <Hero bgImage={agentImage} heroName="New Agent Application" />
+
+
+            {/* Display submission alert */}
             {alert && (
                 <Alert
                     message={alert.message}
@@ -93,6 +139,7 @@ const AgentApplicationForm = () => {
                     onClose={() => setAlert(null)}
                 />
             )}
+
             <div className="inset-0 py-10 flex items-center justify-center">
                 <div className="bg-white max-w-4xl p-4 md:p-6 w-full shadow-lg rounded-lg">
                     <h3 className="text-2xl text-midnight font-bold mb-6 border-b pb-2">
@@ -101,6 +148,19 @@ const AgentApplicationForm = () => {
                             (All required fields are marked with *)
                         </span>
                     </h3>
+
+                    {/* Backend validation errors summary */}
+                    {backendErrors.length > 0 && (
+                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                            <h4 className="text-red-800 font-semibold mb-2">Please fix the following issues:</h4>
+                            <ul className="list-disc list-inside text-red-700">
+                                {backendErrors.map((errorMsg, index) => (
+                                    <li key={index}>{errorMsg}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className={`${loading ? "opacity-50 pointer-events-none" : ""}`}>
                         {/* Company Information */}
                         <div className="mb-8">
@@ -112,7 +172,7 @@ const AgentApplicationForm = () => {
                                 />
                             </h4>
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className=" col-span-2 md:col-span-1">
+                                <div className="col-span-2 md:col-span-1">
                                     <label className="block text-sm font-medium mb-2">
                                         Trading Name *
                                         {errors.tradingName && <span className="text-red-500 text-sm ml-2">{errors.tradingName}</span>}
@@ -121,28 +181,28 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Official Trading Name"
                                         value={formData.tradingName}
-                                        onChange={(e) => setFormData({ ...formData, tradingName: e.target.value })}
+                                        onChange={(e) => handleInputChange('tradingName', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
                                     />
                                 </div>
-                                <div className=" col-span-2 md:col-span-1">
+                                <div className="col-span-2 md:col-span-1">
                                     <label className="block text-sm font-medium mb-2">
                                         Business Registration Number *
-                                        {errors.businessRegistrationNumber && <span className="text-red-500 text-sm ml-2">{errors.businessRegistrationNumber}</span>}
+                                        {errors.businessRegistrationNumber && <span className="text-red-500 inline-block text-sm">{errors.businessRegistrationNumber}</span>}
                                     </label>
                                     <input
                                         type="text"
                                         placeholder="Registration Number"
                                         value={formData.businessRegistrationNumber}
-                                        onChange={(e) => setFormData({ ...formData, businessRegistrationNumber: e.target.value })}
+                                        onChange={(e) => handleInputChange('businessRegistrationNumber', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
                                     />
                                 </div>
-                                <div className=" col-span-2 md:col-span-1">
+                                <div className="col-span-2 md:col-span-1">
                                     <label className="block text-sm font-medium mb-2">
                                         Company Phone *
                                         {errors.companyPhone && <span className="text-red-500 text-sm ml-2">{errors.companyPhone}</span>}
@@ -151,13 +211,13 @@ const AgentApplicationForm = () => {
                                         type="tel"
                                         placeholder="+1 (555) 123-4567"
                                         value={formData.companyPhone}
-                                        onChange={(e) => setFormData({ ...formData, companyPhone: e.target.value })}
+                                        onChange={(e) => handleInputChange('companyPhone', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
                                     />
                                 </div>
-                                <div className=" col-span-2 md:col-span-1">
+                                <div className="col-span-2 md:col-span-1">
                                     <label className="block text-sm font-medium mb-2">
                                         Country *
                                         {errors.country && <span className="text-red-500 text-sm ml-2">{errors.country}</span>}
@@ -166,7 +226,7 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Country of Operation"
                                         value={formData.country}
-                                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                                        onChange={(e) => handleInputChange('country', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -181,7 +241,7 @@ const AgentApplicationForm = () => {
                                         type="email"
                                         placeholder="company@example.com"
                                         value={formData.emailAddress}
-                                        onChange={(e) => setFormData({ ...formData, emailAddress: e.target.value })}
+                                        onChange={(e) => handleInputChange('emailAddress', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -203,7 +263,7 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Office Address"
                                         value={formData.primaryOfficeLocation}
-                                        onChange={(e) => setFormData({ ...formData, primaryOfficeLocation: e.target.value })}
+                                        onChange={(e) => handleInputChange('primaryOfficeLocation', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -217,20 +277,20 @@ const AgentApplicationForm = () => {
                                     <textarea
                                         placeholder="Current Physical Address"
                                         value={formData.currentAddress}
-                                        onChange={(e) => setFormData({ ...formData, currentAddress: e.target.value })}
+                                        onChange={(e) => handleInputChange('currentAddress', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         rows={3}
                                         disabled={loading}
                                         required
                                     />
                                 </div>
-                                <div className=" col-span-2 md:col-span-1">
+                                <div className="col-span-2 md:col-span-1">
                                     <label className="block text-sm font-medium mb-2">Website (optional)</label>
                                     <input
                                         type="text"
                                         placeholder="https://example.com"
                                         value={formData.website}
-                                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                                        onChange={(e) => handleInputChange('website', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                     />
@@ -249,7 +309,7 @@ const AgentApplicationForm = () => {
                                     </label>
                                     <select
                                         value={formData.applyingAs}
-                                        onChange={(e) => setFormData({ ...formData, applyingAs: e.target.value as any })}
+                                        onChange={(e) => handleInputChange('applyingAs', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -275,7 +335,7 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Your First Name"
                                         value={formData.firstName}
-                                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                                        onChange={(e) => handleInputChange('firstName', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -290,7 +350,7 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Your Last Name"
                                         value={formData.lastName}
-                                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                        onChange={(e) => handleInputChange('lastName', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -305,7 +365,7 @@ const AgentApplicationForm = () => {
                                         type="text"
                                         placeholder="Your Position"
                                         value={formData.position}
-                                        onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                                        onChange={(e) => handleInputChange('position', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -320,7 +380,7 @@ const AgentApplicationForm = () => {
                                         type="tel"
                                         placeholder="+1 (555) 123-4567"
                                         value={formData.personalPhone}
-                                        onChange={(e) => setFormData({ ...formData, personalPhone: e.target.value })}
+                                        onChange={(e) => handleInputChange('personalPhone', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -335,7 +395,7 @@ const AgentApplicationForm = () => {
                                         type="email"
                                         placeholder="personal@example.com"
                                         value={formData.personalEmail}
-                                        onChange={(e) => setFormData({ ...formData, personalEmail: e.target.value })}
+                                        onChange={(e) => handleInputChange('personalEmail', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         disabled={loading}
                                         required
@@ -344,13 +404,11 @@ const AgentApplicationForm = () => {
                             </div>
                         </div>
 
-
-
                         {/* Form Actions */}
                         <div className="mt-8 flex justify-end">
                             <button
                                 type="submit"
-                                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center"
+                                className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 disabled={loading}
                             >
                                 {loading ? (
