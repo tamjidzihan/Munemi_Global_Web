@@ -1,22 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import useAgents from '../../hooks/useAgents';
 import useStudentEnquiries, { Address, EducationBackground, StudentEnquiry, TestResult } from '../../hooks/useStudentEnquiry';
 import { FiHelpCircle } from 'react-icons/fi';
 import Alert from '../common/Alert/Alert';
 import Hero from '../common/Hero/Hero';
 import agentImage from '../../assets/agents.png';
-// import { useAgentAuth } from '../../context/AgentAuthProvider';
+import { useAgentAuth } from '../../context/AgentAuthProvider';
 
 const StudentEnquiryForm = () => {
     const { createEnquiry, loading } = useStudentEnquiries()
-    // const {agent} = useAgentAuth()
-
-    // --- Agent Selection ---
-    const { agents, fetchAgents } = useAgents();
-    const [selectedAgentId, setSelectedAgentId] = useState<string>("");
-    const [agentLoading, setAgentLoading] = useState(false);
+    const { agent } = useAgentAuth()
 
     // --- Personal Details ---
     const [givenName, setGivenName] = useState("");
@@ -111,21 +105,6 @@ const StudentEnquiryForm = () => {
     const passportInputRef = useRef<HTMLInputElement>(null);
     const cvInputRef = useRef<HTMLInputElement>(null);
 
-    // Fetch agents when modal opens
-    useEffect(() => {
-        const loadAgents = async () => {
-            setAgentLoading(true);
-            try {
-                await fetchAgents({ isActive: true }); // Only fetch active agents
-            } catch (error) {
-                console.error("Failed to fetch agents:", error);
-            } finally {
-                setAgentLoading(false);
-            }
-        };
-        loadAgents();
-
-    }, []);
 
     useEffect(() => {
         if (hasPreviousPassport && previousPassportNumbers.length === 0) {
@@ -196,9 +175,11 @@ const StudentEnquiryForm = () => {
 
         if (!validateForm()) return;
 
+        if (!agent) return;
+
         try {
             const enquiryData: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
-                agentId: selectedAgentId,
+                agentId: agent.id,
                 givenName,
                 surName,
                 gender: gender as 'Male' | 'Female' | null,
@@ -379,6 +360,21 @@ const StudentEnquiryForm = () => {
         setPreviousPassportNumbers(updatedNumbers);
     };
 
+
+    const renderField = (label: string, value: string | null | undefined, icon?: React.ReactNode) => (
+
+        <div className="ml-4 space-y-4">
+            {icon && <div className="mt-1 text-gray-500">{icon}</div>}
+            <dl className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+                <dt className="text-sm text-gray-600">{label} : </dt>
+                <dd className="text-sm text-gray-900 md:col-span-2">
+                    {value || <span className="text-gray-400 italic">Not provided</span>}
+                </dd>
+            </dl>
+        </div >
+
+    );
+
     return (
         <main className="w-full">
             <Hero bgImage={agentImage} heroName=" Student Enquiry" />
@@ -412,35 +408,18 @@ const StudentEnquiryForm = () => {
                                 </h4>
                                 <div className="grid grid-cols-1 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">
-                                            Select Agent *
-                                            {!selectedAgentId && <span className="text-red-500 text-sm ml-2">Agent selection is required</span>}
-                                        </label>
-                                        <select
-                                            value={selectedAgentId}
-                                            onChange={(e) => setSelectedAgentId(e.target.value)}
-                                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500 cursor-pointer"
-                                            required
-                                            disabled={agentLoading}
-                                        >
-                                            <option value="">Select an agent</option>
-                                            {agentLoading ? (
-                                                <option value="">Loading agents...</option>
-                                            ) : (
-                                                agents.map((agent) => (
-                                                    <option key={agent.id} value={agent.id}>
-                                                        {agent.tradingName} - {agent.firstName} {agent.lastName}
-                                                        {agent.emailAddress ? ` (${agent.emailAddress})` : ''}
-                                                    </option>
-                                                ))
-                                            )}
-                                        </select>
-                                        {agents.length === 0 && !agentLoading && (
-                                            <p className="text-sm text-red-600 mt-1">No active agents available. Please contact administrator.</p>
+                                        {agent && (
+                                            <>
+                                                {renderField("Trading Name", agent.tradingName)}
+                                                {renderField("Business Registration Number", agent.businessRegistrationNumber)}
+                                                {renderField("Company Phone", agent.companyPhone)}
+                                                {renderField("Company Email", agent.emailAddress)}
+                                            </>
                                         )}
                                     </div>
                                 </div>
                             </div>
+
                             {/* Personal Details */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">Personal Details</h4>
