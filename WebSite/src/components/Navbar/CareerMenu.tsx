@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { useAgentAuth } from "../../context/AgentAuthProvider";
 
 
 const CareerMenu = () => {
+    const { agent, logoutAgent } = useAgentAuth()
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }} // Start slightly below with opacity 0
@@ -24,7 +27,7 @@ const CareerMenu = () => {
                                 { label: "Become an Agent (B2B)", link: "/career/agents-application" },
                                 // { label: "Become an Institute Partner", link: "/career/institution-partner-application" },
                                 // { label: "Become a Health Insurance Partner", link: "/career/health-insurance-partner-application" },
-                                { label: "Log In", link: "/signin" }
+                                { label: "User Log In", link: "/signin" }
                             ].map((item, index) => (
                                 <div key={index}>
                                     <Link
@@ -36,6 +39,25 @@ const CareerMenu = () => {
                                     </Link>
                                 </div>
                             ))}
+
+                            {agent
+                                ? <button onClick={() => logoutAgent()} className="text-gray-700  hover:text-red-600 transition duration-300 text-base cursor-pointer">
+                                    <ChevronRight size={20} className=" place-self-center inline-block " />
+                                    Agent Logout
+                                </button>
+                                : <span className="text-gray-700  hover:text-red-600 transition duration-300 text-base">
+                                    <ChevronRight size={20} className=" place-self-center inline-block " />
+                                    <Link
+                                        to={'/agentlogin'}
+                                        className="text-gray-700  hover:text-red-600 transition duration-300 text-base"
+                                    >
+
+                                        Agent Log In
+                                    </Link>
+                                </span>
+                            }
+
+
                         </div>
                     </div>
                 </div>

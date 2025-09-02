@@ -64,6 +64,7 @@ import StudyDestinationPage from "./pages/StudyDestinationPage";
 import AgentRoute from "./PrivateAgentRoute";
 import StudentEnquiryForm from "./components/StudentEnquiry/StudentEnquiryForm";
 import StudentEnquiryPage from "./pages/StudentEnquiryPage";
+import AgentSignIn from "./components/AgentAuth/AgentSignIn";
 
 
 export const router = createBrowserRouter([
@@ -177,6 +178,7 @@ export const router = createBrowserRouter([
 
     { path: '/signin', element: <SignIn /> },
     { path: '/signup', element: <SignUp /> },
+    { path: '/agentlogin', element: <AgentSignIn /> },
     {
         path: "/adminpanel",
         element: <PrivateRoute />,
