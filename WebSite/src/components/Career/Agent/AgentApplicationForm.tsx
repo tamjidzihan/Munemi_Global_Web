@@ -316,7 +316,6 @@ const AgentApplicationForm = () => {
                                     >
                                         <option value="" disabled>Select application type</option>
                                         <option value="Sub-Agent">Sub-Agent</option>
-                                        <option value="Super-Agent">Super-Agent</option>
                                     </select>
                                 </div>
                             </div>
@@ -378,7 +377,7 @@ const AgentApplicationForm = () => {
                                     </label>
                                     <input
                                         type="tel"
-                                        placeholder="+1 (555) 123-4567"
+                                        placeholder="+880 (01) 123-4567"
                                         value={formData.personalPhone}
                                         onChange={(e) => handleInputChange('personalPhone', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"

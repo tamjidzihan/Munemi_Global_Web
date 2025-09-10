@@ -26,7 +26,6 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
         }
     },
 
-
     // --- Personal Details ---
     givenName: { type: DataTypes.STRING, allowNull: false },
     surName: { type: DataTypes.STRING, allowNull: false },
@@ -54,11 +53,9 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
     spouseNid: { type: DataTypes.STRING },
     spousePhone: { type: DataTypes.STRING },
     numberOfChildren: { type: DataTypes.STRING },
+    numberOfBrother: { type: DataTypes.STRING },
+    numberOfSister: { type: DataTypes.STRING },
 
-    // --- Visa Information ---
-    visaType: { type: DataTypes.STRING },
-    visaExpiryDate: { type: DataTypes.DATEONLY },
-    passportCountry: { type: DataTypes.STRING },
 
     // --- Interested Services (array as JSON) ---
     interestedServices: {
@@ -155,6 +152,18 @@ const StudentEnquiry = sequelize.define('studentEnquiry', {
         },
         set(value) {
             this.setDataValue('passportDetails', JSON.stringify(value));
+        }
+    },
+
+    // --- Travel History ---
+    travelHistory: {
+        type: DataTypes.TEXT,
+        get() {
+            const value = this.getDataValue('travelHistory')
+            return value ? JSON.parse(value) : []
+        },
+        set(value) {
+            this.setDataValue('travelHistory', JSON.stringify(value))
         }
     },
 

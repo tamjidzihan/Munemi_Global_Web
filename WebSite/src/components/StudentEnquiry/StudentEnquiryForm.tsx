@@ -971,7 +971,7 @@ const StudentEnquiryForm = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium mb-2">Field of Study</label>
+                                                    <label className="block text-sm font-medium mb-2">Major/ Group</label>
                                                     <input
                                                         type="text"
                                                         value={edu.fieldOfStudy}
@@ -989,7 +989,7 @@ const StudentEnquiryForm = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="block text-sm font-medium mb-2">Grades</label>
+                                                    <label className="block text-sm font-medium mb-2">CGPA</label>
                                                     <input
                                                         type="text"
                                                         value={edu.grades}
@@ -1009,9 +1009,17 @@ const StudentEnquiryForm = () => {
                                     ))
                                 )}
                             </div>
+
                             {/* Emergency Contact */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-semibold text-midnight mb-4">Emergency Contact</h4>
+
+                                <h4 className="text-lg font-semibold text-midnight mb-4 flex items-center">
+                                    Emergency Contact *
+                                    <FiHelpCircle
+                                        className="ml-2 text-gray-400 hover:text-blue-500 cursor-help"
+                                        title="Fill in all the fields"
+                                    />
+                                </h4>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium mb-2">Name</label>
@@ -1019,6 +1027,7 @@ const StudentEnquiryForm = () => {
                                             type="text"
                                             value={emergencyContact.name}
                                             onChange={(e) => setEmergencyContact({ ...emergencyContact, name: e.target.value })}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md"
                                         />
                                     </div>
@@ -1028,6 +1037,7 @@ const StudentEnquiryForm = () => {
                                             type="text"
                                             value={emergencyContact.relationship}
                                             onChange={(e) => setEmergencyContact({ ...emergencyContact, relationship: e.target.value })}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md"
                                         />
                                     </div>
@@ -1037,6 +1047,7 @@ const StudentEnquiryForm = () => {
                                             type="text"
                                             value={emergencyContact.phone}
                                             onChange={(e) => setEmergencyContact({ ...emergencyContact, phone: e.target.value })}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md"
                                         />
                                     </div>
@@ -1046,6 +1057,7 @@ const StudentEnquiryForm = () => {
                                             type="text"
                                             value={emergencyContact.email}
                                             onChange={(e) => setEmergencyContact({ ...emergencyContact, email: e.target.value })}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md"
                                         />
                                     </div>
@@ -1055,11 +1067,13 @@ const StudentEnquiryForm = () => {
                                             type="text"
                                             value={emergencyContact.address}
                                             onChange={(e) => setEmergencyContact({ ...emergencyContact, address: e.target.value })}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md"
                                         />
                                     </div>
                                 </div>
                             </div>
+
                             {/* Passport Details */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">Passport Details</h4>
@@ -1155,10 +1169,10 @@ const StudentEnquiryForm = () => {
 
                             {/* Visa Details */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-semibold text-midnight mb-4">Visa Details</h4>
+                                <h4 className="text-lg font-semibold text-midnight mb-4">Travel History</h4>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Visa Type</label>
+                                        <label className="block text-sm font-medium mb-2">Country</label>
                                         <input
                                             type="text"
                                             value={visaType}
@@ -1167,7 +1181,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Visa Expiry Date</label>
+                                        <label className="block text-sm font-medium mb-2">Form Date</label>
                                         <input
                                             type="date"
                                             value={visaExpiryDate}
@@ -1176,7 +1190,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Passport Country</label>
+                                        <label className="block text-sm font-medium mb-2">Reason of Visit</label>
                                         <input
                                             type="text"
                                             value={passportCountry}
