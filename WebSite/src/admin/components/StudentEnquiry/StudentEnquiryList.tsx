@@ -142,8 +142,7 @@ const StudentEnquiryList = () => {
 
                     <button
                         onClick={() => setIsModalOpen(!isModalOpen)}
-                        className={`inline-flex items-center justify-center gap-2.5 rounded-md cursor-pointer ${isModalOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary'
-                            } py-3 px-6 text-center font-medium text-white hover:bg-opacity-90`}
+                        className={`inline-flex items-center justify-center gap-2.5 rounded-md cursor-pointer ${isModalOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-primary'} py-3 px-6 text-center font-medium text-white hover:bg-opacity-90`}
                     >
                         {isModalOpen ? <Minus size={20} /> : 'Create New'}
                         {isModalOpen ? `Cancel` : ` Enquiry`}

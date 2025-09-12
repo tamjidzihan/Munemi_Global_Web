@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Address, EducationBackground, StudentEnquiry, TestResult } from "../../../hooks/useStudentEnquiry";
+import { Address, EducationBackground, StudentEnquiry, TestResult, TravelHistory, VisaRefusalDetails } from "../../../hooks/useStudentEnquiry";
 import useAgents from "../../../hooks/useAgents";
 
 
 type CreateStudentEnquiryModalProps = {
     isOpen: boolean;
     closeModal: () => void;
-    createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'>, files?: { passport?: File; cv?: File }) => Promise<StudentEnquiry>;
+    createEnquiry: (enquiry: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt' | 'agent'>, files?: { passport?: File; cv?: File }) => Promise<StudentEnquiry>;
     addNewEnquiry: (enquiry: StudentEnquiry) => void;
 };
 
@@ -46,11 +46,8 @@ const CreateStudentEnquiryModal = ({
     const [spouseNid, setSpouseNid] = useState("");
     const [spousePhone, setSpousePhone] = useState("");
     const [numberOfChildren, setNumberOfChildren] = useState("");
-
-    // --- Visa Information ---
-    const [visaType, setVisaType] = useState("");
-    const [visaExpiryDate, setVisaExpiryDate] = useState("");
-    const [passportCountry, setPassportCountry] = useState("");
+    const [numberOfBrother, setNumberOfBrother] = useState("");
+    const [numberOfSister, setNumberOfSister] = useState("");
 
     // --- Arrays and JSON fields ---
     const [interestedServices, setInterestedServices] = useState<string[]>([]);
@@ -77,7 +74,7 @@ const CreateStudentEnquiryModal = ({
         expiryDate: "",
         issueAuthority: ""
     });
-    const [visaRefusalDetails, setVisaRefusalDetails] = useState({
+    const [visaRefusalDetails, setVisaRefusalDetails] = useState<VisaRefusalDetails>({
         hasRefusalHistory: false,
         country: "",
         reason: "",
@@ -86,6 +83,7 @@ const CreateStudentEnquiryModal = ({
         appliedForVisaAgain: ""
     });
     const [previousPassportNumbers, setPreviousPassportNumbers] = useState<string[]>([]);
+    const [travelHistory, setTravelHistory] = useState<TravelHistory[]>([]);
     const [hasPreviousPassport, setHasPreviousPassport] = useState(false);
 
     // --- Addresses ---
@@ -109,6 +107,7 @@ const CreateStudentEnquiryModal = ({
     // --- File Uploads ---
     const [passportFile, setPassportFile] = useState<File | null>(null);
     const [cvFile, setCvFile] = useState<File | null>(null);
+    const [errors, setErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
 
     const passportInputRef = useRef<HTMLInputElement>(null);
@@ -134,6 +133,34 @@ const CreateStudentEnquiryModal = ({
     const handleFileUpload = (fileType: 'passport' | 'cv', e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+
+            // Check file type (only PDF allowed)
+            if (file.type !== 'application/pdf') {
+                setErrors(prev => ({
+                    ...prev,
+                    [fileType === 'passport' ? 'passportFile' : 'cvFile']: 'Only PDF files are allowed'
+                }));
+                e.target.value = ''; // Clear the input
+                return;
+            }
+
+            // Check file size (max 10MB)
+            const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+            if (file.size > maxSize) {
+                setErrors(prev => ({
+                    ...prev,
+                    [fileType === 'passport' ? 'passportFile' : 'cvFile']: 'File size must be less than 10MB'
+                }));
+                e.target.value = ''; // Clear the input
+                return;
+            }
+
+            // Clear any previous errors for this file type
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[fileType === 'passport' ? 'passportFile' : 'cvFile'];
+                return newErrors;
+            });
             if (fileType === 'passport') {
                 setPassportFile(file);
             } else {
@@ -154,6 +181,13 @@ const CreateStudentEnquiryModal = ({
                 cvInputRef.current.value = '';
             }
         }
+
+        // Clear any errors for this file type when removed
+        setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors[fileType === 'passport' ? 'passportFile' : 'cvFile'];
+            return newErrors;
+        });
     };
 
 
@@ -188,7 +222,7 @@ const CreateStudentEnquiryModal = ({
         setLoading(true);
 
         try {
-            const enquiryData: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
+            const enquiryData: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt' | 'agent'> = {
                 agentId: selectedAgentId,
                 givenName,
                 surName,
@@ -208,9 +242,8 @@ const CreateStudentEnquiryModal = ({
                 spouseNid: spouseNid || null,
                 spousePhone: spousePhone || null,
                 numberOfChildren: numberOfChildren || null,
-                visaType: visaType || null,
-                visaExpiryDate: visaExpiryDate || null,
-                passportCountry: passportCountry || null,
+                numberOfBrother: numberOfBrother || null,
+                numberOfSister: numberOfSister || null,
                 interestedServices,
                 educationBackground,
                 englishTestScores,
@@ -218,6 +251,7 @@ const CreateStudentEnquiryModal = ({
                 passportDetails,
                 visaRefusalDetails,
                 previousPassportNumbers,
+                travelHistory,
                 hasPreviousPassport,
                 addresses: [permanentAddress, presentAddress],
                 passportDocument: {} as any, // These will be handled by the backend
@@ -260,9 +294,8 @@ const CreateStudentEnquiryModal = ({
         setSpouseNid("");
         setSpousePhone("");
         setNumberOfChildren("");
-        setVisaType("");
-        setVisaExpiryDate("");
-        setPassportCountry("");
+        setNumberOfBrother("");
+        setNumberOfSister("");
         setInterestedServices([]);
         setEducationBackground([]);
         setEnglishTestScores({
@@ -296,6 +329,7 @@ const CreateStudentEnquiryModal = ({
             appliedForVisaAgain: ""
         });
         setPreviousPassportNumbers([]);
+        setTravelHistory([]);
         setHasPreviousPassport(false);
         // Reset addresses
         setPermanentAddress({
@@ -316,6 +350,7 @@ const CreateStudentEnquiryModal = ({
         });
         setPassportFile(null);
         setCvFile(null);
+        setErrors({});
     };
 
     const addEducationBackground = () => {
@@ -324,7 +359,8 @@ const CreateStudentEnquiryModal = ({
             degree: '',
             fieldOfStudy: '',
             yearCompleted: '',
-            grades: ''
+            grades: '',
+            outOf: ''
         }]);
     };
 
@@ -369,6 +405,29 @@ const CreateStudentEnquiryModal = ({
     const removePreviousPassportNumber = (index: number) => {
         const updatedNumbers = previousPassportNumbers.filter((_, i) => i !== index);
         setPreviousPassportNumbers(updatedNumbers);
+    };
+
+    const addTravelHistory = () => {
+        setTravelHistory([...travelHistory, {
+            country: '',
+            formDate: '',
+            toDate: '',
+            reasonOfVisit: ''
+        }]);
+    };
+
+    const handleTravelHistoryChange = (index: number, field: string, value: string) => {
+        const updatedTravelHistory = [...travelHistory];
+        updatedTravelHistory[index] = {
+            ...updatedTravelHistory[index],
+            [field]: value
+        };
+        setTravelHistory(updatedTravelHistory);
+    };
+
+    const removeTravelHistory = (index: number) => {
+        const updatedTravelHistory = travelHistory.filter((_, i) => i !== index);
+        setTravelHistory(updatedTravelHistory);
     };
 
 
@@ -617,10 +676,29 @@ const CreateStudentEnquiryModal = ({
                                         min="0"
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Number of Brothers</label>
+                                    <input
+                                        type="number"
+                                        value={numberOfBrother}
+                                        onChange={(e) => setNumberOfBrother(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                        min="0"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Number of Sisters</label>
+                                    <input
+                                        type="number"
+                                        value={numberOfSister}
+                                        onChange={(e) => setNumberOfSister(e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                        min="0"
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        {/* Addresses */}
                         {/* Addresses */}
                         <div className="border-b pb-6 mb-4">
                             <h3 className="text-lg font-semibold text-gray-800 mb-4">Addresses</h3>
@@ -818,7 +896,10 @@ const CreateStudentEnquiryModal = ({
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Passport Document */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Passport Document*</label>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Passport Document (PDF only, max 10MB) *
+                                        {errors.passportFile && <span className="text-red-500 text-sm ml-2">{errors.passportFile}</span>}
+                                    </label>
                                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                         {passportFile ? (
                                             <div className="flex items-center justify-between">
@@ -856,7 +937,10 @@ const CreateStudentEnquiryModal = ({
 
                                 {/* CV Document */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">CV Document*</label>
+                                    <label className="block text-sm font-medium mb-2">
+                                        CV Document (PDF only, max 10MB) *
+                                        {errors.cvFile && <span className="text-red-500 text-sm ml-2">{errors.cvFile}</span>}
+                                    </label>
                                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                         {cvFile ? (
                                             <div className="flex items-center justify-between">
@@ -959,6 +1043,15 @@ const CreateStudentEnquiryModal = ({
                                                     className="w-full p-2 border border-gray-300 rounded-md"
                                                 />
                                             </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Out Of</label>
+                                                <input
+                                                    type="text"
+                                                    value={edu.outOf}
+                                                    onChange={(e) => handleEducationChange(index, 'outOf', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
                                         </div>
                                         <button
                                             type="button"
@@ -966,6 +1059,74 @@ const CreateStudentEnquiryModal = ({
                                             className="text-red-500 hover:text-red-700 text-sm"
                                         >
                                             Remove Education
+                                        </button>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Travel History */}
+                        <div className="border-b pb-6 mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <div className="font-semibold text-gray-600 pb-4">Travel History</div>
+                                <button
+                                    type="button"
+                                    onClick={addTravelHistory}
+                                    className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
+                                >
+                                    Add Travel History
+                                </button>
+                            </div>
+
+                            {travelHistory.length === 0 ? (
+                                <p className="text-sm text-gray-500">No travel history added yet</p>
+                            ) : (
+                                travelHistory.map((travel, index) => (
+                                    <div key={index} className="mb-3 border p-4 rounded-lg bg-gray-50">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Country</label>
+                                                <input
+                                                    type="text"
+                                                    value={travel.country}
+                                                    onChange={(e) => handleTravelHistoryChange(index, 'country', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">From Date</label>
+                                                <input
+                                                    type="date"
+                                                    value={travel.formDate}
+                                                    onChange={(e) => handleTravelHistoryChange(index, 'formDate', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">To Date</label>
+                                                <input
+                                                    type="date"
+                                                    value={travel.toDate}
+                                                    onChange={(e) => handleTravelHistoryChange(index, 'toDate', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                            <div className="md:col-span-2">
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Reason of Visit</label>
+                                                <input
+                                                    type="text"
+                                                    value={travel.reasonOfVisit}
+                                                    onChange={(e) => handleTravelHistoryChange(index, 'reasonOfVisit', e.target.value)}
+                                                    className="w-full p-2 border border-gray-300 rounded-md"
+                                                />
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeTravelHistory(index)}
+                                            className="text-red-500 hover:text-red-700 text-sm"
+                                        >
+                                            Remove Travel History
                                         </button>
                                     </div>
                                 ))
@@ -1113,40 +1274,6 @@ const CreateStudentEnquiryModal = ({
                                         ))}
                                     </div>
                                 )}
-                            </div>
-                        </div>
-
-                        {/* Visa Details */}
-                        <div className="pb-6 mb-4">
-                            <div className="text-lg font-semibold text-gray-600 pb-4">Visa Details</div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Visa Type</label>
-                                    <input
-                                        type="text"
-                                        value={visaType}
-                                        onChange={(e) => setVisaType(e.target.value)}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Visa Expiry Date</label>
-                                    <input
-                                        type="date"
-                                        value={visaExpiryDate}
-                                        onChange={(e) => setVisaExpiryDate(e.target.value)}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-medium text-gray-500 mb-1">Issue Authority</label>
-                                    <input
-                                        type="text"
-                                        value={passportCountry}
-                                        onChange={(e) => setPassportCountry(e.target.value)}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
-                                    />
-                                </div>
                             </div>
                         </div>
 
