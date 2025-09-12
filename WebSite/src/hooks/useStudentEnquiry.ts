@@ -25,6 +25,7 @@ export interface EducationBackground {
     fieldOfStudy: string;
     yearCompleted: string;
     grades: string;
+    outOf: string;
 }
 
 export interface TestResult {
@@ -50,6 +51,13 @@ export interface PassportDetails {
     issueDate: string;
     expiryDate: string;
     issueAuthority: string;
+}
+
+export interface TravelHistory {
+    country: string;
+    formDate: string;
+    toDate: string;
+    reasonOfVisit: string
 }
 
 export interface VisaRefusalDetails {
@@ -157,11 +165,8 @@ export interface StudentEnquiry {
     spouseNid: string | null;
     spousePhone: string | null;
     numberOfChildren: string | null;
-
-    // --- Visa Information ---
-    visaType: string | null;
-    visaExpiryDate: string | null;
-    passportCountry: string | null;
+    numberOfBrother: string | null;
+    numberOfSister: string | null;
 
     // --- Arrays and JSON fields ---
     interestedServices: string[];
@@ -171,6 +176,7 @@ export interface StudentEnquiry {
     passportDetails: PassportDetails | EmptyPassportDetails;
     visaRefusalDetails: VisaRefusalDetails | EmptyVisaRefusalDetails;
     previousPassportNumbers: string[];
+    travelHistory: TravelHistory[];
 
     // --- File Uploads ---
     passportDocument: UploadedFile;
@@ -193,12 +199,12 @@ const useStudentEnquiries = () => {
     const [error, setError] = useState<string | null>(null);
     const [pagination, setPagination] = useState({
         page: 1,
-        limit: 10,
+        limit: 10000,
         total: 0,
         totalPages: 0
     });
 
-    const totalEnquiries = pagination.total;
+    const totalEnquiries = enquiries.length;
 
     // Fetch all enquiries with pagination
     const fetchEnquiries = async (options: {

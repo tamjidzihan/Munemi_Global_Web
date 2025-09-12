@@ -6,7 +6,8 @@ import useStudentEnquiries, {
     StudentEnquiry,
     UploadedFile,
     EducationBackground,
-    Address
+    Address,
+    TravelHistory
 } from "../../../hooks/useStudentEnquiry";
 import { format } from "date-fns";
 import { Loader2, FileText, Home, ChevronRight, Download, ArrowLeft } from "lucide-react";
@@ -37,8 +38,6 @@ const ViewStudentQuery = () => {
 
         fetchEnquiry();
     }, [id]);
-
-
 
     const downloadAsPDF = async () => {
         if (!enquiry) return;
@@ -156,6 +155,16 @@ const ViewStudentQuery = () => {
         </div>
     );
 
+    const renderTravelHistory = (travel: TravelHistory, index: number) => (
+        <div key={index} className="border rounded-md p-4 mb-4 bg-gray-50">
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Travel History #{index + 1}</h4>
+            {renderField("Country", travel.country)}
+            {renderField("From Date", travel.formDate)}
+            {renderField("To Date", travel.toDate)}
+            {renderField("Reason of Visit", travel.reasonOfVisit)}
+        </div>
+    );
+
     // Safely access nested object properties
     const safeGet = (obj: any, key: string, defaultValue: any = null) => {
         return obj && obj[key] !== undefined ? obj[key] : defaultValue;
@@ -252,6 +261,8 @@ const ViewStudentQuery = () => {
                             {renderField("Spouse NID", enquiry.spouseNid)}
                             {renderField("Spouse Phone", enquiry.spousePhone)}
                             {renderField("Number of Children", enquiry.numberOfChildren)}
+                            {renderField("Number of Brothers", enquiry.numberOfBrother)}
+                            {renderField("Number of Sisters", enquiry.numberOfSister)}
                         </>
                     ))}
 
@@ -264,15 +275,6 @@ const ViewStudentQuery = () => {
                         ) : (
                             <p className="text-sm text-gray-500">No addresses provided</p>
                         )
-                    ))}
-
-                    {/* Visa Information */}
-                    {renderSection("Visa Information", (
-                        <>
-                            {renderField("Visa Type", enquiry.visaType)}
-                            {renderField("Visa Expiry Date", enquiry.visaExpiryDate ? format(new Date(enquiry.visaExpiryDate), "MMM dd, yyyy") : null)}
-                            {renderField("Passport Country", enquiry.passportCountry)}
-                        </>
                     ))}
 
                     {/* Interested Services */}
@@ -324,6 +326,17 @@ const ViewStudentQuery = () => {
                             </>
                         ) : (
                             <p className="text-sm text-gray-500">No test scores provided</p>
+                        )
+                    ))}
+
+                    {/* Travel History */}
+                    {renderSection("Travel History", (
+                        enquiry.travelHistory && enquiry.travelHistory.length > 0 ? (
+                            enquiry.travelHistory.map((travel: TravelHistory, index) => (
+                                renderTravelHistory(travel, index)
+                            ))
+                        ) : (
+                            <p className="text-sm text-gray-500">No travel history provided</p>
                         )
                     ))}
 

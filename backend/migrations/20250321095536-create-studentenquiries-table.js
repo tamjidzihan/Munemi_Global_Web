@@ -103,17 +103,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-
-      // --- Visa Information ---
-      visaType: {
+      numberOfBrother: {
         type: Sequelize.STRING,
         allowNull: true
       },
-      visaExpiryDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: true
-      },
-      passportCountry: {
+      numberOfSister: {
         type: Sequelize.STRING,
         allowNull: true
       },
@@ -162,6 +156,12 @@ module.exports = {
         allowNull: true
       },
       passportDetails: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+
+      // --- NEW: Added Travel History ---
+      travelHistory: {
         type: Sequelize.TEXT,
         allowNull: true
       },

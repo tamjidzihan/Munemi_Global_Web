@@ -63,7 +63,7 @@ const validateEnquiryData = (data, files, isUpdate = false) => {
         'interestedServices', 'educationBackground',
         'englishTestScores', 'emergencyContact',
         'passportDetails', 'visaRefusalDetails',
-        'previousPassportNumbers'
+        'previousPassportNumbers', 'travelHistory',
     ];
 
     for (const field of jsonFields) {
@@ -84,7 +84,7 @@ const validateEnquiryData = (data, files, isUpdate = false) => {
 
 const getAllStudentEnquiries = async (req, res) => {
     try {
-        const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'DESC' } = req.query;
+        const { page = 1, limit = 10000, sortBy = 'createdAt', sortOrder = 'DESC' } = req.query;
         const studentEnquiries = await getStudentEnquiries({
             page: parseInt(page),
             limit: parseInt(limit),

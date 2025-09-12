@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import { format } from "date-fns";
-import { StudentEnquiry } from "../hooks/useStudentEnquiry";
+import { StudentEnquiry, TravelHistory } from "../hooks/useStudentEnquiry";
 
 // Define types for the PDF configuration
 interface PDFConfig {
@@ -179,6 +179,16 @@ class PDFGenerator {
                 : defaultValue;
         };
 
+        // Format date safely
+        const safeFormatDate = (dateString: string | null | undefined): string => {
+            if (!dateString) return 'Not provided';
+            try {
+                return format(new Date(dateString), 'MMMM dd, yyyy');
+            } catch {
+                return dateString;
+            }
+        };
+
         // Define all sections
         const sections: PDFSection[] = [
             {
@@ -188,7 +198,7 @@ class PDFGenerator {
                     `Surname: ${enquiry.surName}`,
                     `Gender: ${safeGet(enquiry, 'gender')}`,
                     `Current Occupation: ${enquiry.currentOccupation}`,
-                    `Date of Birth: ${enquiry.dateOfBirth ? format(new Date(enquiry.dateOfBirth), 'MMMM dd, yyyy') : 'Not provided'}`,
+                    `Date of Birth: ${safeFormatDate(enquiry.dateOfBirth)}`,
                     `National ID: ${enquiry.nidNumber}`,
                     `Email: ${enquiry.email}`,
                     `Phone: ${enquiry.phone}`
@@ -206,45 +216,10 @@ class PDFGenerator {
                     `Spouse Name: ${safeGet(enquiry, 'spouseName')}`,
                     `Spouse NID: ${safeGet(enquiry, 'spouseNid')}`,
                     `Spouse Phone: ${safeGet(enquiry, 'spousePhone')}`,
-                    `Number of Children: ${safeGet(enquiry, 'numberOfChildren', 'None')}`
+                    `Number of your Children: ${safeGet(enquiry, 'numberOfChildren', 'None')}`,
+                    `Number of your Brothers: ${safeGet(enquiry, 'numberOfBrother', 'None')}`,
+                    `Number of your Sisters: ${safeGet(enquiry, 'numberOfSister', 'None')}`
                 ]
-            },
-            {
-                title: 'VISA & PASSPORT INFORMATION',
-                content: [
-                    `Visa Type: ${safeGet(enquiry, 'visaType')}`,
-                    `Visa Expiry Date: ${enquiry.visaExpiryDate ? format(new Date(enquiry.visaExpiryDate), 'MMMM dd, yyyy') : 'Not provided'}`,
-                    `Passport Country: ${safeGet(enquiry, 'passportCountry')}`,
-                    `Has Previous Passport: ${enquiry.hasPreviousPassport ? 'Yes' : 'No'}`,
-                    `Previous Passport Numbers: ${enquiry.previousPassportNumbers?.join(', ') || 'None'}`
-                ]
-            },
-            {
-                title: 'EDUCATION BACKGROUND',
-                content: enquiry.educationBackground && enquiry.educationBackground.length > 0 ?
-                    enquiry.educationBackground.flatMap((edu, index) => [
-                        `--- Education ${index + 1} ---`,
-                        `Institution: ${edu.institution}`,
-                        `Degree: ${edu.degree}`,
-                        `Field of Study: ${edu.fieldOfStudy}`,
-                        `Year Completed: ${edu.yearCompleted}`,
-                        `Grades: ${edu.grades}`
-                    ]) : ['No education background provided']
-            },
-            {
-                title: 'INTERESTED SERVICES',
-                content: enquiry.interestedServices && enquiry.interestedServices.length > 0 ?
-                    enquiry.interestedServices : ['No services selected']
-            },
-            {
-                title: 'EMERGENCY CONTACT',
-                content: enquiry.emergencyContact ? [
-                    `Name: ${safeGet(enquiry.emergencyContact, 'name')}`,
-                    `Relationship: ${safeGet(enquiry.emergencyContact, 'relationship')}`,
-                    `Phone: ${safeGet(enquiry.emergencyContact, 'phone')}`,
-                    `Email: ${safeGet(enquiry.emergencyContact, 'email')}`,
-                    `Address: ${safeGet(enquiry.emergencyContact, 'address')}`
-                ] : ['No emergency contact provided']
             },
             {
                 title: 'ADDRESSES',
@@ -259,8 +234,25 @@ class PDFGenerator {
                     ]) : ['No addresses provided']
             },
             {
-                title: 'TEST SCORES',
-                content: enquiry.englishTestScores ? [
+                title: 'INTERESTED SERVICES',
+                content: enquiry.interestedServices && enquiry.interestedServices.length > 0 ?
+                    enquiry.interestedServices : ['No services selected']
+            },
+            {
+                title: 'EDUCATION BACKGROUND',
+                content: enquiry.educationBackground && enquiry.educationBackground.length > 0 ?
+                    enquiry.educationBackground.flatMap((edu, index) => [
+                        `--- Education ${index + 1} ---`,
+                        `Institution: ${edu.institution}`,
+                        `Degree: ${edu.degree}`,
+                        `Field of Study: ${edu.fieldOfStudy}`,
+                        `Year Completed: ${edu.yearCompleted}`,
+                        `Grades: ${edu.grades}   Out Of: ${edu.outOf}`
+                    ]) : ['No education background provided']
+            },
+            {
+                title: 'ENGLISH TEST SCORES',
+                content: enquiry.englishTestScores && Object.keys(enquiry.englishTestScores).length > 0 ? [
                     `Test Type: ${safeGet(enquiry.englishTestScores, 'testType')}`,
                     `Overall Score: ${safeGet(enquiry.englishTestScores, 'overallScore')}`,
                     `Reading: ${safeGet(enquiry.englishTestScores, 'reading')}`,
@@ -271,8 +263,29 @@ class PDFGenerator {
                 ] : ['No test scores provided']
             },
             {
+                title: 'TRAVEL HISTORY',
+                content: enquiry.travelHistory && enquiry.travelHistory.length > 0 ?
+                    enquiry.travelHistory.flatMap((travel: TravelHistory, index) => [
+                        `--- Travel ${index + 1} ---`,
+                        `Country: ${travel.country}`,
+                        `From Date: ${safeFormatDate(travel.formDate)}`,
+                        `To Date: ${safeFormatDate(travel.toDate)}`,
+                        `Reason of Visit: ${travel.reasonOfVisit}`
+                    ]) : ['No travel history provided']
+            },
+            {
+                title: 'EMERGENCY CONTACT',
+                content: enquiry.emergencyContact && Object.keys(enquiry.emergencyContact).length > 0 ? [
+                    `Name: ${safeGet(enquiry.emergencyContact, 'name')}`,
+                    `Relationship: ${safeGet(enquiry.emergencyContact, 'relationship')}`,
+                    `Phone: ${safeGet(enquiry.emergencyContact, 'phone')}`,
+                    `Email: ${safeGet(enquiry.emergencyContact, 'email')}`,
+                    `Address: ${safeGet(enquiry.emergencyContact, 'address')}`
+                ] : ['No emergency contact provided']
+            },
+            {
                 title: 'PASSPORT DETAILS',
-                content: enquiry.passportDetails ? [
+                content: enquiry.passportDetails && Object.keys(enquiry.passportDetails).length > 0 ? [
                     `Passport Number: ${safeGet(enquiry.passportDetails, 'passportNumber')}`,
                     `Issue Date: ${safeGet(enquiry.passportDetails, 'issueDate')}`,
                     `Expiry Date: ${safeGet(enquiry.passportDetails, 'expiryDate')}`,
@@ -280,8 +293,18 @@ class PDFGenerator {
                 ] : ['No passport details provided']
             },
             {
+                title: 'PASSPORT HISTORY',
+                content: [
+                    `Has Previous Passport: ${enquiry.hasPreviousPassport ? 'Yes' : 'No'}`,
+                    ...(enquiry.previousPassportNumbers && enquiry.previousPassportNumbers.length > 0 ?
+                        [`Previous Passport Numbers: ${enquiry.previousPassportNumbers.join(', ')}`] :
+                        ['No previous passport numbers provided']
+                    )
+                ]
+            },
+            {
                 title: 'VISA REFUSAL HISTORY',
-                content: enquiry.visaRefusalDetails ? [
+                content: enquiry.visaRefusalDetails && Object.keys(enquiry.visaRefusalDetails).length > 0 ? [
                     `Has Refusal History: ${safeGet(enquiry.visaRefusalDetails, 'hasRefusalHistory') ? 'Yes' : 'No'}`,
                     `Country: ${safeGet(enquiry.visaRefusalDetails, 'country')}`,
                     `Reason: ${safeGet(enquiry.visaRefusalDetails, 'reason')}`,

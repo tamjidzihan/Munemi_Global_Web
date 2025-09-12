@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
-import useStudentEnquiries, { Address, EducationBackground, StudentEnquiry, TestResult } from '../../hooks/useStudentEnquiry';
+import useStudentEnquiries, { Address, EducationBackground, StudentEnquiry, TestResult, TravelHistory } from '../../hooks/useStudentEnquiry';
 import { FiHelpCircle } from 'react-icons/fi';
 import Alert from '../common/Alert/Alert';
 import Hero from '../common/Hero/Hero';
@@ -35,11 +35,8 @@ const StudentEnquiryForm = () => {
     const [spouseNid, setSpouseNid] = useState("");
     const [spousePhone, setSpousePhone] = useState("");
     const [numberOfChildren, setNumberOfChildren] = useState("");
-
-    // --- Visa Information ---
-    const [visaType, setVisaType] = useState("");
-    const [visaExpiryDate, setVisaExpiryDate] = useState("");
-    const [passportCountry, setPassportCountry] = useState("");
+    const [numberOfBrother, setNumberOfBrother] = useState("");
+    const [numberOfSister, setNumberOfSister] = useState("");
 
     // --- Arrays and JSON fields ---
     const [interestedServices, setInterestedServices] = useState<string[]>([]);
@@ -76,6 +73,7 @@ const StudentEnquiryForm = () => {
     });
     const [previousPassportNumbers, setPreviousPassportNumbers] = useState<string[]>([]);
     const [hasPreviousPassport, setHasPreviousPassport] = useState(false);
+    const [travelHistory, setTravelHistory] = useState<TravelHistory[]>([]);
 
     // --- Addresses ---
     const [permanentAddress, setPermanentAddress] = useState<Omit<Address, 'id'>>({
@@ -118,6 +116,35 @@ const StudentEnquiryForm = () => {
     const handleFileUpload = (fileType: 'passport' | 'cv', e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+
+            // Check file type (only PDF allowed)
+            if (file.type !== 'application/pdf') {
+                setErrors(prev => ({
+                    ...prev,
+                    [fileType === 'passport' ? 'passportFile' : 'cvFile']: 'Only PDF files are allowed'
+                }));
+                e.target.value = ''; // Clear the input
+                return;
+            }
+
+            // Check file size (max 10MB)
+            const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+            if (file.size > maxSize) {
+                setErrors(prev => ({
+                    ...prev,
+                    [fileType === 'passport' ? 'passportFile' : 'cvFile']: 'File size must be less than 10MB'
+                }));
+                e.target.value = ''; // Clear the input
+                return;
+            }
+
+            // Clear any previous errors for this file type
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[fileType === 'passport' ? 'passportFile' : 'cvFile'];
+                return newErrors;
+            });
+
             if (fileType === 'passport') {
                 setPassportFile(file);
             } else {
@@ -138,8 +165,16 @@ const StudentEnquiryForm = () => {
                 cvInputRef.current.value = '';
             }
         }
+
+        // Clear any errors for this file type when removed
+        setErrors(prev => {
+            const newErrors = { ...prev };
+            delete newErrors[fileType === 'passport' ? 'passportFile' : 'cvFile'];
+            return newErrors;
+        });
     };
 
+    // Update the validateForm function to include file type validation
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -161,12 +196,21 @@ const StudentEnquiryForm = () => {
         if (!presentAddress.street) newErrors.presentStreet = "Present address street is required";
         if (!presentAddress.city) newErrors.presentCity = "Present address city is required";
         if (!presentAddress.country) newErrors.presentCountry = "Present address country is required";
+
+        // File validation
         if (!passportFile) newErrors.passportFile = "Passport document is required";
+        else if (passportFile.type !== 'application/pdf') newErrors.passportFile = "Only PDF files are allowed";
+        else if (passportFile.size > 10 * 1024 * 1024) newErrors.passportFile = "File size must be less than 10MB";
+
         if (!cvFile) newErrors.cvFile = "CV document is required";
+        else if (cvFile.type !== 'application/pdf') newErrors.cvFile = "Only PDF files are allowed";
+        else if (cvFile.size > 10 * 1024 * 1024) newErrors.cvFile = "File size must be less than 10MB";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -178,7 +222,7 @@ const StudentEnquiryForm = () => {
         if (!agent) return;
 
         try {
-            const enquiryData: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt'> = {
+            const enquiryData: Omit<StudentEnquiry, 'id' | 'createdAt' | 'updatedAt' | 'agent'> = {
                 agentId: agent.id,
                 givenName,
                 surName,
@@ -198,9 +242,8 @@ const StudentEnquiryForm = () => {
                 spouseNid: spouseNid || null,
                 spousePhone: spousePhone || null,
                 numberOfChildren: numberOfChildren || null,
-                visaType: visaType || null,
-                visaExpiryDate: visaExpiryDate || null,
-                passportCountry: passportCountry || null,
+                numberOfBrother: numberOfBrother || null,
+                numberOfSister: numberOfSister || null,
                 interestedServices,
                 educationBackground,
                 englishTestScores,
@@ -208,6 +251,7 @@ const StudentEnquiryForm = () => {
                 passportDetails,
                 visaRefusalDetails,
                 previousPassportNumbers,
+                travelHistory,
                 hasPreviousPassport,
                 addresses: [permanentAddress, presentAddress],
                 passportDocument: {} as any,
@@ -248,9 +292,8 @@ const StudentEnquiryForm = () => {
         setSpouseNid("");
         setSpousePhone("");
         setNumberOfChildren("");
-        setVisaType("");
-        setVisaExpiryDate("");
-        setPassportCountry("");
+        setNumberOfBrother("");
+        setNumberOfSister("");
         setInterestedServices([]);
         setEducationBackground([]);
         setEnglishTestScores({
@@ -284,6 +327,7 @@ const StudentEnquiryForm = () => {
             appliedForVisaAgain: ""
         });
         setPreviousPassportNumbers([]);
+        setTravelHistory([]);
         setHasPreviousPassport(false);
         setPermanentAddress({
             addressType: 'Permanent',
@@ -313,7 +357,8 @@ const StudentEnquiryForm = () => {
             degree: '',
             fieldOfStudy: '',
             yearCompleted: '',
-            grades: ''
+            grades: '',
+            outOf: ''
         }]);
     };
 
@@ -330,6 +375,31 @@ const StudentEnquiryForm = () => {
         const updatedEducation = educationBackground.filter((_, i) => i !== index);
         setEducationBackground(updatedEducation);
     };
+
+
+    const addTravelHistory = () => {
+        setTravelHistory([...travelHistory, {
+            country: '',
+            formDate: '',
+            toDate: '',
+            reasonOfVisit: ''
+        }]);
+    };
+
+    const handleTravelHistoryChange = (index: number, field: string, value: string) => {
+        const updatedTravelHistory = [...travelHistory];
+        updatedTravelHistory[index] = {
+            ...updatedTravelHistory[index],
+            [field]: value
+        };
+        setTravelHistory(updatedTravelHistory);
+    };
+
+    const removeTravelHistory = (index: number) => {
+        const updatedTravelHistory = travelHistory.filter((_, i) => i !== index);
+        setTravelHistory(updatedTravelHistory);
+    };
+
 
     const handlePermanentAddressChange = (field: string, value: string) => {
         setPermanentAddress(prev => ({
@@ -451,10 +521,11 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Gender</label>
+                                        <label className="block text-sm font-medium mb-2">Gender *</label>
                                         <select
                                             value={gender}
                                             onChange={(e) => setGender(e.target.value as 'Male' | 'Female' | '')}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         >
                                             <option value="">Select</option>
@@ -489,11 +560,12 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Date of Birth</label>
+                                        <label className="block text-sm font-medium mb-2">Date of Birth *</label>
                                         <input
                                             type="date"
                                             value={dateOfBirth}
                                             onChange={(e) => setDateOfBirth(e.target.value)}
+                                            required
                                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                         />
                                     </div>
@@ -633,11 +705,31 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Number of Children</label>
+                                        <label className="block text-sm font-medium mb-2">Number of Your Children</label>
                                         <input
                                             type="number"
                                             value={numberOfChildren}
                                             onChange={(e) => setNumberOfChildren(e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                            min="0"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Number of Your Brothers</label>
+                                        <input
+                                            type="number"
+                                            value={numberOfBrother}
+                                            onChange={(e) => setNumberOfBrother(e.target.value)}
+                                            className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
+                                            min="0"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium mb-2">Number of Your Sisters</label>
+                                        <input
+                                            type="number"
+                                            value={numberOfSister}
+                                            onChange={(e) => setNumberOfSister(e.target.value)}
                                             className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"
                                             min="0"
                                         />
@@ -848,6 +940,8 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
+
                             {/* File Uploads */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">Required Documents</h4>
@@ -855,13 +949,21 @@ const StudentEnquiryForm = () => {
                                     {/* Passport Document */}
                                     <div>
                                         <label className="block text-sm font-medium mb-2">
-                                            Passport Document *
+                                            Passport Document (PDF only, max 10MB) *
                                             {errors.passportFile && <span className="text-red-500 text-sm ml-2">{errors.passportFile}</span>}
                                         </label>
                                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                             {passportFile ? (
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-sm text-gray-600 truncate">{passportFile.name}</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                                                        </svg>
+                                                        <span className="text-sm text-gray-600 truncate">{passportFile.name}</span>
+                                                        <span className="text-xs text-gray-500">
+                                                            ({(passportFile.size / 1024 / 1024).toFixed(2)} MB)
+                                                        </span>
+                                                    </div>
                                                     <button
                                                         type="button"
                                                         onClick={() => removeFile('passport')}
@@ -880,13 +982,14 @@ const StudentEnquiryForm = () => {
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                                         </svg>
                                                         <p className="text-sm text-gray-600">Click to upload passport</p>
+                                                        <p className="text-xs text-gray-500">PDF only, max 10MB</p>
                                                     </div>
                                                     <input
                                                         ref={passportInputRef}
                                                         type="file"
                                                         onChange={(e) => handleFileUpload('passport', e)}
                                                         className="hidden"
-                                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                                        accept=".pdf,application/pdf"
                                                     />
                                                 </div>
                                             )}
@@ -895,13 +998,21 @@ const StudentEnquiryForm = () => {
                                     {/* CV Document */}
                                     <div>
                                         <label className="block text-sm font-medium mb-2">
-                                            CV Document *
+                                            CV Document (PDF only, max 10MB) *
                                             {errors.cvFile && <span className="text-red-500 text-sm ml-2">{errors.cvFile}</span>}
                                         </label>
                                         <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                             {cvFile ? (
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-sm text-gray-600 truncate">{cvFile.name}</span>
+                                                    <div className="flex items-center gap-2">
+                                                        <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                                                        </svg>
+                                                        <span className="text-sm text-gray-600 truncate">{cvFile.name}</span>
+                                                        <span className="text-xs text-gray-500">
+                                                            ({(cvFile.size / 1024 / 1024).toFixed(2)} MB)
+                                                        </span>
+                                                    </div>
                                                     <button
                                                         type="button"
                                                         onClick={() => removeFile('cv')}
@@ -920,13 +1031,14 @@ const StudentEnquiryForm = () => {
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                                         </svg>
                                                         <p className="text-sm text-gray-600">Click to upload CV</p>
+                                                        <p className="text-xs text-gray-500">PDF only, max 10MB</p>
                                                     </div>
                                                     <input
                                                         ref={cvInputRef}
                                                         type="file"
                                                         onChange={(e) => handleFileUpload('cv', e)}
                                                         className="hidden"
-                                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                                                        accept=".pdf,application/pdf"
                                                     />
                                                 </div>
                                             )}
@@ -934,6 +1046,8 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
+
                             {/* Education Background */}
                             <div className="mb-8">
                                 <div className="flex justify-between items-center mb-4">
@@ -997,6 +1111,15 @@ const StudentEnquiryForm = () => {
                                                         className="w-full p-2 border border-gray-300 rounded-md"
                                                     />
                                                 </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-2">Out Of (4,5.. etc)</label>
+                                                    <input
+                                                        type="number"
+                                                        value={edu.outOf}
+                                                        onChange={(e) => handleEducationChange(index, 'outOf', e.target.value)}
+                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                    />
+                                                </div>
                                             </div>
                                             <button
                                                 type="button"
@@ -1022,7 +1145,7 @@ const StudentEnquiryForm = () => {
                                 </h4>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Name</label>
+                                        <label className="block text-sm font-medium mb-2">Name *</label>
                                         <input
                                             type="text"
                                             value={emergencyContact.name}
@@ -1032,7 +1155,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Relationship</label>
+                                        <label className="block text-sm font-medium mb-2">Relationship *</label>
                                         <input
                                             type="text"
                                             value={emergencyContact.relationship}
@@ -1042,7 +1165,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Phone</label>
+                                        <label className="block text-sm font-medium mb-2">Phone *</label>
                                         <input
                                             type="text"
                                             value={emergencyContact.phone}
@@ -1052,7 +1175,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium mb-2">Email</label>
+                                        <label className="block text-sm font-medium mb-2">Email *</label>
                                         <input
                                             type="text"
                                             value={emergencyContact.email}
@@ -1062,7 +1185,7 @@ const StudentEnquiryForm = () => {
                                         />
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium mb-2">Address</label>
+                                        <label className="block text-sm font-medium mb-2">Address *</label>
                                         <input
                                             type="text"
                                             value={emergencyContact.address}
@@ -1167,38 +1290,71 @@ const StudentEnquiryForm = () => {
                                 </div>
                             </div>
 
-                            {/* Visa Details */}
+                            {/* Travel History */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-semibold text-midnight mb-4">Travel History</h4>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Country</label>
-                                        <input
-                                            type="text"
-                                            value={visaType}
-                                            onChange={(e) => setVisaType(e.target.value)}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Form Date</label>
-                                        <input
-                                            type="date"
-                                            value={visaExpiryDate}
-                                            onChange={(e) => setVisaExpiryDate(e.target.value)}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium mb-2">Reason of Visit</label>
-                                        <input
-                                            type="text"
-                                            value={passportCountry}
-                                            onChange={(e) => setPassportCountry(e.target.value)}
-                                            className="w-full p-2 border border-gray-300 rounded-md"
-                                        />
-                                    </div>
+                                <div className="flex justify-between items-center mb-4">
+                                    <h4 className="text-lg font-semibold text-midnight">Travel History</h4>
+                                    <button
+                                        type="button"
+                                        onClick={addTravelHistory}
+                                        className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded-md text-sm"
+                                    >
+                                        Add Travel History
+                                    </button>
                                 </div>
+                                {travelHistory.length === 0 ? (
+                                    <p className="text-sm text-gray-500">No travel history added yet</p>
+                                ) : (
+                                    travelHistory.map((travel, index) => (
+                                        <div key={index} className="mb-4 border p-4 rounded-lg bg-gray-50">
+                                            <div className="grid md:grid-cols-2 gap-4 mb-2">
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-2">Country</label>
+                                                    <input
+                                                        type="text"
+                                                        value={travel.country}
+                                                        onChange={(e) => handleTravelHistoryChange(index, 'country', e.target.value)}
+                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-2">From Date</label>
+                                                    <input
+                                                        type="date"
+                                                        value={travel.formDate}
+                                                        onChange={(e) => handleTravelHistoryChange(index, 'formDate', e.target.value)}
+                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-2">To Date</label>
+                                                    <input
+                                                        type="date"
+                                                        value={travel.toDate}
+                                                        onChange={(e) => handleTravelHistoryChange(index, 'toDate', e.target.value)}
+                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium mb-2">Reason of Visit</label>
+                                                    <input
+                                                        type="text"
+                                                        value={travel.reasonOfVisit}
+                                                        onChange={(e) => handleTravelHistoryChange(index, 'reasonOfVisit', e.target.value)}
+                                                        className="w-full p-2 border border-gray-300 rounded-md"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeTravelHistory(index)}
+                                                className="text-red-500 hover:text-red-700 text-sm"
+                                            >
+                                                Remove Travel History
+                                            </button>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                             {/* Visa Refusal Details */}
                             <div className="mb-8">
@@ -1259,7 +1415,7 @@ const StudentEnquiryForm = () => {
                             <div className="flex justify-end gap-3 mt-8">
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center"
+                                    className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center cursor-pointer"
                                     disabled={loading}
                                 >
                                     {loading ? (

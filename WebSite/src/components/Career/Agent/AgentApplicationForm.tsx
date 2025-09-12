@@ -209,7 +209,7 @@ const AgentApplicationForm = () => {
                                     </label>
                                     <input
                                         type="tel"
-                                        placeholder="+1 (555) 123-4567"
+                                        placeholder="+880 (01) 123-4567"
                                         value={formData.companyPhone}
                                         onChange={(e) => handleInputChange('companyPhone', e.target.value)}
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-blue-500"

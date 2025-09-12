@@ -293,9 +293,9 @@ const processJsonFields = (values) => {
     const jsonFields = [
         'interestedServices', 'educationBackground',
         'englishTestScores', 'emergencyContact',
-        'passportDetails', 'visaRefusalDetails',
+        'passportDetails', 'visaRefusalDetails', 'travelHistory',
         'previousPassportNumbers',
-        'passportDocument', 'cvDocument' // Added new document fields
+        'passportDocument', 'cvDocument'  // Added new document fields
     ];
 
     const processed = { ...values };
