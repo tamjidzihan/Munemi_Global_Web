@@ -18,7 +18,7 @@ const StudentQueryButton = () => {
     }, []);
 
     const handleClick = () => {
-        navigate('/studentenquiry')
+        navigate('/agentlogin')
     };
 
     return (
