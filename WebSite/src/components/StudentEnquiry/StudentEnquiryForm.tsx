@@ -571,6 +571,7 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
                             {/* Contact Details */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">Contact Details</h4>
@@ -603,6 +604,7 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
                             {/* Family Details */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">Family Details</h4>
@@ -736,12 +738,19 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
                             {/* Addresses */}
                             <div className="mb-8">
-                                <h4 className="text-lg font-semibold text-midnight mb-4">Addresses</h4>
+                                <h4 className="text-lg font-semibold text-midnight mb-4 flex items-center">Addresses
+                                    <FiHelpCircle
+                                        className="ml-2 text-gray-400 hover:text-blue-500 cursor-help"
+                                        title="Address is required"
+                                    />
+                                </h4>
                                 {/* Permanent Address */}
                                 <div className="mb-6 p-4 border rounded-lg bg-gray-50">
                                     <h4 className="text-md font-semibold text-gray-700 mb-3">Permanent Address</h4>
+
                                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         <div className="md:col-span-2">
                                             <label className="block text-sm font-medium mb-2">
@@ -770,21 +779,23 @@ const StudentEnquiryForm = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">State</label>
+                                            <label className="block text-sm font-medium mb-2">State / Divisions * </label>
                                             <input
                                                 type="text"
                                                 value={permanentAddress.state}
                                                 onChange={(e) => handlePermanentAddressChange('state', e.target.value)}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                                required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">Zip Code</label>
+                                            <label className="block text-sm font-medium mb-2">Zip Code *</label>
                                             <input
                                                 type="text"
                                                 value={permanentAddress.zipCode}
                                                 onChange={(e) => handlePermanentAddressChange('zipCode', e.target.value)}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -833,21 +844,23 @@ const StudentEnquiryForm = () => {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">State</label>
+                                            <label className="block text-sm font-medium mb-2">State / Divisions *</label>
                                             <input
                                                 type="text"
                                                 value={presentAddress.state}
                                                 onChange={(e) => handlePresentAddressChange('state', e.target.value)}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                                required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium mb-2">Zip Code</label>
+                                            <label className="block text-sm font-medium mb-2">Zip Code *</label>
                                             <input
                                                 type="text"
                                                 value={presentAddress.zipCode}
                                                 onChange={(e) => handlePresentAddressChange('zipCode', e.target.value)}
                                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                                required
                                             />
                                         </div>
                                         <div>
@@ -866,6 +879,7 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
+
                             {/* English Test Scores */}
                             <div className="mb-8">
                                 <h4 className="text-lg font-semibold text-midnight mb-4">English Test Scores</h4>
@@ -940,7 +954,6 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
-
 
                             {/* File Uploads */}
                             <div className="mb-8">
@@ -1046,7 +1059,6 @@ const StudentEnquiryForm = () => {
                                     </div>
                                 </div>
                             </div>
-
 
                             {/* Education Background */}
                             <div className="mb-8">
