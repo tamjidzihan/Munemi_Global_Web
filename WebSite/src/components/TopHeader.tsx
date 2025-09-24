@@ -16,7 +16,7 @@ export function TopHeader() {
                                 <a href="https://www.facebook.com/munemiglobalbd" target="_blank" className="text-gray-400 hover:text-red-500">
                                     <FaFacebookF size={20} />
                                 </a>
-                                <a href="https://www.instagram.com/munemiglobal/" className="text-gray-400 hover:text-red-500">
+                                <a href="https://www.instagram.com/munemiglobal/" target="_blank" className="text-gray-400 hover:text-red-500">
                                     <FaInstagram size={24} />
                                 </a>
                                 <a href="https://g.co/kgs/6L1ZxbX" target="_blank" className="text-gray-400 hover:text-red-500">

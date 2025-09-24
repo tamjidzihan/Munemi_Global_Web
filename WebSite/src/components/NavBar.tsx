@@ -44,7 +44,7 @@ export function Navbar() {
                         <img
                             src={logo}
                             alt="Munemi Global Logo"
-                            className={`transition-all duration-300 py-4 md:py-3  ${isScrolled ? "h-15" : "h-18"}`}
+                            className={`transition-all duration-300 py-3 md:py-2  ${isScrolled ? "h-18" : "h-20"}`}
                         />
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export const academicServices = [
@@ -42,6 +42,10 @@ export const visaServices = [
 
 
 export default function ServicesMenu() {
+    const navigate = useNavigate()
+    const handleClick = () => {
+        navigate('/agentlogin')
+    };
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }} // Start slightly below with opacity 0
@@ -138,6 +142,42 @@ export default function ServicesMenu() {
                                 </div>
                             ))}
                         </div>
+                        <hr className="border-t-2 border-red-300 mx-auto my-6" />
+                        <motion.button
+                            onClick={handleClick}
+                            className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform transition-all duration-300 ease-in-out border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 group cursor-pointer"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.98 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="flex items-center gap-2">
+                                <motion.svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                                    />
+                                </motion.svg>
+                                <span className="text-sm sm:text-lg font-semibold">Student Enquiry</span>
+                            </div>
+                        </motion.button>
                     </div>
 
                 </div>
