@@ -47,6 +47,52 @@ const DashboardIndex: React.FC = () => {
           </CardDataStats>
         </Link>
 
+        <Link to={'/adminpanel/flight/flight-booking'}>
+          <CardDataStats title="Flight Booking" total={totalBookings.toString()} rate="4.35%" levelUp>
+            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+
+        <Link to={'/adminpanel/university'}>
+          <CardDataStats title="Universities" total={totalBookings.toString()} rate="4.35%" levelUp>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-university-icon lucide-university w-6 h-6 text-primary">
+              <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+              <path d="M18 12h.01" />
+              <path d="M18 16h.01" />
+              <path d="M22 7a1 1 0 0 0-1-1h-2a2 2 0 0 1-1.143-.359L13.143 2.36a2 2 0 0 0-2.286-.001L6.143 5.64A2 2 0 0 1 5 6H3a1 1 0 0 0-1 1v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2z" />
+              <path d="M6 12h.01" />
+              <path d="M6 16h.01" />
+              <circle cx="12" cy="10" r="2" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+      </div>
+
+      <div className=' text-xl my-5 lg:mt-10 lg:mb-5 text-midnight'>Agent Dashboard</div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <Link to={'/adminpanel/career/agentapplication'}>
+          <CardDataStats title="Agents Application" total={totalApplications.toString()} rate="2.5%" levelUp>
+            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
+
+        <Link to={'/adminpanel/agents'}>
+          <CardDataStats title="Active Agents" total={totalAgents.toString()} rate="2.5%" levelUp>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary ">
+              <path d="m16 11 2 2 4-4" />
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+            </svg>
+          </CardDataStats>
+        </Link>
+
         <Link to={'/adminpanel/student-enquiry'}>
           <CardDataStats title="Student Enquiry " total={totalEnquiries.toString()} rate="0.00%" levelDown>
             <svg
@@ -73,35 +119,6 @@ const DashboardIndex: React.FC = () => {
           </CardDataStats>
         </Link>
 
-        <Link to={'/adminpanel/flight/flight-booking'}>
-          <CardDataStats title="Flight Booking" total={totalBookings.toString()} rate="4.35%" levelUp>
-            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
-            </svg>
-          </CardDataStats>
-        </Link>
-      </div>
-
-      <div className=' text-xl my-5 lg:mt-10 lg:mb-5 text-midnight'>Agent Dashboard</div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <Link to={'/adminpanel/career/agentapplication'}>
-          <CardDataStats title="Agents Application" total={totalApplications.toString()} rate="2.5%" levelUp>
-            <svg className="w-6 h-6 text-primary " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
-            </svg>
-          </CardDataStats>
-        </Link>
-
-
-        <Link to={'/adminpanel/agents'}>
-          <CardDataStats title="Active Agents" total={totalAgents.toString()} rate="2.5%" levelUp>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-primary ">
-              <path d="m16 11 2 2 4-4" />
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-            </svg>
-          </CardDataStats>
-        </Link>
       </div>
 
       <div className=' text-xl my-5 lg:mt-10 lg:mb-5 text-midnight'>Package Dashboard</div>

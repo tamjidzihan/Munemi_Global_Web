@@ -218,7 +218,7 @@ const AgentList = ({
                 </div>
             )}
 
-            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-11 md:px-6 2xl:px-7.5">
+            <div className="grid bg-cyan-50 text-midnight border-t border-stroke py-4.5 px-4 sm:grid-cols-9 md:px-6 2xl:px-7.5">
                 <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('tradingName')}>
                     <p className="font-bold">Trading Name</p>
                     {sortConfig.key === 'tradingName' && (
@@ -231,7 +231,7 @@ const AgentList = ({
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
-                <div className="col-span-2 flex items-center cursor-pointer" onClick={() => handleSort('applyingAs')}>
+                <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('applyingAs')}>
                     <p className="font-bold">Agent Type</p>
                     {sortConfig.key === 'applyingAs' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
@@ -240,12 +240,6 @@ const AgentList = ({
                 <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('commissionRate')}>
                     <p className="font-bold">Commission</p>
                     {sortConfig.key === 'commissionRate' && (
-                        sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
-                    )}
-                </div>
-                <div className="col-span-1 flex items-center cursor-pointer" onClick={() => handleSort('totalStudentsReferred')}>
-                    <p className="font-bold">Students</p>
-                    {sortConfig.key === 'totalStudentsReferred' && (
                         sortConfig.direction === 'asc' ? <SortAsc size={16} className="ml-1" /> : <SortDesc size={16} className="ml-1" />
                     )}
                 </div>
@@ -264,17 +258,17 @@ const AgentList = ({
                 filteredAgents.map((agent) => (
                     <div
                         key={agent.id}
-                        className="grid grid-cols-11 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
+                        className="grid grid-cols-9 text-form-input border-t hover:bg-gray-50 border-stroke py-4.5 px-4 md:px-6 2xl:px-7.5 relative"
                     >
                         <div className="col-span-2 flex items-center">
                             <Link to={`view/${agent.id}`}>
                                 <p className="font-medium hover:underline">{agent.tradingName || "N/A"}</p>
                             </Link>
                         </div>
-                        <div className="col-span-2 flex items-center">
+                        <div className="col-span-2 flex items-center overflow-x-auto">
                             <p className="text-sm text-gray-600">{agent.businessRegistrationNumber || "N/A"}</p>
                         </div>
-                        <div className="col-span-2 flex items-center">
+                        <div className="col-span-1 flex items-center">
                             <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                                 {agent.applyingAs}
                             </span>
@@ -282,11 +276,6 @@ const AgentList = ({
                         <div className="col-span-1 flex items-center">
                             <span className="text-sm font-medium">
                                 {agent.commissionRate}%
-                            </span>
-                        </div>
-                        <div className="col-span-1 flex items-center">
-                            <span className="text-sm font-medium">
-                                {agent.totalStudentsReferred}
                             </span>
                         </div>
                         <div className="col-span-1 flex items-center">
