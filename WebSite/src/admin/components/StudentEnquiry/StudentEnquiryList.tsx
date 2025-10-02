@@ -298,7 +298,7 @@ const StudentEnquiryList = () => {
                                 View
                             </button>
                             <button
-                                onClick={() => setMenuOpenFor(menuOpenFor === enquiry.id ? null : enquiry.id)}
+                                onClick={() => navigate(`/adminpanel/student-enquiry/edit/${enquiry.id}`)}
                                 className="relative flex items-center gap-2 px-5 py-1
                                             rounded-xl border border-cyan-500 
                                             text-cyan-600 font-medium

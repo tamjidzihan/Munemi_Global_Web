@@ -1,81 +1,136 @@
-import { useState } from "react";
-import {
-    StudentEnquiry,
-    TestResult,
-    EducationBackground,
-    VisaRefusalDetails,
-    EmergencyContact,
-    PassportDetails,
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ArrowLeft, ChevronRight, Home } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useStudentEnquiries, {
     Address,
-    EmptyTestResult,
+    EducationBackground,
+    EmergencyContact,
     EmptyEmergencyContact,
     EmptyPassportDetails,
-    EmptyVisaRefusalDetails
+    EmptyTestResult,
+    EmptyVisaRefusalDetails,
+    PassportDetails,
+    StudentEnquiry,
+    TestResult,
+    VisaRefusalDetails
 } from "../../../hooks/useStudentEnquiry";
+import PageTitle from "../PageTitle";
 
-type EditStudentEnquiryModelProps = {
-    isOpen: boolean;
-    closeModal: () => void;
-    studentEnquiry: StudentEnquiry;
-    updateStudentEnquiry: (id: string, updatedEnquiry: Partial<StudentEnquiry>, files?: { passport?: File; cv?: File; }) => Promise<StudentEnquiry>;
-};
+const EditStudentEnquiryPage = () => {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const { getEnquiryById, updateEnquiry, loading: hookLoading } = useStudentEnquiries();
 
-const EditStudentEnquiryModel = ({
-    isOpen,
-    closeModal,
-    studentEnquiry,
-    updateStudentEnquiry
-}: EditStudentEnquiryModelProps) => {
+    const [studentEnquiry, setStudentEnquiry] = useState<StudentEnquiry | null>(null);
+    const [pageLoading, setPageLoading] = useState(true);
+    const [submitLoading, setSubmitLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     // --- Personal Details ---
-    const [givenName, setGivenName] = useState(studentEnquiry.givenName);
-    const [surName, setSurName] = useState(studentEnquiry.surName);
-    const [gender, setGender] = useState<'Male' | 'Female' | null>(studentEnquiry.gender);
-    const [currentOccupation, setCurrentOccupation] = useState(studentEnquiry.currentOccupation);
-    const [dateOfBirth, setDateOfBirth] = useState(studentEnquiry.dateOfBirth || "");
-    const [nidNumber, setNidNumber] = useState(studentEnquiry.nidNumber);
+    const [givenName, setGivenName] = useState("");
+    const [surName, setSurName] = useState("");
+    const [gender, setGender] = useState<'Male' | 'Female' | null>(null);
+    const [currentOccupation, setCurrentOccupation] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [nidNumber, setNidNumber] = useState("");
 
     // --- Contact Details ---
-    const [phone, setPhone] = useState(studentEnquiry.phone);
-    const [email, setEmail] = useState(studentEnquiry.email);
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
 
     // --- Family Details ---
-    const [fathersName, setFathersName] = useState(studentEnquiry.fathersName);
-    const [fathersNid, setFathersNid] = useState(studentEnquiry.fathersNid);
-    const [fathersPhone, setFathersPhone] = useState(studentEnquiry.fathersPhone || "");
-    const [mothersName, setMothersName] = useState(studentEnquiry.mothersName);
-    const [mothersNid, setMothersNid] = useState(studentEnquiry.mothersNid);
-    const [mothersPhone, setMothersPhone] = useState(studentEnquiry.mothersPhone || "");
-    const [spouseName, setSpouseName] = useState(studentEnquiry.spouseName || "");
-    const [spouseNid, setSpouseNid] = useState(studentEnquiry.spouseNid || "");
-    const [spousePhone, setSpousePhone] = useState(studentEnquiry.spousePhone || "");
-    const [numberOfChildren, setNumberOfChildren] = useState(studentEnquiry.numberOfChildren || "");
-    const [numberOfBrother, setNumberOfBrother] = useState(studentEnquiry.numberOfBrother || "");
-    const [numberOfSister, setNumberOfSister] = useState(studentEnquiry.numberOfSister || "");
+    const [fathersName, setFathersName] = useState("");
+    const [fathersNid, setFathersNid] = useState("");
+    const [fathersPhone, setFathersPhone] = useState("");
+    const [mothersName, setMothersName] = useState("");
+    const [mothersNid, setMothersNid] = useState("");
+    const [mothersPhone, setMothersPhone] = useState("");
+    const [spouseName, setSpouseName] = useState("");
+    const [spouseNid, setSpouseNid] = useState("");
+    const [spousePhone, setSpousePhone] = useState("");
+    const [numberOfChildren, setNumberOfChildren] = useState("");
+    const [numberOfBrother, setNumberOfBrother] = useState("");
+    const [numberOfSister, setNumberOfSister] = useState("");
 
     // --- Arrays and Objects ---
-    const [educationBackground, setEducationBackground] = useState<EducationBackground[]>(studentEnquiry.educationBackground);
-    const [englishTestScores, setEnglishTestScores] = useState<TestResult | EmptyTestResult>(studentEnquiry.englishTestScores);
-    const [emergencyContact, setEmergencyContact] = useState<EmergencyContact | EmptyEmergencyContact>(studentEnquiry.emergencyContact);
-    const [passportDetails, setPassportDetails] = useState<PassportDetails | EmptyPassportDetails>(studentEnquiry.passportDetails);
-    const [visaRefusalDetails, setVisaRefusalDetails] = useState<VisaRefusalDetails | EmptyVisaRefusalDetails>(studentEnquiry.visaRefusalDetails);
-    const [previousPassportNumbers, setPreviousPassportNumbers] = useState<string[]>(studentEnquiry.previousPassportNumbers);
-    const [travelHistory, setTravelHistory] = useState(studentEnquiry.travelHistory);
-    const [addresses, setAddresses] = useState<Address[]>(studentEnquiry.addresses);
+    const [educationBackground, setEducationBackground] = useState<EducationBackground[]>([]);
+    const [englishTestScores, setEnglishTestScores] = useState<TestResult | EmptyTestResult>({});
+    const [emergencyContact, setEmergencyContact] = useState<EmergencyContact | EmptyEmergencyContact>({});
+    const [passportDetails, setPassportDetails] = useState<PassportDetails | EmptyPassportDetails>({});
+    const [visaRefusalDetails, setVisaRefusalDetails] = useState<VisaRefusalDetails | EmptyVisaRefusalDetails>({});
+    const [previousPassportNumbers, setPreviousPassportNumbers] = useState<string[]>([]);
+    const [travelHistory, setTravelHistory] = useState<any[]>([]);
+    const [addresses, setAddresses] = useState<Address[]>([]);
 
     // --- File Uploads ---
     const [passportFile, setPassportFile] = useState<File | null>(null);
     const [cvFile, setCvFile] = useState<File | null>(null);
 
-    const [loading, setLoading] = useState(false);
+    // Fetch student enquiry data
+    useEffect(() => {
+        const fetchEnquiry = async () => {
+            if (!id) {
+                setError("No enquiry ID provided");
+                setPageLoading(false);
+                return;
+            }
+
+            try {
+                setPageLoading(true);
+                const enquiry = await getEnquiryById(id);
+                setStudentEnquiry(enquiry);
+
+                // Set all form fields with fetched data
+                setGivenName(enquiry.givenName);
+                setSurName(enquiry.surName);
+                setGender(enquiry.gender);
+                setCurrentOccupation(enquiry.currentOccupation);
+                setDateOfBirth(enquiry.dateOfBirth || "");
+                setNidNumber(enquiry.nidNumber);
+                setPhone(enquiry.phone);
+                setEmail(enquiry.email);
+                setFathersName(enquiry.fathersName);
+                setFathersNid(enquiry.fathersNid);
+                setFathersPhone(enquiry.fathersPhone || "");
+                setMothersName(enquiry.mothersName);
+                setMothersNid(enquiry.mothersNid);
+                setMothersPhone(enquiry.mothersPhone || "");
+                setSpouseName(enquiry.spouseName || "");
+                setSpouseNid(enquiry.spouseNid || "");
+                setSpousePhone(enquiry.spousePhone || "");
+                setNumberOfChildren(enquiry.numberOfChildren || "");
+                setNumberOfBrother(enquiry.numberOfBrother || "");
+                setNumberOfSister(enquiry.numberOfSister || "");
+                setEducationBackground(enquiry.educationBackground);
+                setEnglishTestScores(enquiry.englishTestScores);
+                setEmergencyContact(enquiry.emergencyContact);
+                setPassportDetails(enquiry.passportDetails);
+                setVisaRefusalDetails(enquiry.visaRefusalDetails);
+                setPreviousPassportNumbers(enquiry.previousPassportNumbers);
+                setTravelHistory(enquiry.travelHistory);
+                setAddresses(enquiry.addresses);
+
+            } catch (err) {
+                setError("Failed to load student enquiry");
+                console.error("Error fetching enquiry:", err);
+            } finally {
+                setPageLoading(false);
+            }
+        };
+
+        fetchEnquiry();
+    }, [id]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!givenName || !surName || !email || !phone) {
+        if (!givenName || !surName || !email || !phone || !id) {
             alert("Please fill in all required fields.");
             return;
         }
 
-        setLoading(true);
+        setSubmitLoading(true);
 
         const updatedEnquiry: Partial<StudentEnquiry> = {
             givenName,
@@ -110,16 +165,16 @@ const EditStudentEnquiryModel = ({
         };
 
         try {
-            await updateStudentEnquiry(studentEnquiry.id, updatedEnquiry, {
+            await updateEnquiry(id, updatedEnquiry, {
                 passport: passportFile || undefined,
                 cv: cvFile || undefined
             });
-            closeModal();
+            navigate("/adminpanel/student-enquiry");
         } catch (error) {
             console.error("Failed to update enquiry:", error);
             alert("Failed to update student enquiry. Please try again.");
         } finally {
-            setLoading(false);
+            setSubmitLoading(false);
         }
     };
 
@@ -211,24 +266,79 @@ const EditStudentEnquiryModel = ({
         setPreviousPassportNumbers(updatedNumbers);
     };
 
-    if (!isOpen) return null;
+    const handleGoBack = () => {
+        navigate(-1);
+    };
 
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-                <div className="p-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-semibold">Edit Student Enquiry</h3>
+    if (pageLoading) {
+        return (
+            <div className="min-h-screen bg-gray-50 p-4">
+                <PageTitle title="View Student Enquiry | Student Details" />
+                <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        <p className="mt-4 text-gray-600">Loading student enquiry...</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (error || !studentEnquiry) {
+        return (
+            <div className="min-h-screen bg-gray-50 p-4">
+                <PageTitle title="View Student Enquiry | Student Details" />
+                <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                        <p className="text-red-600 text-lg">{error || "Student enquiry not found"}</p>
                         <button
-                            onClick={closeModal}
-                            className="text-gray-500 hover:text-gray-700 text-2xl"
-                            disabled={loading}
+                            onClick={handleGoBack}
+                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
-                            &times;
+                            Go Back
                         </button>
                     </div>
+                </div>
+            </div>
+        );
+    }
 
-                    <form onSubmit={handleSubmit} className={loading ? "opacity-50 pointer-events-none" : ""}>
+    return (
+        <div className="max-w-7xl mx-auto px-6 pb-6">
+            <PageTitle title="View Student Enquiry | Student Details" />
+
+            {/* Header Section */}
+            <div className="mb-6">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    Edit Student Enquire Details
+                </h1>
+                {/* Breadcrumb */}
+                <nav className="flex items-center justify-between gap-4 text-sm mb-6 text-gray-600">
+                    <button
+                        onClick={handleGoBack}
+                        className="flex items-center gap-1 px-3 py-1 rounded-md transition-colors cursor-pointer hover:text-blue-600 hover:underline"
+                    >
+                        <ArrowLeft size={16} />
+                        Go Back
+                    </button>
+                    <div className="flex items-center gap-2">
+                        <Link to="/adminpanel" className="hover:text-blue-600 flex items-center gap-1">
+                            <Home className="w-4 h-4" /> Dashboard
+                        </Link>
+                        <span><ChevronRight className="w-4 h-4 text-gray-400" /></span>
+                        <Link to="/adminpanel/student-enquiry" className="hover:text-blue-600">
+                            Student Enquiry
+                        </Link>
+                        <span><ChevronRight className="w-4 h-4 text-gray-400" /></span>
+                        <span className="text-blue-600 font-semibold">Edit Enquiry</span>
+                    </div>
+                </nav>
+            </div>
+
+            {/* Edit Form */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="p-6">
+                    <form onSubmit={handleSubmit} className={submitLoading || hookLoading ? "opacity-50 pointer-events-none" : ""}>
                         {/* Personal Details */}
                         <div className="mb-6">
                             <h4 className="font-semibold text-gray-600 pb-2 border-b">Personal Details</h4>
@@ -970,21 +1080,21 @@ const EditStudentEnquiryModel = ({
                             </div>
                         </div>
 
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-end gap-3 pt-6 border-t">
                             <button
                                 type="button"
-                                onClick={closeModal}
+                                onClick={handleGoBack}
                                 className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
-                                disabled={loading}
+                                disabled={submitLoading || hookLoading}
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md flex items-center justify-center min-w-24"
-                                disabled={loading}
+                                disabled={submitLoading || hookLoading}
                             >
-                                {loading ? (
+                                {submitLoading ? (
                                     <>
                                         <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -1002,4 +1112,4 @@ const EditStudentEnquiryModel = ({
     );
 };
 
-export default EditStudentEnquiryModel;
+export default EditStudentEnquiryPage;

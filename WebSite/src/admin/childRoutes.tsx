@@ -1,6 +1,7 @@
 import ApplicationDetailsPage from "./components/AgentApplication/ApplicationDetailsPage";
 import AgentDetailsPage from "./components/Agents/AgentDetailsPage";
 import PageTitle from "./components/PageTitle";
+import EditStudentEnquiryModel from "./components/StudentEnquiry/EditStudentEnquiryModel";
 import ViewStudentQuery from "./components/StudentEnquiry/ViewStudentQuery";
 import Agents from "./pages/Agent/Agents";
 import AgentApplication from "./pages/AgentApplication/AgentApplication";
@@ -17,8 +18,6 @@ import PackageBooking from "./pages/Package/PackageBooking";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
 import Universities from "./pages/University/Universities";
 import Profile from "./pages/User/Profile";
-
-
 
 export const childRoutes = [
     {
@@ -65,6 +64,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="View Student Enquiry | Student Details" />
                 <ViewStudentQuery />
+            </>
+        ),
+    },
+    {
+        path: "student-enquiry/edit/:id",
+        element: (
+            <>
+                <PageTitle title="View Student Enquiry | Student Details" />
+                <EditStudentEnquiryModel />
             </>
         ),
     },
