@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useStudentEnquiries, {
     StudentEnquiry,
     UploadedFile,
@@ -10,11 +10,12 @@ import useStudentEnquiries, {
     TravelHistory
 } from "../../../hooks/useStudentEnquiry";
 import { format } from "date-fns";
-import { Loader2, FileText, Home, ChevronRight, Download, ArrowLeft } from "lucide-react";
+import { Loader2, FileText, Home, ChevronRight, Download, ArrowLeft, Pencil } from "lucide-react";
 import logo from "../../../assets/logo_munemi_global.png"
 import { pdfGenerator } from "../../../Utils/pdfGenerator";
 
 const ViewStudentQuery = () => {
+    const navigate = useNavigate()
     const { id } = useParams<{ id: string }>();
     const { getEnquiryById } = useStudentEnquiries();
     const [enquiry, setEnquiry] = useState<StudentEnquiry | null>(null);
@@ -199,7 +200,7 @@ const ViewStudentQuery = () => {
             </nav>
 
             {/* Card */}
-            <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="bg-white shadow rounded-lg overflow-hidden py-5 px-10">
                 <div className="px-6 py-4 border-b flex justify-between items-center">
                     <h2 className="text-xl font-bold text-gray-900">
                         Enquiry : <span className=" text-blue-800"> {enquiry.givenName} {enquiry.surName}
@@ -211,7 +212,21 @@ const ViewStudentQuery = () => {
                         </p>
                         {/* Header with Download Button */}
                         <div className="flex justify-end items-center space-x-4">
-                            <div>Download Student Enquire Details : </div>
+                            <button
+                                onClick={() => {
+                                    navigate(`/adminpanel/student-enquiry/edit/${enquiry.id}`);
+                                }}
+                                className="relative flex items-center gap-2 px-5 py-1
+                                            rounded-xl border border-cyan-500 
+                                            text-cyan-600 font-medium
+                                            bg-white/10 backdrop-blur-sm
+                                            shadow-md transition-all duration-300 
+                                            hover:bg-cyan-600 hover:text-white 
+                                            hover:shadow-lg active:scale-95 cursor-pointer"
+                            >
+                                <Pencil size={16} className="mr-2" />
+                                Edit Details
+                            </button>
                             <button
                                 onClick={downloadAsPDF}
                                 disabled={downloading}

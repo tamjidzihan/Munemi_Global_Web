@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronRight, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useStudentEnquiries, {
+    Agent,
     Address,
     EducationBackground,
     EmergencyContact,
@@ -17,6 +18,7 @@ import useStudentEnquiries, {
     VisaRefusalDetails
 } from "../../../hooks/useStudentEnquiry";
 import PageTitle from "../PageTitle";
+import { FiHelpCircle } from "react-icons/fi";
 
 const EditStudentEnquiryPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -28,6 +30,8 @@ const EditStudentEnquiryPage = () => {
     const [submitLoading, setSubmitLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const [agent, setAgent] = useState<Agent>()
+    const [agentId, setAgentId] = useState("")
     // --- Personal Details ---
     const [givenName, setGivenName] = useState("");
     const [surName, setSurName] = useState("");
@@ -83,6 +87,8 @@ const EditStudentEnquiryPage = () => {
                 setStudentEnquiry(enquiry);
 
                 // Set all form fields with fetched data
+                setAgentId(enquiry.agentId)
+                setAgent(enquiry.agent)
                 setGivenName(enquiry.givenName);
                 setSurName(enquiry.surName);
                 setGender(enquiry.gender);
@@ -133,6 +139,8 @@ const EditStudentEnquiryPage = () => {
         setSubmitLoading(true);
 
         const updatedEnquiry: Partial<StudentEnquiry> = {
+            agent,
+            agentId,
             givenName,
             surName,
             gender,
@@ -165,10 +173,20 @@ const EditStudentEnquiryPage = () => {
         };
 
         try {
-            await updateEnquiry(id, updatedEnquiry, {
-                passport: passportFile || undefined,
-                cv: cvFile || undefined
-            });
+            // Prepare files object - only include files that were actually selected
+            const files: { passport?: File; cv?: File } = {};
+
+            if (passportFile) {
+                files.passport = passportFile;
+            }
+
+            if (cvFile) {
+                files.cv = cvFile;
+            }
+
+            // If no new passport file is selected but there's an existing one, 
+            // the backend should keep the existing document
+            await updateEnquiry(id, updatedEnquiry, Object.keys(files).length > 0 ? files : undefined);
             navigate("/adminpanel/student-enquiry");
         } catch (error) {
             console.error("Failed to update enquiry:", error);
@@ -270,10 +288,23 @@ const EditStudentEnquiryPage = () => {
         navigate(-1);
     };
 
+
+    const renderField = (label: string, value: string | null | undefined, icon?: React.ReactNode) => (
+        <div className="ml-4 space-y-4">
+            {icon && <div className="mt-1 text-gray-500">{icon}</div>}
+            <dl className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+                <dt className="text-sm text-gray-600">{label} : </dt>
+                <dd className="text-sm text-gray-900 md:col-span-2">
+                    {value || <span className="text-gray-400 italic">Not provided</span>}
+                </dd>
+            </dl>
+        </div >
+    );
+
     if (pageLoading) {
         return (
             <div className="min-h-screen bg-gray-50 p-4">
-                <PageTitle title="View Student Enquiry | Student Details" />
+                <PageTitle title="Edit Student Enquiry | Student Details" />
                 <div className="flex items-center justify-center h-64">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -284,10 +315,11 @@ const EditStudentEnquiryPage = () => {
         );
     }
 
+
     if (error || !studentEnquiry) {
         return (
             <div className="min-h-screen bg-gray-50 p-4">
-                <PageTitle title="View Student Enquiry | Student Details" />
+                <PageTitle title="Error Edit Student Enquiry" />
                 <div className="flex items-center justify-center h-64">
                     <div className="text-center">
                         <p className="text-red-600 text-lg">{error || "Student enquiry not found"}</p>
@@ -305,7 +337,7 @@ const EditStudentEnquiryPage = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-6 pb-6">
-            <PageTitle title="View Student Enquiry | Student Details" />
+            <PageTitle title={`${givenName} ${surName} | Edit Student Enquiry  `} />
 
             {/* Header Section */}
             <div className="mb-6">
@@ -336,9 +368,33 @@ const EditStudentEnquiryPage = () => {
             </div>
 
             {/* Edit Form */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 py-5 px-10">
                 <div className="p-6">
                     <form onSubmit={handleSubmit} className={submitLoading || hookLoading ? "opacity-50 pointer-events-none" : ""}>
+                        {/* Agent Selection */}
+                        <div className="mb-8">
+                            <h4 className="text-lg font-semibold text-midnight mb-4 flex items-center">
+                                Agent Information
+                                <FiHelpCircle
+                                    className="ml-2 text-gray-400 hover:text-blue-500 cursor-help"
+                                    title="Select the agent responsible for this student enquiry"
+                                />
+                            </h4>
+                            <div className="grid grid-cols-1 gap-4">
+                                <div>
+                                    {agent && (
+                                        <>
+                                            {renderField("Trading Name", agent.tradingName)}
+                                            {renderField("Business Registration Number", agent.application?.businessRegistrationNumber)}
+                                            {renderField("Company Phone", agent.application?.companyPhone)}
+                                            {renderField("Company Email", agent.emailAddress)}
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+
                         {/* Personal Details */}
                         <div className="mb-6">
                             <h4 className="font-semibold text-gray-600 pb-2 border-b">Personal Details</h4>
@@ -1056,26 +1112,155 @@ const EditStudentEnquiryPage = () => {
                         </div>
 
                         {/* File Uploads */}
-                        <div className="mb-6">
-                            <h4 className="font-semibold text-gray-600 pb-2 border-b">File Uploads</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div className="mb-8">
+                            <h4 className="text-lg font-semibold text-midnight mb-4">Required Documents</h4>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {/* Passport Document */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Passport Document</label>
-                                    <input
-                                        type="file"
-                                        onChange={(e) => setPassportFile(e.target.files?.[0] || null)}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
-                                        accept=".pdf,.jpg,.jpeg,.png"
-                                    />
+                                    <label className="block text-sm font-medium mb-2">
+                                        Passport Document (PDF, JPG, JPEG, PNG - max 10MB)
+                                        {studentEnquiry?.passportDocument && (
+                                            <span className="text-green-600 text-xs ml-2">✓ Document already uploaded</span>
+                                        )}
+                                    </label>
+                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors">
+                                        {passportFile ? (
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                                                    </svg>
+                                                    <span className="text-sm text-gray-600 truncate">{passportFile.name}</span>
+                                                    <span className="text-xs text-gray-500">
+                                                        ({(passportFile.size / 1024 / 1024).toFixed(2)} MB)
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setPassportFile(null)}
+                                                    className="text-red-500 hover:text-red-700 ml-2 text-sm"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        ) : studentEnquiry?.passportDocument ? (
+                                            <div className="flex flex-col items-center justify-center space-y-2">
+                                                <svg className="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                <p className="text-sm text-green-600 font-medium">Document Uploaded</p>
+                                                <p className="text-xs text-gray-500">
+                                                    {studentEnquiry.passportDocument.originalname || 'Passport document'}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => document.getElementById('passport-input')?.click()}
+                                                    className="text-blue-600 hover:text-blue-800 text-sm mt-2 cursor-pointer"
+                                                >
+                                                    Upload new file to replace
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={() => document.getElementById('passport-input')?.click()}
+                                            >
+                                                <div className="flex flex-col items-center justify-center space-y-2">
+                                                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                    </svg>
+                                                    <p className="text-sm text-gray-600">Click to upload passport</p>
+                                                    <p className="text-xs text-gray-500">PDF, JPG, JPEG, PNG - max 10MB</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <input
+                                            id="passport-input"
+                                            type="file"
+                                            onChange={(e) => setPassportFile(e.target.files?.[0] || null)}
+                                            className="hidden"
+                                            accept=".pdf,.jpg,.jpeg,.png,application/pdf"
+                                        />
+                                    </div>
+                                    {studentEnquiry?.passportDocument && !passportFile && (
+                                        <p className="text-xs text-gray-500 mt-2">
+                                            Current document will be kept. Upload a new file to replace it.
+                                        </p>
+                                    )}
                                 </div>
+
+                                {/* CV Document */}
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">CV Document</label>
-                                    <input
-                                        type="file"
-                                        onChange={(e) => setCvFile(e.target.files?.[0] || null)}
-                                        className="w-full p-2 border border-gray-300 rounded-md"
-                                        accept=".pdf,.doc,.docx"
-                                    />
+                                    <label className="block text-sm font-medium mb-2">
+                                        CV Document (PDF, DOC, DOCX - max 10MB)
+                                        {studentEnquiry?.cvDocument && (
+                                            <span className="text-green-600 text-xs ml-2">✓ Document already uploaded</span>
+                                        )}
+                                    </label>
+                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors">
+                                        {cvFile ? (
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                                                    </svg>
+                                                    <span className="text-sm text-gray-600 truncate">{cvFile.name}</span>
+                                                    <span className="text-xs text-gray-500">
+                                                        ({(cvFile.size / 1024 / 1024).toFixed(2)} MB)
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setCvFile(null)}
+                                                    className="text-red-500 hover:text-red-700 ml-2 text-sm"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        ) : studentEnquiry?.cvDocument ? (
+                                            <div className="flex flex-col items-center justify-center space-y-2">
+                                                <svg className="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                                <p className="text-sm text-green-600 font-medium">Document Uploaded</p>
+                                                <p className="text-xs text-gray-500">
+                                                    {studentEnquiry.cvDocument.originalname || 'CV document'}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => document.getElementById('cv-input')?.click()}
+                                                    className="text-blue-600 hover:text-blue-800 text-sm mt-2 cursor-pointer"
+                                                >
+                                                    Upload new file to replace
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={() => document.getElementById('cv-input')?.click()}
+                                            >
+                                                <div className="flex flex-col items-center justify-center space-y-2">
+                                                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                    </svg>
+                                                    <p className="text-sm text-gray-600">Click to upload CV</p>
+                                                    <p className="text-xs text-gray-500">PDF, DOC, DOCX - max 10MB</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <input
+                                            id="cv-input"
+                                            type="file"
+                                            onChange={(e) => setCvFile(e.target.files?.[0] || null)}
+                                            className="hidden"
+                                            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        />
+                                    </div>
+                                    {studentEnquiry?.cvDocument && !cvFile && (
+                                        <p className="text-xs text-gray-500 mt-2">
+                                            Current document will be kept. Upload a new file to replace it.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>

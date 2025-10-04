@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-
+const { parseJSONField } = require("../helpers")
 const {
     createStudentEnquiry,
     deleteStudentEnquiryById,
@@ -19,14 +19,14 @@ const validateEnquiryData = (data, files, isUpdate = false) => {
     ];
 
     if (!isUpdate) {
-        // Validate required text fields
+        // Validate required text fields for new enquiries
         for (const field of requiredFields) {
             if (!data[field]) {
                 return { isValid: false, message: `${field} is required` };
             }
         }
 
-        // Validate required documents for new enquiries
+        // Validate required documents for new enquiries only
         if (!files?.passport || !files.passport[0]) {
             return { isValid: false, message: "Passport document is required" };
         }
@@ -40,14 +40,33 @@ const validateEnquiryData = (data, files, isUpdate = false) => {
                 return { isValid: false, message: `${field} cannot be empty` };
             }
         }
+
+        // CRITICAL FIX: For updates, documents are optional
+        // Only validate if files are actually provided in the update
+        if (files?.passport && files.passport[0]) {
+            // Validate passport file type if provided
+            const passportFile = files.passport[0];
+            const allowedPassportTypes = ['.pdf', '.jpg', '.jpeg', '.png'];
+            const fileExtension = '.' + passportFile.originalname.split('.').pop().toLowerCase();
+            if (!allowedPassportTypes.includes(fileExtension)) {
+                return { isValid: false, message: "Passport document must be PDF, JPG, JPEG, or PNG" };
+            }
+        }
+
+        if (files?.cv && files.cv[0]) {
+            // Validate CV file type if provided
+            const cvFile = files.cv[0];
+            const allowedCvTypes = ['.pdf', '.doc', '.docx'];
+            const fileExtension = '.' + cvFile.originalname.split('.').pop().toLowerCase();
+            if (!allowedCvTypes.includes(fileExtension)) {
+                return { isValid: false, message: "CV document must be PDF, DOC, or DOCX" };
+            }
+        }
     }
 
+    // Validate agentId (moved outside the isUpdate check since it's always required)
     if (!data.agentId) {
-        cleanupUploadedFiles(req);
-        return res.status(400).json({
-            success: false,
-            message: "Agent ID is required"
-        });
+        return { isValid: false, message: "Agent ID is required" };
     }
 
     // Validate email format if provided
@@ -58,23 +77,47 @@ const validateEnquiryData = (data, files, isUpdate = false) => {
         }
     }
 
+    // Validate phone format if provided
+    if (data.phone) {
+        const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+        if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
+            return { isValid: false, message: "Invalid phone number format" };
+        }
+    }
+
     // Validate JSON fields
     const jsonFields = [
         'interestedServices', 'educationBackground',
         'englishTestScores', 'emergencyContact',
         'passportDetails', 'visaRefusalDetails',
-        'previousPassportNumbers', 'travelHistory',
+        'previousPassportNumbers', 'travelHistory', 'addresses'
     ];
 
     for (const field of jsonFields) {
         if (data[field]) {
             try {
-                if (typeof data[field] !== 'object') {
+                if (typeof data[field] === 'string') {
                     JSON.parse(data[field]);
                 }
+                // If it's already an object, no need to parse
             } catch (e) {
                 return { isValid: false, message: `${field} must be valid JSON` };
             }
+        }
+    }
+
+    // Validate date fields if provided
+    if (data.dateOfBirth) {
+        const dob = new Date(data.dateOfBirth);
+        if (isNaN(dob.getTime())) {
+            return { isValid: false, message: "Invalid date of birth" };
+        }
+    }
+
+    if (data.visaExpiryDate) {
+        const visaExpiry = new Date(data.visaExpiryDate);
+        if (isNaN(visaExpiry.getTime())) {
+            return { isValid: false, message: "Invalid visa expiry date" };
         }
     }
 
@@ -259,23 +302,23 @@ const updateStudentEnquiry = async (req, res) => {
             });
         }
 
-        // Use isUpdate flag for validation
-        const validation = validateEnquiryData(req.body, true);
-        if (!validation.isValid) {
-            cleanupUploadedFiles(req);
-            return res.status(400).json({
-                success: false,
-                message: validation.message
-            });
-        }
-
-        // Get existing enquiry to preserve existing documents if not updating
+        // Get existing enquiry FIRST to check for existing documents
         const existingEnquiry = await findStudentEnquiryById(id);
         if (!existingEnquiry) {
             cleanupUploadedFiles(req);
             return res.status(404).json({
                 success: false,
                 message: "Student enquiry not found"
+            });
+        }
+
+        // Use the updated validateEnquiryData function with isUpdate=true and pass files
+        const validation = validateEnquiryData(req.body, req.files, true);
+        if (!validation.isValid) {
+            cleanupUploadedFiles(req);
+            return res.status(400).json({
+                success: false,
+                message: validation.message
             });
         }
 
@@ -334,9 +377,27 @@ const updateStudentEnquiry = async (req, res) => {
             ...req.body,
             passportDocument,
             cvDocument,
+            // Parse date fields
             dateOfBirth: req.body.dateOfBirth ? new Date(req.body.dateOfBirth) : null,
-            visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null
+            visaExpiryDate: req.body.visaExpiryDate ? new Date(req.body.visaExpiryDate) : null,
+            // Parse JSON fields if they are strings
+            interestedServices: parseJSONField(req.body.interestedServices),
+            educationBackground: parseJSONField(req.body.educationBackground),
+            englishTestScores: parseJSONField(req.body.englishTestScores),
+            emergencyContact: parseJSONField(req.body.emergencyContact),
+            passportDetails: parseJSONField(req.body.passportDetails),
+            visaRefusalDetails: parseJSONField(req.body.visaRefusalDetails),
+            previousPassportNumbers: parseJSONField(req.body.previousPassportNumbers),
+            travelHistory: parseJSONField(req.body.travelHistory),
+            addresses: parseJSONField(req.body.addresses)
         };
+
+        // Remove undefined fields to avoid overwriting with undefined
+        Object.keys(updateData).forEach(key => {
+            if (updateData[key] === undefined) {
+                delete updateData[key];
+            }
+        });
 
         // Get agent ID for authorization
         const agentId = req.user?.id;
@@ -364,6 +425,8 @@ const updateStudentEnquiry = async (req, res) => {
         });
     }
 };
+
+
 
 
 const deleteStudentEnquiry = async (req, res) => {
