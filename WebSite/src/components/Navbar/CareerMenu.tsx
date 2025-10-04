@@ -4,7 +4,6 @@ import { ChevronRight } from "lucide-react";
 import { useAgentAuth } from "../../context/AgentAuthProvider";
 import { useAuth } from "../../context/AuthContext";
 
-
 const CareerMenu = () => {
     const { agent, logoutAgent } = useAgentAuth()
     const { user, logout } = useAuth()
@@ -23,6 +22,17 @@ const CareerMenu = () => {
                     <div className=" mb-3">
                         <div className="font-bold text-midnight text-lg mb-2">Join Us :</div>
                         <div className="space-y-2">
+                            {/* Admin Dashboard Button - Only show when user is logged in */}
+                            {user && (
+                                <Link
+                                    to="/adminpanel"
+                                    className="flex items-center gap-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition duration-300 text-base font-medium"
+                                >
+                                    <ChevronRight size={20} />
+                                    <span className="hidden sm:inline">Admin Dashboard</span>
+                                </Link>
+                            )}
+
                             {[
                                 { label: "Career with us", link: "/career" },
                                 // { label: "Job Application", link: "/career/job-application" },
@@ -40,41 +50,6 @@ const CareerMenu = () => {
                                     </Link>
                                 </div>
                             ))}
-                            {/* 
-                            {user
-                                ? <button onClick={() => logout()} className="text-gray-700  hover:text-red-600 transition duration-300 text-base cursor-pointer">
-                                    <ChevronRight size={20} className=" place-self-center inline-block " />
-                                    User Logout
-                                </button>
-                                : <div>
-                                    <Link
-                                        to="/signin"
-                                        className="text-gray-700  hover:text-red-600 transition duration-300 text-base"
-                                    >
-                                        <ChevronRight size={20} className=" place-self-center inline-block " />
-                                        User Log In
-                                    </Link>
-                                </div>
-
-                            }
-
-                            {agent
-                                ? <button onClick={() => logoutAgent()} className="text-gray-700  hover:text-red-600 transition duration-300 text-base cursor-pointer">
-                                    <ChevronRight size={20} className=" place-self-center inline-block " />
-                                    Agent Logout
-                                </button>
-                                : <span className="text-gray-700  hover:text-red-600 transition duration-300 text-base">
-                                    <ChevronRight size={20} className=" place-self-center inline-block " />
-                                    <Link
-                                        to={'/agentlogin'}
-                                        className="text-gray-700  hover:text-red-600 transition duration-300 text-base"
-                                    >
-
-                                        Agent Log In
-                                    </Link>
-                                </span>
-                            } */}
-
 
                             {user ? (
                                 <div
@@ -87,7 +62,7 @@ const CareerMenu = () => {
                             ) : (
                                 <Link
                                     to="/signin"
-                                    className="flex items-center gap-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-100 transition duration-300 text-base font-medium"
+                                    className="flex items-center gap-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition duration-300 text-base font-medium cursor-pointer"
                                 >
                                     <ChevronRight size={20} />
                                     <span className="hidden sm:inline">User Login</span>
@@ -97,7 +72,7 @@ const CareerMenu = () => {
                             {agent ? (
                                 <div
                                     onClick={() => logoutAgent()}
-                                    className="flex items-center gap-1  bg-blue-50 text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-100 transition duration-300 text-base font-medium cursor-pointer"
+                                    className="flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition duration-300 text-base font-medium cursor-pointer"
                                 >
                                     <ChevronRight size={20} />
                                     <span className="hidden sm:inline">Agent Logout</span>
@@ -111,9 +86,6 @@ const CareerMenu = () => {
                                     <span className="hidden sm:inline">Agent Login</span>
                                 </Link>
                             )}
-
-
-
                         </div>
                     </div>
                 </div>
