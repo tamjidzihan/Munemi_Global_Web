@@ -6,6 +6,7 @@ import ScrollToTop from "../components/common/ScrollToTop/ScrollToTop"
 import ScrollToTopButton from "../components/common/ScrollToTop/ScrollToTopButton"
 import WhatsAppButton from "../components/common/WhatsAppButton/WhatsAppButton"
 import StudentQueryButton from "../components/common/StudentQueryButton/StudentQueryButton"
+import NewsTicker from "../components/News/NewsTicker"
 
 const Layout = () => {
 
@@ -13,6 +14,7 @@ const Layout = () => {
         <div className="w-full min-h-screen bg-white">
             <ScrollToTop />
             <StudentQueryButton />
+            <NewsTicker />
             <TopHeader />
             <Navbar />
             <Outlet />

@@ -243,3 +243,16 @@ body {
   }
 
   
+@keyframes ticker {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+
+.news-ticker-animation {
+  animation: ticker 30s linear infinite;
+}

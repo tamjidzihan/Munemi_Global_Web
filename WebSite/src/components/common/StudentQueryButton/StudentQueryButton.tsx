@@ -25,7 +25,7 @@ const StudentQueryButton = () => {
         <>
             <motion.button
                 onClick={handleClick}
-                className={`fixed flex items-center gap-2 cursor-pointer right-4 sm:right-10 bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-3 z-40 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ${isScrolled ? "top-20 sm:top-24" : "top-32 sm:top-36"
+                className={`fixed flex items-center gap-2 cursor-pointer right-4 sm:right-10 bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-3 z-40 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 ${isScrolled ? "top-20 sm:top-24" : "top-42 sm:top-46"
                     }`}
                 aria-label="Student Query"
                 initial={{ right: -200, opacity: 0, scale: 0.8 }}
