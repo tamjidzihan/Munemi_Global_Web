@@ -13,13 +13,13 @@ export function TopHeader() {
                     <div className="flex items-center">
                         <span className="text-xs sm:text-sm">
                             <div className="flex space-x-4">
-                                <a href="https://www.facebook.com/munemiglobalbd" target="_blank" className="text-gray-400 hover:text-red-500">
+                                <a href="https://www.facebook.com/munemiglobalbd" target="_blank" className="text-gray-400 hover:text-blue-500">
                                     <FaFacebookF size={20} />
                                 </a>
                                 <a href="https://www.instagram.com/munemiglobal/" target="_blank" className="text-gray-400 hover:text-red-500">
                                     <FaInstagram size={24} />
                                 </a>
-                                <a href="https://g.co/kgs/6L1ZxbX" target="_blank" className="text-gray-400 hover:text-red-500">
+                                <a href="https://g.co/kgs/6L1ZxbX" target="_blank" className="text-gray-400 hover:text-green-600">
                                     <FaGoogle size={20} />
                                 </a>
                             </div>
