@@ -14,6 +14,7 @@ const bookingRoutes = require('./bookingRoutes')
 const packageRouter = require('./packageRouter')
 const packageBookingRouter = require('./packageBookingRouter')
 const blogRouter = require('./blogRouter')
+const newsHeadlineRouter = require('./newsHeadlineRouter')
 
 
 const router = express.Router();
@@ -34,6 +35,7 @@ module.exports = () => {
     packageRouter(router)
     packageBookingRouter(router)
     blogRouter(router)
+    newsHeadlineRouter(router)
 
     return router;
 };

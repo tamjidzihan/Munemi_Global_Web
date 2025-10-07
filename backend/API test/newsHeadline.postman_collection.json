@@ -1,0 +1,454 @@
+{
+    "info": {
+        "name": "NewsHeadline API",
+        "description": "Complete CRUD API testing for NewsHeadline endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/",
+                    "host": [
+                        "{{base_url}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create NewsHeadline",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 201\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has required fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('id');",
+                            "    pm.expect(jsonData).to.have.property('title');",
+                            "    pm.expect(jsonData).to.have.property('link');",
+                            "    pm.expect(jsonData).to.have.property('isBreaking');",
+                            "    pm.expect(jsonData).to.have.property('isActive');",
+                            "    pm.expect(jsonData).to.have.property('createdAt');",
+                            "    pm.expect(jsonData).to.have.property('updatedAt');",
+                            "});",
+                            "",
+                            "// Save the created news headline ID for later tests",
+                            "if (pm.response.code === 201) {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.collectionVariables.set('news_headline_id', jsonData.id);",
+                            "    pm.collectionVariables.set('news_headline_title', jsonData.title);",
+                            "}"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Breaking: Major Technological Breakthrough in AI\",\n  \"link\": \"https://example.com/news/ai-breakthrough\",\n  \"isBreaking\": true,\n  \"category\": \"Technology\",\n  \"isActive\": true\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/newsheadline",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Create NewsHeadline - Validation Error",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 400\", function () {",
+                            "    pm.response.to.have.status(400);",
+                            "});",
+                            "",
+                            "pm.test(\"Error message for missing fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('message');",
+                            "    pm.expect(jsonData.message).to.include('required fields');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Incomplete News Headline\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/newsheadline",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All NewsHeadlines",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response is an array\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.be.an('array');",
+                            "});",
+                            "",
+                            "// If there are items, verify structure",
+                            "if (pm.response.json().length > 0) {",
+                            "    pm.test(\"First item has correct structure\", function () {",
+                            "        var firstItem = pm.response.json()[0];",
+                            "        pm.expect(firstItem).to.have.property('id');",
+                            "        pm.expect(firstItem).to.have.property('title');",
+                            "        pm.expect(firstItem).to.have.property('link');",
+                            "    });",
+                            "}"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/newsheadline",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get NewsHeadline by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has correct ID\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.id).to.equal(pm.collectionVariables.get('news_headline_id'));",
+                            "});",
+                            "",
+                            "pm.test(\"Response has all expected fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('title');",
+                            "    pm.expect(jsonData).to.have.property('link');",
+                            "    pm.expect(jsonData).to.have.property('isBreaking');",
+                            "    pm.expect(jsonData).to.have.property('category');",
+                            "    pm.expect(jsonData).to.have.property('isActive');",
+                            "    pm.expect(jsonData).to.have.property('createdAt');",
+                            "    pm.expect(jsonData).to.have.property('updatedAt');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/{{news_headline_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "{{news_headline_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get NewsHeadline by ID - Not Found",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 404\", function () {",
+                            "    pm.response.to.have.status(404);",
+                            "});",
+                            "",
+                            "pm.test(\"Error message for not found\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('message');",
+                            "    pm.expect(jsonData.message).to.include('not found');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/non-existent-uuid-1234",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "non-existent-uuid-1234"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update NewsHeadline",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response shows updated fields\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.title).to.equal('Updated: Major Technological Breakthrough in AI');",
+                            "    pm.expect(jsonData.isBreaking).to.equal(false);",
+                            "    pm.expect(jsonData.category).to.equal('Science');",
+                            "});",
+                            "",
+                            "pm.test(\"ID remains the same\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.id).to.equal(pm.collectionVariables.get('news_headline_id'));",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Updated: Major Technological Breakthrough in AI\",\n  \"isBreaking\": false,\n  \"category\": \"Science\",\n  \"isActive\": true\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/{{news_headline_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "{{news_headline_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update NewsHeadline - Not Found",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 404\", function () {",
+                            "    pm.response.to.have.status(404);",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"This should not update\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/non-existent-uuid-1234",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "non-existent-uuid-1234"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete NewsHeadline",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Success message\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData).to.have.property('message');",
+                            "    pm.expect(jsonData.message).to.include('deleted successfully');",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/{{news_headline_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "{{news_headline_id}}"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete NewsHeadline - Not Found",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 404\", function () {",
+                            "    pm.response.to.have.status(404);",
+                            "});"
+                        ]
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/newsheadline/non-existent-uuid-1234",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "newsheadline",
+                        "non-existent-uuid-1234"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:3000/api",
+            "type": "string"
+        },
+        {
+            "key": "news_headline_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "news_headline_title",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "console.log('Running NewsHeadline API tests...');"
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "console.log('Test completed: ' + pm.info.requestName);"
+                ]
+            }
+        }
+    ]
+}
