@@ -13,6 +13,7 @@ import FlightBooking from "./pages/Flight/FlightBooking";
 import FlightLocation from "./pages/Flight/FlightLocation";
 import HealthInsurancePartner from "./pages/HealthInsurancePartner/HealthInsurancePartner";
 import InstitutionPartner from "./pages/InstitutionPartner/InstitutionPartner";
+import NewsHeadline from "./pages/NewsHeadline/NewsHeadline";
 import Package from "./pages/Package/Package";
 import PackageBooking from "./pages/Package/PackageBooking";
 import StudentEnquiry from "./pages/StudentEnquiry/StudentEnquiry";
@@ -172,6 +173,15 @@ export const childRoutes = [
             <>
                 <PageTitle title="Blog | Create Your Blogs" />
                 <Blog />
+            </>
+        ),
+    },
+    {
+        path: "newsheadline",
+        element: (
+            <>
+                <PageTitle title="News Headline | Manage Your NewsHeadline" />
+                <NewsHeadline />
             </>
         ),
     },

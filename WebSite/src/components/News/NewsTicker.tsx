@@ -1,65 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { AlertCircle, Zap } from 'lucide-react'
-
-interface NewsItem {
-    id: string
-    title: string
-    isBreaking?: boolean
-    category?: string
-    link: string
-}
+import useNewsHeadlines from '../../hooks/useNewsHeadlines'
 
 const NewsTicker: React.FC = () => {
-    const [news] = useState<NewsItem[]>([
-        {
-            id: '1',
-            title: '🎓 Study Master of Professional Accounting at University of Waikato – New Zealand! 🇳🇿',
-            isBreaking: true,
-            category: 'Politics',
-            link: 'https://munemiglobal.com/blog/study-master-of-professional-accounting-at-university-of-waikato-new-zealand'
-        },
-        {
-            id: '2',
-            title: 'National team advances to semifinals after dramatic victory',
-            category: 'Sports',
-            link: ''
-        },
-        {
-            id: '3',
-            title: 'Tech giant unveils revolutionary AI assistant',
-            category: 'Technology',
-            link: ''
-        },
-        {
-            id: '4',
-            title: 'Scientists discover potential breakthrough in cancer treatment',
-            isBreaking: true,
-            category: 'Health',
-            link: ''
-        },
-        {
-            id: '5',
-            title: 'Major storm approaching coastal areas, evacuations ordered',
-            isBreaking: true,
-            category: 'Weather',
-            link: ''
-        },
-        {
-            id: '6',
-            title: 'Stock market reaches all-time high amid economic recovery',
-            category: 'Business',
-            link: ''
-        },
-        {
-            id: '7',
-            title: 'Award-winning film director announces new project',
-            category: 'Entertainment',
-            link: ''
-        },
-    ])
+    const {
+        loading,
+        error,
+        getActiveHeadlines,
+        refreshHeadlines
+    } = useNewsHeadlines()
 
     const [isPaused, setIsPaused] = useState(false)
     const tickerRef = useRef<HTMLDivElement>(null)
+
+    // Get active headlines for the ticker
+    const activeHeadlines = getActiveHeadlines()
+
+    // Optional: Only show breaking news in the ticker
+    // const breakingHeadlines = getBreakingNews()
 
     // Reset animation when it completes or when component mounts
     useEffect(() => {
@@ -79,6 +37,60 @@ const NewsTicker: React.FC = () => {
             ticker.removeEventListener('animationend', handleAnimationEnd)
         }
     }, [])
+
+    // Refresh headlines periodically (optional)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            refreshHeadlines()
+        }, 30000) // Refresh every 30 seconds
+
+        return () => clearInterval(interval)
+    }, [refreshHeadlines])
+
+    // Show loading state
+    if (loading && activeHeadlines.length === 0) {
+        return (
+            <div className="bg-gray-900 text-white py-2 overflow-hidden relative">
+                <div className="container mx-auto px-4 flex items-center">
+                    <div className="flex-shrink-0 flex items-center mr-4 pr-4 border-r border-gray-700">
+                        <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
+                        <span className="font-bold text-sm hidden md:inline-block">LATEST NEWS</span>
+                    </div>
+                    <div className="text-gray-400 text-sm">Loading news headlines...</div>
+                </div>
+            </div>
+        )
+    }
+
+    // Show error state
+    if (error && activeHeadlines.length === 0) {
+        return (
+            <div className="bg-gray-900 text-white py-2 overflow-hidden relative">
+                <div className="container mx-auto px-4 flex items-center">
+                    <div className="flex-shrink-0 flex items-center mr-4 pr-4 border-r border-gray-700">
+                        <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
+                        <span className="font-bold text-sm hidden md:inline-block">LATEST NEWS</span>
+                    </div>
+                    <div className="text-red-400 text-sm">Failed to load news</div>
+                </div>
+            </div>
+        )
+    }
+
+    // Show empty state
+    if (activeHeadlines.length === 0) {
+        return (
+            <div className="bg-gray-900 text-white py-2 overflow-hidden relative">
+                <div className="container mx-auto px-4 flex items-center">
+                    <div className="flex-shrink-0 flex items-center mr-4 pr-4 border-r border-gray-700">
+                        <AlertCircle className="h-4 w-4 mr-2 text-red-500" />
+                        <span className="font-bold text-sm hidden md:inline-block">LATEST NEWS</span>
+                    </div>
+                    <div className="text-gray-400 text-sm">No news headlines available</div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div
@@ -100,7 +112,7 @@ const NewsTicker: React.FC = () => {
                             paddingRight: '50px',
                         }}
                     >
-                        {news.map((item) => (
+                        {activeHeadlines.map((item) => (
                             <a
                                 key={item.id}
                                 href={item.link}
