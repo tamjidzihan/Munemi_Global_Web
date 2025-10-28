@@ -5,6 +5,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { academicServices, postAcademicServices, preDepartureServices, supportServices, visaServices } from '../Navbar/ServicesMenu';
 import SideMenuListItem from './SideMenuListItem';
+import { ChevronRight } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useAgentAuth } from '../../context/AgentAuthProvider';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -15,6 +18,8 @@ interface SidebarProps {
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
+  const { user, logout } = useAuth()
+  const { agent, logoutAgent } = useAgentAuth()
 
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
@@ -194,9 +199,92 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </NavLink>
               </div>
               {/* <!-- Menu Item ABOUT US --> */}
+            </div>
+          </div>
 
+          {/* <!-- BECOME PART OF US Group --> */}
+          <div>
+            <div className="mb-4 ml-4 text-sm font-semibold text-midnight">
+              BECOME PART OF US
+              <hr className="border-t-2 border-red-300 mx-auto mt-2" />
+            </div>
 
+            <div className="mb-6 flex flex-col gap-1.5">
 
+              {/* <!-- Menu Item Admin Dashboard --> */}
+              {user && (
+                <div>
+                  <NavLink
+                    to="/adminpanel"
+                    onClick={() => setSidebarOpen(false)}
+                    className={`group relative flex items-center bg-purple-50 text-purple-700 border border-purple-200 gap-2.5 rounded-sm px-4 font-medium  duration-300 ease-in-out`}
+                  >
+                    <ChevronRight size={20} />
+                    <span className="inline">Admin Dashboard</span>
+                  </NavLink>
+                </div>
+              )}
+              {/* <!-- Menu Item Admin Dashboard --> */}
+
+              {/* <!-- Menu Item Career --> */}
+              {[
+                { label: "Career with us", link: "/career" },
+                // { label: "Job Application", link: "/career/job-application" },
+                { label: "Become an Agent (B2B)", link: "/career/agents-application" },
+                // { label: "Become an Institute Partner", link: "/career/institution-partner-application" },
+                // { label: "Become a Health Insurance Partner", link: "/career/health-insurance-partner-application" },
+              ].map((item, index) => (
+                <div key={index}>
+                  <NavLink
+                    to={item.link}
+                    onClick={() => setSidebarOpen(false)}
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-black duration-300 ease-in-out`}
+                  >
+                    {item.label}
+                  </NavLink>
+                </div>
+              ))}
+              {/* <!-- Menu Item Career --> */}
+
+              {/* <!-- Menu Item user --> */}
+              {user ? (
+                <div
+                  onClick={() => logout()}
+                  className={`group relative flex items-center bg-red-50 text-red-700 border border-red-200 rounded-lg  gap-2.5 mb-4  px-4 font-medium  duration-300 ease-in-out`}
+                >
+                  <ChevronRight size={20} />
+                  <span className="inline">User Logout</span>
+                </div>
+              ) : (
+                <NavLink
+                  to="/signin"
+                  className={`group relative flex items-center bg-blue-50 text-blue-700 border border-blue-200 rounded-lg  gap-2.5 mb-4 px-4 font-medium  duration-300 ease-in-out`}
+                >
+                  <ChevronRight size={15} />
+                  <span className="inline">User Login</span>
+                </NavLink>
+              )}
+              {/* <!-- Menu Item user --> */}
+
+              {/* <!-- Menu Item Agent --> */}
+              {agent ? (
+                <div
+                  onClick={() => logoutAgent()}
+                  className={`group relative flex items-center bg-red-50 text-red-700 border border-red-200 rounded-lg gap-2.5 px-4 font-medium duration-300 ease-in-out cursor-pointer hover:bg-red-100`}
+                >
+                  <ChevronRight size={20} />
+                  <span className="inline">Agent Logout</span>
+                </div>
+              ) : (
+                <NavLink
+                  to="/agentlogin"
+                  className={`group relative flex items-center bg-green-50 text-green-700 border border-green-200 rounded-lg gap-2.5 px-4 font-medium duration-300 ease-in-out hover:bg-green-100`}
+                >
+                  <ChevronRight size={15} />
+                  <span className="inline">Agent Login</span>
+                </NavLink>
+              )}
+              {/* <!-- Menu Item Agent --> */}
             </div>
           </div>
         </nav>
